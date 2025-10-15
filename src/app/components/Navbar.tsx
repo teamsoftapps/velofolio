@@ -20,7 +20,7 @@ const Navbar = () => {
     { name: "Reports", icon: "/images/chart-histogram.png", href: "/reports" },
     { name: "Settings", icon: "/images/settings.png", href: "/settings" },
   ];
-
+// dsds
   return (
     <nav className="bg-white ">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
