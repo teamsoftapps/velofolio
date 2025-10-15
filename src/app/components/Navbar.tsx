@@ -20,9 +20,9 @@ const Navbar = () => {
     { name: "Reports", icon: "/images/chart-histogram.png", href: "/reports" },
     { name: "Settings", icon: "/images/settings.png", href: "/settings" },
   ];
-// dsds
+  // dsds
   return (
-    <nav className="bg-white ">
+    <nav className="bg-white shadow">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -51,7 +51,7 @@ const Navbar = () => {
                   alt={`${tab.name} Icon`}
                   width={24} // Base width for icons
                   height={24} // Base height for icons
-                  className="w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 mb-1" // Responsive sizes with margin-bottom
+                  className="w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 lg:w-5 lg:h-5 mb-1" // Responsive sizes with margin-bottom
                 />
                 {tab.name}
               </Link>

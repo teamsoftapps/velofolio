@@ -102,7 +102,7 @@ export default function Home() {
     //   </footer>
     // </div>
 
-    <div className="flex flex-col w-full min-h-screen">
+    <div className="flex flex-col w-full min-h-screen bg-white">
       <Navbar />
       <DashboardGraph />
     </div>
