@@ -1,9 +1,213 @@
+// "use client";
+// import Image from "next/image";
+// import Link from "next/link";
+// import { useState } from "react";
+
+// const Navbar = () => {
+//   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+//   const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+//   const tabs = [
+//     { name: "Dashboard", icon: "/images/home.png", href: "/dashboard" },
+//     { name: "Clients", icon: "/images/users.png", href: "/clients" },
+//     { name: "Production", icon: "/images/film.png", href: "/production" },
+//     { name: "Leads", icon: "/images/leads.png", href: "/leads" },
+//     { name: "Jobs", icon: "/images/briefcase.png", href: "/jobs" },
+//     { name: "Calendar", icon: "/images/calendar.png", href: "/calendar" },
+//     { name: "Team", icon: "/images/team.png", href: "/team" },
+//     { name: "Payments", icon: "/images/creditcard.png", href: "/payments" },
+//     { name: "Reports", icon: "/images/chart-histogram.png", href: "/reports" },
+//     { name: "Settings", icon: "/images/settings.png", href: "/settings" },
+//   ];
+
+//   return (
+//     <nav className="bg-white shadow-md sticky top-0 z-50">
+//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//         <div className="flex items-center justify-between h-16 sm:h-20">
+//           {/* Logo */}
+//           <div className="flex-shrink-0">
+//             <Link href="/">
+//               <Image
+//                 src="/images/logo.png"
+//                 alt="VeloFolio Logo"
+//                 width={80}
+//                 height={80}
+//                 className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 object-contain"
+//                 priority
+//               />
+//             </Link>
+//           </div>
+
+//           {/* Desktop Menu */}
+//           <div className="hidden lg:flex items-center space-x-2 xl:space-x-4">
+//             {tabs.map((tab) => (
+//               <Link
+//                 key={tab.name}
+//                 href={tab.href}
+//                 className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-2 py-2 rounded-lg text-sm font-medium flex flex-col items-center transition-colors duration-200"
+//               >
+//                 <Image
+//                   src={tab.icon}
+//                   alt={`${tab.name} Icon`}
+//                   width={20}
+//                   height={20}
+//                   className="w-5 h-5 mb-1"
+//                 />
+//                 <span>{tab.name}</span>
+//               </Link>
+//             ))}
+//           </div>
+
+//           {/* Profile Dropdown */}
+//           <div className="hidden lg:flex items-center relative">
+//             <button
+//               onClick={() => setIsProfileOpen(!isProfileOpen)}
+//               className="flex items-center text-gray-700 hover:text-gray-900 focus:outline-none transition-colors duration-200"
+//               aria-label="Toggle profile menu"
+//             >
+//               <div className="rounded-full h-9 w-9 flex items-center justify-center bg-gray-200">
+//                 <Image
+//                   src="/images/userprofile.png"
+//                   alt="User Profile"
+//                   width={24}
+//                   height={24}
+//                   className="w-6 h-6"
+//                 />
+//               </div>
+//               <span className="ml-2 text-sm font-medium hidden xl:inline">
+//                 Demo User
+//               </span>
+//               <Image
+//                 src="/images/chevron-down.svg"
+//                 alt="Dropdown Icon"
+//                 width={16}
+//                 height={16}
+//                 className="ml-1 w-4 h-4"
+//               />
+//             </button>
+//             {isProfileOpen && (
+//               <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 ring-1 ring-black ring-opacity-5">
+//                 <Link
+//                   href="/profile"
+//                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+//                   onClick={() => setIsProfileOpen(false)}
+//                 >
+//                   Profile
+//                 </Link>
+//                 <Link
+//                   href="/settings"
+//                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+//                   onClick={() => setIsProfileOpen(false)}
+//                 >
+//                   Settings
+//                 </Link>
+//                 <Link
+//                   href="/logout"
+//                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+//                   onClick={() => setIsProfileOpen(false)}
+//                 >
+//                   Logout
+//                 </Link>
+//               </div>
+//             )}
+//           </div>
+
+//           {/* Mobile Hamburger */}
+//           <div className="lg:hidden flex items-center">
+//             <button
+//               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+//               className="text-gray-700 hover:text-gray-900 focus:outline-none p-2 rounded-md"
+//               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+//             >
+//               <Image
+//                 src={
+//                   isMobileMenuOpen ? "/images/times.png" : "/images/bars.png"
+//                 }
+//                 alt={isMobileMenuOpen ? "Close Icon" : "Menu Icon"}
+//                 width={24}
+//                 height={24}
+//                 className="w-6 h-6"
+//               />
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Mobile Menu */}
+//       {isMobileMenuOpen && (
+//         <div className="lg:hidden bg-white border-t border-gray-200">
+//           <div className="px-4 py-4 space-y-1 sm:px-6">
+//             {tabs.map((tab) => (
+//               <Link
+//                 key={tab.name}
+//                 href={tab.href}
+//                 className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium flex items-center transition-colors duration-200"
+//                 onClick={() => setIsMobileMenuOpen(false)}
+//               >
+//                 <Image
+//                   src={tab.icon}
+//                   alt={`${tab.name} Icon`}
+//                   width={20}
+//                   height={20}
+//                   className="w-5 h-5 mr-3"
+//                 />
+//                 {tab.name}
+//               </Link>
+//             ))}
+//             {/* Profile in mobile menu */}
+//             <div className="border-t border-gray-200 pt-4">
+//               <div className="flex items-center px-3 mb-3">
+//                 <div className="rounded-full h-9 w-9 flex items-center justify-center bg-gray-200">
+//                   <Image
+//                     src="/images/userprofile.png"
+//                     alt="User Profile"
+//                     width={24}
+//                     height={24}
+//                     className="w-6 h-6"
+//                   />
+//                 </div>
+//                 <span className="ml-3 text-base font-medium text-gray-700">
+//                   Demo User
+//                 </span>
+//               </div>
+//               <div className="space-y-1">
+//                 <Link
+//                   href="/profile"
+//                   className="block px-3 py-2 text-base text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200"
+//                   onClick={() => setIsMobileMenuOpen(false)}
+//                 >
+//                   Profile
+//                 </Link>
+//                 <Link
+//                   href="/settings"
+//                   className="block px-3 py-2 text-base text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200"
+//                   onClick={() => setIsMobileMenuOpen(false)}
+//                 >
+//                   Settings
+//                 </Link>
+//                 <Link
+//                   href="/logout"
+//                   className="block px-3 py-2 text-base text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200"
+//                   onClick={() => setIsMobileMenuOpen(false)}
+//                 >
+//                   Logout
+//                 </Link>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </nav>
+//   );
+// };
+
+// export default Navbar;
+
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-// components/Navbar.jsx
 import { useState } from "react";
-
+import { FaBars, FaTimes } from "react-icons/fa";
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -20,62 +224,66 @@ const Navbar = () => {
     { name: "Reports", icon: "/images/chart-histogram.png", href: "/reports" },
     { name: "Settings", icon: "/images/settings.png", href: "/settings" },
   ];
-  // dsds
+
   return (
-    <nav className="bg-white shadow">
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <nav className="bg-white shadow-md sticky top-0 z-50 ">
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 ">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
+          <div className="flex-shrink-0">
+            <Link href="/">
               <Image
                 src="/images/logo.png"
                 alt="VeloFolio Logo"
                 width={80}
                 height={80}
-                className="w-16 h-16 sm:w-20 sm:h-10 md:w-24 md:h-10 lg:w-28 lg:h-15"
+                className="w-16 h-16 sm:w-20 sm:h-20 md:w-20 md:h-20 lg:w-24 lg:h-24 object-contain"
+                priority
               />
-            </div>
+            </Link>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-2 xl:space-x-4">
             {tabs.map((tab) => (
               <Link
                 key={tab.name}
                 href={tab.href}
-                className="text-gray-700 hover:bg-blue-100 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium flex flex-col items-center"
+                className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 px-2 py-2 rounded-lg text-sm font-medium flex flex-col items-center transition-colors duration-200"
               >
                 <Image
                   src={tab.icon}
                   alt={`${tab.name} Icon`}
-                  width={24} // Base width for icons
-                  height={24} // Base height for icons
-                  className="w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 lg:w-5 lg:h-5 mb-1" // Responsive sizes with margin-bottom
+                  width={20}
+                  height={20}
+                  className="w-5 h-5 mb-1"
                 />
-                {tab.name}
+                <span>{tab.name}</span>
               </Link>
             ))}
           </div>
 
           {/* Profile Dropdown */}
-          <div className="hidden md:flex items-center relative">
+          <div className="hidden lg:flex items-center relative">
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="flex items-center text-gray-700 hover:text-gray-900"
+              className="flex items-center text-gray-700 hover:text-gray-900 focus:outline-none transition-colors duration-200"
+              aria-label="Toggle profile menu"
             >
-              <div className=" rounded-full h-8 w-8 flex items-center justify-center text-white">
+              <div className="rounded-full h-9 w-9 flex items-center justify-center bg-gray-200">
                 <Image
-                  src="/images/userprofile.png" // Assuming a user circle image
-                  alt="User Icon"
+                  src="/images/userprofile.png"
+                  alt="User Profile"
                   width={24}
                   height={24}
-                  className="w-16 h-8"
+                  className="w-6 h-6 object-cover"
                 />
               </div>
-              <span className="ml-2 text-sm font-medium">Demo User</span>
+              <span className="ml-2 text-sm font-medium hidden xl:inline">
+                Demo User
+              </span>
               <Image
-                src="/images/chevron-down.svg" // Assuming a chevron down image
+                src="/images/chevron-down.svg"
                 alt="Dropdown Icon"
                 width={16}
                 height={16}
@@ -83,51 +291,43 @@ const Navbar = () => {
               />
             </button>
             {isProfileOpen && (
-              <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 ring-1 ring-black ring-opacity-5">
+                <Link
+                  href="/profile"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                  onClick={() => setIsProfileOpen(false)}
                 >
                   Profile
-                </a>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                </Link>
+                <Link
+                  href="/settings"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                  onClick={() => setIsProfileOpen(false)}
                 >
                   Settings
-                </a>
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                </Link>
+                <Link
+                  href="/logout"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                  onClick={() => setIsProfileOpen(false)}
                 >
                   Logout
-                </a>
+                </Link>
               </div>
             )}
           </div>
 
-          {/* Mobile Hamburger */}
-          <div className="md:hidden flex items-center">
+          {/* Hamburger Menu (Visible below 1024px) */}
+          <div className="lg:hidden flex items-center">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-700 hover:text-gray-900 focus:outline-none"
+              className="text-gray-700 hover:text-gray-900 focus:outline-none p-2 rounded-md"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMobileMenuOpen ? (
-                <Image
-                  src="/images/times.png" // Assuming a times image
-                  alt="Close Icon"
-                  width={24}
-                  height={24}
-                  className="h-6 w-6"
-                />
+                <FaTimes className="w-6 h-6" />
               ) : (
-                <Image
-                  src="/images/bars.png" // Assuming a bars image
-                  alt="Menu Icon"
-                  width={24}
-                  height={24}
-                  className="h-6 w-6"
-                />
+                <FaBars className="w-6 h-6" />
               )}
             </button>
           </div>
@@ -136,57 +336,63 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div className="lg:hidden bg-white border-t border-gray-200">
+          <div className="px-4 py-4 space-y-1 sm:px-6">
             {tabs.map((tab) => (
               <Link
                 key={tab.name}
                 href={tab.href}
-                className="text-gray-700 hover:bg-blue-100 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium flex items-center"
+                className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium flex items-center transition-colors duration-200"
+                onClick={() => setIsMobileMenuOpen(false)}
               >
                 <Image
                   src={tab.icon}
                   alt={`${tab.name} Icon`}
-                  width={20} // Slightly smaller for mobile
+                  width={20}
                   height={20}
-                  className="w-5 h-5 mr-2"
+                  className="w-5 h-5 mr-3"
                 />
                 {tab.name}
               </Link>
             ))}
-            {/* Profile in mobile menu */}
+            {/* Profile in Mobile Menu */}
             <div className="border-t border-gray-200 pt-4">
-              <div className="flex items-center px-3">
-                <div className="bg-green-500 rounded-full h-8 w-8 flex items-center justify-center text-white">
+              <div className="flex items-center px-3 mb-3">
+                <div className="rounded-full h-9 w-9 flex items-center justify-center bg-gray-200">
                   <Image
-                    src="/images/user-circle.png" // Assuming a user circle image
-                    alt="User Icon"
+                    src="/images/userprofile.png"
+                    alt="User Profile"
                     width={24}
                     height={24}
-                    className="w-6 h-6"
+                    className="w-6 h-6 object-cover"
                   />
                 </div>
-                <span className="ml-2 text-base font-medium">Demo User</span>
+                <span className="ml-3 text-base font-medium text-gray-700">
+                  Demo User
+                </span>
               </div>
-              <div className="mt-3 space-y-1">
-                <a
-                  href="#"
-                  className="block px-3 py-2 text-base text-gray-700 hover:bg-gray-100"
+              <div className="space-y-1">
+                <Link
+                  href="/profile"
+                  className="block px-3 py-2 text-base text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Profile
-                </a>
-                <a
-                  href="#"
-                  className="block px-3 py-2 text-base text-gray-700 hover:bg-gray-100"
+                </Link>
+                <Link
+                  href="/settings"
+                  className="block px-3 py-2 text-base text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Settings
-                </a>
-                <a
-                  href="#"
-                  className="block px-3 py-2 text-base text-gray-700 hover:bg-gray-100"
+                </Link>
+                <Link
+                  href="/logout"
+                  className="block px-3 py-2 text-base text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Logout
-                </a>
+                </Link>
               </div>
             </div>
           </div>
