@@ -1,6 +1,8 @@
-import Image from "next/image";
+"use client";
 import Navbar from "./components/Navbar";
 import DashboardGraph from "./components/DashboardGraph";
+import UpcomingShoots from "./components/UpcomingShoots";
+import RecentLeads from "./components/RecentLeads";
 
 export default function Home() {
   return (
@@ -105,6 +107,10 @@ export default function Home() {
     <div className="flex flex-col w-full min-h-screen bg-white">
       <Navbar />
       <DashboardGraph />
+      <div className="w-5/6 my-4 flex sm:flex-col md:flex-row  justify-center mx-auto">
+        <UpcomingShoots />
+        <RecentLeads />
+      </div>
     </div>
   );
 }

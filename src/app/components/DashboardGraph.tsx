@@ -140,7 +140,7 @@ const DashboardGraph = () => {
   };
 
   return (
-    <div className="flex justify-center w-full px-4 sm:px-6 lg:px-8">
+    <div className="flex justify-center w-full ">
       <div className="w-5/6 bg-white p-4 sm:p-6 rounded-lg shadow-md mt-8 sm:mt-15 border border-gray-300">
         <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between sm:items-center mb-4">
           <div className="relative w-full sm:w-80">
