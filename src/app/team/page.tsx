@@ -15,19 +15,20 @@ import { SlOptionsVertical } from 'react-icons/sl';
 import Pagination from '../components/Pagination';
 import Table from '../components/Table';
 import OverviewHeader from '../components/OverviewHeader';
-import TableData from '../../utils/Data.json';
+import TeamData from '../../utils/team.json';
 
-const tableData = TableData;
+const tableData = TeamData;
 const tableHeaders = [
-  { key: 'name', label: 'Name' },
-  { key: 'event', label: 'Event' },
-  { key: 'status', label: 'Status' },
-  { key: 'eventDate', label: 'Event Date' },
-  { key: 'assignedTeam', label: 'Assigned Team' },
-  { key: 'nextTask', label: 'Next Task' },
-  { key: 'lastContact', label: 'Last Contact' },
-  { key: 'action', label: 'Action' },
+  { key: 'Name', label: 'Name' },
+  { key: 'Role', label: 'Role' },
+  { key: 'Email', label: 'Email' },
+  { key: 'Phone', label: 'Phone' },
+  { key: 'Status', label: 'Status' },
+  { key: 'Assigned Jobs', label: 'Assigned Jobs' },
+  { key: 'Availability', label: 'Availability' },
+  { key: 'Action', label: 'Action' },
 ];
+
 export default function Page() {
   return (
     <>
@@ -35,11 +36,11 @@ export default function Page() {
       <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA]'>
         {/* <Pagination /> */}
         <div className='container mx-auto  w-[100%] h-[80vh]'>
-          <OverviewHeader title={'Clients'} />
+          <OverviewHeader title={'Teams'} />
 
           <Table
             headers={tableHeaders}
-            data={tableData}
+            data={TeamData}
           />
         </div>
       </div>

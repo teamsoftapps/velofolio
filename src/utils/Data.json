@@ -1,0 +1,202 @@
+[
+  {
+    "name": "John Doe",
+    "event": "Product Launch",
+    "status": "New Lead",
+    "eventDate": "2025-10-20",
+    "assignedTeam": "Marketing",
+    "nextTask": "Finalize Ad Campaign",
+    "lastContact": "2025-10-14",
+    "action": "View Details"
+  },
+  {
+    "name": "John Doe",
+    "event": "Product Launch",
+    "status": "Proposal",
+    "eventDate": "2025-10-20",
+    "assignedTeam": "Marketing",
+    "nextTask": "Finalize Ad Campaign",
+    "lastContact": "2025-10-14",
+    "action": "View Details"
+  },
+  {
+    "name": "Sarah Connor",
+    "event": "Client Onboarding",
+    "status": "Booked",
+    "eventDate": "2025-10-25",
+    "assignedTeam": "Sales",
+    "nextTask": "Prepare Documents",
+    "lastContact": "2025-10-12",
+    "action": "View Details"
+  },
+  {
+    "name": "Michael Brown",
+    "event": "Annual Conference",
+    "status": "Booked",
+    "eventDate": "2025-11-05",
+    "assignedTeam": "Operations",
+    "nextTask": "Book Venue",
+    "lastContact": "2025-10-09",
+    "action": "Assign Task"
+  },
+  {
+    "name": "Emily Davis",
+    "event": "Marketing Summit",
+    "status": "Proposal",
+    "eventDate": "2025-10-28",
+    "assignedTeam": "Marketing",
+    "nextTask": "Prepare Pitch Deck",
+    "lastContact": "2025-10-13",
+    "action": "Send Proposal"
+  },
+  {
+    "name": "Robert Johnson",
+    "event": "Press Conference",
+    "status": "New Lead",
+    "eventDate": "2025-10-22",
+    "assignedTeam": "Public Relations",
+    "nextTask": "Contact Venue",
+    "lastContact": "2025-10-15",
+    "action": "View Details"
+  },
+  {
+    "name": "Olivia Martinez",
+    "event": "Workshop Event",
+    "status": "Booked",
+    "eventDate": "2025-10-30",
+    "assignedTeam": "Operations",
+    "nextTask": "Confirm Speakers",
+    "lastContact": "2025-10-14",
+    "action": "Assign Task"
+  },
+  {
+    "name": "David Wilson",
+    "event": "Investor Meeting",
+    "status": "Proposal",
+    "eventDate": "2025-11-02",
+    "assignedTeam": "Finance",
+    "nextTask": "Prepare Financial Report",
+    "lastContact": "2025-10-13",
+    "action": "Send Proposal"
+  },
+  {
+    "name": "Sophia Miller",
+    "event": "Team Retreat",
+    "status": "Done",
+    "eventDate": "2025-09-29",
+    "assignedTeam": "HR",
+    "nextTask": "Collect Feedback",
+    "lastContact": "2025-09-30",
+    "action": "View Summary"
+  },
+  {
+    "name": "James Anderson",
+    "event": "Webinar",
+    "status": "Proposal",
+    "eventDate": "2025-11-10",
+    "assignedTeam": "Tech",
+    "nextTask": "Schedule Recording",
+    "lastContact": "2025-10-15",
+    "action": "View Details"
+  },
+  {
+    "name": "Ava Thomas",
+    "event": "Networking Session",
+    "status": "New Lead",
+    "eventDate": "2025-10-27",
+    "assignedTeam": "Outreach",
+    "nextTask": "Draft Invitations",
+    "lastContact": "2025-10-14",
+    "action": "Assign Task"
+  },
+  {
+    "name": "Lucas White",
+    "event": "Product Demo",
+    "status": "Proposal",
+    "eventDate": "2025-10-29",
+    "assignedTeam": "Tech",
+    "nextTask": "Prepare Demo Kit",
+    "lastContact": "2025-10-13",
+    "action": "Send Proposal"
+  },
+  {
+    "name": "Isabella Garcia",
+    "event": "Exhibition",
+    "status": "Booked",
+    "eventDate": "2025-11-12",
+    "assignedTeam": "Marketing",
+    "nextTask": "Design Booth",
+    "lastContact": "2025-10-11",
+    "action": "View Details"
+  },
+  {
+    "name": "Ethan Martinez",
+    "event": "Training Program",
+    "status": "Done",
+    "eventDate": "2025-09-15",
+    "assignedTeam": "HR",
+    "nextTask": "Review Attendance",
+    "lastContact": "2025-09-17",
+    "action": "View Summary"
+  },
+  {
+    "name": "Mia Rodriguez",
+    "event": "Client Meeting",
+    "status": "New Lead",
+    "eventDate": "2025-10-18",
+    "assignedTeam": "Sales",
+    "nextTask": "Prepare Agenda",
+    "lastContact": "2025-10-10",
+    "action": "View Details"
+  },
+  {
+    "name": "William Taylor",
+    "event": "Annual Gala",
+    "status": "Proposal",
+    "eventDate": "2025-11-01",
+    "assignedTeam": "Event Management",
+    "nextTask": "Design Invitations",
+    "lastContact": "2025-10-12",
+    "action": "Send Proposal"
+  },
+  {
+    "name": "Charlotte Moore",
+    "event": "Brand Launch",
+    "status": "Booked",
+    "eventDate": "2025-10-24",
+    "assignedTeam": "Marketing",
+    "nextTask": "Finalize Branding",
+    "lastContact": "2025-10-15",
+    "action": "Assign Task"
+  },
+  {
+    "name": "Benjamin Clark",
+    "event": "Tech Conference",
+    "status": "New Lead",
+    "eventDate": "2025-10-26",
+    "assignedTeam": "Tech",
+    "nextTask": "Reach Out to Speakers",
+    "lastContact": "2025-10-14",
+    "action": "View Details"
+  },
+  {
+    "name": "Ella Lewis",
+    "event": "Press Meetup",
+    "status": "Proposal",
+    "eventDate": "2025-10-21",
+    "assignedTeam": "Public Relations",
+    "nextTask": "Draft Press Release",
+    "lastContact": "2025-10-15",
+    "action": "Send Proposal"
+  },
+  {
+    "name": "Henry Walker",
+    "event": "Marketing Workshop",
+    "status": "Done",
+    "eventDate": "2025-09-30",
+    "assignedTeam": "Marketing",
+    "nextTask": "Review Attendance",
+    "lastContact": "2025-10-02",
+    "action": "View Summary"
+  }
+]

@@ -15,9 +15,12 @@ import { SlOptionsVertical } from 'react-icons/sl';
 import Pagination from '../components/Pagination';
 import Table from '../components/Table';
 import OverviewHeader from '../components/OverviewHeader';
-import TableData from '../../utils/Data.json';
+import OverviewChart from '../components/OverviewChart';
+import LeadsData from '../../utils/Leads.json';
 
+import TableData from '../../utils/Data.json';
 const tableData = TableData;
+
 const tableHeaders = [
   { key: 'name', label: 'Name' },
   { key: 'event', label: 'Event' },
@@ -28,14 +31,16 @@ const tableHeaders = [
   { key: 'lastContact', label: 'Last Contact' },
   { key: 'action', label: 'Action' },
 ];
+
 export default function Page() {
   return (
     <>
       <Navbar />
       <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA]'>
         {/* <Pagination /> */}
-        <div className='container mx-auto  w-[100%] h-[80vh]'>
-          <OverviewHeader title={'Clients'} />
+        <div className='container mx-auto bg-[#FAFAFA] w-[100%] '>
+          <OverviewHeader title={'Leads'} />
+          <OverviewChart chartData={LeadsData} />
 
           <Table
             headers={tableHeaders}
