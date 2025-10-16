@@ -1,4 +1,4 @@
-const AddButton = ({ onClick }) => (
+const AddButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   <button
     onClick={onClick}
     className="flex items-center px-2 sm:px-3 lg:px-4 py-1.5 bg-[#01B0E9] text-white rounded-full hover:bg-[#0199d0] transition-colors"

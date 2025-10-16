@@ -1,5 +1,11 @@
+// import React from "react";
+
+// export const page = () => {
+//   return <div>page</div>;
+// };
+
 import React from "react";
 
-export const page = () => {
+export default function Page() {
   return <div>page</div>;
-};
+}
