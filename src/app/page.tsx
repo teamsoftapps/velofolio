@@ -107,7 +107,7 @@ export default function Home() {
     <div className="flex flex-col w-full min-h-screen bg-white">
       <Navbar />
       <DashboardGraph />
-      <div className="w-5/6 my-4 flex sm:flex-col md:flex-row  justify-center mx-auto">
+      <div className="w-11/12 sm:w-5/6 lg:w-4/5 my-4 flex flex-col sm:flex-col lg:flex-row justify-center mx-auto gap-4 lg:gap-6">
         <UpcomingShoots />
         <RecentLeads />
       </div>
