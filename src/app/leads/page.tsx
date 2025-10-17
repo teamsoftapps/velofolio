@@ -35,12 +35,12 @@ const tableHeaders = [
 ];
 
 export default function Page() {
-  const [OpenForm, setOpenForm] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false
   const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
   const [filteredData, setFilteredData] = React.useState<any[]>(tableData); // Initialize with tableData
-
+  const [OpenForm, setOpenForm] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   useEffect(() => {
     if (searchedValue.trim() === '') {
       setFilteredData(tableData);
@@ -55,6 +55,11 @@ export default function Page() {
     }
   }, [searchedValue, tableData]);
 
+  const handleDeleteConfirm = () => {
+    // Handle delete confirmation logic here
+    setIsDeleteModalOpen(false);
+  };
+
   return (
     <>
       <Navbar />
@@ -64,12 +69,11 @@ export default function Page() {
           setOpenForm={setOpenForm}
         />
       )}
-      {deleteModal && (
+      {isDeleteModalOpen && (
         <DeleteModal
-          // onSubmit={(data) => console.log('Form submitted:', data)}
-          isOpen={deleteModal}
-          onClose={() => setDeleteModal(false)}
-          onConfirm={() => setDeleteModal(false)}
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onConfirm={handleDeleteConfirm}
         />
       )}
       <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA]'>
@@ -87,6 +91,8 @@ export default function Page() {
           <Table
             headers={tableHeaders}
             data={filteredData}
+            setOpenForm={setOpenForm}
+            setIsDeleteModalOpen={setIsDeleteModalOpen}
           />
         </div>
       </div>

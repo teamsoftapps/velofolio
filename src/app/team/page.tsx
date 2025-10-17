@@ -18,7 +18,7 @@ import Table from '../Components/Table';
 import OverviewHeader from '../Components/OverviewHeader';
 import TeamData from '../../utils/team.json';
 import FormModal from '../Components/FormModal';
-
+import DeleteModal from '../Components/DeleteModal';
 const tableData = TeamData;
 const tableHeaders = [
   { key: 'Name', label: 'Name' },
@@ -33,7 +33,7 @@ const tableHeaders = [
 
 export default function Page() {
   const [OpenForm, setOpenForm] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false
   const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
   const [filteredData, setFilteredData] = React.useState<any[]>(tableData); // Initialize with tableData
@@ -54,9 +54,22 @@ export default function Page() {
     }
   }, [searchedValue]);
 
+  const handleDeleteConfirm = () => {
+    console.log('Team deleted');
+    setIsDeleteModalOpen(false);
+    // Add delete logic here (e.g., API call and update tableData)
+  };
+
   return (
     <>
       <Navbar />
+      {isDeleteModalOpen && (
+        <DeleteModal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onConfirm={handleDeleteConfirm}
+        />
+      )}
       {OpenForm && (
         <FormModal
           onSubmit={(data) => console.log('Form submitted:', data)}
@@ -77,6 +90,10 @@ export default function Page() {
           <Table
             headers={tableHeaders}
             data={filteredData}
+            setSearchedData={setSearchedData}
+            setSearchedValue={setSearchedValue}
+            searchedValue={searchedValue}
+            setIsDeleteModalOpen={setIsDeleteModalOpen}
           />
         </div>
       </div>
