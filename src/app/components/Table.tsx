@@ -4,16 +4,22 @@ import React, { useState } from 'react';
 
 import { SlOptionsVertical } from 'react-icons/sl';
 
-import { FaCircleCheck, FaCircleXmark, FaClock } from 'react-icons/fa6';
+import { FaCircleCheck, FaClock } from 'react-icons/fa6';
 import { IoMdRefreshCircle } from 'react-icons/io';
 
-// import Pagination from "./Pagination";
-import { useRouter } from 'next/navigation';
 import Pagination from './Pagination';
-const Table = ({ headers, data }: any) => {
+import { useRouter, usePathname } from 'next/navigation';
+
+const Table = ({
+  headers,
+  data,
+  setDeleteModal,
+  setIsDeleteModalOpen,
+}: any) => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8; // adjust as needed
+  const pasthname = usePathname();
 
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
@@ -74,7 +80,12 @@ const Table = ({ headers, data }: any) => {
           {paginatedData.map((row: any, rowIndex: any) => (
             <tr
               onClick={() => {
-                router.push(`/ClientProfile`);
+                if (pasthname === '/Clients') {
+                  router.push(`/ClientProfile`);
+                }
+                if (pasthname === '/Team') {
+                  router.push(`/TeamProfile`);
+                }
               }}
               key={rowIndex}
               className='text-black hover:bg-[#daf2fa] transition-colors duration-200'>
@@ -84,6 +95,9 @@ const Table = ({ headers, data }: any) => {
                   return (
                     <td
                       key={cellIndex}
+                      onClick={() => {
+                        setIsDeleteModalOpen(true);
+                      }}
                       className='py-5 text-center border-b-1 border-[#D4D4D8]'>
                       <SlOptionsVertical className='w-6 h-6 mx-auto cursor-pointer' />
                     </td>
@@ -153,15 +167,13 @@ const Table = ({ headers, data }: any) => {
                     <td
                       key={cellIndex}
                       className='py-5 text-center border-b border-[#D4D4D8]'>
-                      <div className='w-full bg-gray-200 rounded-full h-4 border-2 p-2'>
+                      <div className='w-full bg-gray-200 rounded-full h-3 relative p-2 pb-3 border-1'>
+                        <p className='text-sm absolute inset-0 flex items-center justify-center z-20'>
+                          {progressValue}%
+                        </p>
                         <div
-                          className={`h-4 -mt-2 -ml-2 relative rounded-full ${progressColor} transition-all duration-300 text-center`}
-                          style={{ width: `${progressValue}%` }}>
-                          {' '}
-                          <span className='text-sm   absolute z-10 '>
-                            {progressValue}%
-                          </span>
-                        </div>
+                          className={`h-3 -mt-1  relative rounded-full ${progressColor} transition-all duration-300`}
+                          style={{ width: `${progressValue}%` }}></div>
                       </div>
                     </td>
                   );

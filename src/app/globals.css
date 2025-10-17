@@ -26,3 +26,12 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+.scroller {
+  overflow-y: scroll; /* allows scrolling */
+  scrollbar-width: none; /* for Firefox */
+  -ms-overflow-style: none; /* for Internet Explorer and Edge */
+}
+
+.scroller::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
