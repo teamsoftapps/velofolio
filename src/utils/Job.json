@@ -1,0 +1,92 @@
+[
+  {
+    "jobNameClient": "Website Redesign / John Doe",
+    "eventType": "Design Review",
+    "eventDate": "2025-10-20",
+    "assignedTeam": "Design",
+    "progress": "100%",
+    "status": "In Progress",
+    "action": "View/Edit"
+  },
+  {
+    "jobNameClient": "Marketing Campaign / Jane Smith",
+    "eventType": "Launch Meeting",
+    "eventDate": "2025-10-22",
+    "assignedTeam": "Marketing",
+    "progress": "20%",
+    "status": "New",
+    "action": "View/Edit"
+  },
+  {
+    "jobNameClient": "Mobile App / Alice Johnson",
+    "eventType": "Sprint Planning",
+    "eventDate": "2025-10-25",
+    "assignedTeam": "Development",
+    "progress": "70%",
+    "status": "In Progress",
+    "action": "View/Edit"
+  },
+  {
+    "jobNameClient": "Product Photography / Michael Brown",
+    "eventType": "Photo Shoot",
+    "eventDate": "2025-10-28",
+    "assignedTeam": "Media",
+    "progress": "90%",
+    "status": "Completed",
+    "action": "View/Edit"
+  },
+  {
+    "jobNameClient": "SEO Audit / Emily Davis",
+    "eventType": "Audit Review",
+    "eventDate": "2025-10-21",
+    "assignedTeam": "SEO",
+    "progress": "90%",
+    "status": "In Progress",
+    "action": "View/Edit"
+  },
+  {
+    "jobNameClient": "Branding / Robert Johnson",
+    "eventType": "Concept Approval",
+    "eventDate": "2025-10-24",
+    "assignedTeam": "Design",
+    "progress": "80%",
+    "status": "In Progress",
+    "action": "View/Edit"
+  },
+  {
+    "jobNameClient": "Client Onboarding / Olivia Martinez",
+    "eventType": "Kickoff Call",
+    "eventDate": "2025-10-23",
+    "assignedTeam": "Sales",
+    "progress": "100%",
+    "status": "New",
+    "action": "View/Edit"
+  },
+  {
+    "jobNameClient": "Annual Report / David Wilson",
+    "eventType": "Draft Review",
+    "eventDate": "2025-10-27",
+    "assignedTeam": "Finance",
+    "progress": "10%",
+    "status": "In Progress",
+    "action": "View/Edit"
+  },
+  {
+    "jobNameClient": "Workshop / Sophia Miller",
+    "eventType": "Preparation",
+    "eventDate": "2025-10-29",
+    "assignedTeam": "Operations",
+    "progress": "30%",
+    "status": "In Progress",
+    "action": "View/Edit"
+  },
+  {
+    "jobNameClient": "Webinar / James Anderson",
+    "eventType": "Recording",
+    "eventDate": "2025-11-01",
+    "assignedTeam": "Tech",
+    "progress": "50%",
+    "status": "In Progress",
+    "action": "View/Edit"
+  }
+]
