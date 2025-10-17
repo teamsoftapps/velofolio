@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../Components/Navbar";
 import Link from "next/link";
 import {
   FaArrowLeft,
@@ -14,9 +14,9 @@ import {
 } from "react-icons/fa";
 import { FaEllipsis } from "react-icons/fa6";
 import { MdModeEditOutline } from "react-icons/md";
-import SearchComponent from "../components/SearchComponent";
+import SearchComponent from "../Components/SearchComponent";
 import { CiFilter } from "react-icons/ci";
-import AddButton from "../components/AddButton";
+import AddButton from "../Components/AddButton";
 
 const ClientProfilePage = () => {
   const [activeTab, setActiveTab] = useState("Overview");

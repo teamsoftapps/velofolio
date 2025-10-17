@@ -3,7 +3,6 @@
 import React from "react";
 import { GoSearch } from "react-icons/go";
 import { FaSort } from "react-icons/fa";
-import { IoMdAdd } from "react-icons/io";
 import AddButton from "./AddButton";
 
 const OverviewHeader = ({ title }: any) => {

@@ -7,9 +7,9 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { FaCircleCheck, FaCircleXmark, FaClock } from "react-icons/fa6";
 import { IoMdRefreshCircle } from "react-icons/io";
 
-import Pagination from "./Pagination";
+// import Pagination from "./Pagination";
 import { useRouter } from "next/navigation";
-
+import Pagination from "./Pagination";
 const Table = ({ headers, data }: any) => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);

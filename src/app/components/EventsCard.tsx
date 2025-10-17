@@ -1,5 +1,4 @@
 import React from "react";
-import AddButton from "./AddButton";
 
 interface EventsCardProps {
   title: string;
