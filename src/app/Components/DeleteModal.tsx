@@ -20,7 +20,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className='fixed inset-0 p-20  bg-opacity-50 flex items-center justify-center z-50'>
+    <div className='fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50'>
       <div className='bg-white p-10 rounded-lg shadow-lg w-full max-w-md relative'>
         <button
           onClick={onClose}
