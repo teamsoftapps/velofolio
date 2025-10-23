@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Total Leads",
+    "count": 22,
+    "percentageChange": 15.0,
+    "colorClass": "bg-blue-500"
+  },
+  {
+    "title": "Active Leads",
+    "count": 10,
+    "percentageChange": 8.0,
+    "colorClass": "bg-yellow-500"
+  },
+  {
+    "title": "Converted Leads",
+    "count": 10,
+    "percentageChange": 12.0,
+    "colorClass": "bg-green-500"
+  },
+  {
+    "title": "Lost Leads",
+    "count": 0,
+    "percentageChange": 0.0,
+    "colorClass": "bg-gray-500"
+  }
+]

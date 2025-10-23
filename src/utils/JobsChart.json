@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Total Jobs",
+    "count": 35,
+    "percentageChange": 12.5,
+    "colorClass": "bg-blue-500"
+  },
+  {
+    "title": "Active Jobs",
+    "count": 15,
+    "percentageChange": 7.0,
+    "colorClass": "bg-yellow-500"
+  },
+  {
+    "title": "Completed Jobs",
+    "count": 12,
+    "percentageChange": 9.0,
+    "colorClass": "bg-green-500"
+  },
+  {
+    "title": "Cancelled Jobs",
+    "count": 2,
+    "percentageChange": -3.0,
+    "colorClass": "bg-gray-500"
+  }
+]

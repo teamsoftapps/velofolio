@@ -1,0 +1,42 @@
+[
+  {
+    "Name": "John Doe",
+    "Role": "Manager",
+    "Email": "john.doe@example.com",
+    "Phone": "+1-555-123-4567",
+    "Status": "Active",
+    "Assigned Jobs": 5,
+    "Availability": "Full-Time",
+    "Action": "Edit/Delete"
+  },
+  {
+    "Name": "Jane Smith",
+    "Role": "Developer",
+    "Email": "jane.smith@example.com",
+    "Phone": "+1-555-987-6543",
+    "Status": "Inactive",
+    "Assigned Jobs": 3,
+    "Availability": "Busy",
+    "Action": "Edit/Delete"
+  },
+  {
+    "Name": "Alice Johnson",
+    "Role": "Designer",
+    "Email": "alice.johnson@example.com",
+    "Phone": "+1-555-246-8101",
+    "Status": "Active",
+    "Assigned Jobs": 4,
+    "Availability": "Free",
+    "Action": "Edit/Delete"
+  },
+  {
+    "Name": "Alice Johnson",
+    "Role": "Designer",
+    "Email": "alice.johnson@example.com",
+    "Phone": "+1-555-246-8101",
+    "Status": "Active",
+    "Assigned Jobs": 4,
+    "Availability": "N/A",
+    "Action": "Edit/Delete"
+  }
+]

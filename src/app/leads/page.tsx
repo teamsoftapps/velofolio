@@ -1,0 +1,96 @@
+/** @format */
+
+// import React from "react";
+
+// export const page = () => {
+//   return <div>page</div>;
+// };
+'use client';
+import React, { useEffect, useState } from 'react';
+import Navbar from '../components/Navbar';
+import Table from '../components/Table';
+import OverviewHeader from '../components/OverviewHeader';
+import OverviewChart from '../components/OverviewChart';
+import LeadsData from '../../utils/LeadsChart.json';
+import LeadForm from '../components/LeadFormModel';
+import TableData from '../../utils/Data.json';
+import DeleteModal from '../components/DeleteModal';
+
+const tableData = TableData;
+
+const tableHeaders = [
+  { key: 'name', label: 'Name' },
+  { key: 'event', label: 'Event' },
+  { key: 'status', label: 'Status' },
+  { key: 'eventDate', label: 'Event Date' },
+  { key: 'assignedTeam', label: 'Assigned Team' },
+  { key: 'nextTask', label: 'Next Task' },
+  { key: 'lastContact', label: 'Last Contact' },
+  { key: 'action', label: 'Action' },
+];
+
+export default function Page() {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false
+  const [searchedData, setSearchedData] = React.useState<any[]>([]);
+  const [searchedValue, setSearchedValue] = React.useState('');
+  const [filteredData, setFilteredData] = React.useState<any[]>(tableData); // Initialize with tableData
+  const [OpenForm, setOpenForm] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  useEffect(() => {
+    if (searchedValue.trim() === '') {
+      setFilteredData(tableData);
+    } else {
+      const filtered = tableData.filter(
+        (item: any) =>
+          item.name.toLowerCase().includes(searchedValue.toLowerCase()) ||
+          (item.email &&
+            item.email.toLowerCase().includes(searchedValue.toLowerCase()))
+      );
+      setFilteredData(filtered);
+    }
+  }, [searchedValue, tableData]);
+
+  const handleDeleteConfirm = () => {
+    // Handle delete confirmation logic here
+    setIsDeleteModalOpen(false);
+  };
+
+  return (
+    <>
+      <Navbar />
+      {OpenForm && (
+        <LeadForm
+          onSubmit={(data) => console.log('Form submitted:', data)}
+          setOpenForm={setOpenForm}
+        />
+      )}
+      {isDeleteModalOpen && (
+        <DeleteModal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onConfirm={handleDeleteConfirm}
+        />
+      )}
+      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA]'>
+        {/* <Pagination /> */}
+        <div className='container mx-auto bg-[#FAFAFA] w-[100%] '>
+          <OverviewHeader
+            title={'Leads'}
+            setOpenForm={setOpenForm}
+            setSearchedData={setSearchedData}
+            setSearchedValue={setSearchedValue}
+            searchedValue={searchedValue}
+          />
+          <OverviewChart chartData={LeadsData} />
+
+          <Table
+            headers={tableHeaders}
+            data={filteredData}
+            setOpenForm={setOpenForm}
+            setIsDeleteModalOpen={setIsDeleteModalOpen}
+          />
+        </div>
+      </div>
+    </>
+  );
+}
