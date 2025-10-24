@@ -13,21 +13,22 @@ import OverviewHeader from '../components/OverviewHeader';
 import OverviewChart from '../components/OverviewChart';
 import LeadsData from '../../utils/LeadsChart.json';
 import LeadForm from '../components/LeadFormModel';
-import TableData from '../../utils/Data.json';
+// import TableData from '../../utils/Data.json';
 import DeleteModal from '../components/DeleteModal';
+import LeadData from '../../utils/Lead.json';
 
-const tableData = TableData;
+const tableData = LeadData;
 
 const tableHeaders = [
-  { key: 'name', label: 'Name' },
-  { key: 'event', label: 'Event' },
+  { key: 'leadName', label: 'Lead Name' },
+  { key: 'leadCreated', label: 'Lead Created' },
+  { key: 'interestedService', label: 'Interested Service' },
   { key: 'status', label: 'Status' },
   { key: 'eventDate', label: 'Event Date' },
-  { key: 'assignedTeam', label: 'Assigned Team' },
-  { key: 'nextTask', label: 'Next Task' },
-  { key: 'lastContact', label: 'Last Contact' },
+  { key: 'priority', label: 'Priority' },
   { key: 'action', label: 'Action' },
 ];
+
 
 export default function Page() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false

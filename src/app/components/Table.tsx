@@ -14,6 +14,7 @@ const Table = ({
   headers,
   data,
   setDeleteModal,
+  color,
   setIsDeleteModalOpen,
 }: any) => {
   const router = useRouter();
@@ -59,22 +60,30 @@ const Table = ({
     New: 'bg-[#01B0E9]',
     'In Progress': 'bg-[#FEBE2A]',
   };
+  const priorityColors:any = {
+  'High': 'bg-red-300',
+  'Medium': 'bg-orange-200',
+  'Low': 'bg-green-200',
+};
 
   return (
   <div
-  className={`w-full mt-4 rounded-2xl lg:p-7 md:p-3 ${
-    pasthname === '/teamProfile' ? '' : 'border-2'
-  }`}
+  className={`w-full mt-4 rounded-2xl  md:p-3 ${
+    pasthname === '/teamProfile '||"/" ? '' : 'border-2'
+  }
+  ${pasthname==="/" ? "":"lg:p-7"}
+  
+  `}
 >
          <div className="overflow-x-auto">
-     <table className='text-wrap w-full bg-white table-auto border-collapse'>
+     <table className='text-wrap w-full bg-white table-auto border-collapse '>
 
-        <thead className='bg-gray-200 text-black border-1 border-[#D4D4D8] rounded-lg w-full'>
+        <thead className='bg-gray-200 text-black border-0 border-[#D4D4D8] rounded-lg w-full '>
           <tr>
             {headers.map((header: any, index: any) => (
               <th
                 key={index}
-                className='px-6 py-2 text-center'>
+                className='px-6 py-2 text-center text-sm sm:text-lg font-medium'>
                 {header.label || header.key || header}
               </th>
             ))}
@@ -117,6 +126,20 @@ const Table = ({
                       <span
                         className={`p-1 px-1.5 rounded-2xl text-black ${
                           statusColors[row[key]] || 'bg-gray-200'
+                        }`}>
+                        {row[key]}
+                      </span>
+                    </td>
+                  );
+                }
+                     if (key === 'priority' || key === 'Priority') {
+                  return (
+                    <td
+                      key={cellIndex}
+                      className='py-2 text-center border-b-1 border-[#D4D4D8]'>
+                      <span
+                        className={`p-1 px-3 rounded-2xl text-black ${
+                          priorityColors[row[key]] || 'bg-gray-200'
                         }`}>
                         {row[key]}
                       </span>
@@ -201,6 +224,7 @@ const Table = ({
         totalPages={totalPages}
         onPageChange={handlePageChange}
         initialPage={currentPage}
+        color={color}
       />
     </div>
   );
