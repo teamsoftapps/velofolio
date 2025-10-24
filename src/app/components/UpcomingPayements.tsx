@@ -26,10 +26,10 @@ const UpcomingPayements = () => {
   ];
 
   return (
-    <div className='bg-white p-12 border border-gray-300 rounded-lg shadow-md w-full h-[450px] overflow-y-auto'>
+    <div className='bg-white p-8 border border-gray-300 rounded-lg shadow-md w-full h-[450px] overflow-y-auto'>
       <div className=' w-full flex flex-row justify-between items-center mb-4'>
-        <h2 className='w-5/7 text-lg font-medium text-[20px] sm:text-[22px] lg:text-[24px] text-black'>
-          Upcoming Shoots & Appointments
+        <h2 className=' text-lg font-medium text-[20px] sm:text-[22px] lg:text-[24px] text-black'>
+         Overdue & Upcoming Payments
         </h2>
    
       </div>

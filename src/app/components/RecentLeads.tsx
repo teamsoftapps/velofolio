@@ -21,20 +21,62 @@ const RecentLeads = () => {
     {
       leadCreated: '2 Sep 2025',
       leadName: 'Demo Portrait Lead',
-      status: 'NEW LEAD',
+      status: 'New Lead',
       nextTask: 'Initial Inquiry...',
     },
     {
       leadCreated: '5 Oct 2025',
       leadName: 'Demo Wedding Lead',
-      status: 'CONTACTED',
+      status: 'Booked',
+      nextTask: 'Follow Up Call',
+    },
+      {
+      leadCreated: '2 Sep 2025',
+      leadName: 'Demo Portrait Lead',
+      status: 'New Lead',
+      nextTask: 'Initial Inquiry...',
+    },
+    {
+      leadCreated: '5 Oct 2025',
+      leadName: 'Demo Wedding Lead',
+      status: 'Booked',
+      nextTask: 'Follow Up Call',
+    },
+        {
+      leadCreated: '2 Sep 2025',
+      leadName: 'Demo Portrait Lead',
+      status: 'New Lead',
+      nextTask: 'Initial Inquiry...',
+    },
+    {
+      leadCreated: '5 Oct 2025',
+      leadName: 'Demo Wedding Lead',
+      status: 'Booked',
+      nextTask: 'Follow Up Call',
+    },
+      {
+      leadCreated: '2 Sep 2025',
+      leadName: 'Demo Portrait Lead',
+      status: 'New Lead',
+      nextTask: 'Initial Inquiry...',
+    },
+    {
+      leadCreated: '5 Oct 2025',
+      leadName: 'Demo Wedding Lead',
+      status: 'Booked',
+      nextTask: 'Follow Up Call',
+    },
+      {
+      leadCreated: '5 Oct 2025',
+      leadName: 'Demo Wedding Lead',
+      status: 'Booked',
       nextTask: 'Follow Up Call',
     },
   ];
 
 
   return (
-    <div className="bg-white p-6 sm:p-8  border border-gray-300 rounded-lg shadow-md w-full h-[450px] overflow-x-auto">
+    <div className="bg-white p-6 sm:p-8  border border-gray-300 rounded-lg shadow-md w-full h-[450px] ">
       {/* Header */}
      <div className="flex flex-col sm:flex-row sm:justify-between  sm:items-center mb-4  lg:gap-0">
         <h2 className="text-lg sm:text-xl lg:text-2xl font-medium text-black mb-2 sm:mb-0 w-40 xl:w-full">
@@ -50,6 +92,7 @@ const RecentLeads = () => {
         data={leadsData}
         headers={tableHeaders}
         color={COLORS.headerBlueButtonbg}
+        itemsPerPage={5}
       
       
       />

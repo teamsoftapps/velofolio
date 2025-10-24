@@ -96,7 +96,7 @@ const UpcomingShoots = () => {
   ];
 
   return (
-    <div className="bg-white p-4 sm:p-6 lg:p-8 border border-gray-300 rounded-lg shadow-md w-full h-[450px] overflow-y-auto">
+    <div className="bg-white p-4 sm:p-6 lg:p-8 border border-gray-300 rounded-lg shadow-md w-full h-[450px]">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 ">
         <h2 className="text-lg sm:text-xl lg:text-2xl font-medium text-black mb-2 sm:mb-0 w-48 xl:w-full">
@@ -108,7 +108,7 @@ const UpcomingShoots = () => {
       </div>
 
       {/* Shoots List */}
-      <div className="flex flex-col space-y-3">
+      <div className="flex flex-col space-y-3  h-[300px] overflow-y-auto">
         {shootsData.map((shoot, index) => (
           <div
             key={index}

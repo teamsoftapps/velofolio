@@ -63,7 +63,7 @@ const ClientProfilePage = () => {
       <Navbar />
       <div className='w-full max-w-[1400px] mx-auto mt-4 sm:mt-6 md:mt-8 lg:mt-10 px-4 sm:px-6 md:px-8'>
         <Link
-          href='/Clients'
+          href='/clients'
           className='flex items-center text-black hover:text-gray-900 text-sm sm:text-base md:text-base lg:text-lg font-medium mb-2 sm:mb-3 md:mb-4 transition-colors duration-200'>
           <FaArrowLeft className='w-4 h-4 sm:w-5 sm:h-5 mr-2' />
           Back to clients
