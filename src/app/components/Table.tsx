@@ -64,7 +64,7 @@ const Table = ({
         } ${pasthname === '/' ? 'h-[230px] overflow-auto' : 'lg:p-7 rounded-2xl'}`}
       >
         <div className="overflow-x-auto overflow-y-auto max-h-[600px]">
-          <table className="min-w-[450px] sm:min-w-[800px] md:min-w-[1000px] lg:min-w-full bg-white table-auto border-collapse text-wrap">
+          <table className="min-w-[450px] sm:min-w-[850px] md:min-w-[1000px] lg:min-w-full bg-white table-auto border-collapse text-wrap">
             <thead className="bg-gray-200 text-black border-0 rounded-lg w-full">
               <tr>
                 {headers.map((header: any, index: any) => (
@@ -86,7 +86,7 @@ const Table = ({
                     if (pasthname === '/clients') router.push(`/clientProfile`);
                     if (pasthname === '/team') router.push(`/teamProfile`);
                   }}
-                  className="text-black hover:bg-[#daf2fa] text-xs sm:text-sm md:text-base transition-colors duration-200"
+                  className="text-black hover:bg-[#daf2fa] text-xs sm:text-sm md:text-base transition-colors duration-200 cursor-pointer"
                 >
                   {headers.map((header: any, cellIndex: any) => {
                     const key = header.key || header;
@@ -117,7 +117,7 @@ const Table = ({
 
                     // Status column
        if (key === 'status' || key === 'Status') {
-  // Determine text color
+          
   const textColor =
     row[key] === 'New Lead' || row[key] === 'Inactive' ? 'text-black' : 'text-white';
 

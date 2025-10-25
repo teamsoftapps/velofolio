@@ -26,14 +26,14 @@ const UpcomingPayements = () => {
   ];
 
   return (
-    <div className='bg-white p-8 border border-gray-300 rounded-lg shadow-md w-full h-[450px] overflow-y-auto'>
+    <div className='bg-white p-8 border border-gray-300 rounded-lg shadow-md h-[450px] w-full '>
       <div className=' w-full flex flex-row justify-between items-center mb-4'>
         <h2 className=' text-lg font-medium text-[20px] sm:text-[22px] lg:text-[24px] text-black'>
          Overdue & Upcoming Payments
         </h2>
    
       </div>
-      <div className='bg-[#F4F4F5] w-full h-[160px] mx-auto mt-12 text-center p-4 flex flex-col justify-center items-center'>
+      <div className='bg-[#F4F4F5] w-[400px] h-[160px] mx-auto mt-12 text-center p-4 flex flex-col justify-center items-center'>
        No Invoices and Payments Record Found
       </div>
     </div>

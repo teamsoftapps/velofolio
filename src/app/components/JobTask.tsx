@@ -26,7 +26,6 @@ const tableHeaders = [
   
   ];
 
-  // ✅ Status color mapping
   const statusColors:any = {
     'In Progress': 'bg-yellow-200',
     'Pending Review': 'bg-blue-200',
@@ -34,7 +33,7 @@ const tableHeaders = [
   };
 
   return (
-    <div className="bg-white p-6 sm:p-8 lg:p-12 border border-gray-300 rounded-lg shadow-md w-full h-[450px] overflow-x-auto scroller">
+    <div className="bg-white p-6 sm:p-8  border border-gray-300 rounded-lg shadow-md h-[450px] w-full ">
       {/* Header */}
       <div className="w-full flex flex-row justify-between items-center mb-6">
         <h2 className="text-lg sm:text-xl lg:text-2xl  text-black">
@@ -42,8 +41,7 @@ const tableHeaders = [
         </h2>
       </div>
 
-      {/* ✅ Consistent Table Layout */}
-     
+   
 <Table data={jobsData} headers={tableHeaders} color={COLORS.headerBlueButtonbg}/>
 
     </div>
