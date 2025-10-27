@@ -127,7 +127,7 @@ const Table = ({
       className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8] min-w-[80px] sm:min-w-[80px] md:min-w-[100px] lg:w-[140px]"
     >
       <span
-        className={`p-1 px-2 sm:px-3 max-w-[120px] inline-block rounded-2xl w-full ${textColor} ${
+        className={`p-1 px-2 sm:px-3 max-w-[120px] lg:p-1 inline-block rounded-2xl w-full ${textColor} ${
           statusColors[row[key]] || 'bg-gray-200'
         }`}
       >

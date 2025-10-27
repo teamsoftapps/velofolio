@@ -96,7 +96,7 @@ const UpcomingShoots = () => {
   ];
 
   return (
-    <div className="bg-white p-4 sm:p-6 lg:p-8 border border-gray-300 rounded-lg shadow-md w-full h-[450px]">
+    <div className=" p-4 sm:p-6 lg:p-8 border border-gray-300 rounded-lg shadow-md w-full lg:min-w-1/2 h-[450px] ">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 ">
         <h2 className="text-lg sm:text-xl lg:text-2xl font-medium text-black mb-2 sm:mb-0 w-48 xl:w-full">

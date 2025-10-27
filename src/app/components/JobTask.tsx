@@ -33,7 +33,7 @@ const tableHeaders = [
   };
 
   return (
-    <div className="bg-white p-6 sm:p-8  border border-gray-300 rounded-lg shadow-md h-[450px] w-full ">
+    <div className="bg-white p-6 sm:p-8  border border-gray-300 rounded-lg shadow-md h-[450px] w-full lg:min-w-1/2 ">
       {/* Header */}
       <div className="w-full flex flex-row justify-between items-center mb-6">
         <h2 className="text-lg sm:text-xl lg:text-2xl  text-black">
@@ -42,7 +42,7 @@ const tableHeaders = [
       </div>
 
    
-<Table data={jobsData} headers={tableHeaders} color={COLORS.headerBlueButtonbg}/>
+<Table data={jobsData} headers={tableHeaders} color={COLORS.headerBlueButtonbg} hoverColor={COLORS.BlueButtonhover}/>
 
     </div>
   );
