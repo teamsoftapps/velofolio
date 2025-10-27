@@ -151,7 +151,7 @@ const SortableCard = memo(
     const { attributes, listeners, setNodeRef, transform, transition } =
       useSortable({ id: card.id });
 
-    const style = {
+    const style: React.CSSProperties = {
       transform: transform
         ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
         : undefined,
@@ -162,15 +162,15 @@ const SortableCard = memo(
     const [activeButton, setActiveButton] = useState(null);
     const [teamModal, setTeamModal] = useState(false);
 
-    const handleClick = (buttonName: string) => {
+    const handleClick = (buttonName: any) => {
       setActiveButton(buttonName);
     };
 
     return (
       <div>
         <div
-          ref={setNodeRef}
           style={style}
+          ref={setNodeRef}
           {...attributes}
           {...listeners}
           onClick={onClick}
