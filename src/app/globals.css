@@ -35,3 +35,23 @@ body {
 .scroller::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
 }
+
+/* globals.css or component <style> */
+.custom-compact-calendar .react-datepicker__day--selected,
+.custom-compact-calendar .react-datepicker__day--keyboard-selected,
+.custom-compact-calendar .react-datepicker__time-list-item--selected {
+  background-color: #00a4dd !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+.custom-compact-calendar .react-datepicker__day--selected:hover,
+.custom-compact-calendar .react-datepicker__time-list-item--selected:hover {
+  background-color: #0088b8 !important;
+}
+
+/* Optional: make the "today" highlight subtle */
+.custom-compact-calendar .react-datepicker__day--today {
+  font-weight: 700;
+  color: #00a4dd;
+}
