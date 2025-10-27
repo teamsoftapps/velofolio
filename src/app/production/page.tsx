@@ -356,442 +356,7 @@
 
 
 //Me
-// 'use client';
 
-// import React, { useRef, useLayoutEffect, useState, memo, useEffect } from 'react';
-// import {
-//   DndContext,
-//   closestCenter,
-//   KeyboardSensor,
-//   PointerSensor,
-//   useSensor,
-//   useSensors,
-//   DragEndEvent,
-//   DragOverlay,
-//   useDroppable,
-// } from '@dnd-kit/core';
-// import {
-//   SortableContext,
-//   verticalListSortingStrategy,
-//   sortableKeyboardCoordinates,
-//   useSortable,
-//   arrayMove,
-// } from '@dnd-kit/sortable';
-// import Navbar from '@/app/components/Navbar';
-// import ProductionHeader from '@/app/components/productionHeader';
-// import PreWeddingModal from '../components/WeddingModal';
-// import { BiPlus } from 'react-icons/bi';
-// import { CgAttachment } from 'react-icons/cg';
-// import { GrAttachment } from 'react-icons/gr';
-// import { LiaComment } from 'react-icons/lia';
-// import Image from 'next/image';
-// // import { randomUUID, UUID } from 'crypto';
-
-// // --- Types ---
-// interface Card {
-//   id: string;
-//   title: string;
-//   label: string;
-//   date: string;
-//   description: string;
-//   attachments: number;
-//   comments: number;
-//   members: string[];
-//   image?: string;
-// }
-
-// interface List {
-//   id: string;
-//   title: string;
-//   cards: Card[];
-// }
-
-// interface InitialData {
-//   lists: { [key: string]: List };
-//   listOrder: string[];
-// }
-
-// // --- Initial Data ---
-// const initialData: InitialData = {
-//   lists: {
-//     pending: {
-//       id: 'pending',
-//       title: 'Pending',
-//       cards: [
-//         {
-//           id: "reered",
-//           title: 'Pre-Wedding Shoot - Sarah & John',
-//           label: 'SARAH JOHNSON',
-//           date: 'OCT 7, 2025',
-//           description: 'Highlight Reel (3 min), Full Edited Footage (2 hours)...',
-//           attachments: 2,
-//           comments: 4,
-//           members: ['user1'],
-//           image: '/images/prodCardImg.png',
-//         },
-//       ],
-//     },
-//     'in-progress': {
-//       id: 'in-progress',
-//       title: 'In Progress',
-//       cards: [
-//         {
-//           id: "fefeef",
-//           title: 'Wedding Day - Emma & Liam',
-//           label: 'PRIYA SHARMA',
-//           date: 'OCT 5, 2025',
-//           description: 'Full Edited Video (3 hours), Social Media Teasers (3 clips)',
-//           attachments: 4,
-//           comments: 5,
-//           members: ['user4'],
-//           image: '/images/prodCardImg.png',
-//         },
-//       ],
-//     },
-//     completed: {
-//       id: 'completed454rf',
-//       title: 'Completed',
-//       cards: [
-//         {
-//           id: crypto.randomUUID(),
-//           title: 'Proposal Shoot - Michael & Lisa',
-//           label: 'MICHAEL JOHNSON',
-//           date: 'OCT 1, 2025',
-//           description: 'Highlight Reel (2 min), Full Edited Footage (45 min)',
-//           attachments: 6,
-//           comments: 10,
-//           members: ['user6'],
-//         },
-//       ],
-//     },
-//   },
-//   listOrder: ['pending', 'in-progress', 'completed'],
-// };
-
-
-// const ClientOnly: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-//   const [isMounted, setIsMounted] = useState(false);
-
-//   useEffect(() => {
-//     setIsMounted(true);
-//   }, []);
-
-//   if (!isMounted) {
-//     return <div className="w-full h-[200px] bg-gray-100 animate-pulse" />; // Placeholder for server-side rendering
-//   }
-
-//   return <>{children}</>;
-// };
-// // --- Sortable Card ---
-// const SortableCard = memo(({ card, onClick }: { card: Card; onClick?: () => void }) => {
-//   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: card.id });
-
-//   const style = {
-//     transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
-//     transition,
-//   };
-
-//   return (
-//     <div
-//       ref={setNodeRef}
-//       style={style}
-//       {...attributes}
-//       {...listeners}
-//       onClick={onClick}
-//       className="bg-white rounded-lg shadow-md p-3 cursor-grab active:cursor-grabbing hover:shadow-lg transition-all duration-200 border border-gray-200"
-//     >
-//       {card.image && <img src={card.image} alt={card.title} className="w-full h-32 object-cover rounded-md mb-2" />}
-//       <h4 className="font-bold text-base mb-1 text-black truncate">{card.title}</h4>
-//       <div className='flex items-center gap-10 my-2'>
-//         <span className='text-[#01B0E9] text-sm bg-[#01B0E9]/15 rounded-full px-1 '>Sarah Johnson</span>
-//         <span className='text-[#D66C55] text-sm bg-[#D66C55]/15 rounded-full px-1'>Oct 7,2025</span>
-//       </div>
-//       <p className="text-sm text-gray-600 mb-2 line-clamp-2">{card.description}</p>
-//       <div className='w-full  flex items-center justify-between px-2'>
-//         <div className='icons w-full flex items-center  gap-2'>
-//           <h3 className='flex items-center gap-2 text-gray-500'><GrAttachment className='w-6 h-6 text-gray-500' />4</h3>
-//           <h3 className='flex items-center gap-2 text-gray-500'><LiaComment className='w-6 h-6 text-gray-500' />3</h3>
-
-//         </div>
-//         <div className='images flex items-center relative'>
-//     <Image src="/teampic1.png" alt="Image" width={30} height={430} className='w-8 h-8 rounded-full absolute right-5' />
-//         <Image src="/teampic2.png" alt="Image" width={30} height={30} className='w-8 h-8 rounded-full  right-0' />
-//         </div>
-
-//       </div>
-//     </div>
-//   );
-// });
-
-// // --- Sortable List ---
-// const SortableList = memo(({ list, onCardClick }: { list: List; onCardClick: (card: Card) => void }) => {
-//   const { setNodeRef, isOver } = useDroppable({ id: list.id });
-
-//   return (
-//     <div
-//       ref={setNodeRef}
-//       className={`bg-white rounded-lg p-3 w-[90vw] sm:w-[300px] md:w-[320px] flex-shrink-0 flex flex-col shadow-sm border ${
-//         isOver ? 'border-blue-300 bg-blue-50' : 'border-gray-200'
-//       }`}
-      
-//     >
-//       <div className="flex justify-between items-center mb-3">
-//         <h3 className="font-semibold text-lg text-black flex items-center gap-6"> <BiPlus size={20} className={`${list.title=="Pending" ? "text-[#00A4DD] bg-[#01B0E91A]":list.title=="In Progress" ? "text-[#FFC700] bg-[#FFC7001A]":"text-[#13CC95] bg-[#13CC95]/5 "} p-2 rounded-full w-9 text-2xl h-9`}/>  {list.title}</h3>
-//         <span className="text-gray-500 text-sm">{list.cards.length}</span>
-//       </div>
-
-//       <SortableContext items={list.cards.map((c) => c.id)} strategy={verticalListSortingStrategy}>
-//         <div
-//           className={`flex-grow space-y-3 min-h-[200px] rounded-md p-2 ${isOver ? 'bg-blue-100' : 'bg-gray-50'}`}
-//         >
-//           {list.cards.map((card) => (
-//             <SortableCard key={card.id} card={card} onClick={() => onCardClick(card)} />
-//           ))}
-//         </div>
-//       </SortableContext>
-
-//       <button className="w-full mt-3 text-center text-gray-500 py-2 border-t border-gray-200 hover:bg-gray-50 rounded-b-lg transition-colors">
-//         + Add a card
-//       </button>
-//     </div>
-//   );
-// });
-
-// // --- Main Page ---
-// const ProductionPage: React.FC = () => {
-//   const [data, setData] = useState<InitialData>(initialData);
-//   const [activeCard, setActiveCard] = useState<Card | null>(null);
-//   const [Modal, setModal] = useState(false);
-//   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-//   const scrollPosRef = useRef(0);
-//   const [isTouchDevice, setIsTouchDevice] = useState(false);
-//     // const [initialData, setInitialData] = useState<InitialData | null>(null);
-    
-
-
-//    useEffect(() => {
-//     const data: InitialData = {
-//       lists: {
-//         pending: {
-//           id: 'pending',
-//           title: 'Pending',
-//           cards: [
-//             {
-//               id: crypto.randomUUID(),
-//               title: 'Pre-Wedding Shoot - Sarah & John',
-//               label: 'SARAH JOHNSON',
-//               date: 'OCT 7, 2025',
-//               description:
-//                 'Highlight Reel (3 min), Full Edited Footage (2 hours)…',
-//               attachments: 2,
-//               comments: 4,
-//               members: ['user1'],
-//               image: '/images/prodCardImg.png',
-//             },
-//           ],
-//         },
-//         'in-progress': {
-//           id: 'in-progress',
-//           title: 'In Progress',
-//           cards: [
-//             {
-//               id: crypto.randomUUID(),
-//               title: 'Wedding Day - Emma & Liam',
-//               label: 'PRIYA SHARMA',
-//               date: 'OCT 5, 2025',
-//               description:
-//                 'Full Edited Video (3 hours), Social Media Teasers (3 clips)',
-//               attachments: 4,
-//               comments: 5,
-//               members: ['user4'],
-//               image: '/images/prodCardImg.png',
-//             },
-//           ],
-//         },
-//         completed: {
-//           id: 'completed',
-//           title: 'Completed',
-//           cards: [
-//             {
-//               id: crypto.randomUUID(),
-//               title: 'Proposal Shoot - Michael & Lisa',
-//               label: 'MICHAEL JOHNSON',
-//               date: 'OCT 1, 2025',
-//               description:
-//                 'Highlight Reel (2 min), Full Edited Footage (45 min)',
-//               attachments: 6,
-//               comments: 10,
-//               members: ['user6'],
-//             },
-//           ],
-//         },
-//       },
-//       listOrder: ['pending', 'in-progress', 'completed'],
-//     };
-//     setData(data);
-//   }, []);
-
-//   useLayoutEffect(() => {
-//     if (scrollContainerRef.current) {
-//       scrollContainerRef.current.scrollLeft = scrollPosRef.current;
-//     }
-//   }, []);
-
-//   useEffect(() => {
-//     setIsTouchDevice(
-//       typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)
-//     );
-//   }, []);
-
-//   const sensors = useSensors(
-//     useSensor(PointerSensor, {
-//       activationConstraint: isTouchDevice ? { delay: 200, tolerance: 5 } : { distance: 5 },
-//     }),
-//     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
-//   );
-
-//   const handleDragStart = (event: DragEndEvent) => {
-//     const { active } = event;
-//     const sourceListId = Object.keys(data.lists).find((listId) =>
-//       data.lists[listId].cards.some((c) => c.id === active.id)
-//     );
-//     if (sourceListId) {
-//       const card = data.lists[sourceListId].cards.find((c) => c.id === active.id);
-//       if (card) setActiveCard(card);
-//     }
-//   };
-
-//   const handleDragEnd = (event: DragEndEvent) => {
-//     const { active, over }: any = event;
-//     if (active.id === over?.id) return;
-//     setActiveCard(null);
-//     if (!over ) return;
-
-//     let sourceListId: string | null = null;
-//     let destinationListId: string | null = null;
-
-//     for (const listId of data.listOrder) {
-//       if (data.lists[listId].cards.some((c) => c.id === active.id)) {
-//         sourceListId = listId;
-//         break;
-//       }
-//     }
-//     if (!sourceListId) return;
-
-//     // Determine destination
-//     if (data.listOrder.includes(over.id)) {
-//       destinationListId = over.id;
-//     } else {
-//       for (const listId of data.listOrder) {
-//         if (data.lists[listId].cards.some((c) => c.id === over.id)) {
-//           destinationListId = listId;
-//           break;
-//         }
-//       }
-//     }
-//     if (!destinationListId) return;
-
-//     setData((prevData) => {
-//       const sourceCards = [...prevData.lists[sourceListId!].cards];
-//       const destinationCards = [...prevData.lists[destinationListId!].cards];
-//       const movingCardIndex = sourceCards.findIndex((c) => c.id === active.id);
-//       const movingCard = sourceCards.splice(movingCardIndex, 1)[0];
-
-//       if (sourceListId === destinationListId) {
-//         const overIndex =
-//           over.id === destinationListId
-//             ? destinationCards.length
-//             : destinationCards.findIndex((c) => c.id === over.id);
-//         const newCards = arrayMove(sourceCards, movingCardIndex, overIndex >= 0 ? overIndex : destinationCards.length);
-//         return {
-//           ...prevData,
-//           lists: {
-//             ...prevData.lists,
-//             [sourceListId]: { ...prevData.lists[sourceListId], cards: newCards },
-//           },
-//         };
-//       } else {
-//         const overIndex =
-//           over.id === destinationListId
-//             ? destinationCards.length
-//             : destinationCards.findIndex((c) => c.id === over.id);
-//         destinationCards.splice(overIndex >= 0 ? overIndex : destinationCards.length, 0, movingCard);
-
-//         return {
-//           ...prevData,
-//           lists: {
-//             ...prevData.lists,
-//             [sourceListId]: { ...prevData.lists[sourceListId], cards: sourceCards },
-//             [destinationListId]: { ...prevData.lists[destinationListId], cards: destinationCards },
-//           },
-//         };
-//       }
-//     });
-//   };
-
-//   const handleCardClick = (card: Card) => setModal(true);
-
-//   return (
-//     <div className="min-h-screen w-full flex flex-col bg-gray-100 overflow-hidden relative">
-//       <Navbar />
-//       <div className={`w-full max-w-[1600px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 ${Modal ? 'blur-sm pointer-events-none select-none' : ''}`}>
-//         <ProductionHeader />
-// <ClientOnly> 
-//         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-//           <div
-//             ref={scrollContainerRef}
-//             className="flex flex-col sm:flex-row gap-4 py-6 overflow-x-auto sm:overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent"
-//             style={{
-//               WebkitOverflowScrolling: 'touch',
-//               scrollBehavior: 'auto',
-//               overscrollBehaviorX: 'contain',
-//               touchAction: 'pan-x pan-y',
-//             }}
-//           >
-//             <SortableContext items={data.listOrder} strategy={verticalListSortingStrategy}>
-//               {data.listOrder.map((listId) => {
-//                 const list = data.lists[listId];
-//                 if (!list) return null;
-//                 return <SortableList key={listId} list={list} onCardClick={handleCardClick} />;
-//               })}
-//             </SortableContext>
-
-//             <div className="flex-shrink-0">
-//               <div className="bg-white rounded-lg p-3 w-[90vw] sm:w-[300px] md:w-[320px] flex items-center justify-center text-gray-500 font-medium hover:bg-gray-50 cursor-pointer border-2 border-dashed border-gray-200">
-//            <h3 className='w-full flex items-center gap-5'><BiPlus size={20} className="text-[#13CC95] bg-[#13CC95]/5 p-2 rounded-full w-9 text-2xl h-9"/>Add another list</h3>
-//               </div>
-//             </div>
-//           </div>
-
-//           <DragOverlay>
-//             {activeCard && (
-//               <div className="bg-white rounded-lg shadow-md p-3 cursor-grabbing border border-gray-200 opacity-90">
-//                 {activeCard.image && (
-//                   <img src={activeCard.image} alt={activeCard.title} className="w-full h-32 object-cover rounded-md mb-2" />
-//                 )}
-//                 <h4 className="font-bold text-base mb-1 text-black truncate">{activeCard.title}</h4>
-//                 <p className="text-sm text-gray-600 mb-2 line-clamp-2">{activeCard.description}</p>
-//               </div>
-//             )}
-//           </DragOverlay>
-//         </DndContext>
-// </ClientOnly>
-//       </div>
-
-//       {Modal && (
-//         <div className="fixed inset-0 z-50 flex items-center justify-center">
-//           <PreWeddingModal  setModal={setModal} Modal={Modal}/>
-//           <div
-//             className="fixed inset-0 bg-black opacity-30"
-//             onClick={() => setModal(false)}
-//           />
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default ProductionPage;
 
 
 'use client';
@@ -818,10 +383,11 @@ import {
 import Navbar from '@/app/components/Navbar';
 import ProductionHeader from '@/app/components/productionHeader';
 import PreWeddingModal from '../components/WeddingModal';
-import { BiPlus } from 'react-icons/bi';
+import { BiPencil, BiPlus } from 'react-icons/bi';
 import { GrAttachment } from 'react-icons/gr';
 import { LiaComment } from 'react-icons/lia';
 import Image from 'next/image';
+import { FaPenClip } from 'react-icons/fa6';
 
 // --- Types ---
 interface Card {
@@ -920,24 +486,104 @@ const ClientOnly: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 // --- Sortable Card ---
-const SortableCard = memo(({ card, onClick }: { card: Card; onClick?: () => void }) => {
+
+const SortableCard = memo(({ card, onClick, menuCardId, setMenuCardId }: { card: Card; onClick?: () => void; menuCardId: string | null; setMenuCardId: React.Dispatch<React.SetStateAction<string | null>> }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: card.id });
 
   const style = {
     transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
     transition,
+    zIndex: menuCardId === card.id ? 1000 : 1, // Elevate active card above overlay
+    position: menuCardId === card.id ? 'relative' : 'static', // Isolate active card
+  };
+    const [activeButton, setActiveButton] = useState(null);
+
+  const handleClick = (buttonName:string) => {
+    setActiveButton(buttonName);
   };
 
+
   return (
+    <div>
+
+     
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
       {...listeners}
       onClick={onClick}
-      className="bg-white rounded-lg shadow-md p-3 cursor-grab active:cursor-grabbing hover:shadow-lg transition-all duration-200 border border-gray-200"
+      className={`group bg-white rounded-lg shadow-md p-3 hover:outline-1 hover:outline-[#01B0E9]/70 cursor-grab active:cursor-grabbing hover:shadow-lg transition-all duration-200 border border-gray-200 ${
+        menuCardId === card.id ? 'z-[1000]' : ''
+      }`}
     >
-      {card.image && <img src={card.image} alt={card.title} className="w-full h-32 object-cover rounded-md mb-2" />}
+      {/* Menu Content */}
+      {menuCardId === card.id && (
+          <div
+      className="flex gap-1 text-left flex-col z-[1010] mb-3 absolute -right-52 top-20 w-[200px] shadow-md rounded-md p-2"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        className={`p-2 rounded-md cursor-pointer w-28 text-left ${
+          activeButton === "Open Card"
+            ? "bg-[#00A4DD]  text-white"
+            : "bg-white text-black hover:bg-gray-100"
+        }`}
+        onClick={onClick}
+      >
+        Open Card
+      </button>
+
+      <button
+        className={`p-2 rounded-md cursor-pointer w-full text-left ${
+          activeButton === "Change Members"
+            ? "bg-[#00A4DD]  text-white"
+            : "bg-white text-black hover:bg-gray-100"
+        }`}
+        onClick={() => handleClick("Change Members")}
+      >
+        Change Members
+      </button>
+      {/* <div className='bg-red-500 w-full h-[300px]'>
+
+      </div> */}
+
+      <button
+        className={`p-2 rounded-md cursor-pointer w-32 text-left ${
+          activeButton === "Change Cover"
+            ? "bg-[#00A4DD]  text-white"
+            : "bg-white text-black hover:bg-gray-100"
+        }`}
+        onClick={() => handleClick("Change Cover")}
+      >
+        Change Cover
+      </button>
+
+      <button
+        className={`p-2 rounded-md cursor-pointer w-24 text-left ${
+          activeButton === "Edit Dates"
+            ? "bg-[#00A4DD]  text-white"
+            : "bg-white text-black hover:bg-gray-100"
+        }`}
+        onClick={() => handleClick("Edit Dates")}
+      >
+        Edit Dates
+      </button>
+    </div>
+      )}
+
+ {/* Card Content */}
+      <div className="w-full relative">
+        {card.image && <img src={card.image} alt={card.title} className="w-full h-32 object-cover rounded-md mb-2" />}
+        <BiPencil
+          className="absolute top-1 right-2 w-7 h-7 text-black/75 rounded-full p-1 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log('Edit pencil clicked for', card.title);
+            setMenuCardId(card.id);
+          }}
+        />
+      </div>
       <h4 className="font-bold text-base mb-1 text-black truncate">{card.title}</h4>
       <div className="flex items-center gap-10 my-2">
         <span className="text-[#01B0E9] text-sm bg-[#01B0E9]/15 rounded-full px-1">{card.label}</span>
@@ -972,66 +618,31 @@ const SortableCard = memo(({ card, onClick }: { card: Card; onClick?: () => void
           />
         </div>
       </div>
+     {
+        menuCardId === card.id && (
+          <button className='bg-[#01B0E9] p-2 rounded-md text-white w-36 absolute -bottom-14 left-0'>Save</button>
+        )
+      }
+      
+    </div>
+       
     </div>
   );
 });
-
 // --- Sortable List ---
-// const SortableList = memo(({ list, onCardClick }: { list: List; onCardClick: (card: Card) => void }) => {
-//   const { setNodeRef, isOver } = useDroppable({ id: list.id });
-//    if (!list) return null; 
-
-//   return (
-//     <div
-//       ref={setNodeRef}
-//       className={`bg-white rounded-lg p-3 w-[90vw] sm:w-[300px] md:w-[320px] flex-shrink-0 flex flex-col shadow-sm border ${
-//         isOver ? 'border-blue-300 bg-blue-50' : 'border-gray-200'
-//       }`}
-//     >
-//       <div className="flex justify-between items-center mb-3">
-//         <h3 className="font-semibold text-lg text-black flex items-center gap-6">
-//           <BiPlus
-//             size={20}
-//             className={`${
-//               list.title === 'Pending'
-//                 ? 'text-[#00A4DD] bg-[#01B0E91A]'
-//                 : list.title === 'In Progress'
-//                 ? 'text-[#FFC700] bg-[#FFC7001A]'
-//                 : 'text-[#13CC95] bg-[#13CC95]/5'
-//             } p-2 rounded-full w-9 text-2xl h-9`}
-//           />
-//           {list.title}
-//         </h3>
-//         <span className="text-gray-500 text-sm">{list.cards.length}</span>
-//       </div>
-
-//       <SortableContext items={list.cards.map((c) => c.id)} strategy={verticalListSortingStrategy}>
-//         <div className={`flex-grow space-y-3 min-h-[200px] rounded-md p-2 ${isOver ? 'bg-blue-100' : 'bg-gray-50'}`}>
-//           {list.cards.map((card) => (
-//             <SortableCard key={card.id} card={card} onClick={() => onCardClick(card)} />
-//           ))}
-//         </div>
-//       </SortableContext>
-
-//       <button className="w-full mt-3 text-center text-gray-500 py-2 border-t border-gray-200 hover:bg-gray-50 rounded-b-lg transition-colors">
-//         + Add a card
-//       </button>
-//     </div>
-//   );
-// });
-const SortableList = memo(({ list, onCardClick }: { list: List; onCardClick: (card: Card) => void }) => {
+const SortableList = memo(({ list, onCardClick, menuCardId, setMenuCardId }: { list: List; onCardClick: (card: Card) => void; menuCardId: string | null; setMenuCardId: React.Dispatch<React.SetStateAction<string | null>> }) => {
   const { setNodeRef, isOver } = useDroppable({ id: list.id });
 
-  // Ensure list.cards exists and is an array
   const cards = Array.isArray(list?.cards) ? list.cards : [];
 
   return (
     <div
       ref={setNodeRef}
-      className={`bg-white rounded-lg p-3 w-[90vw] sm:w-[300px] md:w-[376px]  flex-shrink-0 flex flex-col shadow-sm border ${
+      className={`rounded-lg p-3 w-[90vw] sm:w-[300px] md:w-[370px] flex-shrink-0 relative flex flex-col shadow-sm border ${
         isOver ? 'border-blue-300 bg-blue-50' : 'border-gray-200'
       }`}
     >
+      
       <div className="flex justify-between items-center mb-3">
         <h3 className="font-semibold text-lg text-black flex items-center gap-6">
           <BiPlus
@@ -1051,7 +662,18 @@ const SortableList = memo(({ list, onCardClick }: { list: List; onCardClick: (ca
 
       <SortableContext items={cards.map((c) => c?.id).filter(Boolean)} strategy={verticalListSortingStrategy}>
         <div className={`flex-grow space-y-3 min-h-[200px] rounded-md p-2 ${isOver ? 'bg-blue-100' : 'bg-gray-50'}`}>
-          {cards.map((card) => card && <SortableCard key={card.id} card={card} onClick={() => onCardClick(card)} />)}
+          {cards.map((card) => card && (
+            <>
+            <SortableCard
+              key={card.id}
+              card={card}
+              onClick={() => onCardClick(card)}
+              menuCardId={menuCardId}
+              setMenuCardId={setMenuCardId}
+            />
+            </>
+          ))}
+        
         </div>
       </SortableContext>
 
@@ -1066,10 +688,11 @@ const SortableList = memo(({ list, onCardClick }: { list: List; onCardClick: (ca
 const ProductionPage: React.FC = () => {
   const [data, setData] = useState<InitialData>(initialData);
   const [activeCard, setActiveCard] = useState<Card | null>(null);
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState<boolean | any>(false);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const scrollPosRef = useRef(0);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [menuCardId, setMenuCardId] = useState<string | null>(null);
 
   useLayoutEffect(() => {
     if (scrollContainerRef.current) {
@@ -1116,7 +739,7 @@ const ProductionPage: React.FC = () => {
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+    const { active, over }:any = event;
     if (active?.id === over?.id) return;
     setActiveCard(null);
     if (!over) return;
@@ -1160,43 +783,27 @@ const ProductionPage: React.FC = () => {
       }
       const movingCard = sourceCards.splice(movingCardIndex, 1)[0];
 
-      // if (sourceListId === destinationListId) {
-      //   const overIndex =
-      //     over.id === destinationListId
-      //       ? destinationCards.length
-      //       : destinationCards.findIndex((c) => c.id === over.id);
-      //   const newCards = arrayMove(sourceCards, movingCardIndex, overIndex >= 0 ? overIndex : destinationCards.length);
-      //   return {
-      //     ...prevData,
-      //     lists: {
-      //       ...prevData.lists,
-      //       [sourceListId]: { ...prevData.lists[sourceListId], cards: newCards },
-      //     },
-      //   };
-      // }
       if (sourceListId === destinationListId) {
-  const cards = [...prevData.lists[sourceListId].cards];
-  const oldIndex = cards.findIndex((c) => c.id === active.id);
-  const newIndex = cards.findIndex((c) => c.id === over.id);
+        const cards = [...prevData.lists[sourceListId].cards];
+        const oldIndex = cards.findIndex((c) => c.id === active.id);
+        const newIndex = cards.findIndex((c) => c.id === over.id);
 
-  if (oldIndex === -1 || newIndex === -1) return prevData;
+        if (oldIndex === -1 || newIndex === -1) return prevData;
 
-  const newCards = arrayMove(cards, oldIndex, newIndex);
+        const newCards = arrayMove(cards, oldIndex, newIndex);
 
-  return {
-    ...prevData,
-    lists: {
-      ...prevData.lists,
-      [sourceListId]: { ...prevData.lists[sourceListId], cards: newCards },
-    },
-  };
-}
-
-       else {
+        return {
+          ...prevData,
+          lists: {
+            ...prevData.lists,
+            [sourceListId]: { ...prevData.lists[sourceListId], cards: newCards },
+          },
+        };
+      } else {
         const overIndex =
           over.id === destinationListId
-          ? destinationCards.length
-          : destinationCards.findIndex((c) => c.id === over.id);
+            ? destinationCards.length
+            : destinationCards.findIndex((c) => c.id === over.id);
         destinationCards.splice(overIndex >= 0 ? overIndex : destinationCards.length, 0, movingCard);
 
         return {
@@ -1215,14 +822,14 @@ const ProductionPage: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-gray-100 overflow-hidden relative">
-      <Navbar />
-      <div className={`w-full max-w-[1600px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 ${modal ? 'blur-sm pointer-events-none select-none' : ''}`}>
+      <Navbar  />
+      <div className={`w-full max-w-[1600px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 ${modal ? 'blur-sm' : ''}`}>
         <ProductionHeader />
         <ClientOnly>
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
             <div
               ref={scrollContainerRef}
-              className="flex flex-col sm:flex-row lg:gap-10 py-6 overflow-x-auto sm:overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent bg-red-300"
+              className="flex flex-col sm:flex-row gap-5 lg:gap-7 lg:mx-0.5 py-6 overflow-x-auto sm:overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent"
               style={{
                 WebkitOverflowScrolling: 'touch',
                 scrollBehavior: 'auto',
@@ -1234,15 +841,21 @@ const ProductionPage: React.FC = () => {
                 {data.listOrder
                   .filter((listId) => data.lists[listId])
                   .map((listId) => (
-                    <SortableList key={listId} list={data.lists[listId]} onCardClick={handleCardClick} />
+                    <SortableList
+                      key={listId}
+                      list={data.lists[listId]}
+                      onCardClick={handleCardClick}
+                      menuCardId={menuCardId}
+                      setMenuCardId={setMenuCardId}
+                    />
                   ))}
               </SortableContext>
 
               <div
-                className="flex-shrink-0 bg-white rounded-lg p-3 w-[90vw] sm:w-[300px] md:w-[376px] flex items-center justify-center text-gray-500 font-medium hover:bg-gray-50 cursor-pointer border-2 border-dashed border-gray-200"
+                className="flex-shrink-0 bg-white rounded-lg p-4 w-[90vw] sm:w-[300px] md:w-[370px] flex flex-col max-h-20 items-center justify-center text-gray-500 font-medium hover:bg-gray-50 cursor-pointer border-2 border-dashed border-gray-200"
                 onClick={addList}
               >
-                <h3 className="w-full flex items-center gap-5">
+                <h3 className="w-full flex items-center gap-5 text-black">
                   <BiPlus size={20} className="text-[#13CC95] bg-[#13CC95]/5 p-2 rounded-full w-9 text-2xl h-9" />
                   Add another list
                 </h3>
@@ -1263,6 +876,15 @@ const ProductionPage: React.FC = () => {
           </DndContext>
         </ClientOnly>
       </div>
+
+      {menuCardId && (
+        <div
+          className="fixed inset-0 bg-black/30  bg-opacity-30 z-1"
+          onClick={() => {
+            setMenuCardId(null);
+          }}
+        />
+      )}
 
       {modal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
