@@ -10,6 +10,11 @@ import { CiImageOn } from 'react-icons/ci';
 import Image from 'next/image';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import COLORS from '@/utils/Color';
+import DeleteCommentModal from './CommentDeleteModal';
+import CommentItem from './CommentItem';
+import CommentAction from './CommentActions';
+import { LiaComment } from 'react-icons/lia';
 
 interface PreWeddingModalProps {
   setModal: (open: boolean) => void;
@@ -36,6 +41,9 @@ const PreWeddingModal: React.FC<PreWeddingModalProps> = ({ setModal }) => {
   const addButtonRef = useRef<HTMLButtonElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const pickerRef = useRef<HTMLDivElement>(null);
+  const [comment, setComment] = useState('');
+  const [isCommentEditing, setIsCommentEditing] = useState(false);
+  const [commentModel,setCommentModal] = useState<boolean>(false)
   const [attachments, setAttachments] = useState<
     { id: string; name: string; url: string; date: string; type: string }[]
   >([
@@ -48,6 +56,43 @@ const PreWeddingModal: React.FC<PreWeddingModalProps> = ({ setModal }) => {
       type: 'image',
     },
   ]);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [commentData,setCommentData] =useState<
+    { id: string; name: string;  date: string; comment: string }[]
+  >([]);
+  const handleEditComment = (id: string) => {
+    const commentToEdit = commentData.find((comment) => comment.id === id);
+    if (commentToEdit) {
+      setComment(commentToEdit.comment);
+      setIsCommentEditing(true);
+    }
+    
+  }
+const DeleteComment = (id: string) => {
+  setCommentData(commentData.filter((comment) => comment.id !== id));
+}
+const handleSaveComment = () => {
+  if(comment.trim() === '') return
+  const newComment = {
+    id: Date.now().toString(),
+    name: 'John Doe',
+    date: `Added ${new Date().toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    })}`,
+    comment,
+  };
+  setCommentData([...commentData, newComment]);
+  setComment('');
+}
+
+
+
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -523,16 +568,40 @@ const PreWeddingModal: React.FC<PreWeddingModalProps> = ({ setModal }) => {
           </div>
 
           {/* Right Side: Comments & Activity */}
-          <div className='w-full lg:w-1/2 bg-gray-100 p-4 rounded-lg'>
-            <h3 className='text-lg font-semibold text-black'>
-              Comments & Activity
+          <div className='w-full  lg:w-1/2 bg-gray-100 p-4 rounded-lg'>
+            <h3 className='text-lg font-medium text-black flex items-center'>
+           <LiaComment className='w-6 h-6 text-black mr-2' />     Comments & Activity
             </h3>
             <input
               type='text'
               placeholder='Write a comment...'
               className='w-full mt-2 p-2 text-gray-600 rounded text-sm sm:text-base bg-white border-0 outline-0'
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              onFocus={()=>setIsFocused(true)}
             />
-            <div className='mt-4 space-y-4 max-h-[300px] overflow-y-auto'>
+            {
+              isFocused &&(
+               <CommentAction comment={comment} onSave={handleSaveComment} onCancel={()=>{
+                setIsFocused(false) ;setIsCommentEditing(false)}}/>
+              )
+            }
+            <div className='mt-4 space-y-4 min-h-[300px] w-full  overflow-y-auto'>
+              {
+               commentData.map((data, index) => (
+                <CommentItem
+                 key={data.id}
+    id={data.id}
+    name={data.name}
+    comment={data.comment}
+    setIsCommentEditing={setIsCommentEditing}
+ 
+    date={data.date}
+    onDelete={DeleteComment}/>
+    
+                 
+                ))
+              }
               {[1, 2].map((i) => (
                 <div
                   key={i}

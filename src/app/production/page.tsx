@@ -19,7 +19,11 @@ import {
   DragEndEvent,
   DragOverlay,
   useDroppable,
+  TouchSensor
+  
+
 } from '@dnd-kit/core';
+
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -175,13 +179,13 @@ const SortableCard = memo(
           {...attributes}
           {...listeners}
           onClick={onClick}
-          className={`group bg-white rounded-lg shadow-md p-3 hover:outline-1 hover:outline-[#01B0E9]/70 cursor-grab active:cursor-grabbing hover:shadow-lg transition-all duration-200 border border-gray-200 ${
+          className={`group bg-white rounded-lg shadow-md p-3 overflow-visible hover:outline-1 hover:outline-[#01B0E9]/70 cursor-grab active:cursor-grabbing hover:shadow-lg transition-all duration-200 border border-gray-200 ${
             menuCardId === card.id ? 'z-[1000]' : ''
           }`}>
           {/* Menu Content */}
           {menuCardId === card.id && (
             <div
-              className='flex gap-1 text-left flex-col z-[1010] mb-3 absolute -right-[250px] top-20 w-[250px] shadow-md rounded-md p-2  '
+              className='flex gap-1 text-left flex-col z-100000 mb-3   fixed sm:absolute   right-10 w-[200px] h-[190px] top-36 bg-white sm:bg-transparent sm:-right-[250px] sm:top-20 sm:w-[250px] shadow-md rounded-md p-2  '
               onClick={(e) => e.stopPropagation()}>
               <button
                 className={`p-2 rounded-md cursor-pointer w-28 text-left ${
@@ -208,7 +212,7 @@ const SortableCard = memo(
               </button>
               {teamModal && (
                 <div
-    className="absolute top-24 left-0 ml-2 z-[2000]  h-[400px] w-80"
+    className="absolute top-24 sm:top-24 -left-2 sm:left-0 ml-2 z-[2000]  h-[400px] w-54 sm:w-80"
     onClick={(e) => e.stopPropagation()}
   >
     
@@ -249,7 +253,7 @@ const SortableCard = memo(
               />
             )}
             <BiPencil
-              className='absolute top-1 right-2 w-7 h-7 text-black/75 rounded-full p-1 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer'
+              className='absolute top-1 right-2 w-7 h-7 text-black/75 rounded-full p-1 bg-white opacity-25 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200 cursor-pointer'
               onClick={(e) => {
                 e.stopPropagation();
                 console.log('Edit pencil clicked for', card.title);
@@ -263,11 +267,11 @@ const SortableCard = memo(
           <h4 className='font-bold text-base mb-1 text-black truncate'>
             {card.title}
           </h4>
-          <div className='flex items-center gap-10 my-2'>
-            <span className='text-[#01B0E9] text-sm bg-[#01B0E9]/15 rounded-full px-1'>
+          <div className='flex items-center justify-between my-2 w-full'>
+            <span className='text-[#01B0E9] text-xs sm:text-sm bg-[#01B0E9]/15 rounded-full px-1 py-0.5'>
               {card.label}
             </span>
-            <span className='text-[#D66C55] text-sm bg-[#D66C55]/15 rounded-full px-1'>
+            <span className='text-[#D66C55] text-xs sm:text-sm bg-[#D66C55]/15 rounded-full px-1  py-0.5'>
               {card.date}
             </span>
           </div>
@@ -332,7 +336,7 @@ const SortableList = memo(
     return (
       <div
         ref={setNodeRef}
-        className={`rounded-lg p-3 w-[90vw] sm:w-[300px] md:w-[370px] flex-shrink-0 relative flex flex-col shadow-sm border ${
+        className={`rounded-lg p-3  w-[90vw] sm:w-[300px] md:w-[370px] flex-shrink-0 relative flex flex-col shadow-sm border ${
           isOver ? 'border-blue-300 bg-blue-50' : 'border-gray-200'
         }`}>
         <div className='flex justify-between items-center mb-3'>
@@ -553,7 +557,7 @@ const ProductionPage: React.FC = () => {
             onDragEnd={handleDragEnd}>
             <div
               ref={scrollContainerRef}
-              className={`flex flex-col sm:flex-row gap-5 lg:gap-7 lg:mx-0.5 py-6 overflow-x-auto sm:overflow-y-hidden ${menuCardId?"h-[650px] ":""}  scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent`}
+              className={`flex  sm:flex-row gap-5 lg:gap-7 lg:mx-0.5 py-6 overflow-x-auto sm:overflow-y-hidden ${menuCardId?"h-[650px] ":""}  scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent`}
               style={{
                 WebkitOverflowScrolling: 'touch',
                 scrollBehavior: 'auto',
