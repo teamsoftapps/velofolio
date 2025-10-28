@@ -160,7 +160,7 @@ const SortableCard = memo(
       zIndex: menuCardId === card.id ? 1000 : 1, // Elevate active card above overlay
       position: menuCardId === card.id ? 'relative' : 'static', // Isolate active card
     };
-    const [activeButton, setActiveButton] = useState(null);
+    const [activeButton, setActiveButton] = useState<string | null>(null);
     const [teamModal, setTeamModal] = useState(false);
 
     const handleClick = (buttonName: any) => {
@@ -199,7 +199,11 @@ const SortableCard = memo(
                     ? 'bg-[#00A4DD]  text-white'
                     : 'bg-white text-black hover:bg-gray-100'
                 }`}
-                onClick={() => setTeamModal(true)}>
+                onClick={() => {
+                   setActiveButton('Change Members')
+                    setTeamModal(true)
+                    
+                    }}>
                 Change Members
               </button>
               {teamModal && (
@@ -251,6 +255,7 @@ const SortableCard = memo(
                 console.log('Edit pencil clicked for', card.title);
                 setTeamModal(false);
                 setMenuCardId(card.id);
+                setActiveButton(null);
 
               }}
             />
