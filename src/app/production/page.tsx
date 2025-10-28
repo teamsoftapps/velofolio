@@ -35,7 +35,8 @@ import { GrAttachment } from 'react-icons/gr';
 import { LiaComment } from 'react-icons/lia';
 import Image from 'next/image';
 import { FaPenClip } from 'react-icons/fa6';
-
+import EditTeamModal from '../components/EditTeam';
+import {AiOutlineSearch as Search, AiOutlineClose as X} from 'react-icons/ai';
 // --- Types ---
 interface Card {
   id: string;
@@ -151,7 +152,7 @@ const SortableCard = memo(
     const { attributes, listeners, setNodeRef, transform, transition } =
       useSortable({ id: card.id });
 
-    const style: React.CSSProperties = {
+    const style:any = {
       transform: transform
         ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
         : undefined,
@@ -180,7 +181,7 @@ const SortableCard = memo(
           {/* Menu Content */}
           {menuCardId === card.id && (
             <div
-              className='flex gap-1 text-left flex-col z-[1010] mb-3 absolute -right-52 top-20 w-[200px] shadow-md rounded-md p-2'
+              className='flex gap-1 text-left flex-col z-[1010] mb-3 absolute -right-[250px] top-20 w-[250px] shadow-md rounded-md p-2  '
               onClick={(e) => e.stopPropagation()}>
               <button
                 className={`p-2 rounded-md cursor-pointer w-28 text-left ${
@@ -193,7 +194,7 @@ const SortableCard = memo(
               </button>
 
               <button
-                className={`p-2 rounded-md cursor-pointer w-full text-left ${
+                className={`p-2 rounded-md cursor-pointer w-full text-left relative ${
                   activeButton === 'Change Members'
                     ? 'bg-[#00A4DD]  text-white'
                     : 'bg-white text-black hover:bg-gray-100'
@@ -202,7 +203,14 @@ const SortableCard = memo(
                 Change Members
               </button>
               {teamModal && (
-                <div className='bg-red-300 w-[150px] h-[150px]'></div>
+                <div
+    className="absolute top-24 left-0 ml-2 z-[2000]  h-[400px] w-80"
+    onClick={(e) => e.stopPropagation()}
+  >
+    
+      <EditTeamModal setTeamModal={setTeamModal} />
+
+  </div>
               )}
 
               <button
@@ -241,7 +249,9 @@ const SortableCard = memo(
               onClick={(e) => {
                 e.stopPropagation();
                 console.log('Edit pencil clicked for', card.title);
+                setTeamModal(false);
                 setMenuCardId(card.id);
+
               }}
             />
           </div>
@@ -538,7 +548,7 @@ const ProductionPage: React.FC = () => {
             onDragEnd={handleDragEnd}>
             <div
               ref={scrollContainerRef}
-              className='flex flex-col sm:flex-row gap-5 lg:gap-7 lg:mx-0.5 py-6 overflow-x-auto sm:overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent'
+              className={`flex flex-col sm:flex-row gap-5 lg:gap-7 lg:mx-0.5 py-6 overflow-x-auto sm:overflow-y-hidden ${menuCardId?"h-[650px] ":""}  scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent`}
               style={{
                 WebkitOverflowScrolling: 'touch',
                 scrollBehavior: 'auto',
