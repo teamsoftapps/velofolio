@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-
+import  "../globals.css"
 interface CommentActionProps {
   comment: string;
   onSave: () => void;
@@ -23,7 +23,7 @@ const CommentAction: React.FC<CommentActionProps> = ({ comment, onSave, onCancel
       </button>
 
       <button
-        className="p-1 text-gray-800 font-semibold hover:bg-gray-200 cursor-pointer px-3 rounded text-md w-20 "
+        className="p-1 black !text-black dark:text-black font-semibold hover:bg-gray-300 cursor-pointer px-3 rounded text-md w-20 "
         onClick={onCancel}
       >
         Cancel
