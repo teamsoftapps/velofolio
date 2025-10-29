@@ -7,6 +7,7 @@ import { FaCircleCheck, FaClock } from 'react-icons/fa6';
 import { IoMdRefreshCircle } from 'react-icons/io';
 import { useRouter, usePathname } from 'next/navigation';
 import Pagination from './Pagination';
+import COLORS from '@/utils/Color';
 
 const Table = ({
   headers,
@@ -239,7 +240,8 @@ const Table = ({
         onPageChange={handlePageChange}
         initialPage={currentPage}
         color={color}
-      />
+         hoverColor={pasthname==='/'?COLORS.BlueButtonhover:COLORS.greenHover}
+         disabledColor={pasthname==='/'?COLORS.BlueDisabled:COLORS.GreenDisabled}      />
     </>
   );
 };

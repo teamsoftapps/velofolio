@@ -82,7 +82,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-
+import { usePathname } from 'next/navigation';
 interface PaginationProps {
   totalPages: number;
   initialPage?: number;
@@ -100,6 +100,7 @@ const Pagination: React.FC<PaginationProps> = ({
   disabledColor = "#B3E5FC", // light blue for disabled
   onPageChange,
 }) => {
+  const pasthname = usePathname();
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [prevHover, setPrevHover] = useState(false);
   const [nextHover, setNextHover] = useState(false);
