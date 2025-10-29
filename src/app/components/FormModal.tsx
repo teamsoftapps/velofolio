@@ -88,7 +88,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
   };
 
   return (
-    <div className='bg-white p-8  rounded-lg shadow-lg w-full mt-12 max-w-3xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+    <div className='bg-white p-8 z-40 rounded-lg shadow-lg w-full mt-12 max-w-3xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
       <div className='absolute right-2'>
         <IoMdClose
           className='absolute top-4 right-4 text-4xl cursor-pointer text-gray-700'
