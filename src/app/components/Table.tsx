@@ -71,7 +71,7 @@ const Table = ({
                 {headers.map((header: any, index: any) => (
                   <th
                     key={index}
-                    className="px-2 sm:px-4 md:px-6 py-1 sm:py-2 md:py-3 text-center text-xs sm:text-sm md:text-base font-medium"
+                    className={`px-2 ${pasthname === '/teamProfile' ? "lg:px-5  w-full" :"md:px-6"} sm:px-4  py-1 sm:py-2 md:py-3 text-center text-xs sm:text-sm md:text-base font-medium`}
                   >
                     {header.label || header.key || header}
                   </th>

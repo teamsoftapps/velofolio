@@ -816,7 +816,7 @@ const ClientProfilePage = () => {
                         <span className='text-sm sm:text-base text-black'>Filter</span>
                       </div>
                         <div className=' w-full  sm:auto md:w-2/8'>
-                        <AddButton setOpenForm={setOpenForm} title='Add Event' />
+                        <AddButton setOpenForm={setOpenForm} title='Add Task' />
                         </div>
                     </div>
                     <Table headers={TableHeaders} data={TableData} />
@@ -836,7 +836,7 @@ const ClientProfilePage = () => {
                           <span className='text-sm sm:text-base text-black'>Filter</span>
                         </div>
                         <div className=' w-full   md:w-2/3'>
-                        <AddButton setOpenForm={setOpenForm} title='Add Event' />
+                        <AddButton setOpenForm={setOpenForm} title='Add Job' />
                         </div>
                       </div>
                     </div>
