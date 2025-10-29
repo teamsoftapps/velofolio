@@ -678,7 +678,7 @@ const ClientProfilePage = () => {
       <div className='w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8'>
         {/* Back Link */}
         <Link
-          href='/Team'
+          href='/team'
           className='flex items-center text-black hover:text-gray-900 text-sm font-medium mb-3 sm:mb-4 md:mb-6 transition-colors duration-200'
         >
           <FaArrowLeft className='w-3 h-3 sm:w-4 sm:h-4 mr-2' />
@@ -809,7 +809,7 @@ const ClientProfilePage = () => {
                 {activeTab === 'Overview' && <WorkloadOverview />}
                 
                 {activeTab === 'Tasks' && (
-                  <div className='space-y-4'>
+                  <div className='space-y-4 '>
                     <div className='flex flex-col sm:flex-row gap-2 sm:gap-4 justify-between items-start sm:items-center'>
                       <div className='flex items-center bg-gray-100 p-2 rounded-lg cursor-pointer hover:bg-gray-200 transition duration-200'>
                         <CiFilter className='w-4 h-4 sm:w-5 sm:h-5 text-gray-500 mr-2' />
@@ -824,9 +824,9 @@ const ClientProfilePage = () => {
                 )}
                 
                 {activeTab === 'Jobs' && (
-                  <div className='space-y-4 sm:space-y-6'>
+                  <div className='space-y-4 sm:space-y-6 lg:max-h-[56vh] overflow-y-auto scroller'>
                     {/* Search & Controls */}
-                    <div className='flex flex-col sm:flex-row sm:justify-between  gap-3 sm:gap-4'>
+                    <div className='flex flex-col sm:flex-row  sm:justify-between  gap-3 sm:gap-4'>
                       <div className='w-full sm:w-1/2'>
                         <SearchComponent placeHolder='Search jobs...' />
                       </div>
@@ -841,7 +841,7 @@ const ClientProfilePage = () => {
                       </div>
                     </div>
 
-                    <div className='grid grid-cols-1 gap-4 sm:gap-6 max-h-[70vh] overflow-y-auto'>
+                    <div className='grid grid-cols-1 gap-4 sm:gap-6 max-h-[70vh] overflow-y-auto scroller'>
                       {eventsData.map((event, index) => (
                         <div
                           key={index}

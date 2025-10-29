@@ -43,6 +43,7 @@ const Table = ({
     'On Leave': 'bg-[#01B0E9]',
     Completed: 'bg-[#14CB95]',
     New: 'bg-[#01B0E9]',
+    Pending:"bg-gray-400",
     'In Progress': 'bg-[#FEBE2A]',
   };
 
