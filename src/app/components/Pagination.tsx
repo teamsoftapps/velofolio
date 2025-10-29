@@ -96,7 +96,7 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   initialPage = 1,
   color = "#14CB95",
-  hoverColor = "#12B784",
+  hoverColor = "#33B9E8",
   disabledColor = "#B3E5FC", // light blue for disabled
   onPageChange,
 }) => {
