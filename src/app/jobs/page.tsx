@@ -21,6 +21,7 @@ import JobsData from '../../utils/Job.json';
 import JobsChartData from '../../utils/JobsChart.json';
 import TableData from '../../utils/Data.json';
 import DeleteModal from '../components/DeleteModal';
+const [openFilter, setOpenFilter] = useState<boolean>(false);
 const tableData = JobsData;
 
 const tableHeaders = [
@@ -85,6 +86,7 @@ export default function Page() {
             setSearchedData={setSearchedData}
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
+            setOpenFilter={setOpenFilter}
           />
           <OverviewChart chartData={JobsChartData} />
 

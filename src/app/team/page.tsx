@@ -14,6 +14,7 @@ import OverviewHeader from '../components/OverviewHeader';
 import TeamData from '../../utils/team.json';
 import FormModal from '../components/FormModal';
 import DeleteModal from '../components/DeleteModal';
+const [openFilter, setOpenFilter] = useState<boolean>(false);
 const tableData = TeamData;
 const tableHeaders = [
   { key: 'Name', label: 'Name' },
@@ -80,6 +81,7 @@ export default function Page() {
             setSearchedData={setSearchedData}
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
+            setOpenFilter={setOpenFilter}
           />
 
           <Table

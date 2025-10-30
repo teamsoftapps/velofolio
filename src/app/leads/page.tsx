@@ -37,6 +37,7 @@ export default function Page() {
   const [filteredData, setFilteredData] = React.useState<any[]>(tableData); // Initialize with tableData
   const [OpenForm, setOpenForm] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
   useEffect(() => {
     if (searchedValue.trim() === '') {
       setFilteredData(tableData);
@@ -81,6 +82,7 @@ export default function Page() {
             setSearchedData={setSearchedData}
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
+            setOpenFilter={setOpenFilter}
           />
           <OverviewChart chartData={LeadsData} />
 
