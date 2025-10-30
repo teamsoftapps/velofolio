@@ -10,6 +10,7 @@ import OverviewHeader from '../components/OverviewHeader';
 import TableData from '../../utils/Data.json';
 import ClientFormModal from '../components/ClientFormModal';
 import DeleteModal from '../components/DeleteModal';
+import SortModal from '../components/SortModal';
 
 const tableHeaders = [
   { key: 'name', label: 'Name' },
@@ -31,6 +32,8 @@ export default function Page() {
   const [searchedValue, setSearchedValue] = React.useState('');
   const [filteredData, setFilteredData] = React.useState<any[]>([tableData]); // Initialize with tableData
 const [openFilter, setOpenFilter] = useState<boolean>(false);
+const [isSortOpen, setIsSortOpen] = useState(false);
+  const [currentSort, setCurrentSort] = useState('added-newest');
   useEffect(() => {
     if (searchedValue.trim() === '') {
       setFilteredData(tableData);
@@ -91,7 +94,19 @@ const [openFilter, setOpenFilter] = useState<boolean>(false);
             searchedValue={searchedValue}
             setSearchedValue={setSearchedValue}
             setOpenFilter={setOpenFilter}
+            // setIsSortOpen={setIsSortOpen}
           />
+          {/* <SortModal
+            isOpen={isSortOpen}
+            onClose={() => setIsSortOpen(false)}
+           
+           
+            currentSort={currentSort}
+        onSortChange={(sortId) => {
+          setCurrentSort(sortId);
+          console.log('Sorting by:', sortId);
+        }}
+            /> */}
           <Table
             headers={tableHeaders}
             data={filteredData}

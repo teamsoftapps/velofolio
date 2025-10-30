@@ -93,7 +93,7 @@ useEffect(() => {
 
       {/* Slide-over Panel */}
 <div
-  className={`fixed top-24 right-8 rounded-2xl h-[80vh] w-full sm:w-[400px] bg-white shadow-2xl z-50 transform transition-transform ease-in-out`}
+  className={`fixed top-24 right-8 rounded-2xl h-[80vh] w-full sm:w-[400px]  z-50 transform transition-transform ease-in-out`}
   style={{
     transform: isOpen ? 'translateX(0)' : 'translateX(420px)', // 400px + 20px margin
     transitionDuration: '2000ms',

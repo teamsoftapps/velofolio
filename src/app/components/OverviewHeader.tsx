@@ -1,13 +1,14 @@
 
 /** @format */
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { GoSearch } from 'react-icons/go';
 import { FaSort } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
 import { MdEmail } from 'react-icons/md';
 import { CiFilter } from 'react-icons/ci';
 import AddButton from './AddButton';
+import SortModal from './SortModal';
 
 interface OverviewHeaderProps {
   title: string;
@@ -16,6 +17,7 @@ interface OverviewHeaderProps {
   setSearchedValue: React.Dispatch<React.SetStateAction<string>>;
   setOpenForm: (isOpen: boolean) => void;
   setOpenFilter: (isOpen: boolean) => void;
+  // setIsSortOpen: (isOpen: boolean) => void;
 }
 
 const OverviewHeader = ({
@@ -23,10 +25,12 @@ const OverviewHeader = ({
   setOpenForm,
   searchedValue,
   setSearchedValue,
-  setOpenFilter
+  setOpenFilter,
+  // setIsSortOpen
 }: OverviewHeaderProps) => {
   const currentPath = usePathname();
-
+const [isSortOpen, setIsSortOpen] = useState(false);
+  const [currentSort, setCurrentSort] = useState('added-newest');
   return (
     <div className='flex-col sm:flex-row  lg:w-full Header mt-10 flex  md:flex-row items-start md:items-center justify-between p-2 text-black'>
 
@@ -66,16 +70,32 @@ const OverviewHeader = ({
 
 
 
-  {currentPath === '/team' ? null : (
+  {currentPath === '/team' ? null : (<div className='relative w-full md:w-auto '>
     <button className='
       flex items-center gap-1 h-10 py-2 pr-3 pl-2 
       bg-white cursor-pointer hover:bg-[#F4F4F5]
       rounded-md border border-gray-300
       w-full md:w-auto
-    '>
+      z-1000
+    ' onClick={()=>{
+      console.log('clicked');
+      setIsSortOpen(true)}}>
       <FaSort className='w-5 h-5 text-gray-700' />
       <span className='text-sm'>Sort</span>
     </button>
+    <SortModal
+                isOpen={isSortOpen}
+                onClose={() => setIsSortOpen(false)}
+               
+               
+                currentSort={currentSort}
+            onSortChange={(sortId) => {
+              setCurrentSort(sortId);
+              console.log('Sorting by:', sortId);
+            }}
+                />
+    
+    </div>
   )}
 
 
@@ -115,6 +135,7 @@ const OverviewHeader = ({
 </div>
 
       </div>
+
     </div>
   );
 };

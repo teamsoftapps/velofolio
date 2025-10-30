@@ -170,19 +170,19 @@ const ClientForm: React.FC<ClientFormProps> = ({
           </div>
 
           {/* Tabs */}
-          <div className='w-[60%] sm:w-64 flex items-center justify-between border-2 rounded-full p-0.5 relative'>
+          <div className='w-[82%] sm:w-56 flex items-center justify-between border-2 rounded-full p-0.5 relative'>
             <div
               className={`absolute top-0.5 bottom-0.5 rounded-full bg-[#01B0E9] transition-all duration-300`}
               style={{
-                left: activeTab === 'Client' ? '0.5%' : '50.5%',
-                width: '50%',
+                left: activeTab === 'Client' ? '0.5%' : '56.5%',
+                width: '42%',
               }}
             ></div>
 
             <button
               type='button'
               onClick={() => setActiveTab('Client')}
-              className={`relative z-10 px-4 py-[2px] rounded-full transition-colors duration-300 ${
+              className={`relative z-10 px-4 py-[2px] rounded-full transition-colors duration-300  cursor-pointer ${
                 activeTab === 'Client' ? 'text-white' : 'text-gray-700'
               }`}
             >
@@ -192,7 +192,7 @@ const ClientForm: React.FC<ClientFormProps> = ({
             <button
               type='button'
               onClick={() => setActiveTab('Company')}
-              className={`relative z-10 px-4 py-[2px] rounded-full transition-colors duration-300 ${
+              className={`relative z-10 px-4 py-[2px] rounded-full transition-colors duration-300  cursor-pointer ${
                 activeTab === 'Company' ? 'text-white' : 'text-gray-700'
               }`}
             >
