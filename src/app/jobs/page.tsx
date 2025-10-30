@@ -21,7 +21,6 @@ import JobsData from '../../utils/Job.json';
 import JobsChartData from '../../utils/JobsChart.json';
 import TableData from '../../utils/Data.json';
 import DeleteModal from '../components/DeleteModal';
-const [openFilter, setOpenFilter] = useState<boolean>(false);
 const tableData = JobsData;
 
 const tableHeaders = [
@@ -35,6 +34,7 @@ const tableHeaders = [
 ];
 
 export default function Page() {
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false
   const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');

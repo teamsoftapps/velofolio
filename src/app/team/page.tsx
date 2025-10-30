@@ -6,15 +6,14 @@
 //   return <div>page</div>;
 // };
 'use client';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect ,useState} from 'react';
+// import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Table from '../components/Table';
 import OverviewHeader from '../components/OverviewHeader';
 import TeamData from '../../utils/team.json';
 import FormModal from '../components/FormModal';
 import DeleteModal from '../components/DeleteModal';
-const [openFilter, setOpenFilter] = useState<boolean>(false);
 const tableData = TeamData;
 const tableHeaders = [
   { key: 'Name', label: 'Name' },
@@ -28,6 +27,7 @@ const tableHeaders = [
 ];
 
 export default function Page() {
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [OpenForm, setOpenForm] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false
   const [searchedData, setSearchedData] = React.useState<any[]>([]);
