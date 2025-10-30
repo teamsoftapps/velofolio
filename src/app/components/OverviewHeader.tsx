@@ -15,6 +15,7 @@ interface OverviewHeaderProps {
   searchedValue: string;
   setSearchedValue: React.Dispatch<React.SetStateAction<string>>;
   setOpenForm: (isOpen: boolean) => void;
+  setOpenFilter: (isOpen: boolean) => void;
 }
 
 const OverviewHeader = ({
@@ -22,6 +23,7 @@ const OverviewHeader = ({
   setOpenForm,
   searchedValue,
   setSearchedValue,
+  setOpenFilter
 }: OverviewHeaderProps) => {
   const currentPath = usePathname();
 
@@ -82,7 +84,9 @@ const OverviewHeader = ({
     bg-white cursor-pointer hover:bg-[#F4F4F5]
     rounded-md border border-gray-300
     w-full md:w-auto
-  '>
+  '
+  onClick={()=>setOpenFilter(true)}
+  >
     <CiFilter className='w-4 h-4 md:w-5 md:h-5' />
     <span className='text-sm'>Filter</span>
   </button>

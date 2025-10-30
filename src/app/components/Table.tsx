@@ -62,7 +62,7 @@ const Table = ({
     <>
       <div
         className={`w-full mt-4  md:p-3 ${
-          pasthname === '/teamProfile' || pasthname === '/' ? '' : 'border-2'
+          pasthname === '/teamProfile' || pasthname === '/' ? '' : 'border-1 border-gray-300'
         } ${pasthname === '/' ? 'h-[230px] overflow-auto' : 'lg:p-7 rounded-2xl'}`}
       >
         <div className="overflow-x-auto overflow-y-auto max-h-[600px]">
