@@ -175,7 +175,7 @@ const ClientForm: React.FC<ClientFormProps> = ({
               className={`absolute top-0.5 bottom-0.5 rounded-full bg-[#01B0E9] transition-all duration-300`}
               style={{
                 left: activeTab === 'Client' ? '0.5%' : '50.5%',
-                width: '49%',
+                width: '50%',
               }}
             ></div>
 
