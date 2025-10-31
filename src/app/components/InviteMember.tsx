@@ -102,7 +102,7 @@ export default function InviteMemberModal({ isOpen, onClose }: InviteMemberModal
             <button
               onClick={handleSubmit}
               disabled={!email || isSubmitting}
-              className={`flex-1 py-1 font-medium rounded-md transition-all flex items-center bg-[#01B0E9]  justify-center gap-2 ${
+              className={`flex-1 py-1 text-white font-medium rounded-md transition-all flex items-center bg-[#01B0E9]  justify-center gap-2 ${
                 email && !isSubmitting
                   ? 'cursor-pointer'
                   : ' cursor-not-allowed'
