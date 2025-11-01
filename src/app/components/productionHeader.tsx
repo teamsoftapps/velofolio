@@ -17,10 +17,10 @@ const ProductionHeader = () => {
   const [openForm, setOpenForm] = useState(false);
  
   return (
-    <div className="w-full p-4 bg-white rounded-lg shadow flex flex-col sm:flex-row sm:justify-between sm:items-center border border-gray-200 gap-4">
+    <div className="w-full p-4 bg-white rounded-lg shadow flex flex-col sm:flex-row sm:justify-between sm:items-center border border-gray-200 gap-4 ">
       
       {/* Left Section: Search + Sort + Filter */}
-      <div className="w-full sm:w-3/4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+      <div className="w-full md:gap-10 sm:w-3/4 flex gap-3 flex-col sm:flex-row sm:justify-between sm:items-center lg:gap-3  lg:w-1/2">
         
         {/* Search */}
         <div className="w-full sm:w-2/3">

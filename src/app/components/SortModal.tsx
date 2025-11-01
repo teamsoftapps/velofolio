@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { MdClose, MdCheck } from 'react-icons/md';
-
+import navigation, { usePathname } from 'next/navigation';
 interface SortOption {
   id: string;
   label: string;
@@ -33,6 +33,7 @@ export default function SortModal({
   onSortChange: (sortId: string) => void;
 }) {
   const [selected, setSelected] = useState(currentSort);
+  const pathname=usePathname();
 
   const handleApply = (id: string) => {
     setSelected(id);
@@ -48,7 +49,7 @@ export default function SortModal({
       <div className="fixed inset-0  bg-opacity-50 z-40" onClick={onClose} />
 
    
-      <div className="absolute top-10 right-2 flex items-center justify-center z-50 p-2">
+      <div className={`absolute ${pathname=="/production"?"-right-40 top-10 sm:right-2":"top-10 right-2"} flex items-center justify-center z-50 p-2`}>
         <div className="bg-white rounded-xl shadow-xl w-60 max-w-md max-h-screen overflow-y-auto">
          
        

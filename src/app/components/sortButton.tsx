@@ -11,6 +11,7 @@ const SortButton = () => {
       <FaSort className='w-5 h-5 text-gray-700' />
       <span className='text-sm text-black'>Sort</span>
     </button>
+    
      <SortModal
            isOpen={isOpen}
            onClose={() => setIsOpen(false)}
