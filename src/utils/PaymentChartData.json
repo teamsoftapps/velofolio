@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Total Payments Received",
+    "count": "$12,500",
+    "percentageChange": 10.2,
+      "colorClass": "bg-[#01B0E9]"
+  },
+  {
+    "title": "Pending Payments",
+    "count": "$3,200",
+    "percentageChange": 4.8,
+      "colorClass": "bg-yellow-500"
+  },
+  {
+    "title": "Overdue Payments",
+    "count": "$1,150",
+    "percentageChange": -3.4,
+   "colorClass": "bg-green-500"
+  },
+  {
+    "title": "Upcoming Due Payments",
+    "count": "$2,400",
+    "percentageChange": 5.6,
+     "colorClass": "bg-gray-500"
+  }
+]

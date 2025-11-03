@@ -8,6 +8,7 @@ import { IoMdRefreshCircle } from 'react-icons/io';
 import { useRouter, usePathname } from 'next/navigation';
 import Pagination from './Pagination';
 import COLORS from '@/utils/Color';
+import Image from 'next/image';
 
 const Table = ({
   headers,
@@ -40,12 +41,15 @@ const Table = ({
     Proposal: 'bg-[#01B0E9]',
     Booked: 'bg-[#14CB95]',
     Done: 'bg-green-500',
+    Paid: 'bg-[#01B0E9]',
     Active: 'bg-[#FEBE2A]',
     'On Leave': 'bg-[#01B0E9]',
     Completed: 'bg-[#14CB95]',
     New: 'bg-[#01B0E9]',
-    Pending:"bg-gray-400",
+    Pending:pasthname=="/payments"? "bg-[#FEBE2A] ":"bg-gray-100",
     'In Progress': 'bg-[#FEBE2A]',
+    Overdue:"bg-[#14CB95]",
+    Inactive:"bg-gray-200",
   };
 
   const priorityColors: any = {
@@ -116,12 +120,51 @@ const Table = ({
                         </td>
                       );
                     }
+if (pasthname === "/payments") {
+  if (key === "client") {
+    return (
+      <td
+        key={cellIndex}
+        className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8] min-w-[120px] sm:min-w-[120px] md:min-w-[140px] lg:w-[160px]"
+      >
+        <div className="flex items-center justify-center gap-2">
+          <Image
+            src={row.avatar || "./images/teampic1.png"}
+            alt={row.client || "client"}
+            width={32}
+            height={32}
+            className="w-9 h-9 rounded-full object-cover"
+          />
+          <span className="text-sm font-medium text-gray-800 truncate max-w-[100px]">
+            {row.client}
+          </span>
+        </div>
+      </td>
+    );
+  }
+if (key === "paymentMethod") {
+  return (
+    <td
+      key={cellIndex}
+      className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8] min-w-[120px] sm:min-w-[120px] md:min-w-[140px] lg:w-[190px]"
+    >
+      <div className="flex items-center justify-center gap-2">
+        <span className="text-sm font-medium text-gray-800 truncate max-w-[100px]">
+          {row[key]}
+        </span>
+        <SlOptionsVertical className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer text-gray-600 hover:text-gray-800" />
+      </div>
+    </td>
+  );
+}
+
+}
 
                     // Status column
        if (key === 'status' || key === 'Status') {
           
   const textColor =
-    row[key] === 'New Lead' || row[key] === 'Inactive' ? 'text-black' : 'text-white';
+    row[key] === 'New Lead' || row[key] === 'Pending' || row[key] === 'Inactive' ? 'text-black' : 'text-white';
 
   return (
     <td
@@ -130,7 +173,7 @@ const Table = ({
     >
       <span
         className={`p-1 px-2 sm:px-3 max-w-[120px] lg:p-1 inline-block rounded-2xl w-full ${textColor} ${
-          statusColors[row[key]] || 'bg-gray-200'
+          statusColors[row[key]] || 'bg-gray-900'
         }`}
       >
         {row[key]}

@@ -34,15 +34,15 @@ const [isSortOpen, setIsSortOpen] = useState(false);
   return (
     <div className='flex-col sm:flex-row  lg:w-full Header mt-10 flex  md:flex-row items-start md:items-center justify-between p-2 text-black'>
 
-      <div className='w-full sm:w-6/20 md:w-6/20 lg:block md:block lg:w-6/18 left p-2'>
-        <h1 className='text-2xl mb-3 font-semibold'>{title} Overview</h1>
+      <div className='w-full sm:w-6/20 md:w-6/20  lg:block md:block lg:w-6/18 left p-2'>
+        <h1 className={` ${currentPath=="/payments"?" md:text-xl  lg:2xl":"text-2xl"} mb-3 font-semibold`}>{title} Overview</h1>
         <h3 className='text-gray-600 text-sm'>Dashboard | {title} Overview</h3>
       </div>
 
 
-      <div className='  flex-wrap w-full sm:w-1/2 md:w-5/7 lg:w-5/7 lg:flex-nowrap md:flex-nowrap right flex sm:flex-nowrap  items-center justify-between gap-3'>
+      <div className={` flex-wrap w-full sm:w-1/2  justify-between  lg:flex-nowrap md:flex-nowrap right flex sm:flex-nowrap  items-center  gap-3 ${currentPath=="/payments"?"justify-end lg:w-2/4 md:w-2/3":" lg:w-5/7 md:w-5/7"}`}>
 
-        <div className='w-full lg:w-1/2 md:w-1/2 sm:w-1/2 input-container bg-white text-black flex items-center gap-2 p-1 rounded-md border border-gray-300'>
+        <div className={`w-full ${currentPath=="/payments"?" lg:w-3/2 md:w-3/2":"lg:w-1/2 md:w-1/2"} sm:w-1/2 input-container bg-white text-black flex items-center gap-2 p-1 rounded-md border border-gray-300`}>
           <input
             type='text'
             placeholder='Search by name/email'
@@ -125,12 +125,17 @@ const [isSortOpen, setIsSortOpen] = useState(false);
     </button>
   )}
 
-  <div className='w-full md:w-auto'>
+{
+  currentPath=="/payments"? null:(
+     <div className='w-full md:w-auto'>
     <AddButton
       title={'Add New ' + title.slice(0, -1)}
       setOpenForm={setOpenForm}
     />
   </div>
+  )
+}
+ 
 
 </div>
 

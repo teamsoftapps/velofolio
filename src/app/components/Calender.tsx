@@ -121,7 +121,7 @@ export default function Calendar() {
           return (
             <div
               key={idx}
-              className={`border border-gray-100 dark:border-gray-800 flex flex-col items-start justify-start text-left transition-all 
+              className={`border border-gray-100 dark:border-gray-800  flex flex-col items-start justify-start text-left transition-all 
                 ${
                   isToday
                     ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300'
@@ -130,13 +130,13 @@ export default function Calendar() {
                     : 'bg-white dark:bg-gray-950 text-gray-400'
                 }`}
               style={{
-                minHeight: '120px',
-                height: '120px',
+                minHeight: '160px',
+                height: '170px',
                 padding: '8px',
                 boxSizing: 'border-box',
               }}
             >
-              <div className="text-lg font-semibold mb-1 ">{day}</div>
+              <div className="text-[15px] font-semibold mb-1 ">{day}</div>
 
               <div
                 className={`w-full rounded-lg flex-1 overflow-y-auto ${
