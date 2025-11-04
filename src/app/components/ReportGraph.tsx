@@ -221,7 +221,7 @@ const DashboardGraph = () => {
         pointBorderColor: '#fff',
         pointBorderWidth: 2,
         showLine: false,
-        clip: false,
+         clip: { top: 0, bottom: 0, left: 0, right: 0 },
       },
     ],
   };
