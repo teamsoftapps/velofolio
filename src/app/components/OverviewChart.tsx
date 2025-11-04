@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 interface LeadCardProps {
   title: string;
-  count: number;
+  count: number|string;
   percentageChange: number;
   colorClass: string;
 }
@@ -49,7 +49,7 @@ const LeadCard = ({
 interface LeadDashboardProps {
   chartData: {
     title: string;
-    count: number;
+    count: number|string;
     percentageChange: number;
     colorClass: string;
   }[];
