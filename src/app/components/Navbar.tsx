@@ -161,7 +161,7 @@ const Navbar = () => {
                   />
                 </div>
                 <span className='ml-3 text-base font-medium text-gray-700'>
-                  Demo User
+                  Velofolio
                 </span>
               </div>
               <div className='space-y-1'>
