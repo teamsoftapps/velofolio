@@ -1,0 +1,26 @@
+[
+  {
+    "team": "Frontend Devs",
+    "role": "Developers",
+    "utilization": "85%",
+    "assigned": 12
+  },
+  {
+    "team": "QA Team",
+    "role": "Testers",
+    "utilization": "78%",
+    "assigned": 8
+  },
+  {
+    "team": "Design Squad",
+    "role": "UI/UX Designers",
+    "utilization": "92%",
+    "assigned": 5
+  },
+  {
+    "team": "Backend Engineers",
+    "role": "Developers",
+    "utilization": "88%",
+    "assigned": 10
+  }
+]

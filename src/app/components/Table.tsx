@@ -64,11 +64,17 @@ const Table = ({
 
   return (
     <>
-      <div
-        className={`w-full mt-4  md:p-3 ${
-          pasthname === '/teamProfile' || pasthname === '/' ? '' : 'border-1 border-gray-300'
-        } ${pasthname === '/' ? 'h-[230px] overflow-auto' : 'lg:p-7 rounded-2xl'}`}
-      >
+ <div
+  className={`w-full mt-4 md:p-3 
+    ${
+      pasthname === '/teamProfile' || pasthname === '/' || pasthname === '/reports'
+        ? 'lg:p-0'
+        : 'lg:p-7 border-1 border-gray-300 rounded-2xl'
+    }
+    ${pasthname === '/' ? 'h-[230px] overflow-auto' : ''}
+  `}
+>
+
         <div className="overflow-x-auto overflow-y-auto max-h-[600px]">
           <table className="min-w-[450px] sm:min-w-[850px] md:min-w-[1000px] lg:min-w-full bg-white table-auto border-collapse text-wrap">
             <thead className="bg-gray-200 text-black border-0 rounded-lg w-full">
@@ -278,13 +284,13 @@ if (key === "paymentMethod") {
         </div>
       </div>
 
-      <Pagination
+     {pasthname!=='/reports' && (<Pagination
         totalPages={totalPages}
         onPageChange={handlePageChange}
         initialPage={currentPage}
         color={color}
          hoverColor={pasthname==='/'?COLORS.BlueButtonhover:COLORS.greenHover}
-         disabledColor={pasthname==='/'?COLORS.BlueDisabled:COLORS.GreenDisabled}      />
+         disabledColor={pasthname==='/'?COLORS.BlueDisabled:COLORS.GreenDisabled}      />)}
     </>
   );
 };

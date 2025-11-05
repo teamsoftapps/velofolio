@@ -106,10 +106,10 @@ ChartJS.register(RadialLinearScale, ArcElement, Tooltip);
 
 /* ------------------------------------------------- DATA ------------------------------------------------- */
 const data = {
-  labels: ['Completed', 'Pending', 'Overdue'],
+  labels: ['Paid', 'Pending', 'Overdue'],
   datasets: [
     {
-      data: [43, 32, 25],
+      data: [4300, 3500, 3200],
       backgroundColor: ['#0EA5E9', '#FBBF24', '#6B7280'],
       borderWidth: 0,
     },
@@ -123,7 +123,7 @@ const options: ChartOptions<'polarArea'> = {
   plugins: {
     legend: { display: false },
     tooltip: {
-      callbacks: { label: ctx => `${ctx.label}: ${ctx.raw}%` },
+      callbacks: { label: ctx => `$ ${ctx.label}: ${ctx.raw}` },
     },
   },
   scales: { r: { display: false } },
@@ -136,30 +136,38 @@ const centerDotPlugin: Plugin<'polarArea'> = {
     const { ctx, chartArea } = chart;
     const cx = (chartArea.left + chartArea.right) / 2;
     const cy = (chartArea.top + chartArea.bottom) / 2;
-    // 8 % of the smaller dimension → always visible, never too big
     const r = Math.min(chartArea.width, chartArea.height) * 0.08;
 
     ctx.save();
-    ctx.fillStyle = '#000';
+
+    // White border (drawn first)
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Black fill (on top)
+    ctx.fillStyle = '#fff';
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
     ctx.fill();
+
     ctx.restore();
   },
 };
-
 /* ------------------------------------------------ COMPONENT -------------------------------------------- */
 export default function PaymentsBreakdown() {
   return (
     <div className="flex  items-center justify-center md:w-full  lg:w-auto flex-grow md:bg-white lg:bg-transparent">
       {/* CARD – responsive width, max-width caps it on large screens */}
-      <div className="w-full max-w-sm rounded-lg  bg-white p-4 lg:shadow-sm sm:max-w-md sm:p-3 md:max-w-md">
-        <h2 className="mb-4 text-center text-lg font-semibold text-gray-900 sm:mb-6 sm:text-xl">
+      <div className="mb-3 w-full max-w-sm rounded-lg  bg-white p-4 lg:shadow-sm sm:max-w-md sm:p-3 md:max-w-sm">
+        <h2 className="mb-1 text-center text-lg font-semibold text-gray-900 sm:mb-6 sm:text-xl">
           Payments Breakdown
         </h2>
 
         {/* CHART – square container, scales with card */}
-        <div className="mx-auto aspect-square w-full max-w-xs sm:max-w-sm md:max-w-sm">
+        <div className="mx-auto aspect-square w-full max-w-xs sm:max-w-sm md:max-w-xs">
           <PolarArea
             data={data}
             options={options}
@@ -168,9 +176,9 @@ export default function PaymentsBreakdown() {
         </div>
 
         {/* LEGEND – always 3 columns, never wraps */}
-        <div className="mt-6 grid grid-cols-3 gap-3 text-center sm:gap-4">
+        <div className="mb-2 grid grid-cols-1 gap-3 text-center sm:gap-4">
           {data.labels.map((label, i) => (
-            <div key={label}>
+            <div key={label} className='w-full flex  items-center justify-between'>
               <div className="mb-1 flex items-center justify-center">
                 <div
                   className="mr-2 h-3 w-3 rounded-full"
@@ -178,8 +186,22 @@ export default function PaymentsBreakdown() {
                 />
                 <span className="text-xs text-gray-600 sm:text-sm">{label}</span>
               </div>
-              <p className="text-lg font-semibold text-gray-900 sm:text-xl">
-                {data.datasets[0].data[i]}%
+              <p className="text-lg font-semibold text-gray-900 sm:text-md">
+                ${data.datasets[0].data[i]}
+               <span
+  className="text-sm p-1 sm:text-sm ml-2 rounded"
+  style={{
+    backgroundColor: data.datasets[0].backgroundColor[i],
+    color:
+      data.datasets[0].backgroundColor[i].includes("gray") ||
+      data.datasets[0].backgroundColor[i] === "#6B7280"
+        ? "white"
+        : "black",
+  }}
+>
+  + {data.datasets[0].data[i] / 100}%
+</span>
+
               </p>
             </div>
           ))}
