@@ -11,8 +11,10 @@ export function filterData(data: any[], search: string) {
   const lower = search.toLowerCase();
   return data.filter(
     (item: any) =>
-      item.name.toLowerCase().includes(lower) ||
-      (item.email && item.email.toLowerCase().includes(lower))
+      item.name?.toLowerCase().includes(lower) ||
+      (item.email && item.email?.toLowerCase().includes(lower))||
+      item.client?.toLowerCase().includes(lower)||
+      item.leadName?.toLowerCase().includes(lower)
   );
 }
 

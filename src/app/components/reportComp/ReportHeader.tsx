@@ -43,7 +43,7 @@ const ReportHeader = () => {
         {/* Date Range Select */}
         <div className="relative w-full sm:w-60">
           <select
-            className="w-full appearance-none rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-sm focus:border-[#01B0E9] focus:outline-none focus:ring-2 focus:ring-[#01B0E9]/20 sm:text-base"
+            className="w-full appearance-none  text-black rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-sm focus:border-[#01B0E9] focus:outline-none focus:ring-2 focus:ring-[#01B0E9]/20 sm:text-base"
             defaultValue="26 Aug 2025 - 2 Sep 2025"
           >
             <option>26 Aug 2025 - 2 Sep 2025</option>
