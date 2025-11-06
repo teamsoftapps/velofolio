@@ -20,7 +20,7 @@ const LogoSetting = () => {
 
         {/* Text + buttons – takes remaining space */}
         <div className="flex-1 flex flex-col gap-2 min-w-0">
-          <h1 className="text-base sm:text-lg font-semibold">Logo</h1>
+          <h1 className="text-base sm:text-lg font-semibold text-black">Logo</h1>
 
           {/* Paragraph – responsive line-clamp & text size */}
           <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
@@ -31,7 +31,7 @@ const LogoSetting = () => {
 
           {/* Buttons – stack on xs, side-by-side on sm+ */}
     <div className='flex items-center gap-3 '>
-        <button className='bg-[#01B0E9] p-1 px-3 cursor-pointer rounded-full text-white'>Update </button><button className='cursor-pointer border p-1 px-2 rounded-full border-gray-300'>Remove</button>
+        <button className='bg-[#01B0E9] p-1 px-3 cursor-pointer rounded-full text-white'>Update </button><button className='cursor-pointer border p-1 px-2 rounded-full border-gray-300 text-black'>Remove</button>
       </div>
         </div>
       </div>

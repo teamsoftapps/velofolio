@@ -39,7 +39,7 @@ const SettingForm = () => {
       {/* Form Container */}
         {/* Your Existing Content Below */}
       <div className="mt-12">
-        <h1 className="text-lg">Company / Studio Name</h1>
+        <h1 className="text-lg text-black">Company / Studio Name</h1>
         {/* Add your original content here */}
       </div>
       <div className="space-y-6">
@@ -54,7 +54,7 @@ const SettingForm = () => {
               placeholder="Enter your company or studio name"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
               
             />
           </div>
@@ -67,7 +67,7 @@ const SettingForm = () => {
               placeholder="Enter your company or studio website"
               value={website}
               onChange={(e) => setWebsite(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
             
             />
           </div>
@@ -84,7 +84,7 @@ const SettingForm = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your business email address"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
             />
           </div>
           <div className="flex-1">
@@ -96,7 +96,7 @@ const SettingForm = () => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="Enter your company phone number"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
             />
           </div>
         </div>
@@ -112,7 +112,7 @@ const SettingForm = () => {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               placeholder="Enter your street address"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
             />
           </div>
           <div className="flex-1">
@@ -124,7 +124,7 @@ const SettingForm = () => {
               value={city}
               onChange={(e) => setCity(e.target.value)}
               placeholder="Enter your city or suburb"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
             />
           </div>
         </div>
@@ -140,7 +140,7 @@ const SettingForm = () => {
               value={state}
               onChange={(e) => setState(e.target.value)}
               placeholder="Enter your state or county"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
             />
           </div>
           <div className="flex-1">
@@ -152,7 +152,7 @@ const SettingForm = () => {
               value={zip}
               onChange={(e) => setZip(e.target.value)}
               placeholder="Enter your postcode or zip code"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
             />
           </div>
         </div>
@@ -166,7 +166,7 @@ const SettingForm = () => {
             <select 
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black">
               <option >Select your country</option>
               {/* Add country options here */}
               {
@@ -179,7 +179,7 @@ const SettingForm = () => {
               Timezone
             </label>
             <select value={timezone}
-            onChange={(e) => setTimezone(e.target.value)}  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            onChange={(e) => setTimezone(e.target.value)}  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black">
               <option>Select your timezone (e.g., GMT -08:00 Pacific Time)</option>
               {/* Add timezone options here */}
               {
