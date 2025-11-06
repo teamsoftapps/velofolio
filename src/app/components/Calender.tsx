@@ -82,7 +82,7 @@ export default function Calendar() {
 
   // -------------------------------------------------------------------------
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div className="min-h-screen flex flex-col bg-white  text-gray-900 ">
       {/* ---------- NAV BAR ---------- */}
       <DateNavBar
         onMonthChange={setCurrentDate}
@@ -91,11 +91,11 @@ export default function Calendar() {
       />
 
       {/* ---------- WEEKDAY LABELS ---------- */}
-      <div className="grid grid-cols-7 mt-4 mx-6 text-center font-semibold border border-gray-200 dark:border-gray-800 bg-[#F4F4F5] dark:bg-gray-950 rounded-lg overflow-hidden">
+      <div className="grid grid-cols-7 mt-4 mx-6 text-center font-semibold border border-gray-200  bg-[#F4F4F5]  rounded-lg overflow-hidden">
   {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((d, i) => (
     <div
       key={d}
-      className={`py-3 text-sm uppercase tracking-wide border-gray-200 dark:border-gray-800
+      className={`py-3 text-sm uppercase tracking-wide border-gray-200 
         ${i !== 6 ? 'border-r' : ''}  // add vertical divider except for last column
       `}
     >
@@ -121,13 +121,13 @@ export default function Calendar() {
           return (
             <div
               key={idx}
-              className={`border border-gray-100 dark:border-gray-800  flex flex-col items-start justify-start text-left transition-all 
+              className={`border border-gray-100   flex flex-col items-start justify-start text-left transition-all 
                 ${
                   isToday
-                    ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300'
+                    ? 'bg-blue-100  text-blue-600'
                     : isCurrentMonth
-                    ? 'hover:bg-gray-100 dark:hover:bg-gray-800'
-                    : 'bg-white dark:bg-gray-950 text-gray-400'
+                    ? 'hover:bg-gray-100 '
+                    : 'bg-white  text-gray-400'
                 }`}
               style={{
                 minHeight: '160px',

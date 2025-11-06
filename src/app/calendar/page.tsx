@@ -5,11 +5,11 @@ import Navbar from '../components/Navbar'
 import DateNavBar from '../components/DateNavbar'
 const page = () => {
   return (
-    <div className='w-full'>
+    <div className='w-full bg-[#FaFaFA]'>
         <Navbar />
         
-   <div className='min-h-screen  w-full flex flex-col items-start bg-[#FAFAFA]'>
-        <div className='container mx-auto w-[100%] h-[80vh]'>
+   <div className='min-h-screen  w-full flex flex-col items-start bg-[#FAFAFA] pb-10'>
+        <div className='container mx-auto w-[100%] h-full'>
         <CalenderHeader  />
         {/* <DateNavBar/> */}
 
