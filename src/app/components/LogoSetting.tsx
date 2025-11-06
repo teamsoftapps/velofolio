@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const LogoSetting = () => {
   return (
-    <div className="mt-10 w-full px-2">
+    <div className="mt-10 w-full sm:w-2/3 px-2">
       {/* Flex container – wraps on small screens */}
       <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 w-full">
         
@@ -23,7 +23,7 @@ const LogoSetting = () => {
           <h1 className="text-base sm:text-lg font-semibold text-black">Logo</h1>
 
           {/* Paragraph – responsive line-clamp & text size */}
-          <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+          <p className="text-xs sm:text-sm text-gray-600 leading-relaxed ">
             Your logo must be at least 300px on the shortest side. Recommended size
             is 900px × 450px (RGB). Acceptable file formats are JPG and PNG. Max
             file size 2 MB and should not exceed 2000px × 2000px.

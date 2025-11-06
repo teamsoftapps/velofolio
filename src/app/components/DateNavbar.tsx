@@ -97,12 +97,14 @@ interface Props {
   onMonthChange: (date: Date) => void;
   currentView: ViewType;
   onViewChange: (view: ViewType) => void;
+   setOpenFilter: (isOpen: boolean) => void
 }
 
 export default function DateNavBar({
   onMonthChange,
   currentView,
   onViewChange,
+   setOpenFilter
 }: Props) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
@@ -170,7 +172,7 @@ export default function DateNavBar({
 
       {/* RIGHT: Filter */}
       <div className="w-full sm:w-auto">
-        <FilterButton />
+        <FilterButton  setOpenFilter={setOpenFilter}/>
       </div>
     </div>
   );

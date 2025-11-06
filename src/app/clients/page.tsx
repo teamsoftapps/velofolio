@@ -1,7 +1,7 @@
 /** @format */
 
 'use client';
-import React, { useEffect,useState } from 'react';
+import React, { useEffect,useMemo,useState } from 'react';
 
 import Navbar from '../components/Navbar';
 import FilterModal from '../components/FilterModal';
@@ -10,7 +10,7 @@ import OverviewHeader from '../components/OverviewHeader';
 import TableData from '../../utils/Data.json';
 import ClientFormModal from '../components/ClientFormModal';
 import DeleteModal from '../components/DeleteModal';
-import SortModal from '../components/SortModal';
+import {filterData, sortData, SortState,handleDelete} from "../../utils/TableUtils"
 
 const tableHeaders = [
   { key: 'name', label: 'Name' },
@@ -24,35 +24,23 @@ const tableHeaders = [
 ];
 
 export default function Page() {
-  const [newClient, setNewClient] = React.useState<any[]>([]); // Initialized and typed
+ 
   const [isFormOpen, setIsFormOpen] = React.useState(false);
   const tableData: any[] = TableData;
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); 
   const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
-  const [filteredData, setFilteredData] = React.useState<any[]>([tableData]); // Initialize with tableData
-const [openFilter, setOpenFilter] = useState<boolean>(false);
-const [isSortOpen, setIsSortOpen] = useState(false);
-  const [currentSort, setCurrentSort] = useState('added-newest');
-  useEffect(() => {
-    if (searchedValue.trim() === '') {
-      setFilteredData(tableData);
-    } else {
-      const filtered = tableData.filter(
-        (item: any) =>
-          item.name.toLowerCase().includes(searchedValue.toLowerCase()) ||
-          (item.email &&
-            item.email.toLowerCase().includes(searchedValue.toLowerCase()))
-      );
-      setFilteredData(filtered);
-    }
-  }, [searchedValue, tableData]);
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
+  const [sortBy, setSortBy] = useState<SortState>({
+   value: "createdAt",
+   direction: "desc",
+ });
+ const filteredData = useMemo(() => filterData(tableData, searchedValue), [tableData, searchedValue]);
+ const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, sortBy]);
 
-  const handleDeleteConfirm = () => {
-    console.log('Client deleted');
-    setIsDeleteModalOpen(false);
-    // Add delete logic here (e.g., API call and update tableData)
-  };
+
+
+ 
 
   return (
     <>
@@ -70,7 +58,7 @@ const [isSortOpen, setIsSortOpen] = useState(false);
         <DeleteModal
           isOpen={isDeleteModalOpen}
           onClose={() => setIsDeleteModalOpen(false)}
-          onConfirm={handleDeleteConfirm}
+          onConfirm={()=>handleDelete}
         />
       )}
       
@@ -86,30 +74,22 @@ const [isSortOpen, setIsSortOpen] = useState(false);
       
      
       <div className='min-h-screen  w-full flex flex-col items-start bg-[#FAFAFA]'>
-        <div className='container mx-auto w-[100%] h-[80vh]'>
+        <div className='container mx-auto w-[100%] h-full]'>
           <OverviewHeader
             title='Clients'
             setOpenForm={setIsFormOpen}
-            setSearchedData={setSearchedData} // Update type if needed
+            setSearchedData={setSearchedData}
             searchedValue={searchedValue}
             setSearchedValue={setSearchedValue}
             setOpenFilter={setOpenFilter}
-            // setIsSortOpen={setIsSortOpen}
+             sortBy={sortBy}
+             setSortBy={setSortBy}
+
           />
-          {/* <SortModal
-            isOpen={isSortOpen}
-            onClose={() => setIsSortOpen(false)}
-           
-           
-            currentSort={currentSort}
-        onSortChange={(sortId) => {
-          setCurrentSort(sortId);
-          console.log('Sorting by:', sortId);
-        }}
-            /> */}
+  
           <Table
             headers={tableHeaders}
-            data={filteredData}
+            data={sortedData}
             setDeleteModal={setIsDeleteModalOpen}
             setSearchedData={setSearchedData}
           />

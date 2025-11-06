@@ -9,6 +9,12 @@ import { MdEmail } from 'react-icons/md';
 import { CiFilter } from 'react-icons/ci';
 import AddButton from './AddButton';
 import SortModal from './SortModal';
+import { SortOption } from './SortModal';
+
+interface SortState {
+  value: string;
+  direction: 'asc' | 'desc';
+}
 
 interface OverviewHeaderProps {
   title: string;
@@ -17,7 +23,9 @@ interface OverviewHeaderProps {
   setSearchedValue: React.Dispatch<React.SetStateAction<string>>;
   setOpenForm: (isOpen: boolean) => void;
   setOpenFilter: (isOpen: boolean) => void;
-  // setIsSortOpen: (isOpen: boolean) => void;
+  sortBy: SortState
+  setSortBy: React.Dispatch<React.SetStateAction<SortState | SortOption>>
+
 }
 
 const OverviewHeader = ({
@@ -26,11 +34,12 @@ const OverviewHeader = ({
   searchedValue,
   setSearchedValue,
   setOpenFilter,
-  // setIsSortOpen
+  sortBy,
+ setSortBy
 }: OverviewHeaderProps) => {
   const currentPath = usePathname();
 const [isSortOpen, setIsSortOpen] = useState(false);
-  const [currentSort, setCurrentSort] = useState('added-newest');
+  const [currentSort, setCurrentSort] = useState<SortOption | any>('added-newest');
   return (
     <div className='flex-col sm:flex-row  lg:w-full Header mt-10 flex  md:flex-row items-start md:items-center justify-between p-2 text-black'>
 
@@ -86,13 +95,16 @@ const [isSortOpen, setIsSortOpen] = useState(false);
     <SortModal
                 isOpen={isSortOpen}
                 onClose={() => setIsSortOpen(false)}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
                
                
                 currentSort={currentSort}
-            onSortChange={(sortId) => {
-              setCurrentSort(sortId);
-              console.log('Sorting by:', sortId);
-            }}
+            onSortChange={(option) => { // option is SortOption
+    setCurrentSort(option.id);
+    setSortBy({ value: option.value, direction: option.direction });
+    console.log('Sorting by:', option);
+  }}
                 />
     
     </div>

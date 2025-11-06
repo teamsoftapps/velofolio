@@ -10,7 +10,7 @@ const ReportHeader = () => {
   const [timeRange, setTimeRange] = React.useState('7 Days');
 
   return (
-    <div className="mb-6 px-2 lg:px-3 mt-13 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <div className="mb-6 px-2 lg:px-3 mt-15 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
       {/* Left: Title */}
       <div className="flex-1 sm:flex-initial md:text-left justify-start items-start">
         <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl">

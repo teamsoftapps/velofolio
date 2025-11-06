@@ -1,25 +1,4 @@
-// /** @format */
 
-// import { IoMdAdd } from 'react-icons/io';
-
-// interface AddButtonProps {
-//   title: string;
-//   setOpenForm: (isOpen: boolean) => void;
-//   color?:string
-// }
-
-// const AddButton = ({ title, setOpenForm ,color="bg-[#01B0E9]"}: AddButtonProps) => (
-//   <button
-//     onClick={() => setOpenForm(true)}
-//     className={`${color} w-full h-10 p-4 pl-0 rounded-full flex items-center gap-2 text-white hover:bg-[#00A4DD] transition-colors duration-200 cursor-pointer`}>
-//     <span className={` ${color} px-2 py-2 rounded-full flex items-center justify-center hover:-rotate-180 transition-transform duration-200`}>
-//       <IoMdAdd className='w-5 h-5' />
-//     </span>
-//     <span className='lg:text-sm md:text-xs text-sm font-medium w-full '>{title}</span>
-//   </button>
-// );
-
-// export default AddButton;
 /** @format */
 import { IoMdAdd } from 'react-icons/io';
 import { useState } from 'react';

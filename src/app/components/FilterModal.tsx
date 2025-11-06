@@ -93,7 +93,7 @@ useEffect(() => {
 
       {/* Slide-over Panel */}
 <div
-  className={`fixed top-24 right-8 rounded-2xl h-[80vh] w-full sm:w-[400px]  z-50 transform transition-transform ease-in-out`}
+  className={`fixed sm:top-24 sm:right-8 rounded-2xl h-[80vh] w-full sm:w-[400px]  z-50 transform transition-transform ease-in-out`}
   style={{
     transform: isOpen ? 'translateX(0)' : 'translateX(420px)', // 400px + 20px margin
     transitionDuration: '2000ms',
@@ -144,7 +144,7 @@ useEffect(() => {
                 </button>
 
                 {dropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-lg shadow-lg z-10">
+                  <div className="absolute top-full left-0 right-0 mt-1 text-gray-600 bg-white border rounded-lg shadow-lg z-10">
                     {teamMembers
                       .filter(m => !selectedMembers.find(sm => sm.id === m.id))
                       .map(member => (
@@ -225,7 +225,7 @@ useEffect(() => {
                     type="date"
                     value={fromDate}
                     onChange={e => setFromDate(e.target.value)}
-                    className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#01B0E9] focus:border-[#01B0E9]"
+                    className="w-full px-3 py-2 text-gray-600 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#01B0E9] focus:border-[#01B0E9]"
                   />
                   {/* <MdCalendarToday className="absolute right-3 top-2.5 w-4 h-4 text-gray-400 pointer-events-none" /> */}
                 </div>
@@ -234,7 +234,7 @@ useEffect(() => {
                     type="date"
                     value={toDate}
                     onChange={e => setToDate(e.target.value)}
-                    className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#01B0E9] focus:border-[#01B0E9]"
+                    className="w-full px-3 py-2 text-gray-600 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#01B0E9] focus:border-[#01B0E9]"
                   />
                   {/* <MdCalendarToday className="absolute right-3 top-2.5 w-4 h-4 text-gray-400 pointer-events-none" /> */}
                 </div>

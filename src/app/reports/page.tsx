@@ -1,10 +1,10 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import ReportHeader from '../components/ReportHeader'
-import ReportGraph from '../components/ReportGraph'
-import ReportPiChart from '../components/ReportPiChart'
-import TeamUtilization from '../components/TeamUtilization'
-import TopPerfomingProject from '../components/TopPerfomingProject'
+import ReportHeader from '../components/reportComp/ReportHeader'
+import ReportGraph from '../components/reportComp/ReportGraph'
+import ReportPiChart from '../components/reportComp/ReportPiChart'
+import TeamUtilization from '../components/reportComp/TeamUtilization'
+import TopPerfomingProject from '../components/reportComp/TopPerfomingProject'
 const reports = () => {
   return (
      <div className='flex flex-col w-full min-h-screen bg-[#FAFAFA]'>

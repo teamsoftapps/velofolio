@@ -1,10 +1,11 @@
 'use client';
 import React from 'react';
-import DropOption from './DropOption';
-import Table from './Table';
+import DropOption from '../DropOption';
+import Table from '../Table';
 import { HiLightBulb } from "react-icons/hi";
 import MiniTable from './MiniTable';
 import { RiTeamFill } from "react-icons/ri";
+import FooterUtilizPerfom from './FooterUtilizPerfom';
 
 const TeamUtilization = () => {
   // Define your table headers (with keys so Table knows how to map)
@@ -32,14 +33,7 @@ const TeamUtilization = () => {
 
       {/* Reuse your main table */}
       <MiniTable headers={tableHeaders} data={tableData} />
-      <div className='my-3 flex items-center justify-between'>
-    <p className='flex  items-center text-xs sm:text-sm rounded-full w-72 px-2 bg-[#E5F7FD]'><HiLightBulb className='w-4 h-4 mr-2' />
- Average Utilization increased by 5%</p>
- <button className='text-[#19B7EB] text-xs  sm:text-md'>
-
-    View Full Report
- </button>
-      </div>
+ <FooterUtilizPerfom title='Utilization' />
     </div>
   );
 };

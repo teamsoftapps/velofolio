@@ -14,6 +14,7 @@ import OverviewHeader from '../components/OverviewHeader';
 import TeamData from '../../utils/team.json';
 import FormModal from '../components/FormModal';
 import DeleteModal from '../components/DeleteModal';
+import FilterModal from '../components/FilterModal';
 const tableData = TeamData;
 const tableHeaders = [
   { key: 'Name', label: 'Name' },
@@ -72,6 +73,13 @@ export default function Page() {
           setOpenForm={setOpenForm}
         />
       )}
+           <FilterModal
+            isOpen={openFilter}
+            onClose={() => setOpenFilter(false)}
+            isVisible={openFilter}
+            setIsVisible={setOpenFilter}
+            
+          />
       <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA]'>
         {/* <Pagination /> */}
         <div className='container mx-auto  w-[100%] h-[80vh]'>
@@ -82,6 +90,8 @@ export default function Page() {
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}
+            sortBy={{ value: 'createdAt', direction: 'desc' }}
+            setSortBy={() => {}}
           />
 
           <Table

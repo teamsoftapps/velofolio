@@ -6,7 +6,7 @@ import DateNavBar from './DateNavbar';
 
 type ViewType = 'Day' | 'Week' | 'Month';
 
-export default function Calendar() {
+export default function Calendar({setOpenFilter}:any) {
   const today = new Date();
 
   // ---- STATE --------------------------------------------------------------
@@ -88,6 +88,7 @@ export default function Calendar() {
         onMonthChange={setCurrentDate}
         currentView={view}
         onViewChange={setView}
+        setOpenFilter={setOpenFilter}
       />
 
       {/* ---------- WEEKDAY LABELS ---------- */}

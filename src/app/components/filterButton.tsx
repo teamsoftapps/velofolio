@@ -22,10 +22,11 @@
 import React from 'react';
 import { CiFilter } from 'react-icons/ci';
 
-const FilterButton = () => {
+const FilterButton = ({setOpenFilter}:any) => {
   return (
     <button
       type='button'
+      onClick={()=>setOpenFilter(true)}
       className='flex items-center justify-center gap-1.5 px-3 py-2 bg-[#F4F4F5] hover:bg-gray-100 text-gray-900 text-sm font-medium rounded-md  border border-gray-300 w-fit min-w-[6rem] transition-colors duration-150'
       aria-label='Open filter options'>
       <CiFilter className='w-5 h-5' />

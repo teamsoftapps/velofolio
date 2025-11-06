@@ -21,6 +21,7 @@ import JobsData from '../../utils/Job.json';
 import PayementChartData from '../../utils/PaymentChartData.json';
 import DeleteModal from '../components/DeleteModal';
 import PayementData from '../../utils/Payements.json';
+import FilterModal from '../components/FilterModal';
 const tableData = PayementData;
 
 
@@ -82,6 +83,13 @@ export default function Page() {
             onConfirm={handleDeleteConfirm}
           />
         )}
+             <FilterModal
+            isOpen={openFilter}
+            onClose={() => setOpenFilter(false)}
+            isVisible={openFilter}
+            setIsVisible={setOpenFilter}
+            
+          />
         <div className='container mx-auto bg-[#FAFAFA] w-[100%] '>
           <OverviewHeader
             title={'Payements'}
@@ -90,6 +98,8 @@ export default function Page() {
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}
+            sortBy={{ value: 'createdAt', direction: 'desc' }}
+            setSortBy={() => {}}
           />
           <OverviewChart chartData={PayementChartData} />
 

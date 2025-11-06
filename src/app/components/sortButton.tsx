@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import SortModal from './SortModal';
 import { FaSort } from 'react-icons/fa';
-const SortButton = () => {
+const SortButton = ({sortBy, setSortBy}:any) => {
     const [currentSort, setCurrentSort] = useState('added-newest');
     const [isOpen, setIsOpen] = useState(false);
   return (<div className='relative'>
@@ -12,14 +12,18 @@ const SortButton = () => {
       <span className='text-sm text-black'>Sort</span>
     </button>
     
-     <SortModal
-           isOpen={isOpen}
-           onClose={() => setIsOpen(false)}
-           currentSort={currentSort}
-           onSortChange={()=>{
-            console.log('Sort changed');
-           }}
-         />
+   <SortModal
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+  currentSort={currentSort}
+  onSortChange={(option) => {
+    setCurrentSort(option.id);
+    setSortBy({ value: option.value, direction: option.direction });
+  }}
+  sortBy={sortBy}       // ✅ add this
+  setSortBy={setSortBy} // ✅ add this
+/>
+
          </div>
   );
 };
