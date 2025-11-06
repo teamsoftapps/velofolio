@@ -21,8 +21,8 @@ const sortOptions: SortOption[] = [
   { id: 'event-oldest', label: 'Event Date (Oldest)', value: 'eventDate', direction: 'asc' },
   { id: 'added-newest', label: 'Added Date (Newest)', value: 'leadCreated', direction: 'desc' },
   { id: 'added-oldest', label: 'Added Date (Oldest)', value: 'leadCreated', direction: 'asc' },
-  { id: 'payment-earliest', label: 'Payment Due (Earliest)', value: 'paymentDue', direction: 'asc' },
-  { id: 'payment-latest', label: 'Payment Due (Latest)', value: 'paymentDue', direction: 'desc' },
+  { id: 'payment-earliest', label: 'Payment Due (Earliest)', value: 'dueDate', direction: 'asc' },
+  { id: 'payment-latest', label: 'Payment Due (Latest)', value: 'dueDate', direction: 'desc' },
 ];
 
 export default function SortModal({ 
@@ -45,10 +45,11 @@ onSortChange: (option: SortOption) => void;
 
 const handleApply = (option: SortOption) => {
   setSelected(option.id);
-onSortChange(option);
-  setSortBy({ value: option.value, direction: option.direction }); 
+  onSortChange(option); // pass the full object
+  setSortBy({ value: option.value, direction: option.direction });
   onClose();
 };
+
 
   if (!isOpen) return null;
 

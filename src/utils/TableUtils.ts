@@ -19,16 +19,19 @@ export function filterData(data: any[], search: string) {
 // --- Sort Function ---
 export function sortData(data: any[], sortBy: SortState) {
   const { value, direction } = sortBy;
+
   return [...data].sort((a: any, b: any) => {
+    // Compare client names
     if (value === 'name') {
       return direction === 'asc'
-        ? a?.name?.localeCompare(b.name)
-        : b?.name?.localeCompare(a.name);
+        ? a?.client?.localeCompare(b.client)
+        : b?.client?.localeCompare(a.client);
     }
 
-    if (['createdAt', 'eventDate', 'paymentDue'].includes(value)) {
-      const aTime = a[value] ? new Date(a[value]).getTime() : 0;
-      const bTime = b[value] ? new Date(b[value]).getTime() : 0;
+    // Compare dates
+    if (['dueDate', 'eventDate', 'createdAt', 'leadCreated'].includes(value)) {
+      const aTime = a[value] ? Date.parse(a[value]) : 0;
+      const bTime = b[value] ? Date.parse(b[value]) : 0;
       return direction === 'asc' ? aTime - bTime : bTime - aTime;
     }
 

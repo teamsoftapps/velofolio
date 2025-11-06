@@ -6,7 +6,7 @@
 //   return <div>page</div>;
 // };
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Navbar from '../components/Navbar';
 import { GoSearch, GoSortAsc } from 'react-icons/go';
 import { FaSort } from 'react-icons/fa';
@@ -23,7 +23,7 @@ import DeleteModal from '../components/DeleteModal';
 import PayementData from '../../utils/Payements.json';
 import FilterModal from '../components/FilterModal';
 const tableData = PayementData;
-
+import { filterData, sortData, handleDelete } from '../../utils/TableUtils';
 
 const tableHeaders = [
   { key: 'client', label: 'Client' },
@@ -42,7 +42,7 @@ export default function Page() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false
   const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
-  const [filteredData, setFilteredData] = React.useState<any[]>(tableData); // Initialize with tableData
+  // const [filteredData, setFilteredData] = React.useState<any[]>(tableData); // Initialize with tableData
   const [OpenForm, setOpenForm] = useState(false);
 
   const handleDeleteConfirm = () => {
@@ -50,25 +50,16 @@ export default function Page() {
     setIsDeleteModalOpen(false);
     // Add delete logic here (e.g., API call and update tableData)
   };
-
-  useEffect(() => {
-    if (searchedValue.trim() === '') {
-      setFilteredData(tableData);
-    } else {
-      const filtered = tableData.filter(
-        (item: any) =>
-          item.jobNameClient
-            ?.toLowerCase()
-            .includes(searchedValue.toLowerCase()) ||
-          item.jobNameClient
-            ?.toLowerCase()
-            .includes(searchedValue.toLowerCase()) ||
-          item.assignedTeam?.toLowerCase().includes(searchedValue.toLowerCase())
-      );
-
-      setFilteredData(filtered);
-    }
-  }, [searchedValue, tableData]);
+  interface SortState {
+  value: string;
+  direction: "asc" | "desc";
+}
+  const [sortBy, setSortBy] = useState<SortState>({
+  value: "createdAt",
+  direction: "desc",
+});;
+const filteredData = useMemo(() => filterData(tableData, searchedValue), [tableData, searchedValue]);
+const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, sortBy]);
 
   return (
     <>
@@ -98,14 +89,14 @@ export default function Page() {
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}
-            sortBy={{ value: 'createdAt', direction: 'desc' }}
-            setSortBy={() => {}}
+                    sortBy={sortBy} // Pass the sorting state
+            setSortBy={setSortBy} // Pass the setter
           />
           <OverviewChart chartData={PayementChartData} />
 
           <Table
             headers={tableHeaders}
-            data={filteredData}
+            data={sortedData}
             setOpenForm={setOpenForm}
             setIsDeleteModalOpen={setIsDeleteModalOpen}
           />

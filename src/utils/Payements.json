@@ -7,7 +7,7 @@
     "paid": "$1,500",
     "balance": "$500",
     "status": "Pending",
-    "dueDate": "24 Nov 2025",
+    "dueDate": "2025-11-23",
     "paymentMethod": "Bank Transfer",
     "avatar": "/teampic1.png"
   },
@@ -19,7 +19,7 @@
     "paid": "$1,500",
     "balance": "$500",
     "status": "Paid",
-    "dueDate": "24 Nov 2025",
+    "dueDate": "2025-11-23",
     "paymentMethod": "Bank Transfer",
     "avatar": "/teampic1.png"
   },
@@ -28,10 +28,22 @@
     "job": "Wedding Film",
     "invoiceNumber": "INV-024",
     "amount": "$2,000",
-    "paid": "$1,500",
+    "paid": "$2,500",
     "balance": "$500",
     "status": "Overdue",
-    "dueDate": "24 Nov 2025",
+    "dueDate": "2025-11-23",
+    "paymentMethod": "Bank Transfer",
+    "avatar": "/teampic1.png"
+  },
+    {
+    "client": "Sarah Lee",
+    "job": "Wedding Film",
+    "invoiceNumber": "INV-024",
+    "amount": "$7,000",
+    "paid": "$2,500",
+    "balance": "$2200",
+    "status": "Overdue",
+    "dueDate": "2025-11-01",
     "paymentMethod": "Bank Transfer",
     "avatar": "/teampic1.png"
   }
