@@ -161,10 +161,10 @@ const Signup: React.FC = () => {
         <Image
           src="/signup.png"
           alt="Signup illustration"
-          width={550}
-          height={600}
+          width={540}
+          height={540}
           priority
-          className="object-contain w-full"
+          className="object-contain "
         />
       </div>
 

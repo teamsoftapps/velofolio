@@ -26,8 +26,8 @@ export function sortData(data: any[], sortBy: SortState) {
     // Compare client names
     if (value === 'name') {
       return direction === 'asc'
-        ? a?.client?.localeCompare(b.client)
-        : b?.client?.localeCompare(a.client);
+        ? a?.name?.localeCompare(b.name)
+        : b?.name?.localeCompare(a.name) || b?.name?.localeCompare(a.name);
     }
 
     // Compare dates

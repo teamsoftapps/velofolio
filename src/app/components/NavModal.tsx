@@ -49,7 +49,7 @@ export default function ProfileModal({ setProfileOpen }: ProfileModalProps) {
 
             {/* Sign Out Button */}
             <div className='flex items-center justify-end '>
-            <Link href="/" className="w-full text-center bg-black text-md text-white rounded-full py-2 sm:w-32 space-x-2  hover:bg-gray-800 transition-colors">
+            <Link href="/signin" className="w-full text-center bg-black text-md text-white rounded-full py-2 sm:w-32 space-x-2  hover:bg-gray-800 transition-colors">
               
               <span>Sign Out</span>
             </Link>
