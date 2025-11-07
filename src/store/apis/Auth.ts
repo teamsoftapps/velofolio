@@ -41,11 +41,12 @@ export const Auth = createApi({
 
     verifyOtp: builder.mutation({
       query: ({ email, otp }) => ({
-        url: `/Common/Auth/verifyOtp`,
+        url: `/Auth/verifyOtp`,
         method: 'POST',
         body: { email, otp },
       }),
     }),
+    
   }),
 });
 

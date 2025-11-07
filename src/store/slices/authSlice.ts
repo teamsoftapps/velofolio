@@ -7,6 +7,10 @@ interface User {
   email: string;
   role: ["client", "manager", "admin","editor"];
   permissions: string[];
+  createdAt: string;
+  updatedAt: string;
+  confirmationCode: string;
+  otp: string;
 
  
 }
