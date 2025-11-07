@@ -10,14 +10,14 @@ export const Auth = createApi({
   endpoints: (builder) => ({
     signin: builder.mutation({
       query: (body) => ({
-        url: '/Common/Auth/Signin',
+        url: '/Auth/Signin',
         method: 'POST',
         body,
       }),
     }),
     signup: builder.mutation({
       query: (body) => ({
-        url: '/Common/Auth/Signup',
+        url: '/Auth/Signup',
         method: 'POST',
         body,
       }),
@@ -25,7 +25,7 @@ export const Auth = createApi({
 
     forgetPassword: builder.mutation({
       query: (body) => ({
-        url: '/Common/Auth/forgetPassword',
+        url: '/Auth/forgetPassword',
         method: 'POST',
         body,
       }),
@@ -33,7 +33,7 @@ export const Auth = createApi({
 
     resetPassword: builder.mutation({
       query: ({ email,password, confirmPassword }) => ({
-        url: `/Common/Auth/resetPassword`,
+        url: `/Auth/resetPassword`,
         method: 'POST',
         body: { email,password, confirmPassword},
       }),

@@ -8,7 +8,7 @@ import { Auth } from "./apis/Auth"; // your RTK Query API slice
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: [Auth.reducerPath], // do NOT persist RTK Query reducer
+  blacklist: [Auth.reducerPath],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -17,7 +17,7 @@ export const store = configureStore({
   reducer: {
     persisted: persistedReducer,
 
-    [Auth.reducerPath]: Auth.reducer, // RTK Query reducer must be added here
+    [Auth.reducerPath]: Auth.reducer, 
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
