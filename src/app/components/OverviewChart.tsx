@@ -9,6 +9,7 @@ interface LeadCardProps {
   count: number|string;
   percentageChange: number;
   colorClass: string;
+  countlabel?: string;
 }
 
 const LeadCard = ({
@@ -16,6 +17,7 @@ const LeadCard = ({
   count,
   percentageChange,
   colorClass,
+  countlabel,
 }: LeadCardProps) => {
   return (
     <div
@@ -26,7 +28,7 @@ const LeadCard = ({
 
       <div className='flex items-center justify-between'>
         <div className='flex flex-col mt-2 w-auto'>
-          <span className='text-xl md:text-2xl font-bold'>{count}</span>
+          <span className='text-xl md:text-3xl font-bold min-w-[85px] '>{count} <span className='text-sm font-extralight'>{countlabel}</span></span>
           <span className='text-xs flex items-center mt-1'>
             <span className='bg-gray-50/50 text-sm rounded-sm px-1 flex items-center'>
               +{percentageChange}% <FaArrowTrendUp className='w-3 h-3 ml-2' />
@@ -52,10 +54,11 @@ interface LeadDashboardProps {
     count: number|string;
     percentageChange: number;
     colorClass: string;
+    countlabel?: string;
   }[];
 }
 
-const LeadDashboard = ({ chartData }: LeadDashboardProps) => {
+const OverviewChart = ({ chartData }: LeadDashboardProps) => {
   return (
     <div className='w-full flex flex-wrap gap-4 lg:flex-nowrap mx-2 md:mx-0 md:px-2'>
       {chartData.map((data, index) => (
@@ -63,6 +66,7 @@ const LeadDashboard = ({ chartData }: LeadDashboardProps) => {
           key={index}
           title={data.title}
           count={data.count}
+          countlabel={data.countlabel}
           percentageChange={data.percentageChange}
           colorClass={data.colorClass}
         />
@@ -71,4 +75,4 @@ const LeadDashboard = ({ chartData }: LeadDashboardProps) => {
   );
 };
 
-export default LeadDashboard;
+export default OverviewChart;

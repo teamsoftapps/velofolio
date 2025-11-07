@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Total Members",
+    "count": 12,
+    "percentageChange": 15.01,
+    "colorClass": "bg-[#01B0E9]"
+  },
+  {
+    "title": "Active Role",
+    "count": "02",
+    "percentageChange": 8.01,
+    "colorClass": "bg-yellow-500"
+  },
+  {
+    "title": "Inactive Users",
+    "count": "02",
+    "percentageChange": 12.01,
+    "colorClass": "bg-green-500"
+  },
+  {
+    "title": "Last Invite Sent",
+    "count": "2",
+    "countlabel": "days ago",
+    "percentageChange": 0.0,
+    "colorClass": "bg-gray-500"
+  }
+]

@@ -19,16 +19,17 @@ const Table = ({
   itemsPerPage=8,
 }: any) => {
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState(1);
   // const itemsPerPage = 8;
   const pasthname = usePathname();
-
+  
+  const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
   const paginatedData = data.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
 
   const availabilityMap: any = {
     Free: { color: 'text-green-500', icon: <FaCircleCheck className="w-4 h-4" /> },
@@ -79,7 +80,7 @@ const Table = ({
           <table className="min-w-[450px] sm:min-w-[850px] md:min-w-[1000px] lg:min-w-full bg-white table-auto border-collapse text-wrap">
             <thead className="bg-gray-200 text-black border-0 rounded-lg w-full">
               <tr>
-                {headers.map((header: any, index: any) => (
+                {headers?.map((header: any, index: any) => (
                   <th
                     key={index}
                     className={`px-2 ${pasthname === '/teamProfile' ? "lg:px-5  w-full" :"md:px-6"} sm:px-4  py-1 sm:py-2 md:py-3 text-center text-xs sm:text-sm md:text-base font-medium`}
@@ -100,7 +101,7 @@ const Table = ({
                   }}
                   className="text-black hover:bg-[#daf2fa] text-xs sm:text-sm md:text-base transition-colors duration-200 cursor-pointer"
                 >
-                  {headers.map((header: any, cellIndex: any) => {
+                  {headers?.map((header: any, cellIndex: any) => {
                     const key = header.key || header;
 
                     // Action column
