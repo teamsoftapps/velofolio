@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import ProfileModal from './NavModal';
 
 const Navbar = () => {
   const router = useRouter();
@@ -66,7 +67,7 @@ const Navbar = () => {
           <div className='hidden lg:flex items-center relative'>
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className='flex items-center text-gray-700 hover:text-gray-900 focus:outline-none transition-colors duration-200'
+              className='flex items-center text-gray-700 cursor-pointer hover:text-gray-900 focus:outline-none transition-colors duration-200 border rounded-full px-2 border-gray-300'
               aria-label='Toggle profile menu'>
               <div className='rounded-full h-9 w-9 flex items-center justify-center bg-gray-200'>
                 <Image
@@ -78,37 +79,18 @@ const Navbar = () => {
                 />
               </div>
               <span className='ml-2 text-sm font-medium hidden xl:inline'>
-                Demo User
+                Velofolio
               </span>
               <Image
                 src='/images/chevron-down.svg'
                 alt='Dropdown Icon'
-                width={16}
-                height={16}
-                className='ml-1 w-4 h-4'
+                width={8}
+                height={8}
+                className='ml-2 w-3 h-3'
               />
             </button>
             {isProfileOpen && (
-              <div className='absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 ring-1 ring-black ring-opacity-5'>
-                <button
-                  onClick={() => {
-                    router.push('/ClientProfile');
-                    setIsProfileOpen(false);
-                  }}
-                  className='block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200'>
-                  Profile
-                </button>
-                <button
-                  onClick={() => console.log('Settings clicked')}
-                  className='block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200'>
-                  Settings
-                </button>
-                <button
-                  onClick={() => console.log('Logout clicked')}
-                  className='block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200'>
-                  Logout
-                </button>
-              </div>
+              <ProfileModal setProfileOpen={setIsProfileOpen} />
             )}
           </div>
 
