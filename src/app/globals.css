@@ -1,7 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
 /** @format */
 
-@import 'tailwindcss';
-
+body {
+  font-family: 'Inter', sans-serif;
+}
+.inter{
+ font-family: 'Inter', sans-serif;
+}
 :root {
   --background: #ffffff;
   --foreground: #171717;

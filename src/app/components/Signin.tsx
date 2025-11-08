@@ -211,7 +211,7 @@ const SignIn: React.FC = () => {
   const router=useRouter()
 
   return (
-    <div className="min-h-screen bg-[#fafafa] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-20 px-4 sm:px-8 py-10 sm:py-16 relative overflow-hidden">
+    <div className="min-h-screen bg-[#fafafa] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-20 px-4 sm:px-8 py-10 sm:py-16 relative overflow-hidden inter">
       {/* Background Logo */}
       <Image
         src="/bglogo.svg"
@@ -248,7 +248,7 @@ const SignIn: React.FC = () => {
           />
         </div>
 
-        <h1 className="text-lg sm:text-xl text-gray-900 mb-3 font-semibold">
+        <h1 className="text-lg sm:text-xl text-gray-900 mb-3 font-semibold inter">
           Already a Member? Welcome Back!
         </h1>
 

@@ -14,7 +14,7 @@ const LogoSetting = () => {
   };
 
   return (
-    <div className="mt-10 w-full sm:w-2/3 px-2">
+    <div className="mt-10 w-full sm:w-2/3 px-2 inter">
       <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 w-full">
         {/* Logo preview */}
         <div className="shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-full border-[10px] border-[#EFEFEF] flex items-center justify-center overflow-hidden">

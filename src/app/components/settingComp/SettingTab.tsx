@@ -21,7 +21,7 @@ const tabList = [
 
 export default function Tabs({ activeTab, onTabChange }: TabsProps) {
   return (
-    <div className="w-full overflow-x-auto scrollbar-hide bg-white rounded-lg border border-gray-200 p-1 scroller">
+    <div className="w-full overflow-x-auto scrollbar-hide bg-white rounded-lg border border-gray-200 p-1 scroller inter">
       <div className="flex gap-1 min-w-max items-center justify-between">
         {tabList.map((tab) => (
           <button
