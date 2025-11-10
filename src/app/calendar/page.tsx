@@ -8,6 +8,19 @@ import FilterModal from '../components/FilterModal'
 const page = () => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   
+ const [filters, setFilters] = useState({
+    status: [],
+    selectedMembers: [],
+    leadSource: [],
+    eventType: [],
+    fromDate: "",
+    toDate: "",
+    paymentStatus: [],
+  });
+
+
+
+
   return (
     <div className='w-full bg-[#FaFaFA]'>
         <Navbar />
@@ -16,6 +29,7 @@ const page = () => {
             onClose={() => setOpenFilter(false)}
             isVisible={openFilter}
             setIsVisible={setOpenFilter}
+            onApply={(newfilters=>setFilters(newfilters))}
             
           />
 
