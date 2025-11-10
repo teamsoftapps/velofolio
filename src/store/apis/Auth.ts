@@ -38,7 +38,12 @@ export const Auth = createApi({
         body: { email,password, confirmPassword},
       }),
     }),
-
+signOut: builder.mutation({
+  query: () => ({
+    url: `/Auth/signOut`,
+    method: 'POST',
+  }),
+}),
     verifyOtp: builder.mutation({
       query: ({ email, otp }) => ({
         url: `/Auth/verifyOtp`,

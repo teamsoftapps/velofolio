@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FaCamera, FaQuestionCircle, FaShieldAlt, FaSignOutAlt } from 'react-icons/fa';
@@ -7,6 +8,7 @@ import { FaCamera, FaQuestionCircle, FaShieldAlt, FaSignOutAlt } from 'react-ico
 interface ProfileModalProps {
    setProfileOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
 
 export default function ProfileModal({ setProfileOpen }: ProfileModalProps) {
   return (
@@ -17,12 +19,11 @@ export default function ProfileModal({ setProfileOpen }: ProfileModalProps) {
           <div className="absolute top-20 right-10 bg-white rounded-2xl shadow-2xl w-full max-w-80 p-2 space-y-2">
             {/* Profile Section */}
             <div className="flex flex-col sm:flex-row gap-2 items-center space-y-3">
-              <div className="relative">
-                <div className="w-20 h-20 bg-gray-200 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center">
-                  <div className="w-full h-full rounded-full bg-gray-300" />
-                </div>
-                <div className="absolute bottom-0 right-0 bg-white rounded-full p-1 shadow-md border border-gray-200">
-                  <FaCamera className="w-4 h-4 text-gray-600" />
+              <div className="relative rounded-full group w-16 h-16 b cursor-pointer">
+                <Image alt='0' src="/images/userprofile.png" width={100} height={100} className="w-16 h-16 rounded-full   " />
+                <span className='text-xs text-center text-white hidden  group-hover:block w-16 h-16 bg-black/60 pt-2 top-0 rounded-full absolute'>Upload Photo Max 5mb</span>
+                <div className="absolute bottom-0 right-0 bg-black rounded-full p-1 shadow-md border border-gray-200">
+                  <FaCamera className="w-3 h-3 text-white" />
                 </div>
               </div>
               <div >
@@ -39,7 +40,7 @@ export default function ProfileModal({ setProfileOpen }: ProfileModalProps) {
               <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors">
                                <span className="text-gray-800 font-medium">Help</span>
               </button>
-  <hr className="border-gray-200" />
+              <hr className="border-gray-200" />
               <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors">
                 <FaShieldAlt className="w-5 h-5 text-gray-600" />
                 <span className="text-gray-800 font-medium">Privacy</span>
@@ -47,7 +48,7 @@ export default function ProfileModal({ setProfileOpen }: ProfileModalProps) {
                 <hr className="border-gray-200" />
             </div>
 
-            {/* Sign Out Button */}
+            
             <div className='flex items-center justify-end '>
             <Link href="/" className="w-full text-center bg-black text-md text-white rounded-full py-2 sm:w-32 space-x-2  hover:bg-gray-800 transition-colors">
               

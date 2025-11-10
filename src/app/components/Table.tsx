@@ -54,9 +54,9 @@ const Table = ({
   };
 
   const priorityColors: any = {
-    High: 'bg-red-300',
-    Medium: 'bg-orange-200',
-    Low: 'bg-green-200',
+    High: 'bg-[#F7631C] text-white',
+    Medium: 'bg-[#01B0E9] text-white',
+    Low: 'bg-[#FEBE2A] text-white',
   };
 
   const handlePageChange = (newPage: number) => {

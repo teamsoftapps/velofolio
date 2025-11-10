@@ -29,7 +29,7 @@ const page = () => {
             onClose={() => setOpenFilter(false)}
             isVisible={openFilter}
             setIsVisible={setOpenFilter}
-            onApply={(newfilters=>setFilters(newfilters))}
+            onApply={(newfilters)=>setFilters(newfilters)}
             
           />
 

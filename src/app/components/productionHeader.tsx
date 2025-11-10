@@ -7,7 +7,7 @@ import SortButton from './sortButton';
 import FilterButton from './filterButton';
 import { MdModeEditOutline } from 'react-icons/md';
 import AddTeamMembersModal from './AddTeamMemberModal';
-import SortModal from './SortModal';
+
 
 const ProductionHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
