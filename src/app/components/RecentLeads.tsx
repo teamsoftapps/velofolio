@@ -76,7 +76,7 @@ const RecentLeads = () => {
 
 
   return (
-    <div className="bg-white p-6 sm:p-8  border border-gray-300 rounded-lg shadow-md w-full lg:min-w-1/2 h-[450px] ">
+    <div className="bg-white p-6 sm:p-8  border border-gray-300 rounded-lg shadow-md w-full lg:min-w-1/2 h-[450px]  ">
       {/* Header */}
      <div className="flex flex-col sm:flex-row sm:justify-between  sm:items-center mb-4  lg:gap-0">
         <h2 className="text-lg sm:text-xl lg:text-2xl font-medium text-black mb-2 sm:mb-0 w-40 xl:w-full">
@@ -94,6 +94,7 @@ const RecentLeads = () => {
         color={COLORS.headerBlueButtonbg}
         itemsPerPage={5}
         hoverColor={COLORS.BlueButtonhover}
+       
       
       
       />

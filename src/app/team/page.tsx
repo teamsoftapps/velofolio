@@ -6,7 +6,7 @@
 //   return <div>page</div>;
 // };
 'use client';
-import React, { useEffect ,useState} from 'react';
+import React, { useEffect ,useMemo,useState} from 'react';
 // import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Table from '../components/Table';
@@ -15,6 +15,7 @@ import TeamData from '../../utils/team.json';
 import FormModal from '../components/FormModal';
 import DeleteModal from '../components/DeleteModal';
 import FilterModal from '../components/FilterModal';
+import { applyAdvancedFilters, filterData, sortData } from '@/utils/TableUtils';
 const tableData = TeamData;
 const tableHeaders = [
   { key: 'Name', label: 'Name' },
@@ -33,23 +34,36 @@ export default function Page() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false
   const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
-  const [filteredData, setFilteredData] = React.useState<any[]>(tableData); // Initialize with tableData
-
-  useEffect(() => {
-    if (searchedValue.trim() === '') {
-      setFilteredData(tableData);
-    } else {
-      const searchLower = searchedValue.toLowerCase();
-
-      const filtered = tableData.filter(
-        (item: any) =>
-          item.Name?.toLowerCase().includes(searchLower) ||
-          item.Email?.toLowerCase().includes(searchLower)
-      );
-
-      setFilteredData(filtered);
-    }
-  }, [searchedValue]);
+ 
+    interface SortState {
+  value: string;
+  direction: "asc" | "desc";
+}
+  const [sortBy, setSortBy] = useState<SortState>({
+  value: "createdAt",
+  direction: "desc",
+});;
+ 
+  const [filters, setFilters] = useState({
+     status: [],
+     selectedMembers: [],
+     leadSource: [],
+     eventType: [],
+     fromDate: "",
+     toDate: "",
+     paymentStatus: [],
+   });
+ 
+ 
+ 
+   // Combine search + sort + filter
+   const advancedfilteredData = useMemo(() => {
+     let result = filterData(tableData, searchedValue);
+     result = applyAdvancedFilters(result, filters);
+     result = sortData(result, sortBy);
+     return result;
+   }, [tableData, searchedValue, sortBy, filters]);
+ 
 
   const handleDeleteConfirm = () => {
     console.log('Team deleted');
@@ -78,6 +92,7 @@ export default function Page() {
             onClose={() => setOpenFilter(false)}
             isVisible={openFilter}
             setIsVisible={setOpenFilter}
+            onApply={(newFilters)=>setFilters(newFilters)}
             
           />
       <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA]'>
@@ -96,7 +111,7 @@ export default function Page() {
 
           <Table
             headers={tableHeaders}
-            data={filteredData}
+            data={advancedfilteredData}
             setSearchedData={setSearchedData}
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}

@@ -10,7 +10,7 @@ import OverviewHeader from '../components/OverviewHeader';
 import TableData from '../../utils/Data.json';
 import ClientFormModal from '../components/ClientFormModal';
 import DeleteModal from '../components/DeleteModal';
-import {filterData, sortData, SortState,handleDelete} from "../../utils/TableUtils"
+import {filterData, sortData, SortState,handleDelete, applyAdvancedFilters} from "../../utils/TableUtils"
 
 const tableHeaders = [
   { key: 'name', label: 'Name' },
@@ -35,8 +35,28 @@ export default function Page() {
    value: "createdAt",
    direction: "desc",
  });
- const filteredData = useMemo(() => filterData(tableData, searchedValue), [tableData, searchedValue]);
- const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, sortBy]);
+ const [filters, setFilters] = useState({
+    status: [],
+    selectedMembers: [],
+    leadSource: [],
+    eventType: [],
+    fromDate: "",
+    toDate: "",
+    paymentStatus: [],
+  });
+
+
+
+  // Combine search + sort + filter
+  const advancedfilteredData = useMemo(() => {
+    let result = filterData(tableData, searchedValue);
+    result = applyAdvancedFilters(result, filters);
+    result = sortData(result, sortBy);
+    return result;
+  }, [tableData, searchedValue, sortBy, filters]);
+
+//  const filteredData = useMemo(() => filterData(tableData, searchedValue), [tableData, searchedValue]);
+//  const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, sortBy]);
 
 
 
@@ -69,6 +89,7 @@ export default function Page() {
             onClose={() => setOpenFilter(false)}
             isVisible={openFilter}
             setIsVisible={setOpenFilter}
+              onApply={(newFilters) => setFilters(newFilters)}
             
           />
       
@@ -89,7 +110,7 @@ export default function Page() {
   
           <Table
             headers={tableHeaders}
-            data={sortedData}
+            data={advancedfilteredData}
             setDeleteModal={setIsDeleteModalOpen}
             setSearchedData={setSearchedData}
           />

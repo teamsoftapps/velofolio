@@ -23,7 +23,7 @@ import DeleteModal from '../components/DeleteModal';
 import PayementData from '../../utils/Payements.json';
 import FilterModal from '../components/FilterModal';
 const tableData = PayementData;
-import { filterData, sortData, handleDelete } from '../../utils/TableUtils';
+import { filterData, sortData, handleDelete, applyAdvancedFilters } from '../../utils/TableUtils';
 
 const tableHeaders = [
   { key: 'client', label: 'Client' },
@@ -32,23 +32,23 @@ const tableHeaders = [
   { key: 'amount', label: 'Amount ($)' },
   { key: 'paid', label: 'Paid ($)' },
   { key: 'balance', label: 'Balance ($)' },
-  { key: 'status', label: 'Status' },
+  { key: 'paymentStatus', label: 'Status' },
   { key: 'dueDate', label: 'Due Date' },
   { key: 'paymentMethod', label: 'Payment Method' },
 ];
 
 export default function Page() {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); 
   const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
-  // const [filteredData, setFilteredData] = React.useState<any[]>(tableData); // Initialize with tableData
+
   const [OpenForm, setOpenForm] = useState(false);
 
   const handleDeleteConfirm = () => {
     console.log('Job deleted');
     setIsDeleteModalOpen(false);
-    // Add delete logic here (e.g., API call and update tableData)
+
   };
   interface SortState {
   value: string;
@@ -58,8 +58,27 @@ export default function Page() {
   value: "createdAt",
   direction: "desc",
 });;
-const filteredData = useMemo(() => filterData(tableData, searchedValue), [tableData, searchedValue]);
-const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, sortBy]);
+
+
+ const [filters, setFilters] = useState({
+    status: [],
+    selectedMembers: [],
+    leadSource: [],
+    eventType: [],
+    fromDate: "",
+    toDate: "",
+    paymentStatus: [],
+  });
+
+
+
+  // Combine search + sort + filter
+  const advancedfilteredData = useMemo(() => {
+    let result = filterData(tableData, searchedValue);
+    result = applyAdvancedFilters(result, filters);
+    result = sortData(result, sortBy);
+    return result;
+  }, [tableData, searchedValue, sortBy, filters]);
 
   return (
     <>
@@ -79,6 +98,7 @@ const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, 
             onClose={() => setOpenFilter(false)}
             isVisible={openFilter}
             setIsVisible={setOpenFilter}
+            onApply={(newFilters)=>setFilters(newFilters)}
             
           />
         <div className='container mx-auto bg-[#FAFAFA] w-[100%] '>
@@ -96,7 +116,7 @@ const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, 
 
           <Table
             headers={tableHeaders}
-            data={sortedData}
+            data={advancedfilteredData}
             setOpenForm={setOpenForm}
             setIsDeleteModalOpen={setIsDeleteModalOpen}
           />

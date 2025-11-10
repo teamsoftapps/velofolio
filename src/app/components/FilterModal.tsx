@@ -14,12 +14,14 @@ const teamMembers: TeamMember[] = [
   { id: '2', name: 'Anna David' },
   { id: '3', name: 'Mike Chen' },
   { id: '4', name: 'Emma Wilson' },
+   { id: 't4', name: 'Marketing' },
+    { id: 't5', name: 'Emma Wilson' },
 ];
 
-export default function FilterModal({ isOpen, onClose,isVisible, setIsVisible }: { isOpen: boolean; onClose: () => void, isVisible: boolean, setIsVisible: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function FilterModal({ isOpen, onClose,isVisible, setIsVisible,onApply }: { isOpen: boolean; onClose: () => void,onApply: (filters: any) => void; isVisible: boolean, setIsVisible: React.Dispatch<React.SetStateAction<boolean>> }) {
   // Status Filters
   const [status, setStatus] = useState<string[]>(['Active']);
-  const statuses = ['Active', 'Inactive', 'Lead', 'Archived'];
+  const statuses = ['Active', 'Inactive', 'Lead', 'Archived',"Booked","New Lead"];
 
   // Assigned Team Members
   const [selectedMembers, setSelectedMembers] = useState<TeamMember[]>([
@@ -38,7 +40,7 @@ export default function FilterModal({ isOpen, onClose,isVisible, setIsVisible }:
 
   // Payment Status
   const [paymentStatus, setPaymentStatus] = useState<string[]>([]);
-  const paymentStatuses = ['Paid', 'Pending', 'Overdue'];
+  const paymentStatuses = ['Paid', 'Pending', 'Overdue',"Booked","Archived"];
 
   // Date Range
   const [fromDate, setFromDate] = useState('');
@@ -55,7 +57,7 @@ useEffect(() => {
     if (isOpen) {
       setIsVisible(true);
     } else {
-      // Delay unmount for animation
+      
       const timer = setTimeout(() => setIsVisible(false), 300);
       return () => clearTimeout(timer);
     }
@@ -68,8 +70,28 @@ useEffect(() => {
     setDropdownOpen(false);
   };
 
+
+  const resetFilters = () => {
+  setStatus([]);
+  setSelectedMembers([]);
+  setLeadSource([]);
+  setEventType([]);
+  setFromDate('');
+  setToDate('');
+  setPaymentStatus([]);
+  onApply({
+    status: [],
+    selectedMembers: [],
+    leadSource: [],
+    eventType: [],
+    fromDate: '',
+    toDate: '',
+    paymentStatus: [],
+  });
+};
+
   const applyFilters = () => {
-    console.log('Filters applied:', {
+    const filters = {
       status,
       selectedMembers,
       leadSource,
@@ -77,8 +99,9 @@ useEffect(() => {
       fromDate,
       toDate,
       paymentStatus,
-    });
+    };
     onClose();
+    onApply(filters)
   };
 
   if (!isOpen) return null;
@@ -270,7 +293,7 @@ useEffect(() => {
             >
               Apply
             </button>
-            <button className='text-center w-full  mt-2 text-[#01B0E9]'>Reset</button>
+            <button className='text-center w-full  mt-2 text-[#01B0E9]' onClick={resetFilters}>Reset</button>
           </div>
         </div>
       </div>

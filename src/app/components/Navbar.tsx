@@ -14,7 +14,7 @@ const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const tabs = [
-    { name: 'Dashboard', icon: '/images/home.png', href: '/' },
+    { name: 'Dashboard', icon: '/images/home.png', href: '/dashboard' },
     { name: 'Clients', icon: '/images/users.png', href: '/clients' },
     { name: 'Production', icon: '/images/film.png', href: '/production' },
     { name: 'Leads', icon: '/images/leads.png', href: '/leads' },

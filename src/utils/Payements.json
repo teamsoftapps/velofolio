@@ -6,7 +6,7 @@
     "amount": "$2,000",
     "paid": "$1,500",
     "balance": "$500",
-    "status": "Pending",
+    "paymentStatus": "Pending",
     "dueDate": "2025-11-23",
     "paymentMethod": "Bank Transfer",
     "avatar": "/teampic1.png"
@@ -18,7 +18,7 @@
     "amount": "$2,000",
     "paid": "$1,500",
     "balance": "$500",
-    "status": "Paid",
+    "paymentStatus": "Paid",
     "dueDate": "2025-11-23",
     "paymentMethod": "Bank Transfer",
     "avatar": "/teampic1.png"
@@ -30,7 +30,7 @@
     "amount": "$2,000",
     "paid": "$2,500",
     "balance": "$500",
-    "status": "Overdue",
+    "paymentStatus": "Overdue",
     "dueDate": "2025-11-23",
     "paymentMethod": "Bank Transfer",
     "avatar": "/teampic1.png"
@@ -42,7 +42,7 @@
     "amount": "$7,000",
     "paid": "$2,500",
     "balance": "$2200",
-    "status": "Overdue",
+    "paymentStatus": "Overdue",
     "dueDate": "2025-11-01",
     "paymentMethod": "Bank Transfer",
     "avatar": "/teampic1.png"

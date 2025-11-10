@@ -309,6 +309,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useSignupMutation } from "@/store/apis/Auth";
 
 // ✅ Validation schema
 const SignupSchema = Yup.object({
@@ -321,7 +322,7 @@ const SignupSchema = Yup.object({
     .required("Password is required"),
   agree: Yup.boolean().oneOf([true], "You must accept the terms"),
 });
-
+const [signup] = useSignupMutation();
 const Signup: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#fafafa] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-20 px-2 py-12 relative overflow-hidden">
@@ -373,6 +374,7 @@ const Signup: React.FC = () => {
           }}
           validationSchema={SignupSchema}
           onSubmit={(values,{ setSubmitting, resetForm }) => {
+            signup(values);
             console.log("✅ Form Submitted:", values);
             resetForm();
             setSubmitting(false)

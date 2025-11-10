@@ -200,7 +200,7 @@ import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
-
+import { useSigninMutation } from "@/store/apis/Auth";
 
 const SignIn: React.FC = () => {
   // ✅ Validation Schema
@@ -209,6 +209,8 @@ const SignIn: React.FC = () => {
     password: Yup.string().required("Password is required"),
   });
   const router=useRouter()
+
+  const [signin] = useSigninMutation();
 
   return (
     <div className="min-h-screen bg-[#fafafa] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-20 px-4 sm:px-8 py-10 sm:py-16 relative overflow-hidden inter">
@@ -257,7 +259,7 @@ const SignIn: React.FC = () => {
           initialValues={{ email: "", password: "" }}
           validationSchema={signInSchema}
           onSubmit={(values, { setSubmitting }) => {
-            console.log("Form Values:", values);
+            signin(values);
             router.push('/dashboard')
             setTimeout(() => {
               setSubmitting(false); 

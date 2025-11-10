@@ -13,7 +13,7 @@ import JobsData from '../../utils/Job.json';
 import JobsChartData from '../../utils/JobsChart.json';
 
 const tableData = JobsData;
-import { filterData, sortData, handleDelete } from '../../utils/TableUtils';
+import { filterData, sortData, handleDelete, applyAdvancedFilters } from '../../utils/TableUtils';
 
 const tableHeaders = [
   { key: 'jobNameClient', label: 'Job Name / Client' },
@@ -40,8 +40,28 @@ export default function Page() {
   value: "createdAt",
   direction: "desc",
 });;
-const filteredData = useMemo(() => filterData(tableData, searchedValue), [tableData, searchedValue]);
-const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, sortBy]);
+// const filteredData = useMemo(() => filterData(tableData, searchedValue), [tableData, searchedValue]);
+// const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, sortBy]);
+
+ const [filters, setFilters] = useState({
+    status: [],
+    selectedMembers: [],
+    leadSource: [],
+    eventType: [],
+    fromDate: "",
+    toDate: "",
+    paymentStatus: [],
+  });
+
+
+
+  // Combine search + sort + filter
+  const advancedfilteredData = useMemo(() => {
+    let result = filterData(tableData, searchedValue);
+    result = applyAdvancedFilters(result, filters);
+    result = sortData(result, sortBy);
+    return result;
+  }, [tableData, searchedValue, sortBy, filters]);
 
 
   return (
@@ -62,6 +82,7 @@ const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, 
             onClose={() => setOpenFilter(false)}
             isVisible={openFilter}
             setIsVisible={setOpenFilter}
+            onApply={(newfilters) => setFilters(newfilters)}
             
           />
           
@@ -80,7 +101,7 @@ const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, 
 
           <Table
             headers={tableHeaders}
-            data={sortedData}
+            data={advancedfilteredData}
             setOpenForm={setOpenForm}
             setIsDeleteModalOpen={setIsDeleteModalOpen}
           />

@@ -1,7 +1,7 @@
 [
   {
-    "name": "John Doe",
-    "event": "Product Launch",
+    "name": "Sarah Johnson",
+    "event": "Wedding",
     "status": "New Lead",
     "eventDate": "2025-10-20",
     "assignedTeam": "Marketing",
@@ -10,8 +10,8 @@
     "action": "View Details"
   },
   {
-    "name": "John Doe",
-    "event": "Product Launch",
+    "name": "Sarah Johnson",
+    "event": "Wedding",
     "status": "Proposal",
     "eventDate": "2025-10-20",
     "assignedTeam": "Marketing",
@@ -21,7 +21,7 @@
   },
   {
     "name": "Sarah Connor",
-    "event": "Client Onboarding",
+    "event": "Pre Wedding",
     "status": "Booked",
     "eventDate": "2025-10-25",
     "assignedTeam": "Sales",
@@ -31,7 +31,7 @@
   },
   {
     "name": "Michael Brown",
-    "event": "Annual Conference",
+    "event": "Corporate",
     "status": "Booked",
     "eventDate": "2025-11-05",
     "assignedTeam": "Operations",
@@ -40,8 +40,8 @@
     "action": "Assign Task"
   },
   {
-    "name": "Emily Davis",
-    "event": "Marketing Summit",
+    "name": "Anna David",
+    "event": "Corporate",
     "status": "Proposal",
     "eventDate": "2025-10-28",
     "assignedTeam": "Marketing",
@@ -50,7 +50,7 @@
     "action": "Send Proposal"
   },
   {
-    "name": "Robert Johnson",
+    "name": "Emma Wilson",
     "event": "Press Conference",
     "status": "New Lead",
     "eventDate": "2025-10-22",
@@ -60,8 +60,8 @@
     "action": "View Details"
   },
   {
-    "name": "Olivia Martinez",
-    "event": "Workshop Event",
+    "name": "Emma Wilson",
+    "event": "Corporate",
     "status": "Booked",
     "eventDate": "2025-10-30",
     "assignedTeam": "Operations",
@@ -80,7 +80,7 @@
     "action": "Send Proposal"
   },
   {
-    "name": "Sophia Miller",
+    "name": "Mike Chen",
     "event": "Team Retreat",
     "status": "Done",
     "eventDate": "2025-09-29",
@@ -100,7 +100,7 @@
     "action": "View Details"
   },
   {
-    "name": "Ava Thomas",
+    "name": "Mike Chen",
     "event": "Networking Session",
     "status": "New Lead",
     "eventDate": "2025-10-27",

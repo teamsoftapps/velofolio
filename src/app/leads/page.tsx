@@ -1,10 +1,4 @@
-/** @format */
 
-// import React from "react";
-
-// export const page = () => {
-//   return <div>page</div>;
-// };
 'use client';
 import React, { useEffect, useMemo, useState } from 'react';
 import Navbar from '../components/Navbar';
@@ -13,11 +7,10 @@ import OverviewHeader from '../components/OverviewHeader';
 import OverviewChart from '../components/OverviewChart';
 import LeadsData from '../../utils/LeadsChart.json';
 import LeadForm from '../components/LeadFormModel';
-// import TableData from '../../utils/Data.json';
 import DeleteModal from '../components/DeleteModal';
 import LeadData from '../../utils/Lead.json';
 import FilterModal from '../components/FilterModal';
-import {filterData, sortData, handleDelete} from "../../utils/TableUtils";
+import {filterData, sortData, handleDelete, applyAdvancedFilters} from "../../utils/TableUtils";
 
 const tableData = LeadData;
 
@@ -33,7 +26,7 @@ const tableHeaders = [
 
 
 export default function Page() {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); 
   const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
 
@@ -48,9 +41,29 @@ export default function Page() {
   value: "createdAt",
   direction: "desc",
 });;
-const filteredData = useMemo(() => filterData(tableData, searchedValue), [tableData, searchedValue]);
-const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, sortBy]);
 
+
+const [filters, setFilters] = useState({
+    status: [],
+    selectedMembers: [],
+    leadSource: [],
+    eventType: [],
+    fromDate: "",
+    toDate: "",
+    paymentStatus: [],
+  });
+
+
+
+  // Combine search + sort + filter
+  const advancedfilteredData = useMemo(() => {
+    let result = filterData(tableData, searchedValue);
+    result = applyAdvancedFilters(result, filters);
+    result = sortData(result, sortBy);
+    return result;
+  }, [tableData, searchedValue, sortBy, filters]);
+  
+  
   return (
     <>
       <Navbar />
@@ -87,12 +100,13 @@ const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, 
                    onClose={() => setOpenFilter(false)}
                    isVisible={openFilter}
                    setIsVisible={setOpenFilter}
+                   onApply={(newFilters)=>setFilters(newFilters)}
                    
                  />
 
           <Table
             headers={tableHeaders}
-            data={sortedData}
+            data={advancedfilteredData}
             setOpenForm={setOpenForm}
             setIsDeleteModalOpen={setIsDeleteModalOpen}
           />

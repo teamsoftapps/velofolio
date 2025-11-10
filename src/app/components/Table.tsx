@@ -68,11 +68,11 @@ const Table = ({
  <div
   className={`w-full mt-4 md:p-3 
     ${
-      pasthname === '/teamProfile' || pasthname === '/' || pasthname === '/reports'
+      pasthname === '/teamProfile' || pasthname === '/dashboard' || pasthname === '/reports'
         ? 'lg:p-0'
         : 'lg:p-7 border-1 border-gray-300 rounded-2xl'
     }
-    ${pasthname === '/' ? 'h-[230px] overflow-auto' : ''}
+    ${pasthname === '/dashboard' ? 'h-[230px] overflow-auto' : ''}
   `}
 >
 
@@ -168,7 +168,7 @@ if (key === "paymentMethod") {
 }
 
                     // Status column
-       if (key === 'status' || key === 'Status') {
+       if (key === 'status' || key === 'Status' || key==="paymentStatus" || key==="Payment Status") {
           
   const textColor =
     row[key] === 'New Lead' || row[key] === 'Pending' || row[key] === 'Inactive' ? 'text-black' : 'text-white';
@@ -176,10 +176,10 @@ if (key === "paymentMethod") {
   return (
     <td
       key={cellIndex}
-      className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8] min-w-[80px] sm:min-w-[80px] md:min-w-[100px] lg:w-[140px]"
+      className="py-2 sm:py-3 md:py-2 text-center border-b border-[#D4D4D8] min-w-[80px] sm:min-w-[80px] md:min-w-[100px] lg:w-[140px]"
     >
       <span
-        className={`p-1 px-2 sm:px-3 max-w-[120px] lg:p-1 inline-block rounded-2xl w-full ${textColor} ${
+        className={`p-1 px-2 sm:px-2 max-w-[120px] lg:p-1 inline-block rounded-2xl w-full ${textColor} ${
           statusColors[row[key]] || 'bg-gray-900'
         }`}
       >
@@ -290,8 +290,9 @@ if (key === "paymentMethod") {
         onPageChange={handlePageChange}
         initialPage={currentPage}
         color={color}
-         hoverColor={pasthname==='/'?COLORS.BlueButtonhover:COLORS.greenHover}
-         disabledColor={pasthname==='/'?COLORS.BlueDisabled:COLORS.GreenDisabled}      />)}
+         hoverColor={pasthname==='/dashboard'?COLORS.BlueButtonhover:COLORS.greenHover}
+         disabledColor={pasthname==='/dashbaord'?COLORS.BlueDisabled:COLORS.GreenDisabled}      />)}
+
     </>
   );
 };
