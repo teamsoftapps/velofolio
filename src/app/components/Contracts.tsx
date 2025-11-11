@@ -5,27 +5,59 @@ import FilterButton from './filterButton'
 import Table from './Table'
 
 const tableHeaders = [
-    { key: 'documentType', label: 'Document Type' },
+    { key: 'documentType', label: 'Document' },
     { key: 'type', label: 'Type' },
     { key: 'uploadedBy', label: 'Email' },
     { key: 'role', label: 'Role' },
     { key: 'status', label: 'Status' },
-    { key: 'actions', label: 'Actions' },
+    { key: 'action', label: 'Actions' },
 ]
 const tableData = [
-    {
-        "id": 1,
-       "name": 'John Doe',
-        "email": 'H2VXu@example.com',
-       "role": 'Administrator',
-       "status": 'Active',
-        "actions": 'Edit | Delete',
-    },
+      {
+    documentType: "Federal Tax",
+    type: "PDF",
+    uploadedBy: "john.doe@example.com",
+    role: "Dealer",
+    status: "Approved", // or "Pending", "Rejected"
+    actions: "", // or handle as buttons in UI
+  },
+  {
+    documentType: "Driving License",
+    type: "PDF",
+    uploadedBy: "jane.doe@example.com",
+    role: "Customer",
+    status: "Pending",
+    actions: "",
+  },
+  {
+    documentType: "Social Security",
+    type: "PDF",
+    uploadedBy: "manager@example.com",
+    role: "Admin",
+    status: "Rejected",
+    actions: "",
+  },
+  {
+    documentType: "Resale ",
+    type: "PDF",
+    uploadedBy: "dealer@example.com",
+    role: "Dealer",
+    status: "Approved",
+    actions: "",
+  },
+  {
+    documentType: "Voided Check",
+    type: "PDF",
+    uploadedBy: "employee@example.com",
+    role: "Vendor",
+    status: "Pending",
+    actions: "",
+  },
 ]
 const Contracts = () => {
   return (
     <div className='w-full '>
-        <div className='w-3/4 gap-4 bg-red-400 flex items-center  '>
+        <div className='w-3/4 gap-4  flex items-center  '>
             <SearchComponent 
             placeHolder="Search"/>
             <SortButton />

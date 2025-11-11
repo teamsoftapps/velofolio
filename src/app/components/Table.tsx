@@ -51,6 +51,8 @@ const Table = ({
     'In Progress': 'bg-[#FEBE2A]',
     Overdue:"bg-[#14CB95]",
     Inactive:"bg-gray-200",
+    Approved:'bg-green-500',
+    Rejected:'bg-red-500',
   };
 
   const priorityColors: any = {
@@ -68,7 +70,7 @@ const Table = ({
  <div
   className={`w-full mt-4 md:p-3 
     ${
-      pasthname === '/teamProfile' || pasthname === '/dashboard' || pasthname === '/reports'
+      pasthname === '/teamProfile' || pasthname === '/dashboard' || pasthname === '/clientProfile'|| pasthname === '/reports'
         ? 'lg:p-0'
         : 'lg:p-7 border-1 border-gray-300 rounded-2xl'
     }
@@ -285,13 +287,16 @@ if (key === "paymentMethod") {
         </div>
       </div>
 
-     {pasthname!=='/reports' && (<Pagination
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-        initialPage={currentPage}
-        color={color}
-         hoverColor={pasthname==='/dashboard'?COLORS.BlueButtonhover:COLORS.greenHover}
-         disabledColor={pasthname==='/dashbaord'?COLORS.BlueDisabled:COLORS.GreenDisabled}      />)}
+     {!(pasthname === '/reports' || pasthname === '/clientProfile') && (
+  <Pagination
+    totalPages={totalPages}
+    onPageChange={handlePageChange}
+    initialPage={currentPage}
+    color={color}
+    hoverColor={pasthname === '/dashboard' ? COLORS.BlueButtonhover : COLORS.greenHover}
+    disabledColor={pasthname === '/dashboard' ? COLORS.BlueDisabled : COLORS.GreenDisabled}
+  />
+)}
 
     </>
   );

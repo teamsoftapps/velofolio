@@ -21,22 +21,43 @@ const Permissions: React.FC = () => {
   });
 
   const [roles, setRoles] = useState<Record<string, RoleSection>>({
-    Admin: {
-      title: 'Admin',
-      permissions: [
-        { label: 'View Clients', checked: true, category: 'Client Access' },
-        { label: 'Add / Edit / Delete Clients', checked: true, category: 'Client Access' },
-        { label: 'View Payments', checked: true, category: 'Financial Access' },
-        { label: 'Manage Payments', checked: false, category: 'Financial Access' },
-        { label: 'Create / Edit Jobs', checked: true, category: 'Job Management' },
-        { label: 'Assign Team Members', checked: true, category: 'Job Management' },
-        { label: 'Add / Remove Users', checked: true, category: 'System Settings' },
-        { label: 'Manage Roles', checked: true, category: 'System Settings' },
-      ],
-    },
-    Manager: { title: 'Manager', permissions: [] },
-    Editor: { title: 'Editor', permissions: [] },
+  Admin: {
+    title: 'Admin',
+    permissions: [
+      { label: 'View Clients', checked: true, category: 'Client Access' },
+      { label: 'Add / Edit / Delete Clients', checked: true, category: 'Client Access' },
+      { label: 'View Payments', checked: true, category: 'Financial Access' },
+      { label: 'Manage Payments', checked: true, category: 'Financial Access' },
+      { label: 'Create / Edit Jobs', checked: true, category: 'Job Management' },
+      { label: 'Assign Team Members', checked: true, category: 'Job Management' },
+      { label: 'Add / Remove Users', checked: true, category: 'System Settings' },
+      { label: 'Manage Roles', checked: true, category: 'System Settings' },
+    ],
+  },
+  Manager: {
+    title: 'Manager',
+    permissions: [
+      { label: 'View Clients', checked: true, category: 'Client Access' },
+      { label: 'Add / Edit Clients', checked: true, category: 'Client Access' },
+      { label: 'View Payments', checked: true, category: 'Financial Access' },
+      { label: 'Assign Team Members', checked: true, category: 'Job Management' },
+      { label: 'Update Status', checked: true, category: 'Job Management' },
+      { label: 'Manage Roles', checked: false, category: 'System Settings' },
+    ],
+  },
+  Editor: {
+    title: 'Editor',
+    permissions: [
+      { label: 'View Clients', checked: true, category: 'Client Access' },
+      { label: 'Add / Edit / Delete Clients', checked: false, category: 'Client Access' },
+      { label: 'Manage Payments', checked: false, category: 'Financial Access' },
+      { label: 'Update Tasks', checked: true, category: 'Job Management' },
+      { label: 'Manage Roles', checked: false, category: 'System Settings' },
+    ],
+  },
   });
+
+
 
   const toggleExpand = (role: string) =>
     setExpanded(prev => ({ ...prev, [role]: !prev[role] }));
