@@ -19,6 +19,7 @@ import { MdModeEditOutline } from 'react-icons/md';
 import SearchComponent from '../components/SearchComponent';
 import { CiFilter } from 'react-icons/ci';
 import AddButton from '../components/AddButton';
+import Contracts from '../components/Contracts';
 
 const ClientProfilePage = () => {
   const [activeTab, setActiveTab] = useState('Overview');
@@ -386,6 +387,7 @@ const ClientProfilePage = () => {
                 </div>
               </div>
             )}
+                  {activeTab === 'Contracts & Docs' && <Contracts/>}
             {activeTab === 'Tasks' && (
               <div className='flex flex-col gap-4 sm:gap-6'>
                 <div className='w-full bg-white p-4 sm:p-5 rounded-lg'>
