@@ -57,7 +57,7 @@ const tableData = [
 const Contracts = () => {
   return (
     <div className='w-full '>
-        <div className='w-3/4 gap-4  flex items-center  '>
+        <div className=' w-full  lg:w-3/4 gap-4 flex-wrap flex sm:flex-nowrap items-center  '>
             <SearchComponent 
             placeHolder="Search"/>
             <SortButton />
