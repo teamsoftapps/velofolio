@@ -310,6 +310,7 @@ import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useSignupMutation } from "@/store/apis/Auth";
+import { toast } from "react-toastify";
 
 // ✅ Validation schema
 const SignupSchema = Yup.object({
@@ -322,6 +323,7 @@ const SignupSchema = Yup.object({
     .required("Password is required"),
   agree: Yup.boolean().oneOf([true], "You must accept the terms"),
 });
+const {success}=toast
 const [signup] = useSignupMutation();
 const Signup: React.FC = () => {
   return (
@@ -375,6 +377,7 @@ const Signup: React.FC = () => {
           validationSchema={SignupSchema}
           onSubmit={(values,{ setSubmitting, resetForm }) => {
             signup(values);
+              success("USer Registered Successfully")
             console.log("✅ Form Submitted:", values);
             resetForm();
             setSubmitting(false)

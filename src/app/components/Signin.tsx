@@ -201,7 +201,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { useSigninMutation } from "@/store/apis/Auth";
-
+import { toast } from "react-toastify"
 const SignIn: React.FC = () => {
   // ✅ Validation Schema
   const signInSchema = Yup.object({
@@ -211,7 +211,7 @@ const SignIn: React.FC = () => {
   const router=useRouter()
 
   const [signin] = useSigninMutation();
-
+const {success}=toast
   return (
     <div className="min-h-screen bg-[#fafafa] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-20 px-4 sm:px-8 py-10 sm:py-16 relative overflow-hidden inter">
       {/* Background Logo */}
@@ -260,6 +260,7 @@ const SignIn: React.FC = () => {
           validationSchema={signInSchema}
           onSubmit={(values, { setSubmitting }) => {
             signin(values);
+            success("Login Successfull")
             router.push('/dashboard')
             setTimeout(() => {
               setSubmitting(false); 
