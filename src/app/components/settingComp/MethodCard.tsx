@@ -46,7 +46,7 @@ const MethodCard: React.FC<Props> = ({ method }) => {
             Default
           </button>
         ) : (
-          <button className="rounded-full px-3 py-1 border border-[#01B0E9] text-[#01B0E9] text-sm sm:text-base whitespace-nowrap">
+          <button className="rounded-full px-3 py-1 border border-[#01B0E9] text-[#01B0E9] text-sm sm:text-base whitespace-nowrap cursor-pointer">
             Set Default
           </button>
         )}
