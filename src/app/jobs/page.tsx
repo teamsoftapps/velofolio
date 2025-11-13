@@ -68,7 +68,7 @@ export default function Page() {
     <>
       <Navbar />
 
-      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA]'>
+      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden'>
       
         {isDeleteModalOpen && (
           <DeleteModal

@@ -41,7 +41,7 @@ const LeadCard = ({
           alt='diagram'
           width={100}
           height={100}
-          className='w-20 md:w-28 lg:w-48'
+          className='w-20 md:w-28 lg:w-40'
         />
       </div>
     </div>
@@ -60,7 +60,7 @@ interface LeadDashboardProps {
 
 const OverviewChart = ({ chartData }: LeadDashboardProps) => {
   return (
-    <div className='w-full flex flex-wrap gap-4 lg:flex-nowrap mx-2 md:mx-0 md:px-2'>
+    <div className='w-full flex flex-wrap gap-4 lg:flex-nowrap mx-2 md:mx-0 md:px-2 overflow-hidden'>
       {chartData.map((data, index) => (
         <LeadCard
           key={index}

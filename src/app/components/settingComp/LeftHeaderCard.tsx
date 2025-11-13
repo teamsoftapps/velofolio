@@ -6,7 +6,7 @@ const LeftHeaderCard = () => {
     <div className='leftcard p-4 sm:p-6 border-2 text-white rounded-2xl w-full lg:w-1/2 h-auto lg:h-44 flex flex-col sm:flex-row justify-between items-start lg:items-center bg-[url("/baner.svg")] bg-cover bg-center'>
       
       {/* Left Section */}
-      <div className="left flex flex-col gap-2 sm:gap-4 w-full sm:w-3/5">
+      <div className="left flex flex-col gap-2 sm:gap-3 w-full sm:w-3/5">
         <div>
           <span className='bg-[#FEBE2A] px-2 py-1 text-black rounded-lg text-xs sm:text-sm'>PRO STUDIO</span> Plan
         </div>

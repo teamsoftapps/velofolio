@@ -8,6 +8,7 @@ import SettingForm from '../components/settingComp/SettingForm'
 import CompanyInfo from '../components/CompanyInfo'
 import TeamnPermission from '../components/settingComp/TeamnPermission'
 import PaymentnBilling from '../components/settingComp/PaymentnBilling'
+import EmailNotificationn from '../components/settingComp/EmailNotificationn'
 
 const page = () => {
   const [activeTab, setActiveTab] = useState('Company Info');
@@ -32,6 +33,10 @@ const page = () => {
 {
   activeTab === 'Payments & Billing' && <PaymentnBilling />
 }
+{
+  activeTab === 'Email & Notifications' && <EmailNotificationn />
+}
+
 
 </div>
 
