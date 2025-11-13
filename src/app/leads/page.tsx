@@ -80,7 +80,7 @@ const [filters, setFilters] = useState({
           onConfirm={()=>handleDelete(setIsDeleteModalOpen)}
         />
       )}
-      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA]'>
+      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden'>
         {/* <Pagination /> */}
         <div className='container mx-auto bg-[#FAFAFA] w-[100%] '>
           <OverviewHeader

@@ -324,8 +324,8 @@ const SignupSchema = Yup.object({
   agree: Yup.boolean().oneOf([true], "You must accept the terms"),
 });
 const {success}=toast
-const [signup] = useSignupMutation();
 const Signup: React.FC = () => {
+  const [signup] = useSignupMutation();
   return (
     <div className="min-h-screen bg-[#fafafa] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-20 px-2 py-12 relative overflow-hidden">
       {/* Background Logo */}
