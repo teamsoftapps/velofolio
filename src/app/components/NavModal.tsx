@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { BiPlus, BiPlusCircle } from 'react-icons/bi';
 import { FaCamera, FaQuestionCircle, FaShieldAlt, FaSignOutAlt } from 'react-icons/fa';
 
 interface ProfileModalProps {
@@ -34,6 +35,24 @@ export default function ProfileModal({ setProfileOpen }: ProfileModalProps) {
 
             {/* Divider */}
             <hr className="border-gray-200" />
+            {/* Companies */}
+        <div className='text-black'>
+          <h1 className='mb-2'>Companies</h1>
+          <div className='flex items-center gap-3 bg-[#E5F7FD] p-4'>
+            <Image alt='0' src="/images/logo2.png" width={100} height={100} className="w-9 h-9 object-contain  bg-white   " />
+            <h1>Velofolio</h1>
+          </div>
+          <div>
+            <button className="w-full flex items-center space-x-3 px-1 py-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+              <div className='bg-[#00A4DD] p-1 rounded-full'>
+              <BiPlus className="w-6 h-6 text-white " />
+
+              </div>
+              <span className="text-gray-800 font-medium">Create New Workpace</span>
+            </button>
+        
+          </div>
+        </div>
 
             {/* Menu Items */}
             <div className="space-y-2">

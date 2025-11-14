@@ -1,9 +1,19 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import AddButton from '../AddButton'
 import Image from 'next/image'
 import { BsFillTrashFill } from 'react-icons/bs'
 import MethodCard from './MethodCard'
-const paymentMethods = [
+interface PaymentMethodType {
+  id: number;
+  brand: string;
+  image: string;
+  last4: string;
+  expiry: string;
+  isDefault: boolean;
+}
+const methods: PaymentMethodType[] = [
+  
     {
       id: 1,
       brand: "Visa",
@@ -28,10 +38,19 @@ const paymentMethods = [
       expiry: "03/26",
       isDefault: false,
     },
-  ];
+  ]
 
-const PaymentMethod = () => {
-  return (
+  const PaymentMethod = () => {
+    const [paymentMethods, setPaymentMethods] =useState<PaymentMethodType[]>(methods)
+    const toggleMethod = (id: number) => {
+  setPaymentMethods((prevMethods) =>
+    prevMethods.map((method) => ({
+      ...method,
+      isDefault: method.id === id, // Only the clicked one is default
+    }))
+  );
+};
+    return (
     <div className='w-full lg:w-1/2  h-96 bg-white rounded-xl p-5 border-1 border-gray-300 overflow-hidden '>
 <div className='w-full items-center flex justify-between'>
 <h1 className='text-xl'>Payment Methods</h1> 
@@ -41,7 +60,7 @@ const PaymentMethod = () => {
 </div>
 <div className='mt-3 flex flex-col gap-3 h-80 overflow-y-auto pb-10'>
    {paymentMethods.map((method) => (
-        <MethodCard key={method.id} method={method} />
+        <MethodCard key={method.id} method={method} toggleMethod={toggleMethod}/>
       ))}
 
 

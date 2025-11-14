@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import ProfileModal from './NavModal';
+import { BiPlus } from 'react-icons/bi';
 
 const Navbar = () => {
   const router = useRouter();
@@ -132,7 +133,7 @@ const Navbar = () => {
             ))}
             {/* Profile in Mobile Menu */}
             <div className='border-t border-gray-200 pt-4'>
-              <div className='flex items-center px-3 mb-3'>
+<div className='flex items-center px-3 mb-3'>
                 <div className='rounded-full h-9 w-9 flex items-center justify-center bg-gray-200'>
                   <Image
                     src='/images/userprofile.png'
@@ -153,6 +154,23 @@ const Navbar = () => {
                   onClick={() => setIsMobileMenuOpen(false)}>
                   Profile
                 </Link>
+                  <div className='text-black px-2'>
+                          <h1 className='mb-2 text-sm'>Companies</h1>
+                          <div className='flex items-center gap-3 bg-[#E5F7FD] p-4'>
+                            <Image alt='0' src="/images/logo2.png" width={100} height={100} className="w-9 h-9 object-contain  bg-white   " />
+                            <h1>Velofolio</h1>
+                          </div>
+                          <div>
+                            <button className="w-full flex items-center space-x-3 px-1 py-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                              <div className='bg-[#00A4DD] p-1 rounded-full'>
+                              <BiPlus className="w-6 h-6 text-white " />
+                
+                              </div>
+                              <span className="text-gray-800 font-medium">Create New Workpace</span>
+                            </button>
+                        
+                          </div>
+                        </div>
                 <Link
                   href='/settings'
                   className='block px-3 py-2 text-base text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200'
@@ -160,13 +178,15 @@ const Navbar = () => {
                   Settings
                 </Link>
                 <Link
-                  href='/logout'
+                  href='/'
                   className='block px-3 py-2 text-base text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200'
                   onClick={() => setIsMobileMenuOpen(false)}>
                   Logout
                 </Link>
               </div>
             </div>
+            
+             {/* <ProfileModal setProfileOpen={setIsProfileOpen} /> */}
           </div>
         </div>
       )}

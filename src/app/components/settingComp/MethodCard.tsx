@@ -10,13 +10,16 @@ interface Method {
   last4: string;
   expiry: string;
   isDefault: boolean;
+ 
 }
 
 interface Props {
   method: Method;
+   toggleMethod: (id: number) => void ;
+
 }
 
-const MethodCard: React.FC<Props> = ({ method }) => {
+const MethodCard: React.FC<Props> = ({ method, toggleMethod }) => {
   return (
     <div className="border border-gray-300 rounded-md bg-[#F4F4F5] w-full p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
       
@@ -46,7 +49,7 @@ const MethodCard: React.FC<Props> = ({ method }) => {
             Default
           </button>
         ) : (
-          <button className="rounded-full px-3 py-1 border border-[#01B0E9] text-[#01B0E9] text-sm sm:text-base whitespace-nowrap cursor-pointer">
+          <button onClick={()=>toggleMethod(method.id)} className="rounded-full px-3 py-1 border border-[#01B0E9] text-[#01B0E9] text-sm sm:text-base whitespace-nowrap cursor-pointer">
             Set Default
           </button>
         )}
