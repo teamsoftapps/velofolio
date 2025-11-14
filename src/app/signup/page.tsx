@@ -78,10 +78,10 @@ const Signup: React.FC = () => {
           onSubmit={(values,{ setSubmitting, resetForm }) => {
             signup(values);
               success("User Registered Successfully")
-            console.log("✅ Form Submitted:", values);
+            console.log("Form Submitted:", values);
 
             resetForm();
-            router.push("/signin")
+            router.push("/")
             setSubmitting(false)
             values={
               firstName: "",
