@@ -38,7 +38,7 @@ const InvoiceTable: React.FC<TableProps> = ({
   );
 
   const handlePageChange = (newPage: number) => setCurrentPage(newPage);
-console.log(paginatedData)
+// console.log(paginatedData)
   return (
 <div className="overflow-x-auto w-full">
   <table className="min-w-[700px] md:min-w-full border-collapse  w-full">
