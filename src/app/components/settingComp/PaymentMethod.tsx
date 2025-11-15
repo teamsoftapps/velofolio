@@ -42,13 +42,23 @@ const methods: PaymentMethodType[] = [
 
   const PaymentMethod = () => {
     const [paymentMethods, setPaymentMethods] =useState<PaymentMethodType[]>(methods)
-    const toggleMethod = (id: number) => {
-  setPaymentMethods((prevMethods) =>
-    prevMethods.map((method) => ({
-      ...method,
-      isDefault: method.id === id, // Only the clicked one is default
-    }))
-  );
+const toggleMethod = (id: number) => {
+  setPaymentMethods((prev) => {
+    
+    const clickedMethod = prev.find((m) => m.id === id);
+    if (!clickedMethod) return prev;
+
+    
+    const updatedClicked = { ...clickedMethod, isDefault: true };
+
+    
+    const others = prev
+      .filter((m) => m.id !== id)
+      .map((m) => ({ ...m, isDefault: false }));
+
+    // Return: clicked method first, then others
+    return [updatedClicked, ...others];
+  });
 };
     return (
     <div className='w-full lg:w-1/2  h-96 bg-white rounded-xl p-5 border-1 border-gray-300 overflow-hidden '>
