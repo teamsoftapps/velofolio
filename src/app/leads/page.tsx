@@ -27,7 +27,7 @@ const tableHeaders = [
 
 export default function Page() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); 
-  const [searchedData, setSearchedData] = React.useState<any[]>([]);
+  // const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
 
   const [OpenForm, setOpenForm] = useState(false);
@@ -86,7 +86,7 @@ const [filters, setFilters] = useState({
           <OverviewHeader
             title={'Leads'}
             setOpenForm={setOpenForm}
-            setSearchedData={setSearchedData}
+            // setSearchedData={setSearchedData}
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}

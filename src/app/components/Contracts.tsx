@@ -18,15 +18,15 @@ const tableData = [
     type: "PDF",
     uploadedBy: "john.doe@example.com",
     role: "Dealer",
-    status: "Approved", // or "Pending", "Rejected"
-    actions: "", // or handle as buttons in UI
+    status: "Draft",
+    actions: "", 
   },
   {
     documentType: "Driving License",
     type: "PDF",
     uploadedBy: "jane.doe@example.com",
     role: "Customer",
-    status: "Pending",
+    status: "Signed",
     actions: "",
   },
   {
@@ -34,7 +34,7 @@ const tableData = [
     type: "PDF",
     uploadedBy: "manager@example.com",
     role: "Admin",
-    status: "Rejected",
+    status: "Signed",
     actions: "",
   },
   {
@@ -42,7 +42,7 @@ const tableData = [
     type: "PDF",
     uploadedBy: "dealer@example.com",
     role: "Dealer",
-    status: "Approved",
+    status: "Draft",
     actions: "",
   },
   {

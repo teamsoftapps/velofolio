@@ -74,7 +74,7 @@ const TeamnPermission = () => {
         </div>
 
         {/* Permissions */}
-        <div className="w-full lg:w-2/5 h-auto lg:h-[650px] overflow-auto  rounded-xl p-3">
+        <div className="w-full   lg:w-2/5 h-auto lg:h-[650px]   rounded-xl p-3">
           <Permissions />
         </div>
       </div>

@@ -6,24 +6,18 @@
 //   return <div>page</div>;
 // };
 'use client';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Navbar from '../components/Navbar';
-import { GoSearch, GoSortAsc } from 'react-icons/go';
-import { FaSort } from 'react-icons/fa';
-import { IoMdAdd } from 'react-icons/io';
-import { SlOptionsVertical } from 'react-icons/sl';
-import Pagination from '../components/Pagination';
+
 import Table from '../components/Table';
 import OverviewHeader from '../components/OverviewHeader';
 import OverviewChart from '../components/OverviewChart';
-
-import JobsData from '../../utils/Job.json';
 import PayementChartData from '../../utils/PaymentChartData.json';
 import DeleteModal from '../components/DeleteModal';
 import PayementData from '../../utils/Payements.json';
 import FilterModal from '../components/FilterModal';
-const tableData = PayementData;
 import { filterData, sortData, handleDelete, applyAdvancedFilters } from '../../utils/TableUtils';
+const tableData = PayementData;
 
 const tableHeaders = [
   { key: 'client', label: 'Client' },
@@ -40,10 +34,9 @@ const tableHeaders = [
 export default function Page() {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); 
-  const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
-
   const [OpenForm, setOpenForm] = useState(false);
+
 
   const handleDeleteConfirm = () => {
     console.log('Job deleted');
@@ -105,7 +98,7 @@ export default function Page() {
           <OverviewHeader
             title={'Payements'}
             setOpenForm={setOpenForm}
-            setSearchedData={setSearchedData}
+
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}

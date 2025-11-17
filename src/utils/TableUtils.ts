@@ -11,10 +11,11 @@ export function filterData(data: any[], search: string) {
   const lower = search.toLowerCase();
   return data.filter(
     (item: any) =>
-      item.name?.toLowerCase().includes(lower) ||
-      (item.email && item.email?.toLowerCase().includes(lower))||
-      item.client?.toLowerCase().includes(lower)||
-      item.leadName?.toLowerCase().includes(lower)
+      item.name?.toLowerCase()?.includes(lower) ||
+    item.Name?.toLowerCase()?.includes(lower) ||
+      (item.email && item.email?.toLowerCase()?.includes(lower))||
+      item.client?.toLowerCase()?.includes(lower)||
+      item.leadName?.toLowerCase()?.includes(lower)
   );
 }
 
@@ -31,7 +32,7 @@ export function sortData(data: any[], sortBy: SortState) {
     }
 
 
-    if (['dueDate', 'eventDate', 'createdAt', 'leadCreated'].includes(value)) {
+    if (['dueDate', 'eventDate', 'createdAt', 'leadCreated']?.includes(value)) {
       const aTime = a[value] ? Date.parse(a[value]) : 0;
       const bTime = b[value] ? Date.parse(b[value]) : 0;
       return direction === 'asc' ? aTime - bTime : bTime - aTime;
@@ -66,26 +67,26 @@ export function applyAdvancedFilters(
     } = filters;
 
     // Filter by Status
-    if (status?.length && !status.includes(item.status ||item.Status)) return false;
+    if (status?.length && !status?.includes(item.status ||item.Status)) return false;
 
     // Filter by Assigned Member (assuming item.assignedTo or item.teamMember)
     if (
       selectedMembers?.length &&
       !selectedMembers.some((m) =>
-        item.name.includes(m.name) || item.assignedTeam?.includes(m.name)  
+        item.name?.includes(m.name) || item.assignedTeam?.includes(m.name)  
       )
     )
     return false;
     console.log(item.assignedTo, item.teamMember, selectedMembers)
 
     // Filter by Lead Source
-    if (leadSource?.length && !leadSource.includes(item.leadSource)) return false;
+    if (leadSource?.length && !leadSource?.includes(item.leadSource)) return false;
 
     // Filter by Event Type
-    if (eventType?.length && !eventType.includes(item.event)) return false;
+    if (eventType?.length && !eventType?.includes(item.event)) return false;
 
     // Filter by Payment Status
-    if (paymentStatus?.length && !paymentStatus.includes(item.paymentStatus))
+    if (paymentStatus?.length && !paymentStatus?.includes(item.paymentStatus))
       return false;
 
     // Filter by Date Range

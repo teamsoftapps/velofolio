@@ -18,7 +18,7 @@ interface SortState {
 
 interface OverviewHeaderProps {
   title: string;
-  setSearchedData: (data: []) => void;
+  // setSearchedData: (data: []) => void;
   searchedValue: string;
   setSearchedValue: React.Dispatch<React.SetStateAction<string>>;
   setOpenForm: (isOpen: boolean) => void;

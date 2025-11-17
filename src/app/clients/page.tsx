@@ -99,7 +99,7 @@ export default function Page() {
           <OverviewHeader
             title='Clients'
             setOpenForm={setIsFormOpen}
-            setSearchedData={setSearchedData}
+            // setSearchedData={setSearchedData}
             searchedValue={searchedValue}
             setSearchedValue={setSearchedValue}
             setOpenFilter={setOpenFilter}

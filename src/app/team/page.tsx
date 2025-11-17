@@ -1,13 +1,7 @@
-/** @format */
 
-// import React from "react";
-
-// export const page = () => {
-//   return <div>page</div>;
-// };
 'use client';
 import React, { useEffect ,useMemo,useState} from 'react';
-// import { useState } from 'react';
+
 import Navbar from '../components/Navbar';
 import Table from '../components/Table';
 import OverviewHeader from '../components/OverviewHeader';
@@ -32,7 +26,7 @@ export default function Page() {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [OpenForm, setOpenForm] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false
-  const [searchedData, setSearchedData] = React.useState<any[]>([]);
+  // const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
  
     interface SortState {
@@ -101,7 +95,7 @@ export default function Page() {
           <OverviewHeader
             title={'Teams'}
             setOpenForm={setOpenForm}
-            setSearchedData={setSearchedData}
+
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}
@@ -112,7 +106,7 @@ export default function Page() {
           <Table
             headers={tableHeaders}
             data={advancedfilteredData}
-            setSearchedData={setSearchedData}
+           
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setIsDeleteModalOpen={setIsDeleteModalOpen}

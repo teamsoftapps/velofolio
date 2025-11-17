@@ -93,7 +93,7 @@ const Permissions: React.FC = () => {
     const categories = Array.from(new Set(permissions.map(p => p.category)));
 
     return (
-      <div key={roleKey} className="mb-5 bg-[#FAFAFA] rounded-md overflow-hidden">
+      <div key={roleKey} className="mb-5 bg-[#FAFAFA]  rounded-md overflow-hidden">
         {/* Header */}
         <div
           className="flex items-center justify-between p-4 bg-white cursor-pointer"
@@ -138,7 +138,7 @@ const Permissions: React.FC = () => {
     );
   };
 
-  return <div className="w-full h-full overflow-hidden">{Object.keys(roles).map(renderSection)}</div>;
+  return <div className="w-full h-full py-2 overflow-hidden scroller lg:overflow-y-scroll">{Object.keys(roles).map(renderSection)}</div>;
 };
 
 export default Permissions;

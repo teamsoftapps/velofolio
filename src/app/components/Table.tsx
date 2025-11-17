@@ -33,7 +33,7 @@ const Table = ({
 
   const availabilityMap: any = {
     Free: { color: 'text-green-500', icon: <FaCircleCheck className="w-4 h-4" /> },
-    Busy: { color: '#01B0E9', icon: <IoMdRefreshCircle className="w-4 h-4" /> },
+    Busy: { color: 'text-[#01B0E9]', icon: <IoMdRefreshCircle className="w-4 h-4" /> },
     'Part-Time': { color: 'text-yellow-500', icon: <FaClock className="w-4 h-4" /> },
   };
 
@@ -53,6 +53,9 @@ const Table = ({
     Inactive:"bg-gray-200",
     Approved:'bg-green-500',
     Rejected:'bg-red-500',
+     Signed: 'bg-[#FEBE2A] text-black',
+     Draft : 'bg-[#13CC95]',
+
   };
 
   const priorityColors: any = {
@@ -173,7 +176,7 @@ if (key === "paymentMethod") {
        if (key === 'status' || key === 'Status' || key==="paymentStatus" || key==="Payment Status") {
           
   const textColor =
-    row[key] === 'New Lead' || row[key] === 'Pending' || row[key] === 'Inactive' ? 'text-black' : 'text-white';
+    row[key] === 'New Lead' || row[key] === 'Pending' || row[key] === 'Inactive' || row[key] === 'Signed' ? 'text-black' : 'text-white';
 
   return (
     <td
@@ -181,7 +184,7 @@ if (key === "paymentMethod") {
       className="py-2 sm:py-3 md:py-2 text-center border-b border-[#D4D4D8] min-w-[80px] sm:min-w-[80px] md:min-w-[100px] lg:w-[140px]"
     >
       <span
-        className={`p-1 px-2 sm:px-2 max-w-[120px] lg:p-1 inline-block rounded-2xl w-full ${textColor} ${
+        className={`p-1 px-2 sm:px-2 max-w-[120px] lg:p-0.5 inline-block rounded-2xl w-full ${textColor} ${
           statusColors[row[key]] || 'bg-gray-900'
         }`}
       >
@@ -234,7 +237,7 @@ if (key === "paymentMethod") {
                           className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8]"
                         >
                           <span
-                            className={`p-1 px-2 sm:px-3 rounded-2xl flex items-center gap-1 sm:gap-2 md:gap-3 ${avail.color}`}
+                            className={`p-1  px-2 sm:px-3 rounded-2xl flex items-center justify-center gap-1 sm:gap-2 md:gap-3 ${avail.color}`}
                           >
                             {avail.icon}
                             {row[key]}

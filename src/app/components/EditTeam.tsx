@@ -27,7 +27,7 @@ export default function ChangeMembersModal({setTeamModal}:any) {
             <input
               type="text"
               placeholder="Search members"
-              className="w-full pl-3 pr-4 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+              className="w-full pl-3 text-black pr-4 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
             />
             <Search className="absolute right-3 top-1 w-6 h-6 text-gray-900" />
           </div>

@@ -1,17 +1,17 @@
 [
   {
     "Name": "John Doe",
-    "Role": "Manager",
+    "Role": "Editor",
     "Email": "john.doe@example.com",
     "Phone": "+1-555-123-4567",
     "Status": "Active",
     "Assigned Jobs": 5,
-    "Availability": "Full-Time",
+    "Availability": "N/A",
     "Action": "Edit/Delete"
   },
   {
     "Name": "Jane Smith",
-    "Role": "Developer",
+    "Role": "Lead Photographer",
     "Email": "jane.smith@example.com",
     "Phone": "+1-555-987-6543",
     "Status": "Inactive",
@@ -21,7 +21,7 @@
   },
   {
     "Name": "Alice Johnson",
-    "Role": "Designer",
+    "Role": "Videographer",
     "Email": "alice.johnson@example.com",
     "Phone": "+1-555-246-8101",
     "Status": "Active",
@@ -31,7 +31,7 @@
   },
   {
     "Name": "Alice Johnson",
-    "Role": "Designer",
+    "Role": "Videographer",
     "Email": "alice.johnson@example.com",
     "Phone": "+1-555-246-8101",
     "Status": "Active",
