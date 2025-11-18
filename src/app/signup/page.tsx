@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 
 // ✅ Validation schema
 const SignupSchema = Yup.object({
-  firstName: Yup.string()
+  full_name: Yup.string()
     .min(2, "Too short!")
     .required("First name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -22,10 +22,18 @@ const SignupSchema = Yup.object({
     .required("Password is required"),
   agree: Yup.boolean().oneOf([true], "You must accept the terms"),
 });
-const {success}=toast
+const {success, error}=toast
 const Signup: React.FC = () => {
   const router=useRouter()
   const [signup] = useSignupMutation();
+const handleGoogleLogin = async () => {
+
+  window.location.href = "http://localhost:4000/auth/google";
+
+
+}
+
+
   return (
     <div className="min-h-screen bg-[#fafafa] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-20 px-2 py-12 relative overflow-hidden">
       {/* Background Logo */}
@@ -67,48 +75,53 @@ const Signup: React.FC = () => {
         <h1 className="text-lg text-gray-900 mb-3">Your Studio, Your Workflow</h1>
 
        
-        <Formik
-          initialValues={{
-            firstName: "",
-            email: "",
-            password: "",
-            agree: false,
-          }}
-          validationSchema={SignupSchema}
-          onSubmit={(values,{ setSubmitting, resetForm }) => {
-            signup(values);
-              success("User Registered Successfully")
-            console.log("Form Submitted:", values);
+      <Formik
+  initialValues={{
+    full_name: "",
+    email: "",
+    password: "",
+    agree: false
+  }}
+  validationSchema={SignupSchema}
+  onSubmit={async (values, { setSubmitting, resetForm }) => {
+    try {
+      const { agree, ...dataToSend } = values;
 
-            resetForm();
-            router.push("/")
-            setSubmitting(false)
-            values={
-              firstName: "",
-              email: "",
-              password: "",
-              agree: false
-            }
-          }}
-        >
+      const response = await signup(dataToSend).unwrap();
+console.log(response)
+     
+        success("User Registered Successfully");
+  
+
+      resetForm();
+      router.push("/");
+    } catch (err: any) {
+      error("Signup failed: " + err?.data?.msg || err.message);
+      console.log("Signup failed:", err);
+    } finally {
+      setSubmitting(false);
+    }
+  }}
+>
+
           {({ isSubmitting }) => (
             <Form className="space-y-3">
               <div>
                 <label
-                  htmlFor="firstName"
+                  htmlFor="full_name"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
                   First Name
                 </label>
                 <Field
-                  id="firstName"
-                  name="firstName"
+                  id="full_name"
+                  name="full_name"
                   type="text"
                   placeholder="Enter your first name"
                   className="w-full px-4 py-3 border text-gray-500 border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent outline-none transition"
                 />
                 <ErrorMessage
-                  name="firstName"
+                  name="full_name"
                   component="div"
                   className="text-red-500 text-sm mt-1"
                 />
@@ -200,7 +213,7 @@ const Signup: React.FC = () => {
 
         
         <div className="space-y-3">
-          <button className="w-full cursor-pointer flex items-center justify-center gap-3 px-4 py-2 sm:py-3 border border-gray-300 rounded-full hover:bg-gray-50 transition">
+          <button onClick={handleGoogleLogin} className="w-full cursor-pointer flex items-center justify-center gap-3 px-4 py-2 sm:py-3 border border-gray-300 rounded-full hover:bg-gray-50 transition">
             <Image src="/google.png" alt="Google" width={20} height={20} />
             <span className="text-gray-700 font-medium">
               Sign in with Google

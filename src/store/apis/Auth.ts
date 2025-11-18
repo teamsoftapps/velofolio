@@ -5,24 +5,30 @@ import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react';
 export const Auth = createApi({
   reducerPath: 'Authentication',
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000",
+    baseUrl: "http://localhost:4000",
   }),
   endpoints: (builder) => ({
     signin: builder.mutation({
       query: (body) => ({
-        url: '/Auth/Signin',
+        url: '/auth/login',
         method: 'POST',
         body,
       }),
     }),
     signup: builder.mutation({
       query: (body) => ({
-        url: '/Auth/Signup',
+        url: '/superAdmin/signup',
         method: 'POST',
         body,
       }),
     }),
-
+ signInWithGoogle: builder.mutation({
+      query: (body) => ({
+        url: '/auth/google',
+        method: 'GET',
+        // body,
+      }),
+    }),
     forgetPassword: builder.mutation({
       query: (body) => ({
         url: '/Auth/forgetPassword',
@@ -61,5 +67,7 @@ export const {
   useForgetPasswordMutation,
   useResetPasswordMutation,
   useVerifyOtpMutation,
+  useSignInWithGoogleMutation,
+  useSignOutMutation
 
 } = Auth;
