@@ -1,10 +1,12 @@
 import React from 'react'
 import SignIn from './components/Signin'
-
+import AuthWrapper from './components/AuthWrapper'
 const page = () => {
   return (
     <div>
-<SignIn />
+{/* <AuthWrapper guestOnlyRedirectTo="/dashboard"> */}
+  <SignIn />
+{/* </AuthWrapper> */}
 
     </div>
   )

@@ -5,12 +5,13 @@ interface User {
   avatar: string;
   fullName: string;
   email: string;
-  role: ["client", "manager", "admin","editor"];
+  role: string;
   permissions: string[];
   createdAt: string;
   updatedAt: string;
   confirmationCode: string;
-  otp: string;
+  organization: string;
+
 
  
 }
@@ -30,11 +31,23 @@ const authSlice=createSlice({
   name:"auth",
   initialState,
   reducers:{
-    setCredientials:(state,action:PayloadAction<{user:User|null,token:string|null,role:string|null}>)=>{
-      state.user=action.payload.user
-      state.token=action.payload.token
-      state.role=action.payload.role
-    },
+setCredientials: (
+  state,
+  action: PayloadAction<{
+    user: User | null;
+    accessToken?: string | null; // optional
+    token?: string | null;       // optional (alias)
+    role: string | null;
+  }>
+) => {
+  state.user = action.payload.user;
+
+  // Prefer accessToken, but fallback to token alias
+  state.token = action.payload.accessToken ?? action.payload.token ?? null;
+
+  state.role = action.payload.role
+}
+,
     clearCredientials:(state)=>{
       state.user=null
       state.token=null

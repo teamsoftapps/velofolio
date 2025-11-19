@@ -6,6 +6,7 @@ import { MdClose, MdSearch, MdCheck, MdPersonAdd } from 'react-icons/md';
 import InviteMember from './InviteMember';
 import Image from 'next/image';
 import { CgSandClock } from "react-icons/cg";
+import { useInviteMemberMutation } from '@/store/apis/Common';
 
 interface Member {
   id: string;
@@ -44,18 +45,24 @@ export default function AddTeamMembersModal({
  
   propBoardMembers = propBoardMembers.length > 0 ? propBoardMembers : BoardMembers;
   const [selectedMembers, setSelectedMembers] = useState<Member[]>(propBoardMembers);
+// Initialize workspaceMembers with the propBoardMembers or BoardMembers
+const [workspaceMembers, setWorkspaceMembers] = useState<Member[]>(
+ []
+);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isInviteModalOpen, setIsInviteModalOpen] = useState<boolean>(false);
 
+
   // Filter members based on search
   const filteredMembers = useMemo(() => {
-    return workspaceMembers.filter(
-      (member) =>
-        member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        member.role.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [searchQuery]);
+  return workspaceMembers.filter(
+    (member) =>
+      member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      member.role.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+}, [workspaceMembers, searchQuery]); // <-- also depend on workspaceMembers
+
 
   const toggleMember = (member: Member) => {
     setSelectedMembers((prev) =>
@@ -182,7 +189,7 @@ export default function AddTeamMembersModal({
                         height={40}
                         className="w-10 h-10 rounded-full object-cover"
                       />
-                        <div className=" flex items-center   justify-between w-full">
+                        <div className=" flex items-center   justify-between w-full flex-wrap">
                           <p className="text-sm min-w-[100px] font-medium text-gray-900 flex items-center gap-1">
                             {member.name}
                            
@@ -210,6 +217,7 @@ export default function AddTeamMembersModal({
             <InviteMember
               isOpen={isInviteModalOpen}
               onClose={() => setIsInviteModalOpen(false)}
+              setWorkspaceMembers={setWorkspaceMembers}
             
             />
           </div>

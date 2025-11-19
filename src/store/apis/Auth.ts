@@ -6,6 +6,7 @@ export const Auth = createApi({
   reducerPath: 'Authentication',
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:4000",
+    //  credentials: "include", 
   }),
   endpoints: (builder) => ({
     signin: builder.mutation({
@@ -31,19 +32,21 @@ export const Auth = createApi({
     }),
     forgetPassword: builder.mutation({
       query: (body) => ({
-        url: '/Auth/forgetPassword',
+        url: '/auth/forgot-password',
         method: 'POST',
         body,
       }),
     }),
 
-    resetPassword: builder.mutation({
-      query: ({ email,password, confirmPassword }) => ({
-        url: `/Auth/resetPassword`,
-        method: 'POST',
-        body: { email,password, confirmPassword},
+    resetPassword: builder.mutation<{ msg: string }, { token: string; password: string }>({
+      query: (body) => ({
+        url: "/auth/reset-password",
+        method: "POST",
+        body,
       }),
     }),
+ 
+
 signOut: builder.mutation({
   query: () => ({
     url: `/Auth/signOut`,

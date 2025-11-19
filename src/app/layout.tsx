@@ -5,6 +5,8 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ToastContainer } from 'react-toastify';
 import StoreProvider from './components/StoreProvider';
+import AuthWrapper from './components/AuthWrapper';
+import { PersistGate } from 'redux-persist/integration/react';
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -31,7 +33,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
        <ToastContainer />
           <StoreProvider>
-            {children}
+   {/* <AuthWrapper> */}
+    {children}
+
+   {/* </AuthWrapper> */}
+         
           </StoreProvider>
         </body>
     </html>

@@ -9,6 +9,8 @@ import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { useSigninMutation, useSignInWithGoogleMutation, } from "@/store/apis/Auth";
 import { toast } from "react-toastify"
+import { setCredientials } from "@/store/slices/authSlice";
+import { useDispatch } from "react-redux";
 // import { u } from "@/store/apis/Auth";
 const SignIn: React.FC = () => {
   // ✅ Validation Schema
@@ -27,6 +29,7 @@ const handleGoogleLogin = async () => {
 
 
 }
+const dispatch=useDispatch()
   return (
     <div className="min-h-screen bg-[#fafafa] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-20 px-4 sm:px-8 py-10 sm:py-16 relative overflow-hidden inter">
       {/* Background Logo */}
@@ -73,15 +76,28 @@ const handleGoogleLogin = async () => {
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={signInSchema}
-          onSubmit={async(values, { setSubmitting }) => {
-           const response=await signin(values).unwrap();
-           console.log(response);
-            success("Login Successfull")
-            router.push('/dashboard')
-            setTimeout(() => {
-              setSubmitting(false); 
-            }, 1000);
-          }}
+     onSubmit={async (values, { setSubmitting }) => {
+  try {
+    const response = await signin(values).unwrap();
+    console.log(response);
+    dispatch(setCredientials(response));
+    toast.success("Login Successful"); // make sure toast is imported
+    router.push("/dashboard");
+  } catch (error: any) {
+    console.error(error);
+    // Show error message
+    if (error) {
+      toast.error(error.data.msg);
+    } else if (error?.message) {
+      toast.error(error.message);
+    } else {
+      toast.error("Something went wrong. Please try again.");
+    }
+  } finally {
+    setSubmitting(false);
+  }
+}}
+
         >
           {({ isSubmitting }) => (
             <Form className="space-y-4">
@@ -144,7 +160,7 @@ const handleGoogleLogin = async () => {
                 </label>
 
                 <Link
-                  href="/forgot-password"
+                  href="/forget-password"
                   className="text-[#01B0E9] text-sm font-medium hover:underline"
                 >
                   Forgot Password?

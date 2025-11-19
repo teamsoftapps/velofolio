@@ -4,16 +4,29 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import ProfileModal from './NavModal';
 import { BiPlus } from 'react-icons/bi';
+import { useDispatch } from 'react-redux';
+import { clearCredientials } from '@/store/slices/authSlice';
+import { useGetOrganizationsQuery } from '@/store/apis/Common';
+import Companies from './Companies';
+import CreateWorkspaceModal from './CreateWorkspace';
 
 const Navbar = () => {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+const dispatch = useDispatch();
+//  const [companies, setCompanies] = useState([]);
+  // const dispatch = useDispatch();
+  const [workspace, setWorkspaceOpen] = useState(false);
+  // const router=useRouter()
+const { data: companies, isLoading, error } = useGetOrganizationsQuery({});
 
+
+  console.log(companies);
   const tabs = [
     { name: 'Dashboard', icon: '/images/home.png', href: '/dashboard' },
     { name: 'Clients', icon: '/images/users.png', href: '/clients' },
@@ -91,7 +104,9 @@ const Navbar = () => {
               />
             </button>
             {isProfileOpen && (
-              <ProfileModal setProfileOpen={setIsProfileOpen} />
+              <div onClick={()=>setIsProfileOpen(false)} className='bg-red-400'>
+              <ProfileModal setProfileOpen={setIsProfileOpen} companies={companies}/>
+              </div>
             )}
           </div>
 
@@ -155,13 +170,10 @@ const Navbar = () => {
                   Profile
                 </Link>
                   <div className='text-black px-2'>
-                          <h1 className='mb-2 text-sm'>Companies</h1>
-                          <div className='flex items-center gap-3 bg-[#E5F7FD] p-4'>
-                            <Image alt='0' src="/images/logo2.png" width={100} height={100} className="w-9 h-9 object-contain  bg-white   " />
-                            <h1>Velofolio</h1>
-                          </div>
+                          {/* <h1 className='mb-2 text-sm'>Companies</h1> */}
+                         <Companies companies={companies} setWorkspaceOpen={setWorkspaceOpen}/>
                           <div>
-                            <button className="w-full flex items-center space-x-3 px-1 py-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                            <button onClick={()=>setWorkspaceOpen(true)} className="w-full flex items-center space-x-3 px-1 py-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
                               <div className='bg-[#00A4DD] p-1 rounded-full'>
                               <BiPlus className="w-6 h-6 text-white " />
                 
@@ -177,12 +189,17 @@ const Navbar = () => {
                   onClick={() => setIsMobileMenuOpen(false)}>
                   Settings
                 </Link>
-                <Link
-                  href='/'
+                <button
+                  
                   className='block px-3 py-2 text-base text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200'
-                  onClick={() => setIsMobileMenuOpen(false)}>
+                  onClick={async () =>{ 
+                    dispatch(clearCredientials())
+                    setIsMobileMenuOpen(false)
+                    
+                    // router.push('/')
+                  }}>
                   Logout
-                </Link>
+                </button>
               </div>
             </div>
             
@@ -190,6 +207,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
+       {workspace && <CreateWorkspaceModal setWorkspaceOpen={setWorkspaceOpen} />}
     </nav>
   );
 };
