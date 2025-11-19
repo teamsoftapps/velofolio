@@ -76,18 +76,22 @@ const dispatch=useDispatch()
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={signInSchema}
-     onSubmit={async (values, { setSubmitting }) => {
+onSubmit={async (values, { setSubmitting }) => {
   try {
     const response = await signin(values).unwrap();
     console.log(response);
     dispatch(setCredientials(response));
-    toast.success("Login Successful"); // make sure toast is imported
+    toast.success("Login Successful");
     router.push("/dashboard");
   } catch (error: any) {
-    console.error(error);
-    // Show error message
-    if (error) {
+    console.error("Login Error:", error);
+
+    // RTK Query error handling
+    if (error?.data?.msg) {
       toast.error(error.data.msg);
+    } else if (error?.error) {
+      // fetch/network error
+      toast.error(error.error);
     } else if (error?.message) {
       toast.error(error.message);
     } else {
