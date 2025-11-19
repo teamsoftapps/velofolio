@@ -64,3 +64,16 @@ body {
 .black{
   color: #000;
 }
+
+.select-no-arrow {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-image: none !important;
+  padding-right: 1rem !important;   /* Remove extra space taken by arrow */
+}
+
+.select-no-arrow::-ms-expand {
+  display: none; /* IE/Edge */
+}
+

@@ -7,23 +7,29 @@ export interface Permission {
   category: string;
 }
 
+
 export const initialPermissions: Permission[] = [
-  { id: 1, label: "Job Assigned", checked: true, category: "Client Access" },
-  { id: 2, label: "Task Due Reminder", checked: true, category: "Client Access" },
-  { id: 3, label: "Job Completed Notification", checked: false, category: "Client Access" },
+  // Job Notifications
+  { id: 1, label: "Job Assigned to You", checked: true, category: "Job Notifications" },
+  { id: 2, label: "Job Deadline Approaching", checked: true, category: "Job Notifications" },
+  { id: 3, label: "Job Marked as Completed", checked: false, category: "Job Notifications" },
 
-  { id: 4, label: "New Lead Added", checked: true, category: "Clients & Leads" },
-  { id: 5, label: "Payment Received", checked: true, category: "Clients & Leads" },
-  { id: 6, label: "Client Feedback Received", checked: false, category: "Clients & Leads" },
+  // Client & Lead Notifications
+  { id: 4, label: "New Lead Added", checked: true, category: "Client & Lead Notifications" },
+  { id: 5, label: "Lead Assigned to You", checked: true, category: "Client & Lead Notifications" },
+  { id: 6, label: "Client Updated Their Info", checked: false, category: "Client & Lead Notifications" },
 
-  { id: 7, label: "New Member Joined", checked: true, category: "Team Activity" },
-  { id: 8, label: "Mentioned in Comment", checked: true, category: "Team Activity" },
+  // Payment Notifications
+  { id: 7, label: "New Payment Received", checked: true, category: "Payment Notifications" },
+  { id: 8, label: "Payment Overdue", checked: true, category: "Payment Notifications" },
+  { id: 9, label: "Payment Reminder Sent", checked: false, category: "Payment Notifications" },
 
-  { id: 9, label: "Weekly Summary Email", checked: true, category: "System Updates" },
-  { id: 10, label: "Product Announcements", checked: false, category: "System Updates" },
+  // System Alerts
+  { id: 10, label: "New Comment Tagging You", checked: true, category: "System Alerts" },
+  { id: 11, label: "Weekly Summary Report", checked: false, category: "System Alerts" },
+  { id: 12, label: "System Maintenance Updates", checked: false, category: "System Alerts" },
 ];
-
-const EmailNotificationn = () => {
+const Notification = () => {
   const [permissions, setPermissions] = useState(initialPermissions);
 
   const categories = [...new Set(permissions.map((p) => p.category))];
@@ -35,8 +41,8 @@ const EmailNotificationn = () => {
   };
 
   return (
-    <div className="text-black">
-      <h1 className="text-lg font-semibold mb-2 mt-5">Notification Preferences</h1>
+    <div className="text-black max-w-3xl  p-8">
+    <h1 className="text-2xl font-bold mb-8">Notification Settings</h1>
 
       <div className=" pb-5 pt-3 space-y-4 bg-[#FAFAFA] rounded-lg">
         {categories.map((cat) => {
@@ -74,4 +80,4 @@ const EmailNotificationn = () => {
   );
 };
 
-export default EmailNotificationn;
+export default Notification;
