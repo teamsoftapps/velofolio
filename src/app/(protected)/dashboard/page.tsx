@@ -1,12 +1,12 @@
 /** @format */
 
 'use client';
-import Navbar from '../components/Navbar';
-import DashboardGraph from '../components/DashboardGraph';
-import UpcomingShoots from '../components/UpcomingShoots';
-import RecentLeads from '../components/RecentLeads';
-import UpcomingPayements from '../components/UpcomingPayements';
-import JobTask from '../components/JobTask';
+import Navbar from '../../components/Navbar';
+import DashboardGraph from '../../components/DashboardGraph';
+import UpcomingShoots from '../../components/UpcomingShoots';
+import RecentLeads from '../../components/RecentLeads';
+import UpcomingPayements from '../../components/UpcomingPayements';
+import JobTask from '../../components/JobTask';
 
 export default function Home() {
   return (
