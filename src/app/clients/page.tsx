@@ -11,6 +11,7 @@ import TableData from '../../utils/Data.json';
 import ClientFormModal from '../components/ClientFormModal';
 import DeleteModal from '../components/DeleteModal';
 import {filterData, sortData, SortState,handleDelete, applyAdvancedFilters} from "../../utils/TableUtils"
+import RouteGuard from '../components/RouteGuard';
 
 const tableHeaders = [
   { key: 'name', label: 'Name' },
@@ -63,7 +64,8 @@ export default function Page() {
  
 
   return (
-    <>
+    <RouteGuard allowedRoles={['superadmin']} >
+    
       <Navbar />
       {isFormOpen && (
         <ClientFormModal
@@ -116,6 +118,7 @@ export default function Page() {
           />
         </div>
       </div>
-    </>
+    </RouteGuard>
+    
   );
 }

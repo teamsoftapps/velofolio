@@ -56,6 +56,12 @@ export const Common = createApi({
       }),
       providesTags: ["Organization"],     // <-- CORRECT PLACE
     }),
+    validateInvite: builder.query({
+      query: (token: string) => ({
+        url: `/editor/validate-invitation?token=${token}`,
+        method: 'GET',
+      }),
+    })
 
   }),
 });
@@ -63,5 +69,6 @@ export const Common = createApi({
 export const {
   useCreateOrganizationMutation,
   useGetOrganizationsQuery,
-  useInviteMemberMutation
+  useInviteMemberMutation,
+  useValidateInviteQuery
 } = Common;

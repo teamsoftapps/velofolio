@@ -1,15 +1,17 @@
 /** @format */
 
 'use client';
-import Navbar from '../../components/Navbar';
-import DashboardGraph from '../../components/DashboardGraph';
-import UpcomingShoots from '../../components/UpcomingShoots';
-import RecentLeads from '../../components/RecentLeads';
-import UpcomingPayements from '../../components/UpcomingPayements';
-import JobTask from '../../components/JobTask';
+import Navbar from '../components/Navbar';
+import DashboardGraph from '../components/DashboardGraph';
+import UpcomingShoots from '../components/UpcomingShoots';
+import RecentLeads from '../components/RecentLeads';
+import UpcomingPayements from '../components/UpcomingPayements';
+import JobTask from '../components/JobTask';
+import RouteGuard from '../components/RouteGuard';
 
 export default function Home() {
   return (
+    <RouteGuard allowedRoles={['superadmin']}>
     <div className='flex flex-col w-full min-h-screen bg-white'>
       <Navbar />
       <DashboardGraph />
@@ -23,5 +25,6 @@ export default function Home() {
           <JobTask/>
       </div>
     </div>
+    </RouteGuard>
   );
 }

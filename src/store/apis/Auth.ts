@@ -17,13 +17,22 @@ export const Auth = createApi({
         // credentials: 'include',
       }),
     }),
-    signup: builder.mutation({
-      query: (body) => ({
-        url: '/superAdmin/signup',
-        method: 'POST',
-        body,
-      }),
-    }),
+   signup: builder.mutation({
+  query: (body: { role?: string; [key: string]: any }) => {
+    // Determine endpoint based on role
+    let endpoint = '/signup'; // default
+    if (body.role === 'superAdmin') endpoint = '/superAdmin/signup';
+    else if (body.role === 'editor') endpoint = '/editor/signup';
+    else if (body.role === 'user') endpoint = '/user/signup';
+
+    return {
+      url: endpoint,
+      method: 'POST',
+      body,
+    };
+  },
+}),
+
  signInWithGoogle: builder.mutation({
       query: (body) => ({
         url: '/auth/google',
