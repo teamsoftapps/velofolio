@@ -16,8 +16,8 @@ const tableData = JobsData;
 import { filterData, sortData, handleDelete, applyAdvancedFilters } from '../../utils/TableUtils';
 
 const tableHeaders = [
-  { key: 'jobNameClient', label: 'Job Name / Client' },
-  { key: 'eventType', label: 'Event Type' },
+  { key: 'name', label: 'Job Name/ Client' },
+  { key: 'jobType', label: 'Job Type' },
   { key: 'eventDate', label: 'Event Date' },
   { key: 'assignedTeam', label: 'Assigned Team' },
   { key: 'progress', label: 'Progress' },
@@ -103,7 +103,7 @@ export default function Page() {
             headers={tableHeaders}
             data={advancedfilteredData}
             setOpenForm={setOpenForm}
-            setIsDeleteModalOpen={setIsDeleteModalOpen}
+            setDeleteModal={setIsDeleteModalOpen}
           />
         </div>
       </div>

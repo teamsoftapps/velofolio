@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "client": {
+      "name": "Sarah J.",
+      "email": "sarah.j@example.com",
+      "phone": "+1(555) 123-4567",
+      "address": "124 Willow Lane, Los Angeles, CA",
+      "image": "/teampic3.png"
+    },
+    "jobDetails": {
+      "title": "Wedding Photography",
+      "type": "Wedding",
+      "status": "In Progress",
+      "shootDate": "2025-10-01",
+      "location": "Beverly Hills, CA",
+      "leadSource": "Instagram",
+      "assignedTeam": "John, Anna",
+      "progress": "70%"
+    }
+  },
+  {
+    "id": 2,
+    "client": {
+      "name": "David P.",
+      "email": "david.p@example.com",
+      "phone": "+1(555) 987-6543",
+      "address": "89 Ocean Drive, Miami, FL",
+      "image": "/teampic1.png"
+    },
+    "jobDetails": {
+      "title": "Engagement Session",
+      "type": "Engagement",
+      "status": "Upcoming",
+      "shootDate": "2025-10-08",
+      "location": "South Beach, Miami",
+      "leadSource": "Referral",
+      "assignedTeam": "Lisa",
+      "progress": "40%"
+    }
+  },
+  {
+    "id": 3,
+    "client": {
+      "name": "David P.",
+      "email": "david.p@example.com",
+      "phone": "+1(555) 987-6543",
+      "address": "89 Ocean Drive, Miami, FL",
+      "image": "/teampic1.png"
+    },
+    "jobDetails": {
+      "title": "Engagement Session",
+      "type": "Engagement",
+      "status": "Completed",
+      "shootDate": "2025-10-08",
+      "location": "South Beach, Miami",
+      "leadSource": "Referral",
+      "assignedTeam": "Lisa",
+      "progress": "100%"
+    }
+  },
+  {
+    "id": 4,
+    "client": {
+      "name": "Sarah J.",
+      "email": "sarah.j@example.com",
+      "phone": "+1(555) 123-4567",
+      "address": "124 Willow Lane, Los Angeles, CA",
+      "image": "/teampic3.png"
+    },
+    "jobDetails": {
+      "title": "Wedding Photography",
+      "type": "Wedding",
+      "status": "Pending",
+      "shootDate": "2025-10-01",
+      "location": "Beverly Hills, CA",
+      "leadSource": "Instagram",
+      "assignedTeam": "John, Anna",
+      "progress": "10%"
+    }
+  },
+  {
+    "id": 5,
+    "client": {
+      "name": "David P.",
+      "email": "david.p@example.com",
+      "phone": "+1(555) 987-6543",
+      "address": "89 Ocean Drive, Miami, FL",
+      "image": "/teampic1.png"
+    },
+    "jobDetails": {
+      "title": "Engagement Session",
+      "type": "Engagement",
+      "status": "In Progress",
+      "shootDate": "2025-10-08",
+      "location": "South Beach, Miami",
+      "leadSource": "Referral",
+      "assignedTeam": "Lisa",
+      "progress": "70%"
+    }
+  },
+  {
+    "id": 6,
+    "client": {
+      "name": "David P.",
+      "email": "david.p@example.com",
+      "phone": "+1(555) 987-6543",
+      "address": "89 Ocean Drive, Miami, FL",
+      "image": "/teampic1.png"
+    },
+    "jobDetails": {
+      "title": "Engagement Session",
+      "type": "Engagement",
+      "status": "Upcoming",
+      "shootDate": "2025-10-08",
+      "location": "South Beach, Miami",
+      "leadSource": "Referral",
+      "assignedTeam": "Lisa",
+      "progress": "40%"
+    }
+  },
+  {
+    "id": 7,
+    "client": {
+      "name": "Sarah J.",
+      "email": "sarah.j@example.com",
+      "phone": "+1(555) 123-4567",
+      "address": "124 Willow Lane, Los Angeles, CA",
+      "image": "/teampic3.png"
+    },
+    "jobDetails": {
+      "title": "Wedding Photography",
+      "type": "Wedding",
+      "status": "Completed",
+      "shootDate": "2025-10-01",
+      "location": "Beverly Hills, CA",
+      "leadSource": "Instagram",
+      "assignedTeam": "John, Anna",
+      "progress": "100%"
+    }
+  }
+]

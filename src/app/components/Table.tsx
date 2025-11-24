@@ -55,6 +55,7 @@ const Table = ({
     Rejected:'bg-red-500',
      Signed: 'bg-[#FEBE2A] text-black',
      Draft : 'bg-[#13CC95]',
+     Upcoming:"bg-[#01B0E9]"
 
   };
 
@@ -88,7 +89,7 @@ const Table = ({
                 {headers?.map((header: any, index: any) => (
                   <th
                     key={index}
-                    className={`px-2 ${pasthname === '/teamProfile' ? "lg:px-5  w-full" :"md:px-6"} sm:px-4  py-1 sm:py-2 md:py-3 text-center text-xs sm:text-sm md:text-base font-medium`}
+                    className={`px-2 ${pasthname === '/teamProfile' ? "lg:px-5  w-full" :"md:px-6"} sm:px-4  py-1 sm:py-2 md:py-3 text-center text-xs sm:text-sm md:text-base font-semibold`}
                   >
                     {header.label || header.key || header}
                   </th>
@@ -102,6 +103,7 @@ const Table = ({
                   key={rowIndex}
                   onClick={() => {
                     if (pasthname === '/clients') router.push(`/clientProfile`);
+                     if (pasthname === '/jobs') router.push(`/jobProfile?id=${rowIndex+1}`);
                     if (pasthname === '/team') router.push(`/teamProfile`);
                   }}
                   className="text-black hover:bg-[#daf2fa] text-xs sm:text-sm md:text-base transition-colors duration-200 cursor-pointer"
@@ -114,13 +116,18 @@ const Table = ({
                       return (
                         <td
                           key={cellIndex}
-                          onClick={() => setIsDeleteModalOpen(true)}
+                          onClick={(e) => {
+    e.stopPropagation(); // Prevent row click
+    // setIsDeleteModalOpen(true);
+    setDeleteModal(true); // Open your modal
+  }}
                           className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8] "
                         >
                           <SlOptionsVertical className="w-5 h-5 sm:w-6 sm:h-6 mx-auto cursor-pointer" />
                         </td>
                       );
                     }
+                 
                        if (key === 'task' || key === 'Task') {
                       return (
                         <td

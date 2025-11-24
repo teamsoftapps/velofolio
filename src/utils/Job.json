@@ -1,92 +1,72 @@
 [
   {
-    "jobNameClient": "Website Redesign / John Doe",
-    "eventType": "Design Review",
-    "eventDate": "2025-10-20",
-    "assignedTeam": "Design",
-    "progress": "100%",
-    "status": "In Progress",
-    "action": "View/Edit"
-  },
-  {
-    "jobNameClient": "Marketing Campaign / Jane Smith",
-    "eventType": "Launch Meeting",
-    "eventDate": "2025-10-22",
-    "assignedTeam": "Marketing",
-    "progress": "20%",
-    "status": "New",
-    "action": "View/Edit"
-  },
-  {
-    "jobNameClient": "Mobile App / Alice Johnson",
-    "eventType": "Sprint Planning",
-    "eventDate": "2025-10-25",
-    "assignedTeam": "Development",
+    "id": 1,
+    "name": "Sarah Johnson.",
+    "jobType": "Wedding",
+    "eventDate": "2025-10-01",
+    "assignedTeam": "John, Anna",
     "progress": "70%",
     "status": "In Progress",
-    "action": "View/Edit"
+    "action": ""
   },
   {
-    "jobNameClient": "Product Photography / Michael Brown",
-    "eventType": "Photo Shoot",
-    "eventDate": "2025-10-28",
-    "assignedTeam": "Media",
-    "progress": "90%",
-    "status": "Completed",
-    "action": "View/Edit"
+    "id": 2,
+    "name": "David P.",
+    "jobType": "Engagement",
+    "eventDate": "2025-10-08",
+    "assignedTeam": "Lisa",
+    "progress": "40%",
+    "status": "Upcoming",
+    "action": ""
   },
   {
-    "jobNameClient": "SEO Audit / Emily Davis",
-    "eventType": "Audit Review",
-    "eventDate": "2025-10-21",
-    "assignedTeam": "SEO",
-    "progress": "90%",
-    "status": "In Progress",
-    "action": "View/Edit"
-  },
-  {
-    "jobNameClient": "Branding / Robert Johnson",
-    "eventType": "Concept Approval",
-    "eventDate": "2025-10-24",
-    "assignedTeam": "Design",
-    "progress": "80%",
-    "status": "In Progress",
-    "action": "View/Edit"
-  },
-  {
-    "jobNameClient": "Client Onboarding / Olivia Martinez",
-    "eventType": "Kickoff Call",
-    "eventDate": "2025-10-23",
-    "assignedTeam": "Sales",
+    "id": 3,
+    "name": "David P.",
+    "jobType": "Engagement",
+    "eventDate": "2025-10-08",
+    "assignedTeam": "Lisa",
     "progress": "100%",
-    "status": "New",
-    "action": "View/Edit"
+    "status": "Completed",
+    "action": ""
   },
   {
-    "jobNameClient": "Annual Report / David Wilson",
-    "eventType": "Draft Review",
-    "eventDate": "2025-10-27",
-    "assignedTeam": "Finance",
+    "id": 4,
+    "name": "Sarah Johnson.",
+    "jobType": "Wedding",
+    "eventDate": "2025-10-01",
+    "assignedTeam": "John, Anna",
     "progress": "10%",
-    "status": "In Progress",
-    "action": "View/Edit"
+    "status": "Pending",
+    "action": ""
   },
   {
-    "jobNameClient": "Workshop / Sophia Miller",
-    "eventType": "Preparation",
-    "eventDate": "2025-10-29",
-    "assignedTeam": "Operations",
-    "progress": "30%",
+    "id": 5,
+    "name": "David P.",
+    "jobType": "Engagement",
+    "eventDate": "2025-10-08",
+    "assignedTeam": "Lisa",
+    "progress": "70%",
     "status": "In Progress",
-    "action": "View/Edit"
+    "action": ""
   },
   {
-    "jobNameClient": "Webinar / James Anderson",
-    "eventType": "Recording",
-    "eventDate": "2025-11-01",
-    "assignedTeam": "Tech",
-    "progress": "50%",
-    "status": "In Progress",
-    "action": "View/Edit"
+    "id": 6,
+    "name": "David P.",
+    "jobType": "Engagement",
+    "eventDate": "2025-10-08",
+    "assignedTeam": "Lisa",
+    "progress": "40%",
+    "status": "Upcoming",
+    "action": ""
+  },
+  {
+    "id": 7,
+    "name": "Sarah Johnson.",
+    "jobType": "Wedding",
+    "eventDate": "2025-10-01",
+    "assignedTeam": "John, Anna",
+    "progress": "100%",
+    "status": "Completed",
+    "action": ""
   }
 ]
