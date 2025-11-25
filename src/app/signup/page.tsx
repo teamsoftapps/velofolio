@@ -74,7 +74,7 @@ useEffect(() => {
   //  GOOGLE LOGIN
   //---------------------------------------
   const handleGoogleLogin = () => {
-    window.location.href = `${Base_url}/auth/google`;
+    // window.location.href = `${Base_url}/auth/google`;
   };
 
   //---------------------------------------

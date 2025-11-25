@@ -26,7 +26,7 @@ const SignIn: React.FC = () => {
 const {success}=toast
 const handleGoogleLogin = async () => {
 
-  window.location.href = `${Base_url}/auth/google`;
+  // window.location.href = `${Base_url}/auth/google`;
 
 
 }
