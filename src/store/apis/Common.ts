@@ -1,10 +1,11 @@
 import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react';
 import type { RootState } from '../store';
+import { Base_url } from "../../utils/Url";
 
 export const Common = createApi({
   reducerPath: 'Common',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:4000',
+    baseUrl: Base_url,
     prepareHeaders: (headers, { getState }) => {
       const authString: any = (getState() as RootState).persisted.auth;
       let token;
@@ -36,7 +37,7 @@ export const Common = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ["Organization"],  // <-- CORRECT PLACE
+      invalidatesTags: ["Organization"], 
     }),
      inviteMember: builder.mutation({
       query: (body: { email: string , role: string}) => ({
@@ -44,7 +45,7 @@ export const Common = createApi({
         method: 'POST',
         body,
       }),
-      // invalidatesTags: ["Organization"],  // <-- CORRECT PLACE
+     
     }),
 
 
@@ -61,6 +62,12 @@ export const Common = createApi({
         url: `/editor/validate-invitation?token=${token}`,
         method: 'GET',
       }),
+    }),
+    getInvitedUsers: builder.query({
+      query: () => ({
+        url: '/superAdmin/getinvitedusers',
+        method: 'GET',
+      }),
     })
 
   }),
@@ -70,5 +77,6 @@ export const {
   useCreateOrganizationMutation,
   useGetOrganizationsQuery,
   useInviteMemberMutation,
-  useValidateInviteQuery
+  useValidateInviteQuery,
+  useGetInvitedUsersQuery
 } = Common;

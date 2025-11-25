@@ -8,9 +8,11 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BiPlus, BiPlusCircle } from 'react-icons/bi';
 import { FaCamera, FaQuestionCircle, FaShieldAlt, FaSignOutAlt } from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CreateWorkspaceModal from './CreateWorkspace';
 import Companies from './Companies';
+import { useSignOutMutation } from '@/store/apis/Auth';
+import { toast } from 'react-toastify';
 
 
 interface ProfileModalProps {
@@ -24,7 +26,18 @@ export default function ProfileModal({ setProfileOpen ,companies}: ProfileModalP
   const dispatch = useDispatch();
   const [workspace, setWorkspaceOpen] = useState(false);
   const router=useRouter()
+const user=useSelector((state:any)=>state.persisted.auth.user)
+const [signOut, { isLoading }] = useSignOutMutation();
+const handleLogout=async()=>{
 
+  const res = await signOut({}).unwrap();
+  toast.success(res.msg);
+  dispatch(clearCredientials());
+  persistor.purge();
+  router.push('/')
+
+  
+}
   return (
     <>
       <div
@@ -42,8 +55,8 @@ export default function ProfileModal({ setProfileOpen ,companies}: ProfileModalP
                 </div>
               </div>
               <div >
-                <p className="text-sm text-gray-500">Velofolio</p>
-                <p className="text-md font-medium text-gray-900">Velofolio@gmail.com</p>
+                <p className="text-sm text-gray-500">{user.full_name}</p>
+                <p className="text-md font-medium text-gray-900">{user.email}</p>
               </div>
             </div>
 
@@ -77,12 +90,7 @@ export default function ProfileModal({ setProfileOpen ,companies}: ProfileModalP
 
             
             <div className='flex items-center justify-end '>
-            <button  onClick={async () =>{ 
-                                dispatch(clearCredientials())
-                                // setIsMobileMenuOpen(false)
-                                persistor.purge();
-                                router.push('/')
-                              }}
+            <button  onClick={handleLogout}
                                className="w-full text-center bg-black text-md text-white rounded-full py-2 sm:w-32 space-x-2  hover:bg-gray-800 transition-colors">
               
               <span>Sign Out</span>

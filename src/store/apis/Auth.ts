@@ -1,11 +1,12 @@
 /** @format */
 
+import { Base_url } from '@/utils/Url';
 import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react';
 // import { BaseUrl } from '../../config/Services';
 export const Auth = createApi({
   reducerPath: 'Authentication',
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4000",
+    baseUrl: Base_url,
      credentials: "include", 
   }),
   endpoints: (builder) => ({
@@ -19,11 +20,10 @@ export const Auth = createApi({
     }),
    signup: builder.mutation({
   query: (body: { role?: string; [key: string]: any }) => {
-    // Determine endpoint based on role
-    let endpoint = '/signup'; // default
+    let endpoint = '/superAdmin/signup';
     if (body.role === 'superAdmin') endpoint = '/superAdmin/signup';
     else if (body.role === 'editor') endpoint = '/editor/signup';
-    else if (body.role === 'user') endpoint = '/user/signup';
+    else if (body.role === 'admin') endpoint = '/admin/signup';
 
     return {
       url: endpoint,
@@ -58,10 +58,11 @@ export const Auth = createApi({
  
 
 signOut: builder.mutation({
-  query: () => ({
-    url: `/Auth/signOut`,
-    method: 'POST',
-  }),
+ query: () => ({
+    url: "/auth/logout",
+    method: "POST",
+    credentials: "include"
+  })
 }),
     verifyOtp: builder.mutation({
       query: ({ email, otp }) => ({
