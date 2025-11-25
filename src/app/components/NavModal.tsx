@@ -55,8 +55,8 @@ const handleLogout=async()=>{
                 </div>
               </div>
               <div >
-                <p className="text-sm text-gray-500">{user.full_name}</p>
-                <p className="text-md font-medium text-gray-900">{user.email}</p>
+                <p className="text-sm text-gray-500">{user?.full_name}</p>
+                <p className="text-md font-medium text-gray-900">{user?.email}</p>
               </div>
             </div>
 
