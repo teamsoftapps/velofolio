@@ -11,6 +11,7 @@ import { useSigninMutation, useSignInWithGoogleMutation, } from "@/store/apis/Au
 import { toast } from "react-toastify"
 import { setCredientials } from "@/store/slices/authSlice";
 import { useDispatch } from "react-redux";
+import { Base_url } from "@/utils/Url";
 // import { u } from "@/store/apis/Auth";
 const SignIn: React.FC = () => {
   // ✅ Validation Schema
@@ -25,7 +26,7 @@ const SignIn: React.FC = () => {
 const {success}=toast
 const handleGoogleLogin = async () => {
 
-  window.location.href = "http://localhost:4000/auth/google";
+  window.location.href = `${Base_url}/auth/google`;
 
 
 }

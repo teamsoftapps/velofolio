@@ -13,6 +13,7 @@ import RouteGuard from "../components/RouteGuard";
 import { useDispatch } from "react-redux";
 import { setCredientials } from "@/store/slices/authSlice";
 import { useValidateInviteQuery } from "@/store/apis/Common";
+import { Base_url } from "@/utils/Url";
 // Validation schema
 const SignupSchema = Yup.object({
   full_name: Yup.string().min(2, "Too short!").required("Full name is required"),
@@ -73,7 +74,7 @@ useEffect(() => {
   //  GOOGLE LOGIN
   //---------------------------------------
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:4000/auth/google";
+    window.location.href = `${Base_url}/auth/google`;
   };
 
   //---------------------------------------
