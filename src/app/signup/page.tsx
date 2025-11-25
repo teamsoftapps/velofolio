@@ -203,8 +203,9 @@ onSubmit={async (values, { setSubmitting, resetForm }) => {
                     name="email"
                     type="email"
                     disabled={!!invitationToken}
-                    className={`w-full px-4 py-3 border text-gray-500 border-gray-300 rounded-lg ${
-                      invitationToken ? "bg-gray-100 cursor-not-allowed" : ""
+                    placeholder="Enter your email"
+                    className={`w-full px-4 py-3 border text-gray-700 border-gray-300 rounded-lg ${
+                      invitationToken ? "bg-gray-100 cursor-not-allowed" : "text-gray-700"
                     }`}
                   />
                   <ErrorMessage name="email" className="text-red-500 text-sm" component="div" />
