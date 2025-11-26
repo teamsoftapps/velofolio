@@ -20,20 +20,25 @@ import SearchComponent from '../components/SearchComponent';
 import { CiFilter } from 'react-icons/ci';
 import AddButton from '../components/AddButton';
 import Contracts from '../components/Contracts';
-import { Check, PlusIcon, Workflow } from 'lucide-react';
+import { Briefcase, Check, PlusIcon, Workflow } from 'lucide-react';
 import ProgressStepper from '../components/ProgressStepper';
 import ClientJobCard from '../components/JobClientCard';
 import JobDetail from "../../utils/JobDetail.json";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { LuNetwork } from "react-icons/lu";
 import WorkflowSteps from '../components/WorkflowSteps';
+import InvoiceDetailsForm from '../components/InvoiceDeatil';
+import ClientCard from '../components/ClientCard';
+import { RiTeamFill } from 'react-icons/ri';
+import JobCardDetail from '../components/JobCardDetail';
+import ProductsPackage from '../components/ProductsPackage';
 
 const JobProfilePage = () => {
   const [activeTab, setActiveTab] = useState('Invoices');
   const [openForm, setOpenForm] = useState(false);
 const searchParams = useSearchParams();
 const id = Number(searchParams.get("id"));
-const router = useRouter();
+
   const data = JobDetail.find((item) => item.id === id);
   console.log("id",id);
   console.log("JobDetail",JobDetail);
@@ -81,74 +86,48 @@ const router = useRouter();
   ];
 
   return (
-   <div className='min-h-screen  w-full flex flex-col items-start bg-[#FAFAFA]'>
+   <div className='min-h-screen h-full  w-full flex flex-col items-start bg-[#FAFAFA]'>
   <Navbar />
-  <div className='container w-full max-w-[1400px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 sm:px-6 md:px-8 flex flex-col lg:flex-row gap-6 lg:gap-20'>
+  <div className='container w-full max-w-[1400px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 sm:px-6 md:px-8 flex flex-col gap-4'>
     
-    {/* Left Section */}
-    <div className='w-full lg:w-[29%] flex-shrink-0'>
       <div>
         <h1 className='text-2xl font-semibold text-black'>{data?.jobDetails.title}</h1>
         <Link
           href='/jobs'
           className='flex items-center mt-2 text-[#a3a3a3] hover:text-gray-900 text-sm sm:text-base md:text-base lg:text-sm font-medium mb-2 sm:mb-3 md:mb-4 transition-colors duration-200'
         >
-          Dashboard | Job Overview | {data?.jobDetails.title}
+          Dashboard | Job Overview | {data?.jobDetails.title} | Invoices
         </Link>
       </div>
-      <ClientJobCard  data={data}/>
-    </div>
+    {/*bottom Section 1 */}
+    <div className='w-full  flex lg:flex-row flex-col items-center gap-4 lg:h-80 my-3'>
+        <InvoiceDetailsForm />
+        <div className='bg-white rounded-2xl p-3 w-full sm:w-2/6 h-74'>
+                <h1 className="text-lg sm:text-xl text-black flex gap-2 items-center font-semibold mb-3">
+                      <RiTeamFill className="w-5 h-5 text-black" /> Client
+                    </h1>
+        <ClientCard data={data?.client} />
 
-    {/* Right Section */}
-    <div className='w-full lg:w-[65%] flex flex-col  h-screen overflow-y-scroll scroller'>
-      {/* Stepper */}
-      <div className='w-full flex justify-end'>
-        <div className='w-40 '>
-        <AddButton title='Add New' setOpenForm={setOpenForm} />
-      </div>
-      </div>
-      <div className=''>
-        <WorkflowSteps />
-      </div>
-
-      {/* Tabs */}
-      <div className='w-full mt-4 h-[620px] bg-white p-3 sm:p-6 rounded-lg shadow-md'>
-        <div className='flex  lg:justify-between scroller gap-2 sm:gap-3 overflow-x-auto p-2 border-2 border-gray-300 rounded-xl'>
-          {['Invoices', 'Quotes', 'Tasks', 'Contracts & Docs', 'Invoices & Payments'].map(tab => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`cursor-pointer flex-shrink-0 px-3 py-1 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base font-medium ${
-                activeTab === tab ? 'bg-[#01B0E9] text-white' : 'text-black hover:text-gray-700'
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
+        </div>
+  
+        <div className='bg-white rounded-2xl p-3 w-full sm:w-2/6 h-74'>
+                 <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-4">
+              <Briefcase className="w-5 h-5 text-gray-600" />
+              Job Details
+            </h3>
+            <div className='bg-[#F4F4F5] p-2 rounded-lg'>
+        <JobCardDetail data={data?.jobDetails} />
+        </div>
+            
         </div>
 
-        {/* Tab Content */}
-        <div className='w-full h-[500px] bg-white p-4 sm:p-8 rounded-lg mt-4   overflow-y-auto'>
-          {activeTab === 'Invoices' && (
-            <div className='flex flex-col items-center justify-start pt-8 sm:pt-12 gap-6'>
-              <img src='/images/no-task.png' alt='No tasks' className='w-24 h-24 object-contain' />
-              <p className='text-center text-sm sm:text-base md:text-lg lg:text-xl text-black px-4 sm:px-8'>
-                No Invoices yet! Create your first Invoice to keep your workflow on track.
-              </p>
-              <div className='w-40' onClick={()=>router.push(`/addInvoice?id=${id}`)}>
-              
-              <AddButton setOpenForm={setOpenForm} title='Add Invoice' />
-              </div>
-            </div>
-          )}
-          {activeTab === 'Quotes' && <div className='flex flex-col gap-4 sm:gap-6'></div>}
-          {activeTab === 'Tasks' && <div className='flex flex-col gap-4 sm:gap-6'></div>}
-          {activeTab === 'Contracts & Docs' && <Contracts />}
-        </div>
-      </div>
     </div>
+    <hr />
+{/*bottom Section 1 */}
+<ProductsPackage  id={id}/>
 
-  </div>
+
+ </div>
 </div>
 
   );

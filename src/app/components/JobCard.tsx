@@ -1,5 +1,6 @@
 import { Briefcase, MoreHorizontal } from 'lucide-react'
 import React from 'react'
+import JobCardDetail from './JobCardDetail'
 
 const JobCard = ({data}:any) => {
   return (
@@ -20,28 +21,7 @@ const JobCard = ({data}:any) => {
           <h4 className="text-xl font-bold text-gray-900 mb-6">{data.title}</h4>
 
           {/* Details */}
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-gray-600">Job Type</span>
-              <span className="font-medium text-gray-900">{data.title}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Status</span>
-              <span className="font-semibold text-emerald-600">{data.status}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Shoot Date & Hours</span>
-              <span className="font-medium text-gray-900">{data.shootDate}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Location</span>
-              <span className="font-medium text-gray-900">{data.location}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Lead Source</span>
-              <span className="font-medium text-gray-900">{data.leadSource}</span>
-            </div>
-          </div>
+<JobCardDetail data={data} />
 
           {/* Assigned Team */}
           <div className="mt-6 pt-5 border-t border-gray-100">

@@ -1,18 +1,21 @@
 import { MapPin, MoreVertical, Phone } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import React from 'react'
 
+
 const ClientCard = ({data}:any) => {
+  const pathname = usePathname();
   return (
       <div className="bg-[#E5F7FD] rounded-xl border border-gray-200  overflow-hidden">
         <div className="p-6">
           {/* Header */}
           <div className="flex items-center justify-between pb-4 mb-6 border-b-2 border-b-[#C1EBFA]">
             <div className="flex items-center gap-4">
-              <img
+             {pathname === '/jobProfile' && <img
                 src={data.image}
                 alt="Sarah Johnson"
                 className="w-20 h-20 rounded-full object-cover shadow-lg"
-              />
+              />}
               <div>
                 <h2 className="text-xl font-bold text-gray-900">{data.name}</h2>
                 <p className="text-sm text-gray-600">{data.email}</p>
