@@ -34,11 +34,11 @@ export default function RouteGuard({
       return;
     }
 
-    // Role-based access
-    if (allowedRoles && userRole && !allowedRoles.includes(userRole)) {
-      router.replace("/not-authorized");
-      return;
-    }
+    // // Role-based access
+    // if (allowedRoles && userRole && !allowedRoles.includes(userRole)) {
+    //   router.replace("/not-authorized");
+    //   return;
+    // }
 
     // All good → stop redirecting
     setRedirecting(false);
