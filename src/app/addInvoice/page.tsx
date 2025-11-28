@@ -32,9 +32,11 @@ import ClientCard from '../components/ClientCard';
 import { RiTeamFill } from 'react-icons/ri';
 import JobCardDetail from '../components/JobCardDetail';
 import ProductsPackage from '../components/ProductsPackage';
+import AddInvoiceModal from '../components/AddInvoiceModal';
 
 const JobProfilePage = () => {
   const [activeTab, setActiveTab] = useState('Invoices');
+  const [invoices, setInvoices] = useState([]);
   const [openForm, setOpenForm] = useState(false);
 const searchParams = useSearchParams();
 const id = Number(searchParams.get("id"));
@@ -102,7 +104,7 @@ const id = Number(searchParams.get("id"));
     {/*bottom Section 1 */}
     <div className='w-full  flex lg:flex-row flex-col items-center gap-4 lg:h-80 my-3'>
         <InvoiceDetailsForm />
-        <div className='bg-white rounded-2xl p-3 w-full sm:w-2/6 h-74'>
+        <div className='bg-white rounded-2xl p-3 w-full lg:w-2/6 h-74'>
                 <h1 className="text-lg sm:text-xl text-black flex gap-2 items-center font-semibold mb-3">
                       <RiTeamFill className="w-5 h-5 text-black" /> Client
                     </h1>
@@ -110,7 +112,7 @@ const id = Number(searchParams.get("id"));
 
         </div>
   
-        <div className='bg-white rounded-2xl p-3 w-full sm:w-2/6 h-74'>
+        <div className='bg-white rounded-2xl p-3 w-full lg:w-2/6 h-74'>
                  <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-4">
               <Briefcase className="w-5 h-5 text-gray-600" />
               Job Details
@@ -124,10 +126,11 @@ const id = Number(searchParams.get("id"));
     </div>
     <hr />
 {/*bottom Section 1 */}
-<ProductsPackage  id={id}/>
+<ProductsPackage  id={id} setOpenForm={setOpenForm} invoices={invoices} setInvoices={setInvoices} />
 
 
  </div>
+ <><AddInvoiceModal   isOpen={openForm} setInvoices={setInvoices} onClose={() => setOpenForm(false)} onSubmit={()=>setOpenForm(false)} invoices={invoices}/></>
 </div>
 
   );
