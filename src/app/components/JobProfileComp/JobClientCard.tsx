@@ -24,10 +24,11 @@ export default function ClientJobSidebar({data}:any) {
         flex-shrink-0
         lg:w-[340px] 
         xl:w-[420px]
+        inter
       "
     >
       {/* HEADER */}
-      <div className="flex items-center justify-between relative">
+      <div className="flex items-center justify-between relative inter">
         <h1 className="text-lg sm:text-xl text-black flex gap-2 items-center font-semibold">
           <RiTeamFill className="w-5 h-5 text-black" /> Client
         </h1>

@@ -2,7 +2,7 @@ import React from 'react'
 
 const JobCardDetail = ({data}:any) => {
   return (
-             <div className="space-y-2 text-sm">
+             <div className="space-y-2 text-sm inter">
             <div className="flex justify-between">
               <span className="text-gray-600">Job Type</span>
               <span className="font-medium text-gray-900">{data.title}</span>

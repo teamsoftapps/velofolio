@@ -2,10 +2,11 @@
 import Link from 'next/link'
 import React from 'react'
 import Navbar from '../components/Navbar'
-import SplitInvoicePayment from '../components/SplitInvoicePayment'
-import InvoiceSend from '../components/InvoiceSend';
-import InvoiceTable from '../components/InvoiceTable'
-import InvoicePriceData from '../components/InvoicePriceData'
+import SplitInvoicePayment from '../components/AddInvoiceComp/SplitInvoicePayment'
+import InvoiceSend from '../components/AddInvoiceComp/InvoiceSend';
+import InvoiceTable from '../components/AddInvoiceComp/InvoiceTable'
+import InvoicePriceData from '../components/AddInvoiceComp/InvoicePriceData'
+import InvoiceMeta from '../components/AddInvoiceComp/InvoiceMeta'
 
 const examplePayments = [
   {
@@ -27,12 +28,12 @@ const invoiceItems: any = [
   }
 ];
 const handleSendInvoice = () => {
-    // Handle sending the invoice
+
     console.log('Sending invoice...');
   };
 const page = () => {
   return (
-   <div className='min-h-screen h-full  w-full flex flex-col items-start bg-[#FAFAFA] text-black'>
+   <div className='min-h-screen h-full inter  w-full flex flex-col items-start bg-[#FAFAFA] text-black'>
   <Navbar />
   <div className='container w-full max-w-[1400px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 sm:px-6 md:px-8 flex flex-col gap-4'>
     
@@ -61,24 +62,11 @@ const page = () => {
     <hr className='mt-4 text-gray-300'/>
 {/* Invoice Details */}
     <div className='my-3  w-full bg-white p-6 '>
-
-      <div className='top flex justify-between '>
-        <div>
-<h2>Invoice Id : 234c6</h2>
-<h2>Issue Date : 12-12-2023</h2>
-        </div>
-        <div className='w-2/8'>
-          <h2>From : Velofolio</h2>
-          <div className='flex flex-col lg:flex-row gap-3 w-full '>
-            <h2>Invoice For:</h2>
-            <h2 className='w-54'>Sarah Wedding Dec 1, 2025 - 2:20 PM to 4:00 PM New York, USA Sarah Johnson sarahjohnson@gmail.com New York, USA 225 Cherry Street #24</h2>
-          </div>
-
-        </div>
-      </div>
+<InvoiceMeta id="234c6" issueDate="12-12-2023" from="Velofolio" invoiceFor="Sarah Wedding Dec 1, 2025 - 2:20 PM to 4:00 PM New York, USA Sarah Johnson sarahjohnson@gmail.com New York, USA 225 Cherry Street #24" />
+   
       <div className='my-10'>
         <h1 className='text-xl my-3 '>Invoice</h1>
-        <div className='w-full border-b-2 border-b-gray-300 p-4 relative'>
+        <div className='w-full border-b-2 border-b-gray-300 sm:p-4 relative'>
         <InvoiceTable  items={invoiceItems} onDelete={() => {}}/>
           </div>
           <div className='flex items-center justify-end'>

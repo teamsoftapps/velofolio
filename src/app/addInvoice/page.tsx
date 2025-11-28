@@ -4,35 +4,18 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Link from 'next/link';
-import {
-  FaArrowLeft,
-  FaEdit,
-  FaEllipsisV,
-  FaEnvelope,
-  FaFilter,
-  FaInstagram,
-  FaPhone,
-  FaUsers,
-} from 'react-icons/fa';
-import { FaEllipsis } from 'react-icons/fa6';
-import { MdModeEditOutline } from 'react-icons/md';
-import SearchComponent from '../components/SearchComponent';
-import { CiFilter } from 'react-icons/ci';
-import AddButton from '../components/AddButton';
-import Contracts from '../components/Contracts';
-import { Briefcase, Check, PlusIcon, Workflow } from 'lucide-react';
-import ProgressStepper from '../components/ProgressStepper';
-import ClientJobCard from '../components/JobClientCard';
+
+import { Briefcase } from 'lucide-react';
+
 import JobDetail from "../../utils/JobDetail.json";
 import { useSearchParams } from 'next/navigation';
-import { LuNetwork } from "react-icons/lu";
-import WorkflowSteps from '../components/WorkflowSteps';
-import InvoiceDetailsForm from '../components/InvoiceDeatil';
-import ClientCard from '../components/ClientCard';
+
+import InvoiceDetailsForm from '../components/AddInvoiceComp/InvoiceDeatil';
+import ClientCard from '../components/JobProfileComp/ClientCard';
 import { RiTeamFill } from 'react-icons/ri';
-import JobCardDetail from '../components/JobCardDetail';
-import ProductsPackage from '../components/ProductsPackage';
-import AddInvoiceModal from '../components/AddInvoiceModal';
+import JobCardDetail from '../components/JobProfileComp/JobCardDetail';
+import ProductsPackage from '../components/AddInvoiceComp/ProductsPackage';
+import AddInvoiceModal from '../components/AddInvoiceComp/AddInvoiceModal';
 
 const JobProfilePage = () => {
   const [activeTab, setActiveTab] = useState('Invoices');
@@ -88,7 +71,7 @@ const id = Number(searchParams.get("id"));
   ];
 
   return (
-   <div className='min-h-screen h-full  w-full flex flex-col items-start bg-[#FAFAFA]'>
+   <div className='min-h-screen h-full  w-full flex flex-col items-start bg-[#FAFAFA] inter'>
   <Navbar />
   <div className='container w-full max-w-[1400px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 sm:px-6 md:px-8 flex flex-col gap-4'>
     

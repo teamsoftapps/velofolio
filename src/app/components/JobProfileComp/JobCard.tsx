@@ -4,11 +4,11 @@ import JobCardDetail from './JobCardDetail'
 
 const JobCard = ({data}:any) => {
   return (
-      <div >
-        <div className="p-1">
+      <div className='inter' >
+        <div className="p-1 inter">
           {/* Header */}
           <div className="flex items-center justify-between mb-5">
-            <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2 inter">
               <Briefcase className="w-5 h-5 text-gray-600" />
               Job Details
             </h3>

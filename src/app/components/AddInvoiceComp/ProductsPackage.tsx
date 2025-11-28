@@ -1,6 +1,6 @@
 
 import React from 'react'
-import AddButton from './AddButton'
+import AddButton from '../AddButton'
 import { InfoIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import InvoiceTable from './InvoiceTable'
@@ -52,7 +52,7 @@ const [totalDues, setTotalDue] = React.useState(totalDue);
         </div>
         )
         :<>
-             <div className='w-full rounded-lg bg-white border-2 border-[#978F8F] h-80  text-center lg:p-4 lg:px-12'>
+             <div className='w-full rounded-lg bg-white border-2 border-[#978F8F] h-80  text-center lg:p-4 lg:px-12 overflow-y-scroll scroller'>
         <InvoiceTable  items={invoices} onDelete={deleteInvoice} />
    
         </div>
@@ -114,7 +114,7 @@ const [totalDues, setTotalDue] = React.useState(totalDue);
 
         {/* Buttons */}
         <div className='flex flex-col sm:flex-row sm:items-center sm:gap-4 lg:w-2/3'>
-          <button className='w-full sm:w-40 bg-[#01B0E9] text-white py-3 rounded-full mb-2 sm:mb-0' onClick={()=>router.push("/invoice")}>Save Invoice</button> 
+          <button className='w-full sm:w-40 bg-[#01B0E9] text-white py-3 rounded-full mb-2 sm:mb-0' onClick={()=>router.push("/viewinvoice")}>Save Invoice</button> 
           <button 
             onClick={() => router.push(`/jobProfile?id=${id}`)} 
             className='w-full sm:w-32 border border-gray-400 text-black py-3 rounded-full'

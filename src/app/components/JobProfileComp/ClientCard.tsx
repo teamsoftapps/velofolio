@@ -6,7 +6,7 @@ import React from 'react'
 const ClientCard = ({data}:any) => {
   const pathname = usePathname();
   return (
-      <div className="bg-[#E5F7FD] rounded-xl border border-gray-200  overflow-hidden">
+      <div className="bg-[#E5F7FD] rounded-xl border border-gray-200  overflow-hidden inter">
         <div className="p-6">
           {/* Header */}
           <div className="flex items-center justify-between pb-4 mb-6 border-b-2 border-b-[#C1EBFA]">

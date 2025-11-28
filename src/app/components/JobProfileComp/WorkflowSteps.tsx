@@ -6,7 +6,7 @@ import TimeLine from './TimeLine'
 
 const WorkflowSteps = () => {
   return (
-            <div className='w-full  text-black h-full mt-9'>
+            <div className='w-full  text-black h-full mt-9 inter'>
           <div className='flex justify-between items-center'>
             <div className='flex items-center gap-3'>
             <LuNetwork size={28} /> 

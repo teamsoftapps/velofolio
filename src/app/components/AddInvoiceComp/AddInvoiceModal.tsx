@@ -600,9 +600,9 @@
 'use client';
 
 import React, { useState, useRef, ChangeEvent, DragEvent } from 'react';
-import ImageReplacementTab from './ImageReplacementTab';
+import ImageReplacementTab from '../ImageReplacementTab';
 import { SlCloudUpload } from "react-icons/sl";
-import { RichTextEditor } from './RichTextArea';
+import { RichTextEditor } from '../RichTextArea';
 
 interface AddInvoiceModalProps {
   isOpen: boolean;
@@ -836,7 +836,7 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
           />
 
           {/* Pricing Inputs */}
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap sm:flex-nowrap gap-2 items-center justify-between">
             <div className="flex flex-col">
               <label htmlFor="price">Price</label>
               <input
@@ -844,7 +844,7 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
                 type="number"
                 value={formData.price}
                 onChange={(e) => handleInputChange('price', e.target.value)}
-                className="w-40 border border-gray-400 p-1 rounded-md"
+                className=" w-full sm:w-40 border border-gray-400 p-1 rounded-md"
               />
             </div>
             <div className="flex flex-col">
@@ -854,7 +854,7 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
                 type="number"
                 value={formData.quantity}
                 onChange={(e) => handleInputChange('quantity', e.target.value)}
-                className="w-40 border border-gray-400 p-1 rounded-md"
+                className=" w-full sm:w-40  border border-gray-400 p-1 rounded-md"
               />
             </div>
             <div className="flex flex-col">
@@ -866,7 +866,7 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
                 onChange={(e) => handleInputChange('discount', e.target.value)}
                 min={0}
                 step={0.01}
-                className="w-40 border border-gray-400 p-1 rounded-md"
+                className=" w-full sm:w-40  border border-gray-400 p-1 rounded-md"
               />
             </div>
           </div>

@@ -53,14 +53,7 @@ const SplitInvoicePayment: FC<SplitInvoicePaymentProps> = ({ payments, totalDue 
       </div>
 
       {/* Total Due Row */}
-      <div className="mt-2 border border-gray-300 rounded-b-lg bg-white">
-        <div className="px-6 py-4 border-t border-gray-300">
-          <div className="flex justify-between items-center">
-            <span className="text-md font-medium text-black">Total Due:</span>
-            <span className="text-lg font-semibold text-gray-900">${totalDue}</span>
-          </div>
-        </div>
-      </div>
+ 
     </div>
   );
 };

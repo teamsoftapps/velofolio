@@ -22,15 +22,17 @@ import AddButton from '../components/AddButton';
 import Contracts from '../components/Contracts';
 import { Check, PlusIcon, Workflow } from 'lucide-react';
 import ProgressStepper from '../components/ProgressStepper';
-import ClientJobCard from '../components/JobClientCard';
+import ClientJobCard from '../components/JobProfileComp/JobClientCard';
 import JobDetail from "../../utils/JobDetail.json";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { LuNetwork } from "react-icons/lu";
-import WorkflowSteps from '../components/WorkflowSteps';
+import WorkflowSteps from '../components/JobProfileComp/WorkflowSteps';
+import InvoiceCard from '../components/JobProfileComp/InvoiceCard';
 
 const JobProfilePage = () => {
   const [activeTab, setActiveTab] = useState('Invoices');
   const [openForm, setOpenForm] = useState(false);
+  const [invoices, setInvoices] = useState([1]);
 const searchParams = useSearchParams();
 const id = Number(searchParams.get("id"));
 const router = useRouter();
@@ -81,7 +83,7 @@ const router = useRouter();
   ];
 
   return (
-   <div className='min-h-screen  w-full flex flex-col items-start bg-[#FAFAFA]'>
+   <div className='min-h-screen  w-full flex flex-col items-start bg-[#FAFAFA] inter'>
   <Navbar />
   <div className='container w-full max-w-[1400px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 sm:px-6 md:px-8 flex flex-col lg:flex-row gap-6 lg:gap-20'>
     
@@ -129,18 +131,32 @@ const router = useRouter();
 
         {/* Tab Content */}
         <div className='w-full h-[500px] bg-white p-4 sm:p-8 rounded-lg mt-4   overflow-y-auto'>
-          {activeTab === 'Invoices' && (
-            <div className='flex flex-col items-center justify-start pt-8 sm:pt-12 gap-6'>
-              <img src='/images/no-task.png' alt='No tasks' className='w-24 h-24 object-contain' />
-              <p className='text-center text-sm sm:text-base md:text-lg lg:text-xl text-black px-4 sm:px-8'>
-                No Invoices yet! Create your first Invoice to keep your workflow on track.
-              </p>
-              <div className='w-40' onClick={()=>router.push(`/addInvoice?id=${id}`)}>
-              
-              <AddButton setOpenForm={setOpenForm} title='Add Invoice' />
-              </div>
-            </div>
-          )}
+      {activeTab === 'Invoices' && (
+  invoices.length > 0 ? (
+    <InvoiceCard />
+  ) : (
+    <>
+      <div className="flex flex-col items-center justify-start pt-8 sm:pt-12 gap-6">
+        <img
+          src="/images/no-task.png"
+          alt="No tasks"
+          className="w-24 h-24 object-contain"
+        />
+        <p className="text-center text-sm sm:text-base md:text-lg lg:text-xl text-black px-4 sm:px-8">
+          No Invoices yet! Create your first Invoice to keep your workflow on track.
+        </p>
+
+        <div
+          className="w-40"
+          onClick={() => router.push(`/addInvoice?id=${id}`)}
+        >
+          <AddButton setOpenForm={setOpenForm} title="Add Invoice" />
+        </div>
+      </div>
+    </>
+  )
+)}
+
           {activeTab === 'Quotes' && <div className='flex flex-col gap-4 sm:gap-6'></div>}
           {activeTab === 'Tasks' && <div className='flex flex-col gap-4 sm:gap-6'></div>}
           {activeTab === 'Contracts & Docs' && <Contracts />}

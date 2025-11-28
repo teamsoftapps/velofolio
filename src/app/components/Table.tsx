@@ -105,6 +105,7 @@ const Table = ({
                     if (pasthname === '/clients') router.push(`/clientProfile`);
                      if (pasthname === '/jobs') router.push(`/jobProfile?id=${rowIndex+1}`);
                     if (pasthname === '/team') router.push(`/teamProfile`);
+                    if (pasthname === '/payments') router.push(`/invoice?id=${rowIndex+1}`);
                   }}
                   className="text-black hover:bg-[#daf2fa] text-xs sm:text-sm md:text-base transition-colors duration-200 cursor-pointer"
                 >

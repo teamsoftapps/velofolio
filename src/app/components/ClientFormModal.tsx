@@ -124,7 +124,7 @@ const ClientForm: React.FC<ClientFormProps> = ({
   };
 
   return (
-    <div className='fixed inset-0 flex items-center justify-center bg-black/40 z-50 px-4'>
+    <div className='fixed inset-0 flex items-center justify-center bg-black/40 z-50 px-4 inter'>
       <div className='relative bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-3xl overflow-y-auto max-h-[90vh] scroller'>
         {/* Close Button */}
         <IoMdClose

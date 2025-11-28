@@ -8,7 +8,7 @@ export default function Tabs({ activeTab, setActiveTab }: TabsProps) {
 
 
   return (
-    <div className="w-[80%] sm:w-52 flex items-center justify-between border-2 rounded-full p-0.5 px-2 relative">
+    <div className="w-[80%] sm:w-52 flex items-center justify-between border-2 rounded-full p-0.5 px-2 relative inter">
       {/* Background transition element */}
       <div
         className={`absolute top-0.5 bottom-0.5 text-center rounded-full bg-[#01B0E9] transition-all duration-300`}
