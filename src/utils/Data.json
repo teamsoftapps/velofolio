@@ -1,5 +1,6 @@
 [
   {
+    "id": "CLNT-001",
     "name": "Sarah Johnson",
     "event": "Wedding",
     "status": "New Lead",
@@ -10,6 +11,7 @@
     "action": "View Details"
   },
   {
+    "id": "CLNT-002",
     "name": "Sarah Johnson",
     "event": "Wedding",
     "status": "Proposal",
@@ -20,6 +22,7 @@
     "action": "View Details"
   },
   {
+    "id": "CLNT-003",
     "name": "Sarah Connor",
     "event": "Pre Wedding",
     "status": "Booked",
@@ -30,6 +33,7 @@
     "action": "View Details"
   },
   {
+    "id": "CLNT-004",
     "name": "Michael Brown",
     "event": "Corporate",
     "status": "Booked",
@@ -40,6 +44,7 @@
     "action": "Assign Task"
   },
   {
+    "id": "CLNT-005",
     "name": "Anna David",
     "event": "Corporate",
     "status": "Proposal",
@@ -50,6 +55,7 @@
     "action": "Send Proposal"
   },
   {
+    "id": "CLNT-006",
     "name": "Emma Wilson",
     "event": "Press Conference",
     "status": "New Lead",
@@ -60,6 +66,7 @@
     "action": "View Details"
   },
   {
+    "id": "CLNT-007",
     "name": "Emma Wilson",
     "event": "Corporate",
     "status": "Booked",
@@ -70,6 +77,7 @@
     "action": "Assign Task"
   },
   {
+    "id": "CLNT-008",
     "name": "David Wilson",
     "event": "Investor Meeting",
     "status": "Proposal",
@@ -80,6 +88,7 @@
     "action": "Send Proposal"
   },
   {
+    "id": "CLNT-009",
     "name": "Mike Chen",
     "event": "Team Retreat",
     "status": "Done",
@@ -90,6 +99,7 @@
     "action": "View Summary"
   },
   {
+    "id": "CLNT-010",
     "name": "James Anderson",
     "event": "Webinar",
     "status": "Proposal",
@@ -100,6 +110,7 @@
     "action": "View Details"
   },
   {
+    "id": "CLNT-011",
     "name": "Mike Chen",
     "event": "Networking Session",
     "status": "New Lead",
@@ -110,6 +121,7 @@
     "action": "Assign Task"
   },
   {
+    "id": "CLNT-012",
     "name": "Lucas White",
     "event": "Product Demo",
     "status": "Proposal",
@@ -120,6 +132,7 @@
     "action": "Send Proposal"
   },
   {
+    "id": "CLNT-013",
     "name": "Isabella Garcia",
     "event": "Exhibition",
     "status": "Booked",
@@ -130,6 +143,7 @@
     "action": "View Details"
   },
   {
+    "id": "CLNT-014",
     "name": "Ethan Martinez",
     "event": "Training Program",
     "status": "Done",
@@ -140,6 +154,7 @@
     "action": "View Summary"
   },
   {
+    "id": "CLNT-015",
     "name": "Mia Rodriguez",
     "event": "Client Meeting",
     "status": "New Lead",
@@ -150,6 +165,7 @@
     "action": "View Details"
   },
   {
+    "id": "CLNT-016",
     "name": "William Taylor",
     "event": "Annual Gala",
     "status": "Proposal",
@@ -160,6 +176,7 @@
     "action": "Send Proposal"
   },
   {
+    "id": "CLNT-017",
     "name": "Charlotte Moore",
     "event": "Brand Launch",
     "status": "Booked",
@@ -170,6 +187,7 @@
     "action": "Assign Task"
   },
   {
+    "id": "CLNT-018",
     "name": "Benjamin Clark",
     "event": "Tech Conference",
     "status": "New Lead",
@@ -180,6 +198,7 @@
     "action": "View Details"
   },
   {
+    "id": "CLNT-019",
     "name": "Ella Lewis",
     "event": "Press Meetup",
     "status": "Proposal",
@@ -190,6 +209,7 @@
     "action": "Send Proposal"
   },
   {
+    "id": "CLNT-020",
     "name": "Henry Walker",
     "event": "Marketing Workshop",
     "status": "Done",

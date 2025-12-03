@@ -18,7 +18,7 @@ const JobCard = ({data}:any) => {
           </div>
 <div className="bg-[#F4F4F5] p-4 rounded-lg">
           {/* Job Title */}
-          <h4 className="text-xl font-bold text-gray-900 mb-6">{data.title}</h4>
+          <h4 className="text-xl font-bold text-gray-900 mb-6">{data?.title}</h4>
 
           {/* Details */}
 <JobCardDetail data={data} />

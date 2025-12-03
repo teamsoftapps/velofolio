@@ -74,7 +74,7 @@ const Table = ({
  <div
   className={`w-full mt-4 md:p-3 
     ${
-      pasthname === '/teamProfile' || pasthname === '/dashboard' || pasthname === '/clientProfile'|| pasthname === '/reports'
+      pasthname === '/teamProfile' || pasthname === '/dashboard' || pasthname === '/clientProfile'|| pasthname === '/reports'|| pasthname.includes('/jobProfile')
         ? 'lg:p-0'
         : 'lg:p-7 border-1 border-gray-300 rounded-2xl'
     }

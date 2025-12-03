@@ -20,6 +20,7 @@ import SearchComponent from '../components/SearchComponent';
 import { CiFilter } from 'react-icons/ci';
 import AddButton from '../components/AddButton';
 import Contracts from '../components/Contracts';
+import ClientProfile from '../components/ClientProfile';
 
 const ClientProfilePage = () => {
   const [activeTab, setActiveTab] = useState('Overview');
@@ -71,111 +72,7 @@ const ClientProfilePage = () => {
         </Link>
         <div className='flex flex-col lg:flex-row gap-4 sm:gap-6 md:gap-8 py-2'>
           {/* Box 1: Client Profile */}
-          <div className='w-full lg:w-2/5 xl:w-1/3 bg-white p-4 sm:p-6 rounded-lg shadow-md border border-gray-300 flex flex-col items-center'>
-            <div className='flex flex-row w-full mb-3 sm:mb-4 justify-between items-center'>
-              <div className='w-full flex justify-center '>
-                <div className='w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden'>
-                  <img
-                    src='/ClientProfileImage.png'
-                    alt='Profile'
-                    className='w-full h-full object-cover'
-                  />
-                </div>
-              </div>
-              <span className='text-black cursor-pointer'>
-                <FaEllipsis
-                  size={18}
-                  className='sm:w-5 sm:h-5 md:w-6 md:h-6'
-                />
-              </span>
-            </div>
-            <h2 className='text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-black'>
-              Sarah Johnson
-            </h2>
-            <div className='flex flex-col sm:flex-row md:flex-col items-center justify-center mt-2 sm:mt-3 w-full sm:w-5/6 gap-2'>
-              <p className='text-sm sm:text-base md:text-lg lg:text-lg text-black font-bold'>
-                Wedding (Oct 1, 2025)
-              </p>
-              <button className='px-3 sm:px-4 py-1 sm:py-1.5 bg-[#01B0E9] text-white text-xs sm:text-sm md:text-base lg:text-base rounded-full'>
-                PROPOSAL
-              </button>
-            </div>
-            <div className='w-full flex flex-row justify-center items-center border-b border-gray-300 py-3 sm:py-4'>
-              <div className='flex justify-between space-x-3 sm:space-x-4 md:space-x-6'>
-                <span className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-yellow-400 rounded-full flex items-center justify-center'>
-                  <img
-                    src='/mail_outline.png'
-                    alt='Mail'
-                    className='w-4 sm:w-5 md:w-6 h-4 sm:h-5 md:h-6 object-center'
-                  />
-                </span>
-                <span className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-blue-400 rounded-full flex items-center justify-center'>
-                  <img
-                    src='/phone_outline.png'
-                    alt='Phone'
-                    className='w-4 sm:w-5 md:w-6 h-4 sm:h-5 md:h-6 object-center'
-                  />
-                </span>
-                <span className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-green-400 rounded-full flex items-center justify-center'>
-                  <img
-                    src='/team.png'
-                    alt='Team'
-                    className='w-4 sm:w-5 md:w-6 h-4 sm:h-5 md:h-6 object-center'
-                  />
-                </span>
-              </div>
-            </div>
-            <div className='mt-4 sm:mt-6 w-full'>
-              <h3 className='text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-black'>
-                Contact Details
-              </h3>
-              <div className='flex items-center mt-2 sm:mt-3'>
-                <img
-                  src='/images/blackmail_logo.svg'
-                  alt='Email'
-                  className='w-7 sm:w-8 md:w-9 h-7 sm:h-8 md:h-9 border-2 border-[#D4D4D8] bg-[#F4F4F5] rounded-full mr-2 sm:mr-3'
-                />
-                <div>
-                  <span className='text-sm sm:text-base md:text-base lg:text-lg font-bold text-black'>
-                    Email
-                  </span>
-                  <p className='text-sm sm:text-base md:text-base lg:text-lg text-black'>
-                    sarahjohnson@gmail.com
-                  </p>
-                </div>
-              </div>
-              <div className='flex items-center mt-2 sm:mt-3'>
-                <img
-                  src='/images/blackphone_logo.svg'
-                  alt='Phone'
-                  className='w-7 sm:w-8 md:w-9 h-7 sm:h-8 md:h-9 border-2 border-[#D4D4D8] bg-[#F4F4F5] rounded-full mr-2 sm:mr-3'
-                />
-                <div>
-                  <span className='text-sm sm:text-base md:text-base lg:text-lg font-bold text-black'>
-                    Phone
-                  </span>
-                  <p className='text-sm sm:text-base md:text-base lg:text-lg text-black'>
-                    +1(514) 550-3281
-                  </p>
-                </div>
-              </div>
-              <div className='flex items-center mt-2 sm:mt-3'>
-                <img
-                  src='/images/blackaddress_logo.svg'
-                  alt='Address'
-                  className='w-7 sm:w-8 md:w-9 h-7 sm:h-8 md:h-9 border-2 border-[#D4D4D8] bg-[#F4F4F5] rounded-full mr-2 sm:mr-3'
-                />
-                <div>
-                  <span className='text-sm sm:text-base md:text-base lg:text-lg font-bold text-black'>
-                    Address
-                  </span>
-                  <p className='text-sm sm:text-base md:text-base lg:text-lg text-black'>
-                    225 Cherry Street #24, New York, NY
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+        <ClientProfile  />
           {/* Box 2: Tabs and Content */}
           <div className='w-full lg:w-3/5 xl:w-2/3 bg-white p-4 sm:p-6 rounded-lg shadow-md border border-gray-300'>
             <div className='flex flex-wrap justify-between border-b border-gray-300 mb-3 sm:mb-4 gap-2'>

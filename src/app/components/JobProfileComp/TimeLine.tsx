@@ -2,7 +2,8 @@ import { Check, CheckIcon } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import { BiMenu } from "react-icons/bi";
 import { FiMoreVertical } from "react-icons/fi";
-
+import { PiPlus } from "react-icons/pi";
+import { IoMdAdd } from 'react-icons/io';
 const initialTasks = [
   { id: 1, title: "Lead Created", date: "25 Nov 2025", checked: true, type: "step" },
   {
@@ -74,7 +75,12 @@ export default function TaskList() {
               <span
                 className={`circle w-4 h-4 border-2 ${isDisabled ? "border-gray-300" :borderColor } bg-white rounded-full absolute -left-3 top-1/2 -translate-y-1/2 z-10`}
               ></span>
+{index !=tasks.length-1 && <div className="absolute cursor-pointer -bottom-4 left-0 w-full opacity-0 hover:opacity-100 transition-all ease-in-out z-40   border-1 border-gray-300 border-dashed">
+  <div className="absolute -top-4 left-1/2 w-9 h-9 aspect-square bg-[#01B0E9] rounded-full ">
+  <IoMdAdd className="w-6 h-6 text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 opacity-100"/>
 
+  </div>
+   </div>}
               {/* Row (title + checkbox + right side) */}
               <div className="flex justify-between items-center w-full" ref={el => { rowRefs.current[index] = el }}>
                 <div className="p-2 w-full">
@@ -142,6 +148,7 @@ export default function TaskList() {
              
               </div>
             </div>
+           
           </div>
         );
       })}

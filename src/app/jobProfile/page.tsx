@@ -28,6 +28,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { LuNetwork } from "react-icons/lu";
 import WorkflowSteps from '../components/JobProfileComp/WorkflowSteps';
 import InvoiceCard from '../components/JobProfileComp/InvoiceCard';
+import EmptyInvoicnQuoteState from '../components/EmptyInvoicnQuoteState';
 
 const JobProfilePage = () => {
   const [activeTab, setActiveTab] = useState('Invoices');
@@ -130,34 +131,27 @@ const router = useRouter();
         </div>
 
         {/* Tab Content */}
-        <div className='w-full h-[500px] bg-white p-4 sm:p-8 rounded-lg mt-4   overflow-y-auto'>
+        <div className='w-full h-[500px] bg-white p-4 sm:p-8 rounded-lg mt-4   overflow-y-auto scroller'>
       {activeTab === 'Invoices' && (
   invoices.length > 0 ? (
     <InvoiceCard />
   ) : (
     <>
-      <div className="flex flex-col items-center justify-start pt-8 sm:pt-12 gap-6">
-        <img
-          src="/images/no-task.png"
-          alt="No tasks"
-          className="w-24 h-24 object-contain"
-        />
-        <p className="text-center text-sm sm:text-base md:text-lg lg:text-xl text-black px-4 sm:px-8">
-          No Invoices yet! Create your first Invoice to keep your workflow on track.
-        </p>
-
-        <div
-          className="w-40"
-          onClick={() => router.push(`/addInvoice?id=${id}`)}
-        >
-          <AddButton setOpenForm={setOpenForm} title="Add Invoice" />
-        </div>
-      </div>
+      <EmptyInvoicnQuoteState setOpenForm={setOpenForm} id={id} type='Invoice'/>
+ 
     </>
   )
 )}
 
-          {activeTab === 'Quotes' && <div className='flex flex-col gap-4 sm:gap-6'></div>}
+              {activeTab === 'Quotes' && (
+  !(invoices.length > 0) ? (
+    <InvoiceCard type='Quote'/>
+  ) : (
+    <>
+<EmptyInvoicnQuoteState setOpenForm={setOpenForm} id={id} type='Quote'/>
+    </>
+  )
+)}
           {activeTab === 'Tasks' && <div className='flex flex-col gap-4 sm:gap-6'></div>}
           {activeTab === 'Contracts & Docs' && <Contracts />}
         </div>

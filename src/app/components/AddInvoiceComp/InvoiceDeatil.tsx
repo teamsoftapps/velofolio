@@ -1,13 +1,13 @@
 import React from "react";
 
-export default function InvoiceDetailsForm() {
+export default function InvoiceDetailsForm({type="Invoice"}:any) {
   return (
     <div className="w-full lg:w-[29%] flex-shrink-0 text-gray-700">
       <div className="space-y-6">
         {/* Invoice ID */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Invoice ID
+            {type} ID
           </label>
           <input
             type="text"

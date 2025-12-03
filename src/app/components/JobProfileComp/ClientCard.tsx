@@ -12,13 +12,13 @@ const ClientCard = ({data}:any) => {
           <div className="flex items-center justify-between pb-4 mb-6 border-b-2 border-b-[#C1EBFA]">
             <div className="flex items-center gap-4">
              {pathname === '/jobProfile' && <img
-                src={data.image}
+                src={data?.image}
                 alt="Sarah Johnson"
                 className="w-20 h-20 rounded-full object-cover shadow-lg"
               />}
               <div>
-                <h2 className="text-xl font-bold text-gray-900">{data.name}</h2>
-                <p className="text-sm text-gray-600">{data.email}</p>
+                <h2 className="text-xl font-bold text-gray-900">{data?.name}</h2>
+                <p className="text-sm text-gray-600">{data?.email}</p>
               </div>
             </div>
        
@@ -31,7 +31,7 @@ const ClientCard = ({data}:any) => {
             </div>
             <div>
               <p className="text-sm font-semibold text-gray-800">Phone</p>
-              <p className="text-sm text-gray-700">{data.phone}</p>
+              <p className="text-sm text-gray-700">{data?.phone}</p>
             </div>
           </div>
 
@@ -42,7 +42,7 @@ const ClientCard = ({data}:any) => {
             </div>
             <div>
               <p className="text-sm font-semibold text-gray-800">Address</p>
-              <p className="text-sm text-gray-700">{data.address}</p>
+              <p className="text-sm text-gray-700">{data?.address}</p>
             </div>
           </div>
         </div>

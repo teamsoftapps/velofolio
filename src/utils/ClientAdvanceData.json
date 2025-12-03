@@ -1,0 +1,217 @@
+[
+  {
+    "id": "CLNT-001",
+    "name": "Sarah Johnson",
+    "email": "sarah.johnson@example.com",
+    "phone": "+1 555 123 4567",
+    "address": "123 Main Street, Los Angeles, CA",
+    "image": "/ClientProfileImage.png",
+    "leadSource": "Facebook Ads",
+    "assignedTeam": [
+      { "id": "TM-01", "name": "John Carter", "role": "Sales Manager" },
+      { "id": "TM-02", "name": "Emily Davis", "role": "Coordinator" }
+    ],
+    "notes": "Prefers afternoon calls. Wedding project starting October.",
+    "events": [
+      { "id": "EV-01", "title": "Intro Call", "date": "2025-01-04", "status": "Completed" },
+      { "id": "EV-02", "title": "Venue Visit", "date": "2025-01-10", "status": "Scheduled" }
+    ],
+    "tasks": [
+      { "id": "TSK-01", "task": "Send Proposal", "dueDate": "2025-01-07", "status": "In Progress" },
+      { "id": "TSK-02", "task": "Upload Documents", "dueDate": "2025-01-09", "status": "Pending" }
+    ],
+    "contractsDocs": [
+      { "id": "DOC-01", "name": "Wedding Agreement", "uploadedOn": "2025-01-02", "status": "Signed" }
+    ],
+    "invoicesPayments": [
+      { "id": "INV-001", "title": "Initial Payment", "amount": 2000, "status": "Paid", "paidOn": "2025-01-03" },
+      { "id": "INV-002", "title": "Final Invoice", "amount": 4500, "status": "Unpaid", "dueDate": "2025-02-01" }
+    ]
+  },
+
+  {
+    "id": "CLNT-002",
+    "name": "Michael Thompson",
+    "email": "michael.t@example.com",
+    "phone": "+1 555 998 1122",
+    "address": "22 Park Avenue, New York, NY",
+    "image": "/ClientProfileImage.png",
+    "leadSource": "Google Search",
+    "assignedTeam": [
+      { "id": "TM-03", "name": "Lisa Ray", "role": "Project Lead" }
+    ],
+    "notes": "Interested in photography & videography package.",
+    "events": [
+      { "id": "EV-01", "title": "Consultation", "date": "2025-01-15", "status": "Pending" }
+    ],
+    "tasks": [
+      { "id": "TSK-01", "task": "Prepare Pricing", "dueDate": "2025-01-12", "status": "Pending" }
+    ],
+    "contractsDocs": [],
+    "invoicesPayments": []
+  },
+
+  {
+    "id": "CLNT-003",
+    "name": "Olivia Martinez",
+    "email": "olivia.m@example.com",
+    "phone": "+1 555 334 2211",
+    "address": "10 Sunset Blvd, Miami, FL",
+    "image": "/ClientProfileImage.png",
+    "leadSource": "Referral",
+    "assignedTeam": [
+      { "id": "TM-04", "name": "Daniel Kim", "role": "Sales Executive" },
+      { "id": "TM-05", "name": "Sophie Lane", "role": "Designer" }
+    ],
+    "notes": "Requires custom theme decor. Budget flexible.",
+    "events": [
+      { "id": "EV-01", "title": "Theme Meeting", "date": "2025-02-02", "status": "Upcoming" }
+    ],
+    "tasks": [
+      { "id": "TSK-01", "task": "Design Mockup", "dueDate": "2025-01-20", "status": "In Progress" }
+    ],
+    "contractsDocs": [
+      { "id": "DOC-01", "name": "Design Contract", "uploadedOn": "2025-01-05", "status": "Draft" }
+    ],
+    "invoicesPayments": []
+  },
+
+  {
+    "id": "CLNT-004",
+    "name": "David Williams",
+    "email": "david.w@example.com",
+    "phone": "+1 555 777 9900",
+    "address": "88 River Street, Austin, TX",
+    "image": "/ClientProfileImage.png",
+    "leadSource": "Instagram",
+    "assignedTeam": [
+      { "id": "TM-02", "name": "Emily Davis", "role": "Coordinator" }
+    ],
+    "notes": "Requested drone coverage.",
+    "events": [],
+    "tasks": [
+      { "id": "TSK-01", "task": "Confirm Drone Team", "dueDate": "2025-01-18", "status": "Pending" }
+    ],
+    "contractsDocs": [],
+    "invoicesPayments": [
+      { "id": "INV-001", "title": "Booking Fee", "amount": 1500, "status": "Paid", "paidOn": "2025-01-05" }
+    ]
+  },
+
+  {
+    "id": "CLNT-005",
+    "name": "Emma Rodriguez",
+    "email": "emma.r@example.com",
+    "phone": "+1 555 220 5544",
+    "address": "501 Lakeview Road, Chicago, IL",
+    "image": "/ClientProfileImage.png",
+    "leadSource": "TikTok Ads",
+    "assignedTeam": [
+      { "id": "TM-01", "name": "John Carter", "role": "Sales Manager" },
+      { "id": "TM-06", "name": "Mark Hudson", "role": "Finance" }
+    ],
+    "notes": "Asked for 3-day event coverage including rehearsal dinner.",
+    "events": [],
+    "tasks": [],
+    "contractsDocs": [],
+    "invoicesPayments": []
+  },
+
+  {
+    "id": "CLNT-006",
+    "name": "James Anderson",
+    "email": "james.anderson@example.com",
+    "phone": "+1 555 467 9087",
+    "address": "700 Hill Road, Seattle, WA",
+    "image": "/ClientProfileImage.png",
+    "leadSource": "LinkedIn",
+    "assignedTeam": [
+      { "id": "TM-07", "name": "Karen Smith", "role": "CRM Specialist" }
+    ],
+    "notes": "Very responsive. Wants immediate planning.",
+    "events": [
+      { "id": "EV-01", "title": "Discovery Call", "date": "2025-01-08", "status": "Completed" }
+    ],
+    "tasks": [
+      { "id": "TSK-01", "task": "Send Portfolio", "dueDate": "2025-01-10", "status": "Completed" }
+    ],
+    "contractsDocs": [],
+    "invoicesPayments": []
+  },
+
+  {
+    "id": "CLNT-007",
+    "name": "Ava Lee",
+    "email": "ava.lee@example.com",
+    "phone": "+1 555 889 2214",
+    "address": "44 Ocean Drive, San Diego, CA",
+    "image": "/ClientProfileImage.png",
+    "leadSource": "Referral",
+    "assignedTeam": [],
+    "notes": "Needs event planning + photography.",
+    "events": [],
+    "tasks": [],
+    "contractsDocs": [],
+    "invoicesPayments": []
+  },
+
+  {
+    "id": "CLNT-008",
+    "name": "Noah Parker",
+    "email": "noah.parker@example.com",
+    "phone": "+1 555 112 3344",
+    "address": "18 Maple Street, Denver, CO",
+    "image": "/ClientProfileImage.png",
+    "leadSource": "Website Contact Form",
+    "assignedTeam": [
+      { "id": "TM-02", "name": "Emily Davis", "role": "Coordinator" }
+    ],
+    "notes": "",
+    "events": [],
+    "tasks": [
+      { "id": "TSK-01", "task": "Follow-up Email", "dueDate": "2025-01-06", "status": "Pending" }
+    ],
+    "contractsDocs": [],
+    "invoicesPayments": []
+  },
+
+  {
+    "id": "CLNT-009",
+    "name": "Sophia Clark",
+    "email": "sophia.clark@example.com",
+    "phone": "+1 555 667 8899",
+    "address": "990 Grand Avenue, Boston, MA",
+    "image": "/ClientProfileImage.png",
+    "leadSource": "YouTube Ads",
+    "assignedTeam": [
+      { "id": "TM-09", "name": "Brian Collins", "role": "Marketing Manager" }
+    ],
+    "notes": "Requested premium package.",
+    "events": [],
+    "tasks": [],
+    "contractsDocs": [
+      { "id": "DOC-01", "name": "Service Contract", "uploadedOn": "2025-01-03", "status": "Signed" }
+    ],
+    "invoicesPayments": []
+  },
+
+  {
+    "id": "CLNT-010",
+    "name": "Liam Wilson",
+    "email": "liam.wilson@example.com",
+    "phone": "+1 555 001 4455",
+    "address": "202 South Street, Phoenix, AZ",
+    "image": "/ClientProfileImage.png",
+    "leadSource": "Cold Email",
+    "assignedTeam": [
+      { "id": "TM-01", "name": "John Carter", "role": "Sales Manager" }
+    ],
+    "notes": "",
+    "events": [],
+    "tasks": [],
+    "contractsDocs": [],
+    "invoicesPayments": [
+      { "id": "INV-001", "title": "Deposit Payment", "amount": 1000, "status": "Paid", "paidOn": "2025-01-02" }
+    ]
+  }
+]

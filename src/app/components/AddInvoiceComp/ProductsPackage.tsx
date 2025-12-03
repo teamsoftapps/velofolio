@@ -7,7 +7,7 @@ import InvoiceTable from './InvoiceTable'
 import InvoicePriceData from './InvoicePriceData'
 import SplitInvoicePayment from './SplitInvoicePayment'
 
-const ProductsPackage = ({ id,setOpenForm,invoices,setInvoices }: any) => {
+const ProductsPackage = ({ id,setOpenForm,invoices,setInvoices,type="Invoice" }: any) => {
   const router = useRouter()
 const examplePayments = [
   {
@@ -33,7 +33,7 @@ const [totalDues, setTotalDue] = React.useState(totalDue);
       {/* Header */}
       <div>
         <h1 className='text-2xl mb-2'>Products & Packages</h1>
-        <h3 className='text-gray-500 text-sm'>Add products and packages to this invoice.</h3>
+        <h3 className='text-gray-500 text-sm'>Add products and packages to this {type}.</h3>
       </div>
 
       {/* Empty State */}
@@ -41,9 +41,9 @@ const [totalDues, setTotalDue] = React.useState(totalDue);
        {invoices?.length === 0 ?  (
          <div className='w-full rounded-lg bg-[#EDEDED] border-2 border-[#978F8F] h-80 flex flex-col items-center justify-center text-center px-4'>
         <div className='flex items-center justify-center flex-col gap-2'>
-          <h1 className='text-xl font-semibold'>Start Adding Items to your Invoice</h1>
+          <h1 className='text-xl font-semibold'>Start Adding Items to your {type}</h1>
           <p className='w-full sm:w-2/3 text-center text-sm'>
-            You currently don’t have any product or package added to your Invoice. Click the button below to start adding them.
+            You currently don’t have any product or package added to your {type}. Click the button below to start adding them.
           </p>
           <div className='w-full sm:w-60 mt-4'>
             <AddButton title='Add Products & Packages' setOpenForm={setOpenForm} />
@@ -77,10 +77,11 @@ const [totalDues, setTotalDue] = React.useState(totalDue);
         <div className="flex flex-col md:flex-row justify-between items-start md:items-start gap-4">
           <div>
             <h3 className="text-lg font-semibold text-gray-900">Payment Schedule</h3>
-            <p className="text-sm text-gray-500 mt-1">Assign a payment schedule to this invoice.</p>
+            <p className="text-sm text-gray-500 mt-1">Assign a payment schedule to this {type}.</p>
           </div>
 
       { invoices?.length === 0 &&   <InvoicePriceData invoices={invoices} totalDue={totalDues} />}
+      
         </div>
 
         {/* Dropdown + Total */}
@@ -114,7 +115,7 @@ const [totalDues, setTotalDue] = React.useState(totalDue);
 
         {/* Buttons */}
         <div className='flex flex-col sm:flex-row sm:items-center sm:gap-4 lg:w-2/3'>
-          <button className='w-full sm:w-40 bg-[#01B0E9] text-white py-3 rounded-full mb-2 sm:mb-0' onClick={()=>router.push("/viewinvoice")}>Save Invoice</button> 
+          <button className='w-full sm:w-40 bg-[#01B0E9] text-white py-3 rounded-full mb-2 sm:mb-0' onClick={()=>router.push(`/view${type}`)}>Save {type}</button> 
           <button 
             onClick={() => router.push(`/jobProfile?id=${id}`)} 
             className='w-full sm:w-32 border border-gray-400 text-black py-3 rounded-full'
