@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import InvoiceTable from './InvoiceTable'
 import InvoicePriceData from './InvoicePriceData'
 import SplitInvoicePayment from './SplitInvoicePayment'
+import PremiumPortraitPackage from '../PremiumPortraitPackage'
 
 const ProductsPackage = ({ id,setOpenForm,invoices,setInvoices,type="Invoice" }: any) => {
   const router = useRouter()
@@ -52,8 +53,14 @@ const [totalDues, setTotalDue] = React.useState(totalDue);
         </div>
         )
         :<>
-             <div className='w-full rounded-lg bg-white border-2 border-[#978F8F] h-80  text-center lg:p-4 lg:px-12 overflow-y-scroll scroller'>
-        <InvoiceTable  items={invoices} onDelete={deleteInvoice} />
+             <div className={`w-full rounded-lg bg-white ${type==="Invoice" ?" border-2 h-80": ""} border-[#978F8F]   text-center lg:p-4 lg:px-12 overflow-y-scroll scroller`}>
+     { type==="Invoice" ? <InvoiceTable  items={invoices} onDelete={deleteInvoice} />:<>
+     <div className='flex items-center justify-between'>
+      <PremiumPortraitPackage />
+
+     </div>
+     
+     </>}
    
         </div>
         <div className='flex flex-col gap-3 sm:flex-row   justify-between'>
