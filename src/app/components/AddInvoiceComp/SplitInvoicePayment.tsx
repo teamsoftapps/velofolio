@@ -13,7 +13,7 @@ interface SplitInvoicePaymentProps {
 
 const SplitInvoicePayment: FC<SplitInvoicePaymentProps> = ({ payments, totalDue }) => {
   return (
-    <div className="w-full bg-white rounded-lg p-3 min-h-40">
+    <div className="w-full bg-white rounded-lg p-3 min-h-40 border-gray-200 border">
       {/* Add overflow-x-auto to enable horizontal scrolling when content overflows */}
       <div className="overflow-x-auto scroller">
         <table className="w-full rounded-lg border-separate border-spacing-y-4">
@@ -37,15 +37,15 @@ const SplitInvoicePayment: FC<SplitInvoicePaymentProps> = ({ payments, totalDue 
           <tbody className="divide-y divide-gray-200">
             {payments.map((payment) => (
               <tr key={payment.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 text-sm text-gray-900 border-b border-gray-300">{payment.id}</td>
-                <td className="px-6 py-4 text-sm text-gray-900 border-b border-gray-300">{payment.dueDate}</td>
-                <td className="px-6 py-4 border-b border-gray-300">
+                <td className="px-6 py-4 text-sm text-gray-900 border-gray-300">{payment.id}</td>
+                <td className="px-6 py-4 text-sm text-gray-900 border-gray-300">{payment.dueDate}</td>
+                <td className="px-6 py-4 = border-gray-300">
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-300 text-gray-800">
                     {payment.status}
                   </span>
                 </td>
-                <td className="px-1 py-4 text-sm text-right border-b border-gray-300">{payment.percentage}</td>
-                <td className="px-6 py-4 text-sm text-right border-b border-gray-300">${payment.amount}</td>
+                <td className="px-1 py-4 text-sm text-right = border-gray-300">{payment.percentage}</td>
+                <td className="px-6 py-4 text-sm text-right = border-gray-300">${payment.amount}</td>
               </tr>
             ))}
           </tbody>

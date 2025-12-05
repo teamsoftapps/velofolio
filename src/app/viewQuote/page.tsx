@@ -67,7 +67,7 @@ const page = () => {
       <div className='my-10'>
         <h1 className='text-xl my-3 '>Quote</h1>
         <div className='w-full border-b-2 border-b-gray-300 sm:p-4 relative'>
-        <InvoiceTable  items={invoiceItems} onDelete={() => {}}/>
+        <InvoiceTable  items={invoiceItems} onDelete={() => {}} onDuplicate={()=>"Reachedd"}/>
           </div>
           <div className='flex items-center justify-end'>
           <div className='w-96 text-right mt-4'>

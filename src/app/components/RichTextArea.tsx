@@ -65,7 +65,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
     },
     onUpdate: ({ editor }) => {
       if (onChange) {
-        onChange(editor.getHTML());
+        onChange(editor.getText());
       }
     },
   });

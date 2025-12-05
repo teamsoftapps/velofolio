@@ -4,24 +4,8 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Link from 'next/link';
-import {
-  FaArrowLeft,
-  FaEdit,
-  FaEllipsisV,
-  FaEnvelope,
-  FaFilter,
-  FaInstagram,
-  FaPhone,
-  FaUsers,
-} from 'react-icons/fa';
-import { FaEllipsis } from 'react-icons/fa6';
-import { MdModeEditOutline } from 'react-icons/md';
-import SearchComponent from '../components/SearchComponent';
-import { CiFilter } from 'react-icons/ci';
 import AddButton from '../components/AddButton';
 import Contracts from '../components/Contracts';
-import { Check, PlusIcon, Workflow } from 'lucide-react';
-import ProgressStepper from '../components/ProgressStepper';
 import ClientJobCard from '../components/JobProfileComp/JobClientCard';
 import JobDetail from "../../utils/JobDetail.json";
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -29,11 +13,12 @@ import { LuNetwork } from "react-icons/lu";
 import WorkflowSteps from '../components/JobProfileComp/WorkflowSteps';
 import InvoiceCard from '../components/JobProfileComp/InvoiceCard';
 import EmptyInvoicnQuoteState from '../components/EmptyInvoicnQuoteState';
+import { useSelector } from 'react-redux';
 
 const JobProfilePage = () => {
   const [activeTab, setActiveTab] = useState('Invoices');
   const [openForm, setOpenForm] = useState(false);
-  const [invoices, setInvoices] = useState([1]);
+const invoices = useSelector((state: any) => state.invoiceandQuote.invoices);
 const searchParams = useSearchParams();
 const id = Number(searchParams.get("id"));
 const router = useRouter();
@@ -132,20 +117,45 @@ const router = useRouter();
 
         {/* Tab Content */}
         <div className='w-full h-[500px] bg-white p-4 sm:p-8 rounded-lg mt-4   overflow-y-auto scroller'>
-      {activeTab === 'Invoices' && (
-  invoices.length > 0 ? (
-    <InvoiceCard />
-  ) : (
-    <>
-      <EmptyInvoicnQuoteState setOpenForm={setOpenForm} id={id} type='Invoice'/>
- 
-    </>
-  )
+     {activeTab === 'Invoices' && (
+  <>
+    {invoices?.length > 0 ? (
+      <div className="space-y-4 flex items-center flex-col">
+        {invoices.map((invoice: any) => (
+          <InvoiceCard
+            key={invoice.id}
+            {...invoice}
+            clientId={id}
+            invoiceId={invoice.id}
+            type="Invoice"
+          />
+        ))}
+
+        {/* Render AddButton only once */}
+        <div className="w-36 mt-4">
+          <AddButton
+            setOpenForm={() => router.push(`/addInvoice?id=${id}`)}
+            title="Add Invoice"
+          />
+        </div>
+      </div>
+    ) : (
+      <EmptyInvoicnQuoteState setOpenForm={setOpenForm} id={id} type="Invoice" />
+    )}
+  </>
 )}
 
+
+
               {activeTab === 'Quotes' && (
-  !(invoices.length > 0) ? (
-    <InvoiceCard type='Quote'/>
+  (invoices.length > 0) ? (<div className='flex flex-col items-center'>
+  <InvoiceCard type='Quote' {...invoices} clientId={id} invoiceId={invoices.id}/>
+    <div className='w-36 mt-4' >
+      
+     <AddButton setOpenForm={()=>router.push(`/addQuote?id=${id}`)} title={`Add Quote`}/>
+  </div>
+  
+  </div>
   ) : (
     <>
 <EmptyInvoicnQuoteState setOpenForm={setOpenForm} id={id} type='Quote'/>

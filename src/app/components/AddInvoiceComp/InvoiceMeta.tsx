@@ -4,7 +4,7 @@ const InvoiceMeta = ({id, issueDate, from, invoiceFor,type="Invoice"}:any) => {
   return (
        <div className='top flex flex-col gap-3 sm:flex-row justify-between '>
         <div>
-<h2>{type} Id : 234c6</h2>
+<h2>{type} Id : {id}</h2>
 <h2>Issue Date : {issueDate}</h2>
         </div>
         <div className='sm:w-2/8'>

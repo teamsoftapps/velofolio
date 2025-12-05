@@ -78,3 +78,6 @@ body {
   display: none; /* IE/Edge */
 }
 
+.my-checkbox {
+  accent-color: #01B0E9; /* change the checkmark & background when checked */
+}

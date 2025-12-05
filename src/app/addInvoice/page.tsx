@@ -16,13 +16,23 @@ import { RiTeamFill } from 'react-icons/ri';
 import JobCardDetail from '../components/JobProfileComp/JobCardDetail';
 import ProductsPackage from '../components/AddInvoiceComp/ProductsPackage';
 import AddInvoiceModal from '../components/AddInvoiceComp/AddInvoiceModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { setInvoices } from '@/store/slices/invoiceSlice';
 
 const JobProfilePage = () => {
   const [activeTab, setActiveTab] = useState('Invoices');
-  const [invoices, setInvoices] = useState([]);
+
+ const dispatch = useDispatch();
+const invoices = useSelector((state: any) => state.invoiceandQuote.invoices);
+
+
   const [openForm, setOpenForm] = useState(false);
 const searchParams = useSearchParams();
-const id = Number(searchParams.get("id"));
+const id = Number(searchParams.get("clientId") || searchParams.get("id"));
+
+const InvoiceId=Number(searchParams.get("InvoiceId"));
+const [packages, setPackages] = useState<any[]>([]);
+
 
   const data = JobDetail.find((item) => item.id === id);
   console.log("id",id);
@@ -69,6 +79,10 @@ const id = Number(searchParams.get("id"));
       team: ['Sofia', 'Mike'],
     },
   ];
+// Inside JobProfilePage component
+const handleAddPackage = (pkg: any) => {
+  setPackages((prev: any) => [...prev, pkg]);
+};
 
   return (
    <div className='min-h-screen h-full  w-full flex flex-col items-start bg-[#FAFAFA] inter'>
@@ -109,11 +123,11 @@ const id = Number(searchParams.get("id"));
     </div>
     <hr />
 {/*bottom Section 1 */}
-<ProductsPackage  id={id} setOpenForm={setOpenForm} invoices={invoices} setInvoices={setInvoices} />
+<ProductsPackage  id={id} setOpenForm={setOpenForm} packages={packages} setPackages={setPackages} />
 
 
  </div>
- <><AddInvoiceModal   isOpen={openForm} setInvoices={setInvoices} onClose={() => setOpenForm(false)} onSubmit={()=>setOpenForm(false)} invoices={invoices}/></>
+ <><AddInvoiceModal   isOpen={openForm}  onClose={() => setOpenForm(false)} onSubmit={handleAddPackage} /></>
 </div>
 
   );

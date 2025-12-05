@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Link from 'next/link';
-
+import { useSelector, UseSelector } from 'react-redux';
 import { Briefcase } from 'lucide-react';
 
 import JobDetail from "../../utils/JobDetail.json";
@@ -19,10 +19,13 @@ import AddInvoiceModal from '../components/AddInvoiceComp/AddInvoiceModal';
 
 const JobProfilePage = () => {
   const [activeTab, setActiveTab] = useState('Invoices');
-  const [invoices, setInvoices] = useState([]);
+const invoices = useSelector((state: any) => state.invoiceandQuote.invoices);
   const [openForm, setOpenForm] = useState(false);
+
 const searchParams = useSearchParams();
-const id = Number(searchParams.get("id"));
+const id = Number(searchParams.get("clientId") || searchParams.get("id"));
+
+const InvoiceId=Number(searchParams.get("InvoiceId"));
 
   const data = JobDetail.find((item) => item.id === id);
   console.log("id",id);
@@ -109,11 +112,11 @@ const id = Number(searchParams.get("id"));
     </div>
     <hr />
 {/*bottom Section 1 */}
-<ProductsPackage  id={id} setOpenForm={setOpenForm} invoices={invoices} setInvoices={setInvoices} type="Quote" />
+<ProductsPackage  id={id} setOpenForm={setOpenForm}  type="Quote" />
 
 
  </div>
- <><AddInvoiceModal   isOpen={openForm} setInvoices={setInvoices} onClose={() => setOpenForm(false)} onSubmit={()=>setOpenForm(false)} invoices={invoices}/></>
+ <><AddInvoiceModal   isOpen={openForm} onClose={() => setOpenForm(false)} onSubmit={()=>setOpenForm(false)} /></>
 </div>
 
   );

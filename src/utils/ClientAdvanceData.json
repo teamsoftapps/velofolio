@@ -1,6 +1,6 @@
 [
   {
-    "id": "CLNT-001",
+    "id": 1,
     "name": "Sarah Johnson",
     "email": "sarah.johnson@example.com",
     "phone": "+1 555 123 4567",
@@ -30,7 +30,7 @@
   },
 
   {
-    "id": "CLNT-002",
+    "id": 2,
     "name": "Michael Thompson",
     "email": "michael.t@example.com",
     "phone": "+1 555 998 1122",
@@ -52,7 +52,7 @@
   },
 
   {
-    "id": "CLNT-003",
+    "id": 3,
     "name": "Olivia Martinez",
     "email": "olivia.m@example.com",
     "phone": "+1 555 334 2211",
@@ -77,7 +77,7 @@
   },
 
   {
-    "id": "CLNT-004",
+    "id":4,
     "name": "David Williams",
     "email": "david.w@example.com",
     "phone": "+1 555 777 9900",
@@ -99,7 +99,7 @@
   },
 
   {
-    "id": "CLNT-005",
+    "id": 5,
     "name": "Emma Rodriguez",
     "email": "emma.r@example.com",
     "phone": "+1 555 220 5544",
@@ -118,7 +118,7 @@
   },
 
   {
-    "id": "CLNT-006",
+    "id": 6,
     "name": "James Anderson",
     "email": "james.anderson@example.com",
     "phone": "+1 555 467 9087",
@@ -140,7 +140,7 @@
   },
 
   {
-    "id": "CLNT-007",
+    "id": 7,
     "name": "Ava Lee",
     "email": "ava.lee@example.com",
     "phone": "+1 555 889 2214",
@@ -156,7 +156,7 @@
   },
 
   {
-    "id": "CLNT-008",
+    "id": 8,
     "name": "Noah Parker",
     "email": "noah.parker@example.com",
     "phone": "+1 555 112 3344",
@@ -176,7 +176,7 @@
   },
 
   {
-    "id": "CLNT-009",
+    "id": 9,
     "name": "Sophia Clark",
     "email": "sophia.clark@example.com",
     "phone": "+1 555 667 8899",
@@ -196,7 +196,7 @@
   },
 
   {
-    "id": "CLNT-010",
+    "id": 10,
     "name": "Liam Wilson",
     "email": "liam.wilson@example.com",
     "phone": "+1 555 001 4455",

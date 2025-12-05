@@ -23,7 +23,7 @@ const AddButton = ({
     <button
       onClick={() => setOpenForm(true)}
       style={{ backgroundColor: bg }}
-      onMouseEnter={() => setBg(hoverColor)}
+      // onMouseEnter={() => setBg(hoverColor)}
       onMouseLeave={() => setBg(color)}
       className="w-full h-10 p-4 pl-0 rounded-full flex items-center gap-2 text-white transition-colors duration-200 cursor-pointer"
     >

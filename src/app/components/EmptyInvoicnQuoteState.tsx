@@ -18,7 +18,7 @@ const EmptyInvoicnQuoteState = ({setOpenForm, id,type="Invoice"}:any) => {
 
         <div
           className="w-40"
-          onClick={() => router.push(`/addQuote?id=${id}`)}
+          onClick={() => router.push(`/add${type}?id=${id}`)}
         >
           <AddButton setOpenForm={setOpenForm} title={`Add ${type}`}/>
         </div>

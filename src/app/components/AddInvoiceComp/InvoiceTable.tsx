@@ -19,6 +19,7 @@ interface InvoiceItem {
 interface InvoiceTableProps {
   items: InvoiceItem[];
   onDelete: (id: string) => void;
+  onDuplicate: (id: string) => void;
 }
 
 const formatCurrency = (value: string): string => {
@@ -26,7 +27,7 @@ const formatCurrency = (value: string): string => {
   return isNaN(numberValue) ? "$0.00" : `$${numberValue.toFixed(2)}`;
 };
 
-const InvoiceTable: React.FC<InvoiceTableProps> = ({ items, onDelete }) => {
+const InvoiceTable: React.FC<InvoiceTableProps> = ({ items, onDelete,onDuplicate }) => {
   const [modalOpen, setModalOpen] = useState<Record<string, boolean>>({});
   const pathname = usePathname();
 
@@ -42,7 +43,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ items, onDelete }) => {
   if (items.length === 0) {
     return <p className="text-center text-gray-500">No items added yet.</p>;
   }
-
+ 
   return (
     <div className="w-full">
       <div className="w-full overflow-x-auto">
@@ -144,7 +145,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ items, onDelete }) => {
                                 handleCloseModal(item.id);
                               }}
                               duplicate={() => {
-                                console.log("Duplicate logic goes here");
+                                onDuplicate(item.id);
                                 handleCloseModal(item.id);
                               }}
                               onClose={() => handleCloseModal(item.id)}
