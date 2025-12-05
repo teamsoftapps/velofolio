@@ -153,7 +153,7 @@ const handleSaveInvoice = () => {
         :<div className='w-full'>
              <div className={`w-full rounded-lg bg-white ${type==="Invoice" ?" border-2 sm:h-80": ""} border-[#978F8F]   text-center lg:p-4 lg:px-12 overflow-y-scroll scroller`}>
      { type==="Invoice" ? <InvoiceTable  items={packages} onDelete={deleteInvoice}  onDuplicate={duplicateInvoice}/>:<>
-     <div className='flex items-center justify-between sm:justify-start  gap-7 w-[100%] bg-red-300 grow-1 p-2 overflow-x-scroll pt-5'>
+     <div className='flex items-center justify-between sm:justify-start  gap-2 w-[100%] scroller  p-2  pt-5'>
     
       {
         apackages.map((pkg, index) => (
