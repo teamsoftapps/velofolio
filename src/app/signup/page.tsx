@@ -167,7 +167,7 @@ onSubmit={async (values, { setSubmitting, resetForm }) => {
 
     toast.success("Signup successful!");
     resetForm();
-    router.push("/"); // redirect
+    router.push("/signin"); // redirect
   } catch (err: any) {
     console.error("Signup error:", err);
     toast.error("Signup failed: " + (err?.data?.msg || err.message));

@@ -21,7 +21,7 @@ const ForgotPassword: React.FC = () => {
     try {
       await sendEmail(values).unwrap();
       toast.success("Password reset email sent!");
-      router.push("/");
+      router.push("/signin");
     } catch (err: any) {
       toast.error(err.data?.message || "Something went wrong!");
     } finally {

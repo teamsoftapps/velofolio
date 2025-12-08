@@ -32,7 +32,7 @@ const ResetPassword: React.FC = () => {
 //     try {
 //       await resetPassword({ token, password: values.password }).unwrap();
 //       toast.success("Password reset successful!");
-//       router.push("/");
+//       router.push("/signin");
 //     } catch (err: any) {
 //       toast.error(err.message || "Something went wrong!");
 //     } finally {
@@ -49,7 +49,7 @@ const handleSubmit = async (values: { password: string; confirmPassword: string 
   try {
     await resetPassword({ token, password: values.password }).unwrap();
     toast.success("Password reset successful!");
-    router.push("/"); // go to login page
+    router.push("/signin"); // go to login page
   } catch (err: any) {
     // Correctly display backend message
     if ("data" in err && err.data?.msg) {

@@ -23,7 +23,7 @@ export default function RouteGuard({
 
   useEffect(() => {
     // Redirect logged-in users away from "/" or "/signup"
-    if (isLoggedIn && (pathname === "/" || pathname === "/signup")) {
+    if (isLoggedIn && (pathname === "/signin" || pathname === "/signup")) {
       router.replace("/dashboard");
       return;
     }
@@ -48,7 +48,7 @@ export default function RouteGuard({
     return (
       <div className="flex items-center justify-center h-screen bg-gray-50 text-black">
         <p className="text-lg">
-          {isLoggedIn && (pathname === "/" || pathname === "/signup")
+          {isLoggedIn && (pathname === "/signin" || pathname === "/signup")
             ? "Redirecting to dashboard..."
             : !isLoggedIn && protectedRoutes.includes(pathname)
             ? "Redirecting to login..."
