@@ -82,7 +82,7 @@ export default function FourStepsSection() {
   ];
 
   return (
-    <section className="w-full py-16 lg:py-20 bg-[#E5F7FD]">
+    <section className="w-full py-6 sm:py-16 lg:py-20 bg-[#E5F7FD]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
 
         <div className="bg-white rounded-3xl p-8 sm:p-10 lg:p-12 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">

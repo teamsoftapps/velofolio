@@ -11,7 +11,7 @@ const Homepage = () => {
   return (<>
     <div className='w-full bg-white mx-auto  h-full '>
       <NavHomePage/>
-      <div className='mt-10 container mx-auto  py-1 flex flex-col  items-center gap-24 px-4 sm:px-6 lg:px-24'>
+      <div className='mt-10 container mx-auto  py-1 flex flex-col  items-center gap-10 sm:gap-24 px-4 sm:px-6 lg:px-24'>
          <Hero/>
          <Features/>
 
