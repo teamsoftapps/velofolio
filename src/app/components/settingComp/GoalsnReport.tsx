@@ -16,7 +16,7 @@ const GoalsnReport = () => {
             <h1 className='text-xl'>Goals & Reports</h1>
             <p className='mt-3 text-md text-[#71717A]'>Set performance goals and track progress across your studio.</p>
             </div>
-<div className='w-full mt-4 md:w-48'>
+<div className='w-full mt-4 md:w-44'>
     <AddButton title="Add New Goal" setOpenForm={() => setIsModalOpen(true)} />
 </div>
         </div>
