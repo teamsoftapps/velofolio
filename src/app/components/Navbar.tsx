@@ -13,6 +13,8 @@ import { clearCredientials } from '@/store/slices/authSlice';
 import { useGetOrganizationsQuery } from '@/store/apis/Common';
 import Companies from './Companies';
 import CreateWorkspaceModal from './CreateWorkspace';
+import { IoNotificationsOutline } from "react-icons/io5";
+
 
 const Navbar = () => {
   const router = useRouter();
@@ -79,6 +81,14 @@ const { data: companies, isLoading, error } = useGetOrganizationsQuery({});
 
           {/* Profile Dropdown */}
           <div className='hidden lg:flex items-center relative'>
+                    <button
+            
+              className='text-gray-700 hover:text-gray-900  mr-3 focus:outline-none p-2  bg-gray-50 rounded-full shadow-md'
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}>
+              
+                <IoNotificationsOutline className='w-6 h-6' />
+          
+            </button>
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               className='flex items-center text-gray-700 cursor-pointer hover:text-gray-900 focus:outline-none transition-colors duration-200 border rounded-full px-2 border-gray-300'
@@ -112,6 +122,15 @@ const { data: companies, isLoading, error } = useGetOrganizationsQuery({});
 
           {/* Hamburger Menu (Visible below 1024px) */}
           <div className='lg:hidden flex items-center'>
+            <button
+            
+              className='text-gray-700 hover:text-gray-900 focus:outline-none p-2  bg-gray-50 rounded-full shadow-md'
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}>
+              
+                <IoNotificationsOutline className='w-6 h-6' />
+          
+            </button>
+
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className='text-gray-700 hover:text-gray-900 focus:outline-none p-2 rounded-md'

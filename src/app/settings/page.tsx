@@ -10,6 +10,7 @@ import TeamnPermission from '../components/settingComp/TeamnPermission'
 import PaymentnBilling from '../components/settingComp/PaymentnBilling'
 import EmailNotificationn from '../components/settingComp/Notification'
 import EmailnNotification from '../components/settingComp/EmailnNotification'
+import GoalsnReport from '../components/settingComp/GoalsnReport'
 
 const page = () => {
   const [activeTab, setActiveTab] = useState('Company Info');
@@ -36,6 +37,9 @@ const page = () => {
 }
 {
   activeTab === 'Email & Notifications' && <EmailnNotification />
+}
+{
+  activeTab === 'Goals & Reports' && <GoalsnReport />
 }
 
 
