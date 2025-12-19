@@ -20,9 +20,11 @@ const Brandidentity = () => {
 
 
         </div>
+        <div className='relative'>
  <div className="relative border-2 border-[#01B0E9] rounded-2xl overflow-hidden w-full h-[380px] my-2">
   {/* Scaled Desktop Preview */}
-  <div className="absolute top-0 left-0 origin-top-left scale-[0.43]">
+    
+  <div className="absolute top-0 left-0 origin-top-left scale-[0.43] overflow-hidden">
     <iframe
       src="https://velofolio-one.vercel.app/jobs"
       title="Desktop Website Preview"
@@ -32,11 +34,12 @@ const Brandidentity = () => {
     />
   </div>
 
-  <span className="bg-[#01B0E9] absolute bottom-0 left-1/2 -translate-x-1/2 text-white px-3 py-1 rounded-sm z-10">
+
+</div>
+<span className="bg-[#01B0E9] absolute -bottom-2 left-1/2 -translate-x-1/2 text-white px-3 py-1 rounded-sm z-10">
     LIVE PREVIEW
   </span>
 </div>
-
         
         
         
