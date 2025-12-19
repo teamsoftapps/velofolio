@@ -11,11 +11,12 @@ import PaymentnBilling from '../components/settingComp/PaymentnBilling'
 import EmailNotificationn from '../components/settingComp/Notification'
 import EmailnNotification from '../components/settingComp/EmailnNotification'
 import GoalsnReport from '../components/settingComp/GoalsnReport'
+import BrandingnCustomization from '../components/settingComp/BrandingnCustomization'
 
 const page = () => {
   const [activeTab, setActiveTab] = useState('Company Info');
   return (
-    <div className='bg-[#FAFAFA] h-full'>
+    <div className='bg-[#FAFAFA] h-full pb-8'>
 <Navbar />
 <div className='container mx-auto  w-[100%] min-h-[90vh] h-full px-2 bg-[#FAFAFA] inter'>
   <div className='w-full  mt-16 mb-7'>
@@ -40,6 +41,9 @@ const page = () => {
 }
 {
   activeTab === 'Goals & Reports' && <GoalsnReport />
+}
+{
+  activeTab === 'Branding & Customization' && <BrandingnCustomization />
 }
 
 
