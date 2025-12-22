@@ -6,12 +6,9 @@ import Homepage from './components/Homepage/Homepage'
 const page = () => {
   return (
     <RouteGuard>
-    <div>
-{/* <AuthWrapper guestOnlyRedirectTo="/dashboard"> */}
-  <Homepage/>
-{/* </AuthWrapper> */}
 
-    </div>
+    <div><SignIn /></div>
+
     </RouteGuard>
   )
 }
