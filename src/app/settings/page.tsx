@@ -12,6 +12,7 @@ import EmailNotificationn from '../components/settingComp/Notification'
 import EmailnNotification from '../components/settingComp/EmailnNotification'
 import GoalsnReport from '../components/settingComp/GoalsnReport'
 import BrandingnCustomization from '../components/settingComp/BrandingnCustomization'
+import SecuritynPassword from '../components/settingComp/SecuritynPassword'
 
 const page = () => {
   const [activeTab, setActiveTab] = useState('Company Info');
@@ -44,6 +45,9 @@ const page = () => {
 }
 {
   activeTab === 'Branding & Customization' && <BrandingnCustomization />
+}
+{
+  activeTab === 'Security & Password' && <SecuritynPassword />
 }
 
 
