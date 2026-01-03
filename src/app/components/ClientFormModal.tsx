@@ -4,11 +4,13 @@
 import React, { useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import Image from 'next/image';
-
+import { useCreateClientMutation } from '@/store/apis/Common';
+import { toast } from 'react-toastify';
 interface ClientFormProps {
   onSubmit: (data: any) => void;
   setOpenForm: (isOpen: boolean) => void;
   initialData?: Partial<FormData>;
+  setClients: (clients: any) => void;
 }
 
 interface FormData {
@@ -27,12 +29,14 @@ interface FormData {
   country: string;
   status: string;
   address: string;
+ 
 }
 
 const ClientForm: React.FC<ClientFormProps> = ({
   onSubmit,
   setOpenForm,
   initialData = {},
+  setClients
 }) => {
   const [formData, setFormData] = useState<FormData>({
     profilePhoto: null,
@@ -52,8 +56,9 @@ const ClientForm: React.FC<ClientFormProps> = ({
     address: initialData.address || '',
   });
 
-  const [activeTab, setActiveTab] = useState<'Client' | 'Company'>('Client');
 
+  const [activeTab, setActiveTab] = useState<'Client' | 'Company'>('Client');
+const [createClient] = useCreateClientMutation();
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -72,7 +77,7 @@ const ClientForm: React.FC<ClientFormProps> = ({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
 
     if (activeTab === 'Company') {
@@ -82,7 +87,8 @@ const ClientForm: React.FC<ClientFormProps> = ({
 
     const finalData = {
       type: 'Client',
-      name: `${formData.firstName} ${formData.lastName}`,
+      firstName: formData.firstName ,
+      lastName: formData.lastName ,
       event: 'Client Onboarding',
       status: 'Booked',
       eventDate: formData.eventDate,
@@ -96,9 +102,18 @@ const ClientForm: React.FC<ClientFormProps> = ({
       timezone: formData.timezone,
       notes: formData.notes,
     };
+   try {
+  const res = await createClient(finalData).unwrap();
+  console.log('Client created:', res);
+  setClients((prev: any) => [...prev, res.client]);
+  toast.success('Client created successfully');
+  onSubmit(res);
+} catch (error) {
+  console.error('Client creation failed:', error);
+  toast.error('Failed to create client')
+}
 
-    console.log('Client Form Submitted:', finalData);
-    onSubmit(finalData);
+   
   };
 
   const handleCompanySubmit = () => {

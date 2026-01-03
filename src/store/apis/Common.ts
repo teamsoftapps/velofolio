@@ -47,6 +47,13 @@ export const Common = createApi({
       }),
      
     }),
+    createClient: builder.mutation({
+      query: (body) => ({
+        url: '/client',
+        method: 'POST',
+        body,
+      }),
+    }),
 
 
     // GET
@@ -78,5 +85,6 @@ export const {
   useGetOrganizationsQuery,
   useInviteMemberMutation,
   useValidateInviteQuery,
-  useGetInvitedUsersQuery
+  useGetInvitedUsersQuery,
+  useCreateClientMutation
 } = Common;

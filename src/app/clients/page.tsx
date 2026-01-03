@@ -25,9 +25,9 @@ const tableHeaders = [
 ];
 
 export default function Page() {
- 
+ const [clients,setClients] = useState([]);
   const [isFormOpen, setIsFormOpen] = React.useState(false);
-  const tableData: any[] = TableData;
+  let tableData: any[] = TableData;
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); 
   const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
@@ -45,8 +45,24 @@ export default function Page() {
     toDate: "",
     paymentStatus: [],
   });
+const mapClientsForTable = (clients: any[]) => {
+  return clients.map((client, index) => ({
+    id: `CLNT-${String(index + 1).padStart(3, '0')}`,
+    name: `${client.firstName} ${client.lastName}`,
+    event: client.event||'Client Onboarding',
+    status: client.status,
+    eventDate: new Date(client.eventDate).toISOString().split('T')[0],
+    assignedTeam: 'Unassigned',
+    nextTask: '—',
+    lastContact: client.invitationSent
+      ? 'Invitation Sent'
+      : 'Not Contacted',
+    action: 'View Details',
+    _rawId: client.id, // IMPORTANT for navigation / actions
+  }));
+};
 
-
+tableData=mapClientsForTable(clients)
 
   // Combine search + sort + filter
   const advancedfilteredData = useMemo(() => {
@@ -60,7 +76,7 @@ export default function Page() {
 //  const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, sortBy]);
 
 
-
+console.log("clients",clients)
  
 
   return (
@@ -74,6 +90,7 @@ export default function Page() {
             setIsFormOpen(false);
           }}
           setOpenForm={setIsFormOpen}
+          setClients={setClients}
         />
       )}
       {isDeleteModalOpen && (
