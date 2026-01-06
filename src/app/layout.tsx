@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import StoreProvider from './components/StoreProvider';
 import AuthWrapper from './components/AuthWrapper';
 import { PersistGate } from 'redux-persist/integration/react';
+import { HeroUIProvider } from '@heroui/system';
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -33,10 +34,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
        <ToastContainer />
           <StoreProvider>
-   {/* <AuthWrapper> */}
-    {children}
-
-   {/* </AuthWrapper> */}
+  <HeroUIProvider>
+          {children}
+        </HeroUIProvider>
          
           </StoreProvider>
         </body>

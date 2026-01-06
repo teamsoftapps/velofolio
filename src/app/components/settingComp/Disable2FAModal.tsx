@@ -6,7 +6,7 @@ import { X, Eye, EyeOff } from 'lucide-react';
 interface Disable2FAModalProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  onConfirm?: (password: string) => void; // Optional callback when disabling
+  onConfirm?: (password: string) => void;
 
 }
 
@@ -15,7 +15,7 @@ export default function Disable2FAModal({ isOpen, setIsOpen, onConfirm }: any){
   const [showPassword, setShowPassword] = useState(false);
 
  const handleConfirm = () => {
-    onConfirm && onConfirm(); // disable 2FA
+    onConfirm && onConfirm(); 
     setIsOpen(false);
   };
   if (!isOpen) return null;

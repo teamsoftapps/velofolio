@@ -12,7 +12,7 @@ export default function Calendar({setOpenFilter}:any) {
   // ---- STATE --------------------------------------------------------------
   const [currentDate, setCurrentDate] = useState(today);
   const [view, setView] = useState<ViewType>('Month');
-
+const [value,setValue]=useState("")
   // Derive month/year from currentDate
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();

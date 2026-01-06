@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -24,11 +24,31 @@ ChartJS.register(
   Legend,
   Filler
 );
+import CalenderModal from "./CalenderModal"
+import {DateValue, parseDate} from "@internationalized/date";
 
 const DashboardGraph = () => {
   const [jobType, setJobType] = useState("All Job Types");
   const [timeRange, setTimeRange] = useState("7 Days");
   const [selectedTab, setSelectedTab] = useState("Leads");
+ const [value, setValue] = useState<DateValue>(parseDate("2025-01-05"));
+ const [openCalender,setOpenCalender]=useState(false )
+
+  const getMonthName = (date: DateValue) => {
+    const jsDate = new Date(date.year, date.month - 1, date.day);
+    return jsDate.toLocaleString("en-US", { month: "long" });
+  };
+const handleChangeValue = (newValue: DateValue) => {
+    setValue(newValue);
+    setOpenCalender(false); // close calendar after selection
+  };
+function formatDate(value: DateValue | null) {
+  if (!value) return "No date selected";
+
+  return `${String(
+    value.day
+  ).padStart(2, "0")}-${getMonthName(value)}-${value.year}`;
+}
 
   const staticData = {
     leads: 1,
@@ -205,15 +225,28 @@ const DashboardGraph = () => {
               </button>
             </div>
             <div className="relative w-full sm:w-60">
-              <select
+              {/* <select
                 className="appearance-none w-full bg-gray-100 rounded-md py-2 px-3 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black text-sm sm:text-base"
                 defaultValue="26 Aug 2025 - 2 Sep 2025"
               >
                 <option>26 Aug 2025 - 2 Sep 2025</option>
                 <option>1 Sep 2025 - 30 Sep 2025</option>
-              </select>
+              </select> */}
+              <button    className="appearance-none w-full cursor-pointer bg-gray-100 rounded-md py-2 px-3 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black text-sm sm:text-base"
+              onClick={()=>setOpenCalender(!openCalender)}
+              >
+                {formatDate(value)}</button>
+             <div className="relative ">
+            {  
+            openCalender && (
+              <div className="absolute top-3 black bg-white rounded-2xl border-2 border-gray-200">
+              <CalenderModal value={value} setValue={handleChangeValue} />
+              </div>)
+}
+
+             </div>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1 text-black">
-                <FiChevronDown className="text-lg" />
+              {openCalender?  <FiChevronUp className="text-lg" />:<FiChevronDown className="text-lg" />}
               </div>
             </div>
           </div>
