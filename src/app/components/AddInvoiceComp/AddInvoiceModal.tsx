@@ -32,7 +32,7 @@ interface AddItemData {
 
 const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSubmit }) => {
   const dispatch = useDispatch();
-const invoices = useSelector((state: any) => state.invoiceandQuote.invoices);
+const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.invoices);
   const [formData, setFormData] = useState<AddItemData>({
     id: '',
     name: '',

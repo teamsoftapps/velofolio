@@ -72,12 +72,34 @@ export default function Page() {
     result = sortData(result, sortBy);
     return result;
   }, [tableData, searchedValue, sortBy, filters]);
+const paymentSummary = useMemo(() => {
+  let paid = 0;
+  let unpaid = 0;
+  let pending = 0;
+  let total = 0;
 
+  advancedfilteredData.forEach((item: any) => {
+    const amount = Number(item.amount) || 0;
+    const paidAmount = Number(item.paid) || 0;
+
+    total += amount;
+
+    if (item.paymentStatus === 'paid') {
+      paid += paidAmount;
+    } else if (item.paymentStatus === 'unpaid') {
+      unpaid += amount;
+    } else if (item.paymentStatus === 'pending') {
+      pending += amount;
+    }
+  });
+
+  return { paid, unpaid, pending, total };
+}, [advancedfilteredData]);
   return (
     <>
       <Navbar />
 
-      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden'>
+      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden pt-6 pb-24'>
         {/* <Pagination /> */}
         {isDeleteModalOpen && (
           <DeleteModal
@@ -98,7 +120,7 @@ export default function Page() {
           <OverviewHeader
             title={'Payements'}
             setOpenForm={setOpenForm}
-
+  summary={paymentSummary}
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}

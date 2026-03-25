@@ -29,6 +29,7 @@ interface FormData {
   country: string;
   status: string;
   address: string;
+  personName?: string;
  
 }
 
@@ -54,6 +55,7 @@ const ClientForm: React.FC<ClientFormProps> = ({
     country: initialData.country || '',
     status: initialData.status || '',
     address: initialData.address || '',
+    personName: initialData.personName || '',
   });
 
 
@@ -120,6 +122,7 @@ const [createClient] = useCreateClientMutation();
     const companyData = {
       type: 'Company',
       companyName: formData.firstName,
+      personName: formData.personName,
       companyEmail: formData.email,
       companyPhone: formData.phone,
       companyAddress: formData.address,
@@ -185,30 +188,25 @@ const [createClient] = useCreateClientMutation();
           </div>
 
           {/* Tabs */}
-          <div className='w-[82%] sm:w-56 flex items-center justify-between border-2 rounded-full p-0.5 relative'>
-            <div
-              className={`absolute top-0.5 bottom-0.5 rounded-full bg-[#01B0E9] transition-all duration-300`}
-              style={{
-                left: activeTab === 'Client' ? '0.5%' : '56.5%',
-                width: '42%',
-              }}
-            ></div>
-
+          <div className='flex w-full sm:w-64 bg-gray-100 rounded-full p-1'>
             <button
               type='button'
               onClick={() => setActiveTab('Client')}
-              className={`relative z-10 px-4 py-[2px] rounded-full transition-colors duration-300  cursor-pointer ${
-                activeTab === 'Client' ? 'text-white' : 'text-gray-700'
+              className={`flex-1 text-center py-2 rounded-full cursor-pointer text-sm font-medium transition-all duration-200 ${
+                activeTab === 'Client'
+                  ? 'bg-[#01B0E9] shadow text-white ]'
+                  : 'text-gray-600 hover:text-gray-900'
               }`}
             >
               Client
             </button>
-
             <button
               type='button'
               onClick={() => setActiveTab('Company')}
-              className={`relative z-10 px-4 py-[2px] rounded-full transition-colors duration-300  cursor-pointer ${
-                activeTab === 'Company' ? 'text-white' : 'text-gray-700'
+              className={`flex-1 text-center py-2 rounded-full cursor-pointer text-sm font-medium transition-all duration-200 ${
+                activeTab === 'Company'
+                  ? 'bg-[#01B0E9] shadow text-white ]'
+                  : 'text-gray-600 hover:text-gray-900'
               }`}
             >
               Company
@@ -250,11 +248,29 @@ const [createClient] = useCreateClientMutation();
                 />
               </div>
             )}
+
+            {activeTab === 'Company' && (
+              <div className='flex-1'>
+                <label className='block text-md font-semibold text-gray-700'>
+                  Person Name
+                </label>
+                <input
+                  type='text'
+                  name='personName'
+                  value={formData.personName}
+                  onChange={handleChange}
+                  placeholder='Enter person name'
+                  className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
+                />
+              </div>
+            )}
           </div>
 
+
+  <div className='flex flex-col sm:flex-row gap-4 w-full'>
           {/* Email */}
-          <div>
-            <label className='block text-md font-semibold text-gray-700'>
+          <div className='w-full'>
+            <label className='block text-md font-semibold text-gray-700 '>
               {activeTab === 'Company' ? 'Company Email' : 'Email'}
             </label>
             <input
@@ -272,7 +288,7 @@ const [createClient] = useCreateClientMutation();
           </div>
 
           {/* Phone */}
-          <div>
+         <div className='w-full'>
             <label className='block text-md font-semibold text-gray-700'>
               {activeTab === 'Company' ? 'Company Phone' : 'Phone'}
             </label>
@@ -289,75 +305,49 @@ const [createClient] = useCreateClientMutation();
               className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
             />
           </div>
+</div>
+          {/* Lead Source */}
 
-          {/* Lead Source + Assigned Team */}
-          <div className='flex flex-col sm:flex-row gap-4'>
-            <div className='flex-1'>
-              <label className='block text-md font-semibold text-gray-700'>
-                Lead Source
-              </label>
-              <select
-                name='leadSource'
-                value={formData.leadSource}
-                onChange={handleChange}
-                className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
-              >
-                <option value=''>Select lead source</option>
-                <option value='Website'>Website</option>
-                <option value='Referral'>Referral</option>
-                <option value='Social Media'>Social Media</option>
-                <option value='Other'>Other</option>
-              </select>
-            </div>
 
-            <div className='flex-1'>
-              <label className='block text-md font-semibold text-gray-700'>
-                Assigned Team
-              </label>
-              <select
-                name='assignedTeam'
-                value={formData.assignedTeam}
-                onChange={handleChange}
-                className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
-              >
-                <option value=''>Select assigned team</option>
-                <option value='Team A'>Team A</option>
-                <option value='Team B'>Team B</option>
-                <option value='Team C'>Team C</option>
-              </select>
-            </div>
+            <div className='flex flex-col sm:flex-row gap-4 w-full'>
+          <div className='w-full'>
+            <label className='block text-md font-semibold text-gray-700'>
+              Lead Source
+            </label>
+            <select
+              name='leadSource'
+              value={formData.leadSource}
+              onChange={handleChange}
+              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
+            >
+              <option value=''>Select lead source</option>
+              <option value='Website'>Website</option>
+              <option value='Referral'>Referral</option>
+              <option value='Social Media'>Social Media</option>
+              <option value='Other'>Other</option>
+            </select>
           </div>
 
-          {/* Event Date + Status */}
-          <div className='flex flex-col sm:flex-row gap-4'>
-            <div className='flex-1'>
-              <label className='block text-md font-semibold text-gray-700'>
-                Event Date
-              </label>
-              <input
-                type='date'
-                name='eventDate'
-                value={formData.eventDate}
-                onChange={handleChange}
-                className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
-              />
-            </div>
-
-            <div className='flex-1'>
-              <label className='block text-md font-semibold text-gray-700'>
-                Status
-              </label>
-              <input
-                type='text'
-                name='status'
-                value={formData.status}
-                onChange={handleChange}
-                placeholder='Enter status'
-                className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
-              />
-            </div>
+          {/* Status */}
+          <div className='w-full'>
+            <label className='block text-md font-semibold text-gray-700'>
+              Status
+            </label>
+            <select
+              name='status'
+              value={formData.status}
+              onChange={handleChange}
+              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
+            >
+              <option value=''>Select Status</option>
+              <option value='New Lead'>New Lead</option>
+              <option value='Proposal'>Proposal</option>
+              <option value='Booked'>Booked</option>
+              <option value='Active'>Active</option>
+              <option value='Done'>Done</option>
+            </select>
           </div>
-
+</div>
           {/* Address */}
           <div>
             <label className='block text-md font-semibold text-gray-700'>
@@ -409,14 +399,40 @@ const [createClient] = useCreateClientMutation();
             <label className='block text-md font-semibold text-gray-700'>
               Timezone
             </label>
-            <input
-              type='text'
+            <select
               name='timezone'
               value={formData.timezone}
               onChange={handleChange}
-              placeholder='Enter timezone e.g. GMT+5'
               className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
-            />
+            >
+              <option value=''>Select Timezone</option>
+              <option value='UTC-12:00'>UTC-12:00 (Baker Island)</option>
+              <option value='UTC-11:00'>UTC-11:00 (American Samoa)</option>
+              <option value='UTC-10:00'>UTC-10:00 (Honolulu)</option>
+              <option value='UTC-09:00'>UTC-09:00 (Anchorage)</option>
+              <option value='UTC-08:00'>UTC-08:00 (Los Angeles, PST)</option>
+              <option value='UTC-07:00'>UTC-07:00 (Denver, MST)</option>
+              <option value='UTC-06:00'>UTC-06:00 (Chicago, CST)</option>
+              <option value='UTC-05:00'>UTC-05:00 (New York, EST)</option>
+              <option value='UTC-04:00'>UTC-04:00 (Caracas)</option>
+              <option value='UTC-03:00'>UTC-03:00 (Buenos Aires)</option>
+              <option value='UTC-02:00'>UTC-02:00 (South Georgia)</option>
+              <option value='UTC-01:00'>UTC-01:00 (Azores)</option>
+              <option value='UTC+00:00'>UTC+00:00 (London, GMT)</option>
+              <option value='UTC+01:00'>UTC+01:00 (Berlin, CET)</option>
+              <option value='UTC+02:00'>UTC+02:00 (Athens, EET)</option>
+              <option value='UTC+03:00'>UTC+03:00 (Moscow)</option>
+              <option value='UTC+04:00'>UTC+04:00 (Dubai)</option>
+              <option value='UTC+05:00'>UTC+05:00 (Karachi)</option>
+              <option value='UTC+05:30'>UTC+05:30 (India Standard Time)</option>
+              <option value='UTC+06:00'>UTC+06:00 (Dhaka)</option>
+              <option value='UTC+07:00'>UTC+07:00 (Bangkok)</option>
+              <option value='UTC+08:00'>UTC+08:00 (Singapore, Beijing)</option>
+              <option value='UTC+09:00'>UTC+09:00 (Tokyo, KST)</option>
+              <option value='UTC+10:00'>UTC+10:00 (Sydney)</option>
+              <option value='UTC+11:00'>UTC+11:00 (Noumea)</option>
+              <option value='UTC+12:00'>UTC+12:00 (Auckland)</option>
+            </select>
           </div>
 
           {/* Notes */}

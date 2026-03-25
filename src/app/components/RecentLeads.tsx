@@ -1,7 +1,7 @@
 /** @format */
 import { useState } from 'react';
 import { FaEllipsisH } from 'react-icons/fa';
-import Table from './Table';
+import DashboardTable from './DashboardTable';
 import AddButton from './AddButton';
 import COLORS from '@/utils/Color';
 
@@ -30,7 +30,7 @@ const RecentLeads = () => {
       status: 'Booked',
       nextTask: 'Follow Up Call',
     },
-      {
+    {
       leadCreated: '2 Sep 2025',
       leadName: 'Demo Portrait Lead',
       status: 'New Lead',
@@ -42,7 +42,7 @@ const RecentLeads = () => {
       status: 'Booked',
       nextTask: 'Follow Up Call',
     },
-        {
+    {
       leadCreated: '2 Sep 2025',
       leadName: 'Demo Portrait Lead',
       status: 'New Lead',
@@ -54,7 +54,7 @@ const RecentLeads = () => {
       status: 'Booked',
       nextTask: 'Follow Up Call',
     },
-      {
+    {
       leadCreated: '2 Sep 2025',
       leadName: 'Demo Portrait Lead',
       status: 'New Lead',
@@ -66,7 +66,7 @@ const RecentLeads = () => {
       status: 'Booked',
       nextTask: 'Follow Up Call',
     },
-      {
+    {
       leadCreated: '5 Oct 2025',
       leadName: 'Demo Wedding Lead',
       status: 'Booked',
@@ -78,25 +78,22 @@ const RecentLeads = () => {
   return (
     <div className="bg-white p-6 sm:p-8  border border-gray-300 rounded-lg shadow-md w-full lg:min-w-1/2 h-[450px]  ">
       {/* Header */}
-     <div className="flex flex-col sm:flex-row sm:justify-between  sm:items-center mb-4  lg:gap-0">
+      <div className="flex flex-col sm:flex-row sm:justify-between  sm:items-center mb-4  lg:gap-0">
         <h2 className="text-lg sm:text-xl lg:text-2xl font-medium text-black mb-2 sm:mb-0 w-40 xl:w-full">
           Recent Leads
         </h2>
-        <div className="w-full sm:w-auto lg:w-[45%]  ">
-          <AddButton setOpenForm={setOpenForm} title="Add New Shoot" />
+        <div className="w-full sm:w-auto lg:w-[25%]  ">
+          <AddButton setOpenForm={setOpenForm} title="Add Lead" />
         </div>
       </div>
 
       {/* Table */}
-      <Table
+      <DashboardTable
         data={leadsData}
         headers={tableHeaders}
         color={COLORS.headerBlueButtonbg}
         itemsPerPage={5}
         hoverColor={COLORS.BlueButtonhover}
-       
-      
-      
       />
     </div>
   );

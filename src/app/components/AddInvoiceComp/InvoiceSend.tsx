@@ -6,14 +6,28 @@ import { IoIosSend } from "react-icons/io";
 import { PiPencilSimple } from "react-icons/pi";
 import { CiFileOn } from "react-icons/ci";
 import { SlOptions } from "react-icons/sl";
+import { toast } from "react-toastify";
 
 
 interface InvoiceActionsProps {
   onSendInvoice: () => void;
+  onEdit?: () => void;
+  onDownload?: () => void;
+  onDelete?: () => void;
+  onDuplicate?: () => void;
+  onDraft?: () => void;
   type: string
 }
 
-export default function InvoiceActions({ onSendInvoice, type="Invoice" }: InvoiceActionsProps) {
+export default function InvoiceActions({ 
+  onSendInvoice, 
+  onEdit, 
+  onDownload, 
+  onDelete, 
+  onDuplicate,
+  onDraft,
+  type = "Invoice" 
+}: InvoiceActionsProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -36,19 +50,21 @@ export default function InvoiceActions({ onSendInvoice, type="Invoice" }: Invoic
         {/* Action Buttons */}
         <div className="flex justify-center sm:justify-end w-full items-center space-x-3  sm:gap-0">
           <button
-            className="p-2 rounded-full bg-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50"
+            onClick={onEdit}
+            className="p-2 rounded-full bg-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 hover:bg-gray-50"
             title="Edit"
-            aria-label="Edit invoice"
+            aria-label={`Edit ${type}`}
           >
-          <PiPencilSimple className="w-5 h-5 text-gray-500"/>
+            <PiPencilSimple className="w-5 h-5 text-gray-500" />
           </button>
 
           <button
-            className="p-2 rounded-full bg-white  transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50"
+            onClick={onDownload}
+            className="p-2 rounded-full bg-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 hover:bg-gray-50"
             title="Download"
             aria-label={`Download ${type}`}
           >
-       <CiFileOn className="w-5 h-5 text-gray-500"/>
+            <CiFileOn className="w-5 h-5 text-gray-500" />
           </button>
 
           {/* Dropdown Menu */}
@@ -64,16 +80,37 @@ export default function InvoiceActions({ onSendInvoice, type="Invoice" }: Invoic
 
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
-                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150">
+                <button 
+                  onClick={() => { 
+                    navigator.clipboard.writeText(window.location.href);
+                    toast.success('Link copied to clipboard!'); 
+                    setIsDropdownOpen(false); 
+                  }} 
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150"
+                >
                   Copy link
                 </button>
-                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150">
+                <button 
+                  onClick={() => { onDuplicate?.(); setIsDropdownOpen(false); }}
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150"
+                >
                   Duplicate {type}
                 </button>
-                <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150">
+                <button 
+                  onClick={() => { onDraft?.(); setIsDropdownOpen(false); }}
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150"
+                >
                   Mark as draft
                 </button>
-                <button className="w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-red-50 transition-colors duration-150">
+                <button 
+                  onClick={() => {
+                   if(confirm(`Are you sure you want to delete this ${type}?`)) {
+                    onDelete?.();
+                    setIsDropdownOpen(false);
+                   }
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-red-50 transition-colors duration-150"
+                >
                   Delete {type}
                 </button>
               </div>

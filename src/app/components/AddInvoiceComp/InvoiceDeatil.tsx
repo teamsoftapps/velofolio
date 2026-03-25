@@ -1,23 +1,23 @@
 import React from "react";
 
-export default function InvoiceDetailsForm({type="Invoice"}:any) {
+export default function InvoiceDetailsForm({ type = "Invoice", generatedId = "N/A", issueDate = "", onDateChange }: any) {
   return (
     <div className="w-full lg:w-[29%] flex-shrink-0 text-gray-700">
       <div className="space-y-6">
-        {/* Invoice ID */}
+        {/* ID */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             {type} ID
           </label>
           <input
             type="text"
-            value="20251126-01"
+            value={generatedId}
             readOnly
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 cursor-not-allowed"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 cursor-not-allowed font-medium"
           />
         </div>
 
-        {/* Issue Date – Native Date Picker */}
+        {/* Issue Date */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Issue Date
@@ -25,11 +25,10 @@ export default function InvoiceDetailsForm({type="Invoice"}:any) {
           <div className="relative">
             <input
               type="date"
-              defaultValue="2025-11-26"
+              value={issueDate || new Date().toISOString().split('T')[0]}
+              onChange={(e) => onDateChange?.(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer"
             />
-            {/* Calendar Icon (just visual, not clickable) */}
-
           </div>
         </div>
 

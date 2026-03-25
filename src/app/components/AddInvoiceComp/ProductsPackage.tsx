@@ -8,16 +8,18 @@ import InvoicePriceData from './InvoicePriceData'
 import SplitInvoicePayment from './SplitInvoicePayment'
 import PremiumPortraitPackage from '../PremiumPortraitPackage'
 import { useDispatch, useSelector } from 'react-redux'
-import { setInvoices } from '@/store/slices/invoiceSlice'
+import { setInvoices, setQuotes } from '@/store/slices/invoiceSlice'
+import { toast } from 'react-toastify';
 
-const ProductsPackage = ({ id,setOpenForm,type="Invoice" ,packages}: any) => {
-  const dispatch=useDispatch()
+const ProductsPackage = ({ id, setOpenForm, type = "Invoice", packages = [], setPackages, generatedId, invoiceDate }: any) => {
+  const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const clientId = Number(searchParams.get("clientId") || searchParams.get("id"));
 
-  const invoiceId=String(searchParams.get("InvoiceId"));
-const invoices = useSelector((state: any) => state.invoiceandQuote.invoices);
-  const router = useRouter()
+  const invoiceId = String(searchParams.get("InvoiceId"));
+  const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.invoices);
+  const quotes = useSelector((state: any) => state.persisted.invoiceandQuote.quotes);
+  const router = useRouter();
   const packagesData = [
   {
     id: 1,
@@ -73,16 +75,16 @@ const invoices = useSelector((state: any) => state.invoiceandQuote.invoices);
     taxLabel: "No Tax",
   },
 ];
-  const [apackages, setPackages] = useState<any[]>(packagesData);
+  const [availablePackages, setAvailablePackages] = useState<any[]>(packagesData);
 
 
   const handleRecommended = (id: any) => {
-  const updatedPackages = apackages.map((item: any) => ({
+  const updatedPackages = availablePackages.map((item: any) => ({
     ...item,
     recommended: item.id === id, // only this one becomes true
   }));
 
-  setPackages(updatedPackages);
+  setAvailablePackages(updatedPackages);
 };
 
 const examplePayments = [
@@ -94,37 +96,71 @@ const examplePayments = [
     amount: "$4999.00",
   },
 ];
-const deleteInvoice = (id:any) =>{
-  const updatedInvoices = invoices.filter((invoice: any) => invoice.id !== id);
-  dispatch(setInvoices(updatedInvoices));
-}
-const duplicateInvoice = (id:any) =>{
-  console.log(invoices.find((invoice: any) => invoice.id === id))
-  const updatedInvoices = [...invoices, {...invoices.find((invoice: any) => invoice.id === id)}];
-  dispatch(setInvoices(updatedInvoices));
-}
+const deleteItem = (itemId: any) => {
+  const updated = packages.filter((pkg: any) => pkg.id !== itemId);
+  setPackages(updated);
+};
+
+const duplicateItem = (itemId: any) => {
+  const itemToDuplicate = packages.find((pkg: any) => pkg.id === itemId);
+  if (itemToDuplicate) {
+    const newItem = { 
+      ...itemToDuplicate, 
+      id: Math.random().toString(36).substring(2, 9) 
+    };
+    setPackages([...packages, newItem]);
+  }
+};
 // const totalDue=invoices.reduce((total:any,invoice:any) => total + invoice.amount, 0)  
 const totalDue="4999.00"
-const [totalDues, setTotalDue] = React.useState(totalDue);
-const handleSaveInvoice = () => {
-  if (packages.length === 0) return alert("Add at least one package");
+const [splitType, setSplitType] = useState("none");
 
-  // create invoice object
-  const invoice = {
-    id: Math.random().toString(36).substring(2, 9),
+const calculatePayments = (total: number) => {
+  if (splitType === "50-50") {
+    const half = (total / 2).toFixed(2);
+    return [
+      { id: 1, dueDate: "Upon Signing", status: "UNPAID", percentage: "50%", amount: half },
+      { id: 2, dueDate: "On Event Date", status: "UNPAID", percentage: "50%", amount: half },
+    ];
+  } else if (splitType === "30-70") {
+    return [
+      { id: 1, dueDate: "Deposit (30%)", status: "UNPAID", percentage: "30%", amount: (total * 0.3).toFixed(2) },
+      { id: 2, dueDate: "Remainder (70%)", status: "UNPAID", percentage: "70%", amount: (total * 0.7).toFixed(2) },
+    ];
+  }
+  return [
+    { id: 1, dueDate: "Upon Signing", status: "UNPAID", percentage: "100%", amount: total.toFixed(2) },
+  ];
+};
+
+const totalAmountNum = packages.reduce((sum: any, pkg: any) => sum + parseFloat(pkg.totalAmount || 0), 0);
+const currentPayments = calculatePayments(totalAmountNum);
+const handleSaveItem = () => {
+  if (!packages || packages.length === 0) return toast.warning("Add at least one package");
+
+  // Use user-selected issue date; fall back to now if not provided
+  const savedDate = invoiceDate
+    ? new Date(invoiceDate).toISOString()
+    : new Date().toISOString();
+
+  // create object
+  const item = {
+    id: generatedId || Math.random().toString(36).substring(2, 9).toUpperCase(),
     clientId: id,
     packages: packages,
-    totalAmount: packages.reduce(
-      (sum:any, pkg:any) => sum + parseFloat(pkg.totalAmount || 0),
-      0
-    ),
+    totalAmount: totalAmountNum,
+    splitType: splitType,
+    payments: currentPayments,
+    createdAt: savedDate,
   };
 
-  // save to redux
-  dispatch(setInvoices([...invoices, invoice]));
-
-  // redirect to view page
-  router.push(`/viewInvoice?InvoiceId=${invoice.id}&clientId=${id}`);
+  if (type === "Invoice") {
+    dispatch(setInvoices([...invoices, item]));
+    router.push(`/viewInvoice?InvoiceId=${item.id}&clientId=${id}`);
+  } else {
+    dispatch(setQuotes([...quotes, item]));
+    router.push(`/viewQuote?QuoteId=${item.id}&clientId=${id}`);
+  }
 };
   return (
     <div className='flex flex-col gap-4 text-black pt-4 my-3 px-4 sm:px-6 lg:px-0'>
@@ -137,64 +173,56 @@ const handleSaveInvoice = () => {
 
       {/* Empty State */}
      
-       {packages?.length === 0 ?  (
-         <div className='w-full rounded-lg bg-[#EDEDED] border-2 border-[#978F8F] h-80 flex flex-col items-center justify-center text-center px-4'>
-        <div className='flex items-center justify-center flex-col gap-2'>
-          <h1 className='text-xl font-semibold'>Start Adding Items to your {type}</h1>
-          <p className='w-full sm:w-2/3 text-center text-sm'>
-            You currently don’t have any product or package added to your {type}. Click the button below to start adding them.
-          </p>
-          <div className='w-full sm:w-60 mt-4'>
-            <AddButton title='Add Products & Packages' setOpenForm={setOpenForm} />
+        {packages?.length === 0 ? (
+          <div className='w-full rounded-lg bg-[#EDEDED] border-2 border-[#978F8F] h-80 flex flex-col items-center justify-center text-center px-4'>
+            <div className='flex items-center justify-center flex-col gap-2'>
+              <h1 className='text-xl font-semibold'>Start Adding Items to your {type}</h1>
+              <p className='w-full sm:w-2/3 text-center text-sm'>
+                You currently don’t have any product or package added to your {type}. Click the button below to start adding them.
+              </p>
+              <div className='w-full sm:w-60 mt-4'>
+                <AddButton title='Add Products & Packages' setOpenForm={setOpenForm} />
+              </div>
+            </div>
           </div>
-      </div>
-        </div>
-        )
-        :<div className='w-full'>
-             <div className={`w-full rounded-lg bg-white ${type==="Invoice" ?" border-2 sm:h-80": ""} border-[#978F8F]   text-center lg:p-4 lg:px-12 overflow-y-scroll scroller`}>
-     { type==="Invoice" ? <InvoiceTable  items={packages} onDelete={deleteInvoice}  onDuplicate={duplicateInvoice}/>:<>
-     <div className='flex items-center justify-between sm:justify-start  gap-2 w-[100%] scroller  p-2  pt-5'>
-    
-      {
-        apackages.map((pkg, index) => (
-          <PremiumPortraitPackage
-          id={pkg.id}
-          key={index}
-  title={pkg.title}
-  price={pkg.price}
-  description={pkg.description}
-  recommended={pkg.recommended}
-  features={pkg.features}
-  handleRecommended={handleRecommended}
- 
-/>
-        ))
-      }
-      
+        ) : (
+          <div className='w-full'>
+            <div className={`w-full rounded-lg bg-white border-2 border-[#978F8F] text-center lg:p-4 lg:px-12 overflow-y-scroll scroller`}>
+              <InvoiceTable items={packages} onDelete={deleteItem} onDuplicate={duplicateItem} />
+            </div>
+            
+            {/* Show available packages suggestion only for Quotes when table is small or to add more */}
+            {type === "Quote" && packages.length > 0 && (
+              <div className='mt-8'>
+                <h4 className='text-left mb-4 font-semibold'>Suggested Packages</h4>
+                <div className='flex items-center justify-between sm:justify-start gap-2 w-full scroller p-2 pt-5'>
+                  {availablePackages.map((pkg, index) => (
+                    <PremiumPortraitPackage
+                      id={pkg.id}
+                      key={index}
+                      title={pkg.title}
+                      price={pkg.price}
+                      description={pkg.description}
+                      recommended={pkg.recommended}
+                      features={pkg.features}
+                      handleRecommended={handleRecommended}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
 
-
-     </div>
-     
-     </>}
-   
-        </div>
-        <div className='flex flex-col gap-3 sm:flex-row   justify-between'>
-           <div className='w-full sm:w-60 mt-4'>
-            <AddButton title='Add Products & Packages' setOpenForm={setOpenForm} />
+            <div className='flex flex-col gap-3 sm:flex-row justify-between'>
+              <div className='w-full sm:w-60 mt-4'>
+                <AddButton title='Add Products & Packages' setOpenForm={setOpenForm} />
+              </div>
+              <InvoicePriceData invoices={packages} />
+            </div>
           </div>
-          <InvoicePriceData invoices={packages} />
-        </div>
-        
-        
-        
-        
-        </div>
-      
-        }
+        )}
 
       {/* Payment Schedule Card */}
-      <div className="w-full  rounded-lg sm:p-6 space-y-6">
-        
+      <div className="w-full rounded-lg sm:p-6 space-y-6">
         {/* Header + Totals */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-start gap-4">
           <div>
@@ -202,36 +230,42 @@ const handleSaveInvoice = () => {
             <p className="text-sm text-gray-500 mt-1">Assign a payment schedule to this {type}.</p>
           </div>
 
-      { packages?.length === 0 &&   <InvoicePriceData invoices={invoices} totalDue={totalDues} />}
-      
+          {packages?.length === 0 && <InvoicePriceData invoices={invoices} totalDue={totalAmountNum.toString()} />}
         </div>
 
         {/* Dropdown + Total */}
         <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
           <div className="w-full sm:w-2/5">
-            <select className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer">
-              <option>No split payments</option>
+            <select 
+              value={splitType}
+              onChange={(e) => setSplitType(e.target.value)}
+              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer"
+            >
+              <option value="none">No split payments</option>
+              <option value="50-50">50% Deposit / 50% Final Payment</option>
+              <option value="30-70">30% Deposit / 70% Final Payment</option>
             </select>
           </div>
 
-         {packages?.length === 0 || totalDues.length === 0 && <div className="flex justify-between gap-3 border-t sm:border-t-0 border-gray-200 pt-2 sm:pt-0 w-full sm:w-auto">
-            <span className="text-lg font-semibold text-gray-900">Total Due</span>
-            <span className="text-lg font-semibold text-gray-900">$0.00</span>
-          </div>}
+          {totalAmountNum === 0 && (
+            <div className="flex justify-between gap-3 border-t sm:border-t-0 border-gray-200 pt-2 sm:pt-0 w-full sm:w-auto">
+              <span className="text-lg font-semibold text-gray-900">Total Due</span>
+              <span className="text-lg font-semibold text-gray-900">$0.00</span>
+            </div>
+          )}
         </div>
 
         {/* Info Alert */}
-     {totalDues.length === 0 ?   <div className="bg-cyan-50 rounded-4xl border border-cyan-200 text-cyan-800 w-full px-4 py-3 flex items-start gap-3">
-          <InfoIcon className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" />
-          <p className="text-sm">
-            A payment schedule cannot be calculated because the total amount due is $0.00.
-          </p>
-        </div>
-        :<>
-        <SplitInvoicePayment payments={examplePayments} totalDue={totalDues} />
-        </>
-      
-      }
+        {totalAmountNum === 0 ? (
+          <div className="bg-cyan-50 rounded-4xl border border-cyan-200 text-cyan-800 w-full px-4 py-3 flex items-start gap-3">
+            <InfoIcon className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+            <p className="text-sm">
+              A payment schedule cannot be calculated because the total amount due is $0.00.
+            </p>
+          </div>
+        ) : (
+          <SplitInvoicePayment payments={currentPayments} totalDue={totalAmountNum.toFixed(2)} />
+        )}
 
         <hr className='text-gray-300' />
  {type==="Quote" && <>
@@ -269,7 +303,7 @@ const handleSaveInvoice = () => {
   </>}
         {/* Buttons */}
         <div className='flex flex-col sm:flex-row sm:items-center sm:gap-4 lg:w-2/3'>
-          <button className='w-full sm:w-40 bg-[#01B0E9] text-white py-3 rounded-full mb-2 sm:mb-0' onClick={handleSaveInvoice}>Save {type}</button> 
+          <button className='w-full sm:w-40 bg-[#01B0E9] text-white py-3 rounded-full mb-2 sm:mb-0' onClick={handleSaveItem}>Save {type}</button> 
           <button 
             onClick={() => router.push(`/jobProfile?id=${id}`)} 
             className='w-full sm:w-32 border border-gray-400 text-black py-3 rounded-full'

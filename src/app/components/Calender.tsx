@@ -2,12 +2,17 @@
 'use client';
 
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import DateNavBar from './DateNavbar';
+import LeadData from '../../utils/Lead.json';
+import JobData from '../../utils/JobDetail.json';
 
 type ViewType = 'Day' | 'Week' | 'Month';
 
 export default function Calendar({setOpenFilter}:any) {
   const today = new Date();
+  // Pull real invoice data from Redux store
+  const { invoices } = useSelector((state: any) => state.persisted.invoiceandQuote);
 
   // ---- STATE --------------------------------------------------------------
   const [currentDate, setCurrentDate] = useState(today);
@@ -22,19 +27,71 @@ const [value,setValue]=useState("")
   const tagsByDate: Record<
     string,
     { label: string; color: string; user: string; DueDate: string }[]
-  > = {
-    [`${currentYear}-${currentMonth + 1}-3`]: [
-      { label: 'New Leads', color: 'bg-green-500', user: 'John Doe', DueDate: '10 Oct 2025' },
-      { label: 'Tasks', color: 'bg-blue-500', user: 'John Doe', DueDate: '10 Oct 2025' },
-    ],
-    [`${currentYear}-${currentMonth + 1}-8`]: [
-      { label: 'Progress', color: 'bg-yellow-500', user: 'John Doe', DueDate: '10 Oct 2025' },
-    ],
-    [`${currentYear}-${currentMonth + 1}-15`]: [
-      { label: 'Meeting', color: 'bg-purple-500', user: 'John Doe', DueDate: '10 Oct 2025' },
-      { label: 'Report', color: 'bg-red-500', user: 'John Doe', DueDate: '10 Oct 2025' },
-    ],
+  > = {};
+
+  const addEvent = (rawDate: string, payload: any) => {
+    if (!rawDate) return;
+    // Parse date parts directly from ISO string (YYYY-MM-DD) to avoid
+    // timezone offset shifting the day when Date() interprets as UTC midnight
+    const [y, m, d] = rawDate.split('-').map(Number);
+    const key = `${y}-${m}-${d}`;
+    if (!tagsByDate[key]) tagsByDate[key] = [];
+    
+    // De-duplication check: same label on the same date = skip
+    const isDuplicate = tagsByDate[key].some(
+      (existing) =>
+        existing.label === payload.label &&
+        existing.DueDate === payload.DueDate
+    );
+    
+    if (!isDuplicate) {
+      tagsByDate[key].push(payload);
+    }
   };
+
+  // Populate Lead Events — label is the lead's name + interested service
+  LeadData.forEach((lead) => {
+    if (lead.eventDate) {
+      addEvent(lead.eventDate, {
+        label: lead.leadName as string,
+        color: 'bg-[#FF9800]',
+        user: lead.interestedService || 'Lead',
+        DueDate: lead.eventDate,
+      });
+    }
+  });
+
+  // Populate Production / Job Shoot Dates — label is the job title
+  JobData.forEach((job) => {
+    if (job.jobDetails?.shootDate) {
+      addEvent(job.jobDetails.shootDate, {
+        label: job.jobDetails.title,
+        color: 'bg-[#01B0E9]',
+        user: `${job.jobDetails.type} · ${job.jobDetails.status}`,
+        DueDate: job.jobDetails.shootDate,
+      });
+    }
+  });
+
+  // Populate Invoices from Redux — use sentAt or createdAt as the calendar date
+  (invoices || []).forEach((invoice: any) => {
+    // createdAt = user-selected issue date (preferred); sentAt = when sent to client
+    const rawDate = invoice.createdAt || invoice.sentAt;
+    if (!rawDate) return;
+    // ISO date strings — extract YYYY-MM-DD part only to avoid time/timezone shift
+    const datePart = rawDate.split('T')[0];
+    const firstPackage = invoice.packages?.[0];
+    addEvent(datePart, {
+      label: `INV-${invoice.id?.slice(-4)?.toUpperCase() || invoice.id}`,
+      color: invoice.status === 'PAID'
+        ? 'bg-green-500'
+        : invoice.status === 'OVERDUE'
+        ? 'bg-red-500'
+        : 'bg-purple-500',
+      user: firstPackage?.name || invoice.status || 'Invoice',
+      DueDate: datePart,
+    });
+  });
 
   // -------------------------------------------------------------------------
   // Helper functions

@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSigninMutation, useSignInWithGoogleMutation, } from "@/store/apis/Auth";
 import { toast } from "react-toastify"
 import { setCredientials } from "@/store/slices/authSlice";
@@ -19,7 +19,9 @@ const SignIn: React.FC = () => {
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
-  const router=useRouter()
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams.get("redirect") || "/dashboard";
 
   const [signin] = useSigninMutation();
   const [signInWithGoogle] = useSignInWithGoogleMutation();
@@ -81,9 +83,9 @@ onSubmit={async (values, { setSubmitting }) => {
   try {
     const response = await signin(values).unwrap();
     console.log(response);
-    dispatch(setCredientials(response));
+     dispatch(setCredientials(response));
     toast.success("Login Successful");
-    router.push("/dashboard");
+    router.push(redirectPath);
   } catch (error: any) {
     console.error("Login Error:", error);
 

@@ -14,14 +14,15 @@ import {filterData, sortData, SortState,handleDelete, applyAdvancedFilters} from
 import RouteGuard from '../components/RouteGuard';
 
 const tableHeaders = [
-  { key: 'name', label: 'Name' },
+  { key: 'dateCreated', label: 'Date Created' },
+  { key: 'firstName', label: 'First Name' },
+  { key: 'lastName', label: 'Last Name' },
+  { key: 'email', label: 'Email' },
+  { key: 'phone', label: 'Phone' },
   { key: 'event', label: 'Event' },
   { key: 'status', label: 'Status' },
   { key: 'eventDate', label: 'Event Date' },
-  { key: 'assignedTeam', label: 'Assigned Team' },
   { key: 'nextTask', label: 'Next Task' },
-  { key: 'lastContact', label: 'Last Contact' },
-  { key: 'action', label: 'Action' },
 ];
 
 export default function Page() {
@@ -33,7 +34,7 @@ export default function Page() {
   const [searchedValue, setSearchedValue] = React.useState('');
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<SortState>({
-   value: "createdAt",
+   value: "dateCreated",
    direction: "desc",
  });
  const [filters, setFilters] = useState({
@@ -48,21 +49,20 @@ export default function Page() {
 const mapClientsForTable = (clients: any[]) => {
   return clients.map((client, index) => ({
     id: `CLNT-${String(index + 1).padStart(3, '0')}`,
-    name: `${client.firstName} ${client.lastName}`,
-    event: client.event||'Client Onboarding',
-    status: client.status,
-    eventDate: new Date(client.eventDate).toISOString().split('T')[0],
-    assignedTeam: 'Unassigned',
+    dateCreated: new Date().toISOString().split('T')[0],
+    firstName: client.firstName || 'Unknown',
+    lastName: client.lastName || '',
+    email: client.email || 'N/A',
+    phone: client.phone || 'N/A',
+    event: client.event || 'Client Onboarding',
+    status: client.status || 'New Lead',
+    eventDate: client.eventDate ? new Date(client.eventDate).toISOString().split('T')[0] : 'N/A',
     nextTask: '—',
-    lastContact: client.invitationSent
-      ? 'Invitation Sent'
-      : 'Not Contacted',
-    action: 'View Details',
     _rawId: client.id, // IMPORTANT for navigation / actions
   }));
 };
 
-tableData=mapClientsForTable(clients)
+tableData = [...TableData, ...mapClientsForTable(clients)];
 
   // Combine search + sort + filter
   const advancedfilteredData = useMemo(() => {
@@ -113,7 +113,7 @@ console.log("clients",clients)
           />
       
      
-      <div className='min-h-screen  w-full flex flex-col items-start bg-[#FAFAFA]'>
+      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] pt-6 pb-24'>
         <div className='container mx-auto w-[100%] h-full]'>
           <OverviewHeader
             title='Clients'
@@ -132,6 +132,14 @@ console.log("clients",clients)
             data={advancedfilteredData}
             setDeleteModal={setIsDeleteModalOpen}
             setSearchedData={setSearchedData}
+            sortBy={sortBy}
+            onSort={(key: string) => {
+              if (sortBy.value === key) {
+                setSortBy({ value: key, direction: sortBy.direction === 'asc' ? 'desc' : 'asc' });
+              } else {
+                setSortBy({ value: key, direction: 'desc' });
+              }
+            }}
           />
         </div>
       </div>

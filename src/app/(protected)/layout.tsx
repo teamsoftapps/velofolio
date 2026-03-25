@@ -11,7 +11,7 @@ export default async function ProtectedLayout({  // ← Add 'async' here
   const token = cookieStore.get('token')?.value;
 
   if (!token) {
-    redirect('/'); // Server-side redirect — unbreakable
+    redirect('/');
   }
 
   return <>{children}</>;

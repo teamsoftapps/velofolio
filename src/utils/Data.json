@@ -1,222 +1,242 @@
 [
   {
     "id": "CLNT-001",
-    "name": "Sarah Johnson",
     "event": "Wedding",
     "status": "New Lead",
     "eventDate": "2025-10-20",
-    "assignedTeam": "Marketing",
     "nextTask": "Finalize Ad Campaign",
-    "lastContact": "2025-10-14",
-    "action": "View Details"
+    "firstName": "Sarah",
+    "lastName": "Johnson",
+    "email": "sarah.johnson@yahoo.com",
+    "phone": "+1 (393) 994-1263",
+    "dateCreated": "2025-03-24"
   },
   {
     "id": "CLNT-002",
-    "name": "Sarah Johnson",
     "event": "Wedding",
     "status": "Proposal",
     "eventDate": "2025-10-20",
-    "assignedTeam": "Marketing",
     "nextTask": "Finalize Ad Campaign",
-    "lastContact": "2025-10-14",
-    "action": "View Details"
+    "firstName": "Sarah",
+    "lastName": "Johnson",
+    "email": "sarah.johnson@yahoo.com",
+    "phone": "+1 (448) 636-3750",
+    "dateCreated": "2025-05-25"
   },
   {
     "id": "CLNT-003",
-    "name": "Sarah Connor",
     "event": "Pre Wedding",
     "status": "Booked",
     "eventDate": "2025-10-25",
-    "assignedTeam": "Sales",
     "nextTask": "Prepare Documents",
-    "lastContact": "2025-10-12",
-    "action": "View Details"
+    "firstName": "Sarah",
+    "lastName": "Connor",
+    "email": "sarah.connor@gmail.com",
+    "phone": "+1 (561) 863-7946",
+    "dateCreated": "2025-09-25"
   },
   {
     "id": "CLNT-004",
-    "name": "Michael Brown",
     "event": "Corporate",
     "status": "Booked",
     "eventDate": "2025-11-05",
-    "assignedTeam": "Operations",
     "nextTask": "Book Venue",
-    "lastContact": "2025-10-09",
-    "action": "Assign Task"
+    "firstName": "Michael",
+    "lastName": "Brown",
+    "email": "michael.brown@yahoo.com",
+    "phone": "+1 (274) 842-9111",
+    "dateCreated": "2025-07-12"
   },
   {
     "id": "CLNT-005",
-    "name": "Anna David",
     "event": "Corporate",
     "status": "Proposal",
     "eventDate": "2025-10-28",
-    "assignedTeam": "Marketing",
     "nextTask": "Prepare Pitch Deck",
-    "lastContact": "2025-10-13",
-    "action": "Send Proposal"
+    "firstName": "Anna",
+    "lastName": "David",
+    "email": "anna.david@outlook.com",
+    "phone": "+1 (961) 739-9174",
+    "dateCreated": "2025-01-01"
   },
   {
     "id": "CLNT-006",
-    "name": "Emma Wilson",
     "event": "Press Conference",
     "status": "New Lead",
     "eventDate": "2025-10-22",
-    "assignedTeam": "Public Relations",
     "nextTask": "Contact Venue",
-    "lastContact": "2025-10-15",
-    "action": "View Details"
+    "firstName": "Emma",
+    "lastName": "Wilson",
+    "email": "emma.wilson@gmail.com",
+    "phone": "+1 (218) 294-2160",
+    "dateCreated": "2025-06-19"
   },
   {
     "id": "CLNT-007",
-    "name": "Emma Wilson",
     "event": "Corporate",
     "status": "Booked",
     "eventDate": "2025-10-30",
-    "assignedTeam": "Operations",
     "nextTask": "Confirm Speakers",
-    "lastContact": "2025-10-14",
-    "action": "Assign Task"
+    "firstName": "Emma",
+    "lastName": "Wilson",
+    "email": "emma.wilson@outlook.com",
+    "phone": "+1 (471) 538-7270",
+    "dateCreated": "2025-07-27"
   },
   {
     "id": "CLNT-008",
-    "name": "David Wilson",
     "event": "Investor Meeting",
     "status": "Proposal",
     "eventDate": "2025-11-02",
-    "assignedTeam": "Finance",
     "nextTask": "Prepare Financial Report",
-    "lastContact": "2025-10-13",
-    "action": "Send Proposal"
+    "firstName": "David",
+    "lastName": "Wilson",
+    "email": "david.wilson@outlook.com",
+    "phone": "+1 (898) 625-6089",
+    "dateCreated": "2025-01-15"
   },
   {
     "id": "CLNT-009",
-    "name": "Mike Chen",
     "event": "Team Retreat",
     "status": "Done",
     "eventDate": "2025-09-29",
-    "assignedTeam": "HR",
     "nextTask": "Collect Feedback",
-    "lastContact": "2025-09-30",
-    "action": "View Summary"
+    "firstName": "Mike",
+    "lastName": "Chen",
+    "email": "mike.chen@gmail.com",
+    "phone": "+1 (577) 552-3028",
+    "dateCreated": "2025-04-01"
   },
   {
     "id": "CLNT-010",
-    "name": "James Anderson",
     "event": "Webinar",
     "status": "Proposal",
     "eventDate": "2025-11-10",
-    "assignedTeam": "Tech",
     "nextTask": "Schedule Recording",
-    "lastContact": "2025-10-15",
-    "action": "View Details"
+    "firstName": "James",
+    "lastName": "Anderson",
+    "email": "james.anderson@gmail.com",
+    "phone": "+1 (364) 607-9402",
+    "dateCreated": "2025-08-26"
   },
   {
     "id": "CLNT-011",
-    "name": "Mike Chen",
     "event": "Networking Session",
     "status": "New Lead",
     "eventDate": "2025-10-27",
-    "assignedTeam": "Outreach",
     "nextTask": "Draft Invitations",
-    "lastContact": "2025-10-14",
-    "action": "Assign Task"
+    "firstName": "Mike",
+    "lastName": "Chen",
+    "email": "mike.chen@yahoo.com",
+    "phone": "+1 (918) 213-6363",
+    "dateCreated": "2025-02-12"
   },
   {
     "id": "CLNT-012",
-    "name": "Lucas White",
     "event": "Product Demo",
     "status": "Proposal",
     "eventDate": "2025-10-29",
-    "assignedTeam": "Tech",
     "nextTask": "Prepare Demo Kit",
-    "lastContact": "2025-10-13",
-    "action": "Send Proposal"
+    "firstName": "Lucas",
+    "lastName": "White",
+    "email": "lucas.white@hotmail.com",
+    "phone": "+1 (746) 315-2505",
+    "dateCreated": "2025-08-09"
   },
   {
     "id": "CLNT-013",
-    "name": "Isabella Garcia",
     "event": "Exhibition",
     "status": "Booked",
     "eventDate": "2025-11-12",
-    "assignedTeam": "Marketing",
     "nextTask": "Design Booth",
-    "lastContact": "2025-10-11",
-    "action": "View Details"
+    "firstName": "Isabella",
+    "lastName": "Garcia",
+    "email": "isabella.garcia@yahoo.com",
+    "phone": "+1 (654) 707-8916",
+    "dateCreated": "2025-01-21"
   },
   {
     "id": "CLNT-014",
-    "name": "Ethan Martinez",
     "event": "Training Program",
     "status": "Done",
     "eventDate": "2025-09-15",
-    "assignedTeam": "HR",
     "nextTask": "Review Attendance",
-    "lastContact": "2025-09-17",
-    "action": "View Summary"
+    "firstName": "Ethan",
+    "lastName": "Martinez",
+    "email": "ethan.martinez@outlook.com",
+    "phone": "+1 (532) 417-4753",
+    "dateCreated": "2025-05-24"
   },
   {
     "id": "CLNT-015",
-    "name": "Mia Rodriguez",
     "event": "Client Meeting",
     "status": "New Lead",
     "eventDate": "2025-10-18",
-    "assignedTeam": "Sales",
     "nextTask": "Prepare Agenda",
-    "lastContact": "2025-10-10",
-    "action": "View Details"
+    "firstName": "Mia",
+    "lastName": "Rodriguez",
+    "email": "mia.rodriguez@hotmail.com",
+    "phone": "+1 (443) 506-5443",
+    "dateCreated": "2025-07-24"
   },
   {
     "id": "CLNT-016",
-    "name": "William Taylor",
     "event": "Annual Gala",
     "status": "Proposal",
     "eventDate": "2025-11-01",
-    "assignedTeam": "Event Management",
     "nextTask": "Design Invitations",
-    "lastContact": "2025-10-12",
-    "action": "Send Proposal"
+    "firstName": "William",
+    "lastName": "Taylor",
+    "email": "william.taylor@outlook.com",
+    "phone": "+1 (261) 456-3030",
+    "dateCreated": "2025-07-14"
   },
   {
     "id": "CLNT-017",
-    "name": "Charlotte Moore",
     "event": "Brand Launch",
     "status": "Booked",
     "eventDate": "2025-10-24",
-    "assignedTeam": "Marketing",
     "nextTask": "Finalize Branding",
-    "lastContact": "2025-10-15",
-    "action": "Assign Task"
+    "firstName": "Charlotte",
+    "lastName": "Moore",
+    "email": "charlotte.moore@hotmail.com",
+    "phone": "+1 (768) 877-1079",
+    "dateCreated": "2025-06-09"
   },
   {
     "id": "CLNT-018",
-    "name": "Benjamin Clark",
     "event": "Tech Conference",
     "status": "New Lead",
     "eventDate": "2025-10-26",
-    "assignedTeam": "Tech",
     "nextTask": "Reach Out to Speakers",
-    "lastContact": "2025-10-14",
-    "action": "View Details"
+    "firstName": "Benjamin",
+    "lastName": "Clark",
+    "email": "benjamin.clark@gmail.com",
+    "phone": "+1 (712) 661-7228",
+    "dateCreated": "2025-04-07"
   },
   {
     "id": "CLNT-019",
-    "name": "Ella Lewis",
     "event": "Press Meetup",
     "status": "Proposal",
     "eventDate": "2025-10-21",
-    "assignedTeam": "Public Relations",
     "nextTask": "Draft Press Release",
-    "lastContact": "2025-10-15",
-    "action": "Send Proposal"
+    "firstName": "Ella",
+    "lastName": "Lewis",
+    "email": "ella.lewis@outlook.com",
+    "phone": "+1 (503) 325-1146",
+    "dateCreated": "2025-01-13"
   },
   {
     "id": "CLNT-020",
-    "name": "Henry Walker",
     "event": "Marketing Workshop",
     "status": "Done",
     "eventDate": "2025-09-30",
-    "assignedTeam": "Marketing",
     "nextTask": "Review Attendance",
-    "lastContact": "2025-10-02",
-    "action": "View Summary"
+    "firstName": "Henry",
+    "lastName": "Walker",
+    "email": "henry.walker@hotmail.com",
+    "phone": "+1 (729) 713-7892",
+    "dateCreated": "2025-02-13"
   }
 ]

@@ -22,16 +22,17 @@ import { setInvoices } from '@/store/slices/invoiceSlice';
 const JobProfilePage = () => {
   const [activeTab, setActiveTab] = useState('Invoices');
 
- const dispatch = useDispatch();
-const invoices = useSelector((state: any) => state.invoiceandQuote.invoices);
-
-
+  const dispatch = useDispatch();
+  const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.invoices);
+  const [packages, setPackages] = useState<any[]>([]);
   const [openForm, setOpenForm] = useState(false);
-const searchParams = useSearchParams();
-const id = Number(searchParams.get("clientId") || searchParams.get("id"));
+  const searchParams = useSearchParams();
+  const id = Number(searchParams.get("clientId") || searchParams.get("id"));
+  const InvoiceId = Number(searchParams.get("InvoiceId"));
 
-const InvoiceId=Number(searchParams.get("InvoiceId"));
-const [packages, setPackages] = useState<any[]>([]);
+  const generatedId = React.useMemo(() => Math.random().toString(36).substring(2, 9).toUpperCase(), []);
+  const today = new Date().toISOString().split('T')[0];
+  const [invoiceDate, setInvoiceDate] = React.useState(today);
 
 
   const data = JobDetail.find((item) => item.id === id);
@@ -100,7 +101,7 @@ const handleAddPackage = (pkg: any) => {
       </div>
     {/*bottom Section 1 */}
     <div className='w-full  flex lg:flex-row flex-col items-center gap-4 lg:h-80 my-3'>
-        <InvoiceDetailsForm />
+        <InvoiceDetailsForm generatedId={generatedId} issueDate={invoiceDate} onDateChange={setInvoiceDate} />
         <div className='bg-white rounded-2xl p-3 w-full lg:w-2/6 h-74'>
                 <h1 className="text-lg sm:text-xl text-black flex gap-2 items-center font-semibold mb-3">
                       <RiTeamFill className="w-5 h-5 text-black" /> Client
@@ -123,7 +124,7 @@ const handleAddPackage = (pkg: any) => {
     </div>
     <hr />
 {/*bottom Section 1 */}
-<ProductsPackage  id={id} setOpenForm={setOpenForm} packages={packages} setPackages={setPackages} />
+<ProductsPackage id={id} setOpenForm={setOpenForm} packages={packages} setPackages={setPackages} generatedId={generatedId} invoiceDate={invoiceDate} />
 
 
  </div>

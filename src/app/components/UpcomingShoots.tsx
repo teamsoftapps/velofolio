@@ -30,11 +30,11 @@ const UpcomingShoots = () => {
     <div className=" p-4 sm:p-6 lg:p-8 border border-gray-300 rounded-lg shadow-md w-full lg:min-w-1/2 h-[450px] ">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 ">
-        <h2 className="text-lg sm:text-xl lg:text-2xl font-medium text-black mb-2 sm:mb-0 w-48 xl:w-full">
+        <h2 className="text-base sm:text-lg lg:text-xl font-medium text-black mb-2 sm:mb-0 w-48 xl:w-full">
           Upcoming Shoots & Appointments
         </h2>
-        <div className="w-full sm:w-auto lg:w-[45%]  ">
-          <AddButton setOpenForm={setOpenForm} title="Add New Shoot"/>
+        <div className="w-full sm:w-auto lg:w-[25%]">
+          <AddButton setOpenForm={setOpenForm} title="Add New" />
         </div>
       </div>
 
@@ -47,26 +47,26 @@ const UpcomingShoots = () => {
           >
             {/* Left section: date, time, title */}
             <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
-              <span className="font-light text-[14px] sm:text-[16px] lg:text-[17px] text-black">
+              <span className="font-light text-xs sm:text-sm text-black">
                 {shoot.date}
               </span>
               <span
-                className={`w-2 sm:w-3 h-2 sm:h-3 ${shoot.circleColor} rounded-full`}
+                className={`w-2 h-2 sm:w-2.5 sm:h-2.5 ${shoot.type === 'Lead' ? 'bg-red-500' : 'bg-green-500'} rounded-full`}
               ></span>
-              <span className="text-[14px] sm:text-[16px] lg:text-[17px] text-black">
+              <span className="text-xs sm:text-sm text-black">
                 {shoot.time}
               </span>
-              <span className="text-[14px] sm:text-[16px] lg:text-[17px] text-black">
+              <span className="text-xs sm:text-sm font-medium text-black">
                 {shoot.title}
               </span>
             </div>
 
             {/* Right section: type, task */}
-            <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-1 sm:space-y-0 mt-2 sm:mt-0">
-              <span className="bg-[#FFF1F2] border border-[#FB7185] text-black text-[14px] sm:text-[15px] lg:text-[16px] px-2 py-1 rounded w-[60px] sm:w-[70px] flex items-center justify-center">
+            <div className="flex flex-col sm:flex-row gap-2 mt-2 sm:mt-0">
+              <span className={`border text-xs sm:text-sm px-2 py-0.5 rounded min-w-[50px] sm:min-w-[60px] flex items-center justify-center ${shoot.type === 'Lead' ? 'bg-red-50 border-red-200 text-red-600' : 'bg-green-50 border-green-200 text-green-600'}`}>
                 {shoot.type}
               </span>
-              <span className="border border-[#D4D4D8] text-black text-[14px] sm:text-[15px] lg:text-[16px] px-2 py-1 rounded w-auto flex items-center justify-center">
+              <span className="border border-gray-300 text-gray-700 text-xs sm:text-sm px-2 py-0.5 rounded w-auto flex items-center justify-center bg-gray-50">
                 {shoot.task}
               </span>
             </div>

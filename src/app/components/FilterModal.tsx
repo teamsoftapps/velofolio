@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { MdCalendarToday, MdClose } from 'react-icons/md';
+import { usePathname } from 'next/navigation';
 
 
 interface TeamMember {
@@ -19,9 +20,12 @@ const teamMembers: TeamMember[] = [
 ];
 
 export default function FilterModal({ isOpen, onClose,isVisible, setIsVisible,onApply }: { isOpen: boolean; onClose: () => void,onApply: (filters: any) => void; isVisible: boolean, setIsVisible: React.Dispatch<React.SetStateAction<boolean>> }) {
+  const pathname = usePathname();
   // Status Filters
   const [status, setStatus] = useState<string[]>(['Active']);
-  const statuses = ['Active', 'Inactive', 'Lead', 'Archived',"Booked","New Lead"];
+  const statuses = pathname === '/leads'
+    ? ['Active', 'Inactive', 'New Lead']
+    : ['Active', 'Inactive', 'Lead', 'Archived', 'Booked', 'New Lead'];
 
   // Assigned Team Members
   const [selectedMembers, setSelectedMembers] = useState<TeamMember[]>([
@@ -116,13 +120,13 @@ useEffect(() => {
 
       {/* Slide-over Panel */}
 <div
-  className={`fixed sm:top-24 sm:right-8 rounded-2xl h-[80vh] w-full sm:w-[400px]  z-50 transform transition-transform ease-in-out`}
+  className={`fixed top-24 bottom-6 right-4 sm:top-[120px] sm:bottom-8 sm:right-8 rounded-2xl w-[calc(100vw-2rem)] sm:w-[400px] z-50 transform transition-transform ease-in-out`}
   style={{
-    transform: isOpen ? 'translateX(0)' : 'translateX(420px)', // 400px + 20px margin
-    transitionDuration: '2000ms',
+    transform: isOpen ? 'translateX(0)' : 'translateX(120%)',
+    transitionDuration: '400ms',
   }}
 >
-        <div className="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[89vh] overflow-y-auto scroller">
+        <div className="bg-white rounded-2xl shadow-xl w-full h-full flex flex-col overflow-hidden">
           {/* Header */}
           <div className="flex items-center justify-between p-6">
             <h2 className="text-xl font-semibold text-gray-900">Filter</h2>
@@ -131,9 +135,9 @@ useEffect(() => {
             </button>
           </div>
 
-          <div className="p-6 space-y-6">
+          <div className="p-6 space-y-6 flex-1 overflow-y-auto scroller relative">
             {/* Status */}
-            <div>
+{ pathname !== '/payments'  &&              <div>
               <label className="block text-lg font-medium text-gray-700 mb-2">Status</label>
               <div className="flex flex-wrap gap-2">
                 {statuses.map(s => (
@@ -150,9 +154,10 @@ useEffect(() => {
                   </button>
                 ))}
               </div>
-            </div>
+            </div>}
 
             {/* Assigned Team / Member */}
+            {pathname !== '/clients' &&pathname !== '/payments' && pathname !== '/leads' && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Assigned Team / Member</label>
               <div className="relative">
@@ -198,8 +203,9 @@ useEffect(() => {
                 ))}
               </div>
             </div>
+            )}
 
-            {/* Lead Source */}
+        { pathname !== '/payments'  &&   
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Lead Source</label>
               <div className="flex flex-wrap gap-2">
@@ -217,10 +223,10 @@ useEffect(() => {
                   </button>
                 ))}
               </div>
-            </div>
+            </div>}
 
             {/* Event Type */}
-            <div>
+{ pathname !== '/payments'  &&       <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Event Type</label>
               <div className="flex flex-wrap gap-2">
                 {eventTypes.map(type => (
@@ -237,7 +243,7 @@ useEffect(() => {
                   </button>
                 ))}
               </div>
-            </div>
+            </div>}
 
             {/* Date Range */}
             <div>
@@ -265,6 +271,7 @@ useEffect(() => {
             </div>
 
             {/* Payment Status */}
+            {pathname === '/payments' && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Payment Status</label>
               <div className="flex flex-wrap gap-2">
@@ -283,10 +290,11 @@ useEffect(() => {
                 ))}
               </div>
             </div>
+            )}
           </div>
 
           {/* Footer */}
-          <div className="p-6 ">
+          <div className="p-6 border-t border-gray-100 mt-auto">
             <button
               onClick={applyFilters}
               className="w-full py-2 bg-[#01B0E9] text-white font-medium rounded-full hover:bg-[#01B0E9]/75 cursor-pointer transition-colors"

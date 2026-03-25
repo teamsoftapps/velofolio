@@ -23,7 +23,8 @@ interface OverviewHeaderProps {
   setSearchedValue: React.Dispatch<React.SetStateAction<string>>;
   setOpenForm: (isOpen: boolean) => void;
   setOpenFilter: (isOpen: boolean) => void;
-  sortBy: SortState
+  sortBy: SortState,
+  summary?:any,
   setSortBy: React.Dispatch<React.SetStateAction<SortState | SortOption>>
 
 }
@@ -35,6 +36,7 @@ const OverviewHeader = ({
   setSearchedValue,
   setOpenFilter,
   sortBy,
+  summary,
  setSortBy
 }: OverviewHeaderProps) => {
   const currentPath = usePathname();
@@ -48,7 +50,12 @@ const [isSortOpen, setIsSortOpen] = useState(false);
         <h3 className='text-gray-600 text-sm'>Dashboard | {title} Overview</h3>
       </div>
 
-
+{/* <div className="flex gap-6 mt-4">
+  <div>Paid: ${summary.paid}</div>
+  <div>Unpaid: ${summary.unpaid}</div>
+  <div>Pending: ${summary.pending}</div>
+  <div>Total: ${summary.total}</div>
+</div> */}
       <div className={` flex-wrap w-full sm:w-1/2  justify-between  lg:flex-nowrap md:flex-nowrap right flex sm:flex-nowrap  items-center  gap-3 ${currentPath=="/payments"?"justify-end lg:w-2/4 md:w-2/3":" lg:w-5/7 md:w-5/7"}`}>
 
         <div className={`w-full ${currentPath=="/payments"?" lg:w-3/2 md:w-3/2":"lg:w-1/2 md:w-1/2"} sm:w-1/2 input-container bg-white text-black flex items-center gap-2 p-1 rounded-md border border-gray-300`}>

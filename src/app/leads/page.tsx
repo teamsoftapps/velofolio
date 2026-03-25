@@ -10,14 +10,14 @@ import LeadForm from '../components/LeadFormModel';
 import DeleteModal from '../components/DeleteModal';
 import LeadData from '../../utils/Lead.json';
 import FilterModal from '../components/FilterModal';
-import {filterData, sortData, handleDelete, applyAdvancedFilters} from "../../utils/TableUtils";
+import { filterData, sortData, handleDelete, applyAdvancedFilters } from "../../utils/TableUtils";
 
 const tableData = LeadData;
 
 const tableHeaders = [
   { key: 'leadName', label: 'Lead Name' },
   { key: 'leadCreated', label: 'Lead Created' },
-  { key: 'interestedService', label: 'Interested Service' },
+  { key: 'interestedService', label: 'Lead Type' },
   { key: 'status', label: 'Status' },
   { key: 'eventDate', label: 'Event Date' },
   { key: 'priority', label: 'Priority' },
@@ -26,7 +26,7 @@ const tableHeaders = [
 
 
 export default function Page() {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
   // const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
 
@@ -34,16 +34,16 @@ export default function Page() {
 
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   interface SortState {
-  value: string;
-  direction: "asc" | "desc";
-}
+    value: string;
+    direction: "asc" | "desc";
+  }
   const [sortBy, setSortBy] = useState<SortState>({
-  value: "createdAt",
-  direction: "desc",
-});;
+    value: "createdAt",
+    direction: "desc",
+  });;
 
 
-const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState({
     status: [],
     selectedMembers: [],
     leadSource: [],
@@ -62,8 +62,8 @@ const [filters, setFilters] = useState({
     result = sortData(result, sortBy);
     return result;
   }, [tableData, searchedValue, sortBy, filters]);
-  
-  
+
+
   return (
     <>
       <Navbar />
@@ -77,10 +77,10 @@ const [filters, setFilters] = useState({
         <DeleteModal
           isOpen={isDeleteModalOpen}
           onClose={() => setIsDeleteModalOpen(false)}
-          onConfirm={()=>handleDelete(setIsDeleteModalOpen)}
+          onConfirm={() => handleDelete(setIsDeleteModalOpen)}
         />
       )}
-      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden'>
+      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden pt-6 pb-24'>
         {/* <Pagination /> */}
         <div className='container mx-auto bg-[#FAFAFA] w-[100%] '>
           <OverviewHeader
@@ -90,19 +90,19 @@ const [filters, setFilters] = useState({
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}
-               sortBy={sortBy}
-             setSortBy={setSortBy}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
 
           />
           <OverviewChart chartData={LeadsData} />
-            <FilterModal
-                   isOpen={openFilter}
-                   onClose={() => setOpenFilter(false)}
-                   isVisible={openFilter}
-                   setIsVisible={setOpenFilter}
-                   onApply={(newFilters)=>setFilters(newFilters)}
-                   
-                 />
+          <FilterModal
+            isOpen={openFilter}
+            onClose={() => setOpenFilter(false)}
+            isVisible={openFilter}
+            setIsVisible={setOpenFilter}
+            onApply={(newFilters) => setFilters(newFilters)}
+
+          />
 
           <Table
             headers={tableHeaders}

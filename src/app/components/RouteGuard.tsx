@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 
-const protectedRoutes = ["/dashboard", "/profile", "/settings"]; // add all protected routes here
+// Routes that don't require authentication
+const publicRoutes = ["/", "/signin", "/signup", "/forget-password", "/reset-password", "/viewInvoice", "/viewQuote"];
 
 export default function RouteGuard({
   children,
@@ -19,41 +20,48 @@ export default function RouteGuard({
   const isLoggedIn = !!token;
   const userRole = user?.role;
 
-  const [redirecting, setRedirecting] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Redirect logged-in users away from "/" or "/signup"
-    if (isLoggedIn && (pathname === "/signin" || pathname === "/signup")) {
+    const isPublicRoute = publicRoutes.includes(pathname);
+    
+    // Redirect logged-in users away from guest-only routes
+    // Both "/" and "/signin" are handled here
+    if (isLoggedIn && (pathname === "/" || pathname === "/signin" || pathname === "/signup")) {
       router.replace("/dashboard");
       return;
     }
 
     // Redirect logged-out users trying to access protected routes
-    if (!isLoggedIn && protectedRoutes.includes(pathname)) {
+    if (!isLoggedIn && !isPublicRoute) {
       router.replace("/?redirect=" + encodeURIComponent(pathname));
       return;
     }
 
-    // // Role-based access
-    // if (allowedRoles && userRole && !allowedRoles.includes(userRole)) {
-    //   router.replace("/not-authorized");
-    //   return;
-    // }
+    // Role-based access (optional activation)
+    if (isLoggedIn && !isPublicRoute && allowedRoles && userRole && !allowedRoles.includes(userRole)) {
+      router.replace("/"); // or /not-authorized
+      return;
+    }
 
-    // All good → stop redirecting
-    setRedirecting(false);
+    // All good → stop loading
+    setIsLoading(false);
   }, [isLoggedIn, pathname, userRole, allowedRoles, router]);
 
-  if (redirecting) {
+  if (isLoading) {
+    // Show a clean loading state instead of "Access denied"
     return (
       <div className="flex items-center justify-center h-screen bg-gray-50 text-black">
-        <p className="text-lg">
-          {isLoggedIn && (pathname === "/signin" || pathname === "/signup")
-            ? "Redirecting to dashboard..."
-            : !isLoggedIn && protectedRoutes.includes(pathname)
-            ? "Redirecting to login..."
-            : "Access denied. Redirecting..."}
-        </p>
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-[#01B0E9] border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-lg font-medium text-gray-600">
+            {isLoggedIn && publicRoutes.includes(pathname)
+              ? "Redirecting to dashboard..."
+              : !isLoggedIn && !publicRoutes.includes(pathname)
+              ? "Redirecting to login..."
+              : "Verifying access..."}
+          </p>
+        </div>
       </div>
     );
   }

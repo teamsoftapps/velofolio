@@ -4,7 +4,7 @@
     "leadCreated": "2025-10-10",
     "interestedService": "Web Development",
     "status": "In Progress",
-    "eventDate": "2025-10-25",
+    "eventDate": "2026-03-25",
     "priority": "High",
     "action": ""
   },
@@ -13,7 +13,7 @@
     "leadCreated": "2025-09-28",
     "interestedService": "Digital Marketing",
     "status": "New Lead",
-    "eventDate": "2025-10-30",
+    "eventDate": "2026-03-30",
     "priority": "Medium",
     "action": ""
   },
@@ -22,7 +22,7 @@
     "leadCreated": "2025-10-05",
     "interestedService": "SEO Optimization",
     "status": "Proposal",
-    "eventDate": "2025-10-27",
+    "eventDate": "2026-03-27",
     "priority": "Low",
     "action": ""
   },
@@ -30,7 +30,7 @@
     "leadName": "Emily Brown",
     "leadCreated": "2025-10-12",
     "interestedService": "App Design",
-    "status": "Booked",
+    "status": "Active",
     "eventDate": "2025-11-02",
     "priority": "High",
     "action": ""
@@ -40,7 +40,7 @@
     "leadCreated": "2025-10-10",
     "interestedService": "Web Development",
     "status": "In Progress",
-    "eventDate": "2025-10-25",
+    "eventDate": "2026-03-25",
     "priority": "High",
     "action": ""
   },
@@ -49,7 +49,7 @@
     "leadCreated": "2025-09-28",
     "interestedService": "Digital Marketing",
     "status": "New Lead",
-    "eventDate": "2025-10-30",
+    "eventDate": "2026-03-30",
     "priority": "Medium",
     "action": ""
   },
@@ -58,7 +58,7 @@
     "leadCreated": "2025-10-05",
     "interestedService": "SEO Optimization",
     "status": "Proposal",
-    "eventDate": "2025-10-27",
+    "eventDate": "2026-03-27",
     "priority": "Low",
     "action": ""
   },
@@ -66,7 +66,7 @@
     "leadName": "Emily Brown",
     "leadCreated": "2025-10-12",
     "interestedService": "App Design",
-    "status": "Booked",
+    "status": "Active",
     "eventDate": "2025-11-02",
     "priority": "High",
     "action": ""

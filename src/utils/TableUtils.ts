@@ -12,8 +12,11 @@ export function filterData(data: any[], search: string) {
   return data.filter(
     (item: any) =>
       item.name?.toLowerCase()?.includes(lower) ||
-    item.Name?.toLowerCase()?.includes(lower) ||
-      (item.email && item.email?.toLowerCase()?.includes(lower))||
+      item.Name?.toLowerCase()?.includes(lower) ||
+      item.firstName?.toLowerCase()?.includes(lower) ||
+      item.lastName?.toLowerCase()?.includes(lower) ||
+      item.email?.toLowerCase()?.includes(lower) ||
+      item.phone?.includes(lower) ||
       item.client?.toLowerCase()?.includes(lower)||
       item.leadName?.toLowerCase()?.includes(lower)
   );
@@ -25,14 +28,15 @@ export function sortData(data: any[], sortBy: SortState) {
 
   return [...data].sort((a: any, b: any) => {
 
-    if (value === 'name') {
+    if (['name', 'firstName', 'lastName', 'email', 'phone', 'status', 'event'].includes(value)) {
+      const aVal = String(a[value] || '');
+      const bVal = String(b[value] || '');
       return direction === 'asc'
-        ? a?.name?.localeCompare(b.name)
-        : b?.name?.localeCompare(a.name) || b?.name?.localeCompare(a.name);
+        ? aVal.localeCompare(bVal)
+        : bVal.localeCompare(aVal);
     }
 
-
-    if (['dueDate', 'eventDate', 'createdAt', 'leadCreated']?.includes(value)) {
+    if (['dueDate', 'eventDate', 'createdAt', 'leadCreated', 'dateCreated'].includes(value)) {
       const aTime = a[value] ? Date.parse(a[value]) : 0;
       const bTime = b[value] ? Date.parse(b[value]) : 0;
       return direction === 'asc' ? aTime - bTime : bTime - aTime;

@@ -64,22 +64,17 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ items, onDelete,onDuplicate
                   Quantity
                 </th>
 
-                {pathname !== "/viewinvoice" && (
-                  <>
-                    <th className="px-6 py-4 text-right text-sm font-medium text-black whitespace-nowrap">
-                      Discount
-                    </th>
-                    <th className="px-6 py-4 text-right text-sm font-medium text-black whitespace-nowrap">
-                      Tax
-                    </th>
-                  </>
-                )}
-
+                <th className="px-6 py-4 text-right text-sm font-medium text-black whitespace-nowrap">
+                  Discount
+                </th>
+                <th className="px-6 py-4 text-right text-sm font-medium text-black whitespace-nowrap">
+                  Tax
+                </th>
                 <th className="px-6 py-4 text-right text-sm font-medium text-black whitespace-nowrap">
                   Amount
                 </th>
 
-                {pathname !== "/viewinvoice" && (
+                {!pathname.toLowerCase().includes("view") && (
                   <th className="px-6 py-4 text-right text-sm font-medium w-12"></th>
                 )}
               </tr>
@@ -108,16 +103,12 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ items, onDelete,onDuplicate
                     <div className="text-sm">{item.quantity}</div>
                   </td>
 
-                  {pathname !== "/viewinvoice" && (
-                    <>
-                      <td className="px-6 py-4 text-right whitespace-nowrap align-top">
-                        <div className="text-sm">{item.discount}%</div>
-                      </td>
-                      <td className="px-6 py-4 text-right whitespace-nowrap align-top">
-                        <div className="text-sm">{item.tax}%</div>
-                      </td>
-                    </>
-                  )}
+                  <td className="px-6 py-4 text-right whitespace-nowrap align-top">
+                    <div className="text-sm">{item.discount}%</div>
+                  </td>
+                  <td className="px-6 py-4 text-right whitespace-nowrap align-top">
+                    <div className="text-sm">{item.tax}%</div>
+                  </td>
 
                   <td className="px-6 py-4 text-right whitespace-nowrap align-top">
                     <div className="text-sm font-medium">
@@ -125,7 +116,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ items, onDelete,onDuplicate
                     </div>
                   </td>
 
-                  {pathname !== "/viewinvoice" && (
+                  {!pathname.toLowerCase().includes("view") && (
                     <td className="px-6 py-4 text-right align-top relative">
                       <div className="relative">
                         <button

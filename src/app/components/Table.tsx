@@ -9,6 +9,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import Pagination from './Pagination';
 import COLORS from '@/utils/Color';
 import Image from 'next/image';
+import { FiChevronUp, FiChevronDown } from 'react-icons/fi';
 
 const Table = ({
   headers,
@@ -17,6 +18,8 @@ const Table = ({
   color,
   setIsDeleteModalOpen,
   itemsPerPage=8,
+  sortBy,
+  onSort,
 }: any) => {
   const router = useRouter();
   // const itemsPerPage = 8;
@@ -86,14 +89,24 @@ const Table = ({
           <table className="min-w-[450px] sm:min-w-[850px] md:min-w-[1000px] lg:min-w-full bg-white table-auto border-collapse text-wrap">
             <thead className="bg-gray-200 text-black border-0 rounded-lg w-full">
               <tr>
-                {headers?.map((header: any, index: any) => (
+                {headers?.map((header: any, index: any) => {
+                  const isSortable = header.key === 'dateCreated' && onSort;
+                  return (
                   <th
                     key={index}
-                    className={`px-2 ${pasthname === '/teamProfile' ? "lg:px-5  w-full" :"md:px-6"} sm:px-4  py-1 sm:py-2 md:py-3 text-center text-xs sm:text-sm md:text-base font-semibold`}
+                    onClick={() => isSortable && onSort(header.key)}
+                    className={`px-2 ${pasthname === '/teamProfile' ? "lg:px-5  w-full" :"md:px-6"} sm:px-4  py-1 sm:py-2 md:py-3 text-center text-xs sm:text-sm md:text-base font-semibold ${isSortable ? 'cursor-pointer hover:bg-gray-300 transition-colors' : ''}`}
                   >
-                    {header.label || header.key || header}
+                    <div className="flex items-center justify-center gap-1">
+                      {header.label || header.key || header}
+                      {isSortable && sortBy?.value === header.key ? (
+                        sortBy.direction === 'asc' ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />
+                      ) : (
+                        isSortable ? <FiChevronDown className="w-4 h-4 text-gray-400" /> : null
+                      )}
+                    </div>
                   </th>
-                ))}
+                )})}
               </tr>
             </thead>
 

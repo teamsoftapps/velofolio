@@ -9,7 +9,7 @@ import invoiceAndQuoteReducer from "./slices/invoiceSlice";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"], // only persist auth
+  whitelist: ["auth", "invoiceandQuote"], // persist both auth and invoices/quotes
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -19,7 +19,6 @@ export const store = configureStore({
     persisted: persistedReducer,  // persisted slices
     [Auth.reducerPath]: Auth.reducer, // RTK Query slices (not persisted)
     [Common.reducerPath]: Common.reducer,
-    invoiceandQuote: invoiceAndQuoteReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false })

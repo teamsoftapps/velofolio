@@ -89,7 +89,7 @@ export default function Page() {
             onApply={(newFilters)=>setFilters(newFilters)}
             
           />
-      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA]'>
+      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] pt-6 pb-24'>
         {/* <Pagination /> */}
         <div className='container mx-auto  w-[100%] h-[80vh]'>
           <OverviewHeader

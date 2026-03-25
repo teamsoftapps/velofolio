@@ -29,25 +29,30 @@ interface InvoiceCardProps {
 }) => {
   const router = useRouter();
 
+  const formatCurrency = (val: any) => {
+    const num = typeof val === 'number' ? val : parseFloat(val);
+    return isNaN(num) ? "N/A" : `$${num.toFixed(2)}`;
+  };
+
   return (
     <div className="sm:h-32 bg-[#F4F4F5] w-full text-black p-2 sm:p-3 rounded-2xl inter">
       <div className="flex sm:flex-row flex-col sm:items-center justify-between">
         {/* Left */}
         <div className="space-y-2 text-sm inter">
-          <h2>
-            {type} {invoiceId}
+          <h2 className="font-semibold">
+            {type} #{invoiceId}
           </h2>
-          <h2>
+          <h2 className="text-gray-500">
             {type === "Invoice"
               ? nextPaymentDue || "Next Payment Due N/A"
-              : status || "Pending"}
+              : status || "Status: Pending"}
           </h2>
         </div>
 
         {/* Right */}
-        <div className="space-y-2 text-sm">
-          <h2>Total: {totalAmount}</h2>
-          <h2>Balance Due: {totalAmount}</h2>
+        <div className="space-y-2 text-right">
+          <h2 className="font-medium text-gray-700">Total: {formatCurrency(totalAmount)}</h2>
+          <h2 className="font-bold text-[#01B0E9]">Balance: {formatCurrency(balanceDue || totalAmount)}</h2>
         </div>
       </div>
 

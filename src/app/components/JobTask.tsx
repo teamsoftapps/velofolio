@@ -1,7 +1,7 @@
 /** @format */
 import { useState } from 'react';
 import { FaEllipsisH } from 'react-icons/fa';
-import Table from './Table';
+import DashboardTable from './DashboardTable';
 import COLORS from '@/utils/Color';
 
 const JobTask = () => {
@@ -42,7 +42,7 @@ const tableHeaders = [
       </div>
 
    
-<Table data={jobsData} headers={tableHeaders} color={COLORS.headerBlueButtonbg} hoverColor={COLORS.BlueButtonhover}/>
+<DashboardTable data={jobsData} headers={tableHeaders} itemsPerPage={5} color={COLORS.headerBlueButtonbg} hoverColor={COLORS.BlueButtonhover}/>
 
     </div>
   );

@@ -12,7 +12,7 @@ import RouteGuard from '../components/RouteGuard';
 export default function Home() {
   return (
     <RouteGuard allowedRoles={['superadmin']}>
-    <div className='flex flex-col w-full min-h-screen bg-white'>
+    <div className='flex flex-col w-full min-h-screen bg-white pb-20 lg:pb-28'>
       <Navbar />
       <DashboardGraph />
       <div className='w-11/12 sm:w-5/6 lg:w-4/5 my-4 flex flex-col sm:flex-col lg:flex-row justify-center mx-auto gap-4 lg:gap-6  '>

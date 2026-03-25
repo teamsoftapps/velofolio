@@ -7,7 +7,7 @@
     "paid": "$1,500",
     "balance": "$500",
     "paymentStatus": "Pending",
-    "dueDate": "2025-11-23",
+    "dueDate": "2026-03-10",
     "paymentMethod": "Bank Transfer",
     "avatar": "/teampic1.png"
   },
@@ -19,7 +19,7 @@
     "paid": "$1,500",
     "balance": "$500",
     "paymentStatus": "Paid",
-    "dueDate": "2025-11-23",
+    "dueDate": "2026-03-15",
     "paymentMethod": "Bank Transfer",
     "avatar": "/teampic1.png"
   },
@@ -31,7 +31,7 @@
     "paid": "$2,500",
     "balance": "$500",
     "paymentStatus": "Overdue",
-    "dueDate": "2025-11-23",
+    "dueDate": "2026-03-18",
     "paymentMethod": "Bank Transfer",
     "avatar": "/teampic1.png"
   },
@@ -43,7 +43,7 @@
     "paid": "$2,500",
     "balance": "$2200",
     "paymentStatus": "Overdue",
-    "dueDate": "2025-11-01",
+    "dueDate": "2026-03-22",
     "paymentMethod": "Bank Transfer",
     "avatar": "/teampic1.png"
   }

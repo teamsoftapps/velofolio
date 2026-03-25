@@ -19,13 +19,17 @@ import AddInvoiceModal from '../components/AddInvoiceComp/AddInvoiceModal';
 
 const JobProfilePage = () => {
   const [activeTab, setActiveTab] = useState('Invoices');
-const invoices = useSelector((state: any) => state.invoiceandQuote.invoices);
+  const quotes = useSelector((state: any) => state.persisted.invoiceandQuote.quotes);
+  const [packages, setPackages] = useState<any[]>([]);
   const [openForm, setOpenForm] = useState(false);
 
-const searchParams = useSearchParams();
-const id = Number(searchParams.get("clientId") || searchParams.get("id"));
+  const searchParams = useSearchParams();
+  const id = Number(searchParams.get("clientId") || searchParams.get("id"));
 
-const InvoiceId=Number(searchParams.get("InvoiceId"));
+  const InvoiceId = Number(searchParams.get("InvoiceId"));
+
+  const generatedId = React.useMemo(() => Math.random().toString(36).substring(2, 9).toUpperCase(), []);
+  const today = new Date().toISOString().split('T')[0];
 
   const data = JobDetail.find((item) => item.id === id);
   console.log("id",id);
@@ -89,7 +93,7 @@ const InvoiceId=Number(searchParams.get("InvoiceId"));
       </div>
     {/*bottom Section 1 */}
     <div className='w-full  flex lg:flex-row flex-col items-center gap-4 lg:h-80 my-3'>
-        <InvoiceDetailsForm type="Quote" />
+        <InvoiceDetailsForm type="Quote" generatedId={generatedId} issueDate={today} />
         <div className='bg-white rounded-2xl p-3 w-full lg:w-2/6 h-74'>
                 <h1 className="text-lg sm:text-xl text-black flex gap-2 items-center font-semibold mb-3">
                       <RiTeamFill className="w-5 h-5 text-black" /> Client
@@ -112,11 +116,11 @@ const InvoiceId=Number(searchParams.get("InvoiceId"));
     </div>
     <hr />
 {/*bottom Section 1 */}
-<ProductsPackage  id={id} setOpenForm={setOpenForm}  type="Quote" />
+<ProductsPackage id={id} setOpenForm={setOpenForm} packages={packages} setPackages={setPackages} type="Quote" generatedId={generatedId} />
 
 
  </div>
- <><AddInvoiceModal   isOpen={openForm} onClose={() => setOpenForm(false)} onSubmit={()=>setOpenForm(false)} /></>
+ <><AddInvoiceModal isOpen={openForm} onClose={() => setOpenForm(false)} onSubmit={(pkg) => setPackages((prev: any) => [...prev, pkg])} /></>
 </div>
 
   );
