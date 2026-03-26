@@ -173,7 +173,7 @@ const LeadForm: React.FC<LeadFormProps> = ({
                 onChange={handleChange}
                 className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
               />
-              <FaCalendarAlt className='absolute right-3 top-9 text-gray-400' />
+              {/* <FaCalendarAlt className='absolute right-3 top-9 text-gray-400' /> */}
             </div>
             <div className='flex-1'>
               <label className='block text-md font-semibold text-gray-700'>

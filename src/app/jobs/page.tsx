@@ -33,17 +33,17 @@ export default function Page() {
 
   const [OpenForm, setOpenForm] = useState(false);
   interface SortState {
-  value: string;
-  direction: "asc" | "desc";
-}
+    value: string;
+    direction: "asc" | "desc";
+  }
   const [sortBy, setSortBy] = useState<SortState>({
-  value: "createdAt",
-  direction: "desc",
-});;
-// const filteredData = useMemo(() => filterData(tableData, searchedValue), [tableData, searchedValue]);
-// const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, sortBy]);
+    value: "createdAt",
+    direction: "desc",
+  });;
+  // const filteredData = useMemo(() => filterData(tableData, searchedValue), [tableData, searchedValue]);
+  // const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, sortBy]);
 
- const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState({
     status: [],
     selectedMembers: [],
     leadSource: [],
@@ -69,23 +69,23 @@ export default function Page() {
       <Navbar />
 
       <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden pt-6 pb-24'>
-      
+
         {isDeleteModalOpen && (
           <DeleteModal
             isOpen={isDeleteModalOpen}
             onClose={() => setIsDeleteModalOpen(false)}
-            onConfirm={()=>handleDelete(setIsDeleteModalOpen)}
+            onConfirm={() => handleDelete(setIsDeleteModalOpen)}
           />
         )}
-             <FilterModal
-            isOpen={openFilter}
-            onClose={() => setOpenFilter(false)}
-            isVisible={openFilter}
-            setIsVisible={setOpenFilter}
-            onApply={(newfilters) => setFilters(newfilters)}
-            
-          />
-          
+        <FilterModal
+          isOpen={openFilter}
+          onClose={() => setOpenFilter(false)}
+          isVisible={openFilter}
+          setIsVisible={setOpenFilter}
+          onApply={(newfilters) => setFilters(newfilters)}
+
+        />
+
         <div className='container mx-auto bg-[#FAFAFA] w-[100%] '>
           <OverviewHeader
             title={'Jobs'}

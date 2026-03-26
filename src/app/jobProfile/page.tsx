@@ -204,7 +204,10 @@ const JobProfilePage = () => {
           {/* Tabs */}
           <div className='w-full mt-4 h-[620px] bg-white p-3 sm:p-6 rounded-lg shadow-md'>
             <div className='flex  lg:justify-between scroller gap-2 sm:gap-3 overflow-x-auto p-2 border-2 border-gray-300 rounded-xl'>
-              {['Invoices', 'Quotes', 'Contracts & Docs', 'Invoices & Payments'].map(tab => (
+              {['Invoices', 'Quotes', 'Contracts',  'Questionnaires','Files'
+              
+              // ,'Notes'
+            ].map(tab => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
@@ -270,7 +273,10 @@ const JobProfilePage = () => {
                   )}
                 </>
               )}
-              {activeTab === 'Contracts & Docs' && <Contracts />}
+              {activeTab === 'Contracts' && <Contracts />}
+              {activeTab === 'Questionnaires' &&   <EmptyInvoicnQuoteState setOpenForm={setOpenForm} id={id} type='Questionnaire'  desibled={true}/>}
+              {activeTab === 'Files' &&   <EmptyInvoicnQuoteState setOpenForm={setOpenForm} id={id} type='File'  desibled={true}/>}
+
             </div>
           </div>
         </div>

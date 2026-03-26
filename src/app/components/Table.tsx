@@ -111,7 +111,14 @@ const Table = ({
             </thead>
 
             <tbody>
-              {paginatedData.map((row: any, rowIndex: any) => (
+              {paginatedData.length === 0 ? (
+                <tr>
+                  <td colSpan={headers?.length || 1} className="py-20 text-center text-gray-500 italic bg-gray-50">
+                    No records found matching your current filters.
+                  </td>
+                </tr>
+              ) : (
+                paginatedData.map((row: any, rowIndex: any) => (
                 <tr
                   key={rowIndex}
                   onClick={() => {
@@ -153,6 +160,33 @@ const Table = ({
                         </td>
                       );
                     }
+                    if ( key === "Name") {
+  return (
+    <td
+      key={cellIndex}
+      className="py-2 sm:py-3 md:py-4  border-b border-[#D4D4D8] min-w-[140px]"
+    >
+      <div className="flex items-center justify-start ml-4 gap-5">
+        {row.avatar ? (
+          <Image
+            src={row.avatar}
+            alt={row.client || row.Name}
+            width={36}
+            height={36}
+            className="w-9 h-9 rounded-full object-cover"
+          />
+        ) : (
+          <div className="w-9 h-9 rounded-full bg-gray-300 text-left flex items-center justify-center text-black font-semibold">
+            {row.client?.[0] || row.Name?.[0]}
+          </div>
+        )}
+        <span className="text-sm font-medium text-gray-800 truncate max-w-[100px]">
+          {row.client || row.Name}
+        </span>
+      </div>
+    </td>
+  );
+}
 if (pasthname === "/payments") {
   if (key === "client") {
     return (
@@ -305,8 +339,9 @@ if (key === "paymentMethod") {
                     );
                   })}
                 </tr>
-              ))}
-            </tbody>
+              ))
+            )}
+          </tbody>
           </table>
         </div>
       </div>

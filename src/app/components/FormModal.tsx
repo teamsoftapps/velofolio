@@ -144,7 +144,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
               value={formData.firstName}
               onChange={handleChange}
               placeholder='Enter first name'
-              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-400'
+              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
             />
           </div>
 
@@ -158,7 +158,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
               value={formData.lastName}
               onChange={handleChange}
               placeholder='Enter last name'
-              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-400'
+              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
             />
           </div>
         </div>
@@ -174,7 +174,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
             value={formData.email}
             onChange={handleChange}
             placeholder='Enter member email e.g. info@sarah.org'
-            className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-400'
+            className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
           />
         </div>
 
@@ -189,7 +189,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
             value={formData.phone}
             onChange={handleChange}
             placeholder='Enter member contact number e.g. +123 456 7890'
-            className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-400'
+            className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
           />
         </div>
 
@@ -203,7 +203,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
               name='role'
               value={formData.role}
               onChange={handleChange}
-              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-400'>
+              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'>
               <option value=''>Select member role</option>
               <option value='admin'>Admin</option>
               <option value='member'>Member</option>
@@ -218,7 +218,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
               name='status'
               value={formData.status}
               onChange={handleChange}
-              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-400'>
+              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'>
               <option value=''>Select member status</option>
               <option value='active'>Active</option>
               <option value='inactive'>Inactive</option>
@@ -237,9 +237,8 @@ const MemberForm: React.FC<MemberFormProps> = ({
               name='joinedDate'
               value={formData.joinedDate}
               onChange={handleDateChange}
-              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-400'
+              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
             />
-            <FaCalendarAlt className='absolute right-3 top-9 text-gray-400' />
           </div>
 
           <div className='flex-1'>
@@ -250,7 +249,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
               name='availability'
               value={formData.availability}
               onChange={handleChange}
-              className=' p-3 w-full border rounded-md border-gray-400 text-gray-400'>
+              className=' p-3 w-full border rounded-md border-gray-400 text-gray-800'>
               <option value=''>Select availability e.g. Free, Busy</option>
               <option value='free'>Free</option>
               <option value='busy'>Busy</option>
@@ -269,9 +268,8 @@ const MemberForm: React.FC<MemberFormProps> = ({
               name='dateOfBirth'
               value={formData.dateOfBirth}
               onChange={handleDateChange}
-              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-400'
+              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
             />
-            <FaCalendarAlt className='absolute right-3 top-9 text-gray-400' />
           </div>
 
           <div className='flex-1'>
@@ -282,7 +280,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
               name='gender'
               value={formData.gender}
               onChange={handleChange}
-              className=' p-3 w-full border rounded-md border-gray-400 text-gray-400'>
+              className=' p-3 w-full border rounded-md border-gray-400 text-gray-800'>
               <option value=''>Select Gender</option>
               <option value='male'>Male</option>
               <option value='female'>Female</option>
@@ -302,7 +300,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
             value={formData.address}
             onChange={handleChange}
             placeholder='Enter client address'
-            className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-400'
+            className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
           />
         </div>
 

@@ -1,83 +1,40 @@
 /** @format */
-import { useState } from 'react';
-import { FaEllipsisH } from 'react-icons/fa';
+import { useMemo } from 'react';
 import DashboardTable from './DashboardTable';
 import AddButton from './AddButton';
 import COLORS from '@/utils/Color';
+import LeadData from '@/utils/Lead.json';
+import { DateValue } from '@internationalized/date';
+import { filterByTimeRange } from '@/utils/TableUtils';
 
-const RecentLeads = () => {
-  const [openForm, setOpenForm] = useState(false);
+interface RecentLeadsProps {
+  setOpenForm: (open: boolean) => void;
+  timeRange?: string;
+  value?: DateValue;
+}
 
-  // ✅ Table headers
+const RecentLeads = ({ setOpenForm, timeRange = "All Data", value }: RecentLeadsProps) => {
   const tableHeaders = [
-    { key: 'leadCreated', label: 'Lead Created' },
+    { key: 'dateCreated', label: 'Lead Created' },
     { key: 'leadName', label: 'Lead Name' },
     { key: 'status', label: 'Status' },
-    { key: 'nextTask', label: 'Next Task' },
+    { key: 'task', label: 'Next Task' },
   ];
 
-  // ✅ Example leads data
-  const leadsData = [
-    {
-      leadCreated: '2 Sep 2025',
-      leadName: 'Demo Portrait Lead',
-      status: 'New Lead',
-      nextTask: 'Initial Inquiry...',
-    },
-    {
-      leadCreated: '5 Oct 2025',
-      leadName: 'Demo Wedding Lead',
-      status: 'Booked',
-      nextTask: 'Follow Up Call',
-    },
-    {
-      leadCreated: '2 Sep 2025',
-      leadName: 'Demo Portrait Lead',
-      status: 'New Lead',
-      nextTask: 'Initial Inquiry...',
-    },
-    {
-      leadCreated: '5 Oct 2025',
-      leadName: 'Demo Wedding Lead',
-      status: 'Booked',
-      nextTask: 'Follow Up Call',
-    },
-    {
-      leadCreated: '2 Sep 2025',
-      leadName: 'Demo Portrait Lead',
-      status: 'New Lead',
-      nextTask: 'Initial Inquiry...',
-    },
-    {
-      leadCreated: '5 Oct 2025',
-      leadName: 'Demo Wedding Lead',
-      status: 'Booked',
-      nextTask: 'Follow Up Call',
-    },
-    {
-      leadCreated: '2 Sep 2025',
-      leadName: 'Demo Portrait Lead',
-      status: 'New Lead',
-      nextTask: 'Initial Inquiry...',
-    },
-    {
-      leadCreated: '5 Oct 2025',
-      leadName: 'Demo Wedding Lead',
-      status: 'Booked',
-      nextTask: 'Follow Up Call',
-    },
-    {
-      leadCreated: '5 Oct 2025',
-      leadName: 'Demo Wedding Lead',
-      status: 'Booked',
-      nextTask: 'Follow Up Call',
-    },
-  ];
-
+  const leadsData = useMemo(() => {
+    const customDate = value ? new Date(value.year, value.month - 1, value.day) : undefined;
+    const filtered = filterByTimeRange(LeadData, timeRange, customDate);
+    
+    return filtered.map(l => ({
+      dateCreated: l.dateCreated || l.eventDate || "N/A",
+      leadName: l.leadName,
+      status: l.status,
+      task: l.interestedService || 'Inquiry',
+    })).sort((a, b) => new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime());
+  }, [timeRange, value]);
 
   return (
     <div className="bg-white p-6 sm:p-8  border border-gray-300 rounded-lg shadow-md w-full lg:min-w-1/2 h-[450px]  ">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between  sm:items-center mb-4  lg:gap-0">
         <h2 className="text-lg sm:text-xl lg:text-2xl font-medium text-black mb-2 sm:mb-0 w-40 xl:w-full">
           Recent Leads
@@ -87,7 +44,6 @@ const RecentLeads = () => {
         </div>
       </div>
 
-      {/* Table */}
       <DashboardTable
         data={leadsData}
         headers={tableHeaders}

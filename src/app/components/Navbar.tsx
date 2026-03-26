@@ -14,12 +14,14 @@ import { useGetOrganizationsQuery } from '@/store/apis/Common';
 import Companies from './Companies';
 import CreateWorkspaceModal from './CreateWorkspace';
 import { IoNotificationsOutline } from "react-icons/io5";
+import NotificationModal from './NotificationModal';
 
 const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isNotifOpen, setIsNotifOpen] = useState(false);
   const dispatch = useDispatch();
   const [workspace, setWorkspaceOpen] = useState(false);
   const { data: companies, isLoading, error } = useGetOrganizationsQuery({});
@@ -89,11 +91,17 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
             {isLoggedIn ? (
               <div className='hidden lg:flex items-center relative'>
                 <button
-                  className='text-gray-700 hover:text-gray-900 mr-3 focus:outline-none p-2 bg-gray-50 rounded-full shadow-md'
+                  onClick={() => setIsNotifOpen(!isNotifOpen)}
+                  className='relative text-gray-700 hover:text-gray-900 mr-3 focus:outline-none p-2 bg-gray-50 rounded-full border-1 border-[#E5E7EB] cursor-pointer'
                   aria-label='Notifications'
                 >
-                  <IoNotificationsOutline className='w-6 h-6' />
+<span className="flex bg-[#01B0E9] max-w-[17px] left-4.5    top-0.5 absolute h-4 px-1 pt-[2px] rounded-full items-center justify-center text-[12px] font-semibold text-white">
+  {2}
+</span>                  <IoNotificationsOutline className='w-6 h-6' />
                 </button>
+                {isNotifOpen && (
+                  <NotificationModal isOpen={isNotifOpen} onClose={() => setIsNotifOpen(false)} />
+                )}
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className='flex items-center text-gray-700 cursor-pointer hover:text-gray-900 focus:outline-none transition-colors duration-200 border rounded-full px-2 border-gray-300'
@@ -135,10 +143,12 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
             <div className='lg:hidden flex items-center'>
               {isLoggedIn && (
                 <button
-                  className='text-gray-700 hover:text-gray-900 focus:outline-none p-2 mr-2 bg-gray-50 rounded-full shadow-md'
+                  onClick={() => setIsNotifOpen(!isNotifOpen)}
+                  className='text-gray-700 hover:text-gray-900 focus:outline-none p-2 mr-2 bg-gray-50 rounded-full shadow-md relative'
                   aria-label='Notifications'
                 >
                   <IoNotificationsOutline className='w-6 h-6' />
+                  <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-[#01B0E9] rounded-full ring-2 ring-white"></span>
                 </button>
               )}
 

@@ -8,6 +8,7 @@ import React, {
   useState,
   memo,
   useEffect,
+  useMemo,
 } from 'react';
 import {
   DndContext,
@@ -20,7 +21,6 @@ import {
   DragOverlay,
   useDroppable,
   TouchSensor
-  
 
 } from '@dnd-kit/core';
 
@@ -40,7 +40,10 @@ import { LiaComment } from 'react-icons/lia';
 import Image from 'next/image';
 import { FaPenClip } from 'react-icons/fa6';
 import EditTeamModal from '../components/EditTeam';
-import {AiOutlineSearch as Search, AiOutlineClose as X} from 'react-icons/ai';
+import { AiOutlineSearch as Search, AiOutlineClose as X } from 'react-icons/ai';
+import FilterModal from '../components/FilterModal';
+import { getItemDate } from '@/utils/TableUtils';
+
 // --- Types ---
 interface Card {
   id: string;
@@ -81,7 +84,7 @@ const initialData: InitialData = {
             'Highlight Reel (3 min), Full Edited Footage (2 hours)...',
           attachments: 2,
           comments: 4,
-          members: ['user1'],
+          members: ['Sarah Johnson'],
           image: '/images/prodCardImg.png',
         },
       ],
@@ -99,7 +102,7 @@ const initialData: InitialData = {
             'Full Edited Video (3 hours), Social Media Teasers (3 clips)',
           attachments: 4,
           comments: 5,
-          members: ['user4'],
+          members: ['Mike Chen'],
           image: '/images/prodCardImg.png',
         },
       ],
@@ -116,7 +119,7 @@ const initialData: InitialData = {
           description: 'Highlight Reel (2 min), Full Edited Footage (45 min)',
           attachments: 6,
           comments: 10,
-          members: ['user6'],
+          members: ['Mike Chen', 'Anna David'],
         },
       ],
     },
@@ -156,7 +159,7 @@ const SortableCard = memo(
     const { attributes, listeners, setNodeRef, transform, transition } =
       useSortable({ id: card.id });
 
-    const style:any = {
+    const style: any = {
       transform: transform
         ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
         : undefined,
@@ -179,64 +182,59 @@ const SortableCard = memo(
           {...attributes}
           {...listeners}
           onClick={onClick}
-          className={`group bg-white rounded-lg shadow-md p-3 overflow-visible hover:outline-1 hover:outline-[#01B0E9]/70 cursor-grab active:cursor-grabbing hover:shadow-lg transition-all duration-200 border border-gray-200 ${
-            menuCardId === card.id ? 'z-[1000]' : ''
-          }`}>
+          className={`group bg-white rounded-lg shadow-md p-3 overflow-visible hover:outline-1 hover:outline-[#01B0E9]/70 cursor-grab active:cursor-grabbing hover:shadow-lg transition-all duration-200 border border-gray-200 ${menuCardId === card.id ? 'z-[1000]' : ''
+            }`}>
           {/* Menu Content */}
           {menuCardId === card.id && (
             <div
               className='flex gap-1 text-left flex-col z-100000 mb-3   fixed sm:absolute   right-10 w-[200px] h-[190px] top-36 bg-white sm:bg-transparent sm:-right-[250px] sm:top-20 sm:w-[250px] shadow-md rounded-md p-2  '
               onClick={(e) => e.stopPropagation()}>
               <button
-                className={`p-2 rounded-md cursor-pointer w-28 text-left ${
-                  activeButton === 'Open Card'
+                className={`p-2 rounded-md cursor-pointer w-28 text-left ${activeButton === 'Open Card'
                     ? 'bg-[#00A4DD]  text-white'
                     : 'bg-white text-black hover:bg-gray-100'
-                }`}
+                  }`}
                 onClick={onClick}>
                 Open Card
               </button>
 
               <button
-                className={`p-2 rounded-md cursor-pointer w-full text-left relative ${
-                  activeButton === 'Change Members'
+                className={`p-2 rounded-md cursor-pointer w-full text-left relative ${activeButton === 'Change Members'
                     ? 'bg-[#00A4DD]  text-white'
                     : 'bg-white text-black hover:bg-gray-100'
-                }`}
+                  }`}
                 onClick={() => {
-                   setActiveButton('Change Members')
-                    setTeamModal(true)
-                    
-                    }}>
+                  setActiveButton('Change Members')
+                  setTeamModal(true)
+
+                }}>
                 Change Members
               </button>
               {teamModal && (
                 <div
-    className="absolute top-24 sm:top-24 -left-2 sm:left-0 ml-2 z-[2000]  h-[400px] w-54 sm:w-80"
-    onClick={(e) => e.stopPropagation()}
-  >
-    
-      <EditTeamModal setTeamModal={setTeamModal} />
+                  className="absolute top-24 sm:top-24 -left-2 sm:left-0 ml-2 z-[2000]  h-[400px] w-54 sm:w-80"
+                  onClick={(e) => e.stopPropagation()}
+                >
 
-  </div>
+                  <EditTeamModal setTeamModal={setTeamModal} />
+
+                </div>
               )}
 
               <button
-                className={`p-2 rounded-md cursor-pointer w-32 text-left ${
-                  activeButton === 'Change Cover'
+                className={`p-2 rounded-md cursor-pointer w-32 text-left ${activeButton === 'Change Cover'
                     ? 'bg-[#00A4DD]  text-white'
                     : 'bg-white text-black hover:bg-gray-100'
-                }`}
+                  }`}
                 onClick={() => handleClick('Change Cover')}>
                 Change Cover
               </button>
 
               <button
-                className={`p-2 rounded-md cursor-pointer w-24 text-left ${
-                  activeButton === 'Edit Dates'
+                className={`p-2 rounded-md cursor-pointer w-24 text-left ${activeButton === 'Edit Dates'
                     ? 'bg-[#00A4DD]  text-white'
                     : 'bg-white text-black hover:bg-gray-100'
-                }`}
+                  }`}
                 onClick={() => handleClick('Edit Dates')}>
                 Edit Dates
               </button>
@@ -330,28 +328,42 @@ const SortableList = memo(
     setMenuCardId: React.Dispatch<React.SetStateAction<string | null>>;
   }) => {
     const { setNodeRef, isOver } = useDroppable({ id: list.id });
-
+    const [isEditing, setIsEditing] = useState(false);
+    const [title, setTitle] = useState(list.title);
     const cards = Array.isArray(list?.cards) ? list.cards : [];
 
     return (
       <div
         ref={setNodeRef}
-        className={`rounded-lg p-3  w-[90vw] sm:w-[300px] md:w-[370px] flex-shrink-0 relative flex flex-col shadow-sm border ${
-          isOver ? 'border-blue-300 bg-blue-50' : 'border-gray-200'
-        }`}>
+        className={`rounded-lg p-3  w-[90vw] sm:w-[300px] md:w-[370px] flex-shrink-0 relative flex flex-col shadow-sm border ${isOver ? 'border-blue-300 bg-blue-50' : 'border-gray-200'
+          }`}>
         <div className='flex justify-between items-center mb-3'>
           <h3 className='font-semibold text-lg text-black flex items-center gap-6'>
             <BiPlus
               size={20}
-              className={`${
-                list.title === 'Pending'
+              className={`${list.title === 'Pending'
                   ? 'text-[#00A4DD] bg-[#01B0E91A]'
                   : list.title === 'In Progress'
-                  ? 'text-[#FFC700] bg-[#FFC7001A]'
-                  : 'text-[#13CC95] bg-[#13CC95]/5'
-              } p-2 rounded-full w-9 text-2xl h-9`}
+                    ? 'text-[#FFC700] bg-[#FFC7001A]'
+                    : 'text-[#13CC95] bg-[#13CC95]/5'
+                } p-2 rounded-full w-9 text-2xl h-9`}
             />
-            {list.title}
+            {isEditing ? (
+              <input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                onBlur={() => {
+                  setIsEditing(false);
+                  list.title = title; // updates UI (better: lift state if needed)
+                }}
+                autoFocus
+                className="border px-2 py-1 rounded text-sm"
+              />
+            ) : (
+              <span onDoubleClick={() => setIsEditing(true)}>
+                {title}
+              </span>
+            )}
           </h3>
           <span className='text-gray-500 text-sm'>{cards.length}</span>
         </div>
@@ -360,22 +372,24 @@ const SortableList = memo(
           items={cards.map((c) => c?.id).filter(Boolean)}
           strategy={verticalListSortingStrategy}>
           <div
-            className={`flex-grow space-y-3 min-h-[200px] rounded-md p-2 ${
-              isOver ? 'bg-blue-100' : 'bg-gray-50'
-            }`}>
+            className={`flex-grow space-y-3 min-h-[200px] rounded-md p-2 ${isOver ? 'bg-blue-100' : 'bg-gray-50'
+              }`}>
             {cards.map(
               (card) =>
                 card && (
-                  <>
-                    <SortableCard
-                      key={card.id}
-                      card={card}
-                      onClick={() => onCardClick(card)}
-                      menuCardId={menuCardId}
-                      setMenuCardId={setMenuCardId}
-                    />
-                  </>
+                  <SortableCard
+                    key={card.id}
+                    card={card}
+                    onClick={() => onCardClick(card)}
+                    menuCardId={menuCardId}
+                    setMenuCardId={setMenuCardId}
+                  />
                 )
+            )}
+            {cards.length === 0 && (
+              <div className="flex items-center justify-center p-4 text-gray-400 italic text-sm border-2 border-dashed border-gray-100 rounded-lg">
+                Empty Column
+              </div>
             )}
           </div>
         </SortableContext>
@@ -398,6 +412,17 @@ const ProductionPage: React.FC = () => {
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [menuCardId, setMenuCardId] = useState<string | null>(null);
 
+  // --- Search & Filter State ---
+  const [searchQuery, setSearchQuery] = useState('');
+  const [openFilter, setOpenFilter] = useState(false);
+  const [filters, setFilters] = useState({
+    status: [] as string[],
+    selectedMembers: [] as { id: string, name: string }[],
+    eventType: [] as string[],
+    fromDate: "",
+    toDate: "",
+  });
+
   useLayoutEffect(() => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollLeft = scrollPosRef.current;
@@ -416,6 +441,68 @@ const ProductionPage: React.FC = () => {
     }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
+
+  // --- Board Filtering Logic ---
+  const filteredData = useMemo(() => {
+    const result: InitialData = {
+      lists: {},
+      listOrder: data.listOrder,
+    };
+
+    data.listOrder.forEach(listId => {
+      const list = data.lists[listId];
+
+      // 1. Filter by column status if selected
+      if (filters.status.length > 0 && !filters.status.map(s => s.toLowerCase()).includes(list.title.toLowerCase())) {
+        result.lists[listId] = { ...list, cards: [] }; // Hide cards but keep column (as standard Kanban behavior)
+        return;
+      }
+
+      const filteredCards = list.cards.filter(card => {
+        // 2. Search filtering
+        if (searchQuery.trim()) {
+          const lower = searchQuery.toLowerCase();
+          if (!card.title.toLowerCase().includes(lower) &&
+            !card.label.toLowerCase().includes(lower) &&
+            !card.description.toLowerCase().includes(lower)) return false;
+        }
+
+        // 3. Member filtering
+        if (filters.selectedMembers.length > 0) {
+          const names = filters.selectedMembers.map(m => m.name);
+          if (!card.members.some(m => names.includes(m))) return false;
+        }
+
+        // 4. Event Type filtering
+        if (filters.eventType.length > 0) {
+          if (!filters.eventType.some(t => card.title.toLowerCase().includes(t.toLowerCase()))) return false;
+        }
+
+        // 5. Date Range Filtering
+        if (filters.fromDate || filters.toDate) {
+          const cardDate = new Date(card.date);
+          if (isNaN(cardDate.getTime())) return true; // Keep if date is unparsable
+
+          if (filters.fromDate) {
+            const from = new Date(filters.fromDate);
+            from.setHours(0, 0, 0, 0);
+            if (cardDate < from) return false;
+          }
+          if (filters.toDate) {
+            const to = new Date(filters.toDate);
+            to.setHours(23, 59, 59, 999);
+            if (cardDate > to) return false;
+          }
+        }
+
+        return true;
+      });
+
+      result.lists[listId] = { ...list, cards: filteredCards };
+    });
+
+    return result;
+  }, [data, searchQuery, filters]);
 
   const addList = () => {
     const newListId = `list-${Date.now()}-${Math.random()}`;
@@ -461,10 +548,7 @@ const ProductionPage: React.FC = () => {
         break;
       }
     }
-    if (!sourceListId) {
-      console.error('Source list not found for active ID:', active.id);
-      return;
-    }
+    if (!sourceListId) return;
 
     if (data.listOrder.includes(over.id)) {
       destinationListId = over.id;
@@ -476,28 +560,21 @@ const ProductionPage: React.FC = () => {
         }
       }
     }
-    if (!destinationListId) {
-      console.error('Destination list not found for over ID:', over.id);
-      return;
-    }
+    if (!destinationListId) return;
 
     setData((prevData) => {
       const sourceCards = [...prevData.lists[sourceListId!].cards];
       const destinationCards = [...prevData.lists[destinationListId!].cards];
       const movingCardIndex = sourceCards.findIndex((c) => c.id === active.id);
-      if (movingCardIndex === -1) {
-        console.error('Moving card not found:', active.id);
-        return prevData;
-      }
+      if (movingCardIndex === -1) return prevData;
+
       const movingCard = sourceCards.splice(movingCardIndex, 1)[0];
 
       if (sourceListId === destinationListId) {
         const cards = [...prevData.lists[sourceListId].cards];
         const oldIndex = cards.findIndex((c) => c.id === active.id);
         const newIndex = cards.findIndex((c) => c.id === over.id);
-
         if (oldIndex === -1 || newIndex === -1) return prevData;
-
         const newCards = arrayMove(cards, oldIndex, newIndex);
 
         return {
@@ -545,10 +622,13 @@ const ProductionPage: React.FC = () => {
     <div className='min-h-screen w-full flex flex-col bg-gray-100 overflow-hidden relative'>
       <Navbar />
       <div
-        className={`w-full max-w-[1600px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 ${
-          modal ? 'blur-sm' : ''
-        }`}>
-        <ProductionHeader />
+        className={`w-full max-w-[1600px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 ${modal ? 'blur-sm' : ''
+          }`}>
+        <ProductionHeader
+          setOpenFilter={setOpenFilter}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
         <ClientOnly>
           <DndContext
             sensors={sensors}
@@ -557,7 +637,7 @@ const ProductionPage: React.FC = () => {
             onDragEnd={handleDragEnd}>
             <div
               ref={scrollContainerRef}
-              className={`flex  sm:flex-row gap-5 lg:gap-7 lg:mx-0.5 py-6 overflow-x-auto sm:overflow-y-hidden ${menuCardId?"h-[650px] ":""}  scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent`}
+              className={`flex  sm:flex-row gap-5 lg:gap-7 lg:mx-0.5 py-6 overflow-x-auto sm:overflow-y-hidden ${menuCardId ? "h-[650px] " : ""}  scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent`}
               style={{
                 WebkitOverflowScrolling: 'touch',
                 scrollBehavior: 'auto',
@@ -565,14 +645,14 @@ const ProductionPage: React.FC = () => {
                 touchAction: 'pan-x pan-y',
               }}>
               <SortableContext
-                items={data.listOrder.filter((listId) => data.lists[listId])}
+                items={filteredData.listOrder.filter((listId) => filteredData.lists[listId])}
                 strategy={verticalListSortingStrategy}>
-                {data.listOrder
-                  .filter((listId) => data.lists[listId])
+                {filteredData.listOrder
+                  .filter((listId) => filteredData.lists[listId])
                   .map((listId) => (
                     <SortableList
                       key={listId}
-                      list={data.lists[listId]}
+                      list={filteredData.lists[listId]}
                       onCardClick={handleCardClick}
                       menuCardId={menuCardId}
                       setMenuCardId={setMenuCardId}
@@ -616,6 +696,14 @@ const ProductionPage: React.FC = () => {
         </ClientOnly>
       </div>
 
+      <FilterModal
+        isOpen={openFilter}
+        onClose={() => setOpenFilter(false)}
+        isVisible={openFilter}
+        setIsVisible={setOpenFilter}
+        onApply={(newFilters) => setFilters(newFilters)}
+      />
+
       {menuCardId && (
         <div
           className='fixed inset-0 bg-black/30  bg-opacity-30 z-1'
@@ -637,6 +725,7 @@ const ProductionPage: React.FC = () => {
           />
         </div>
       )}
+      <h1 className='text-center mt-10 text-[#919191]'>Double Click the Card Title to Edit </h1>
     </div>
   );
 };

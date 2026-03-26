@@ -16,6 +16,7 @@ import CommentItem from './CommentItem';
 import CommentAction from './CommentActions';
 import { LiaComment } from 'react-icons/lia';
 
+
 interface PreWeddingModalProps {
   setModal: (open: boolean) => void;
   Modal?: any;
@@ -112,10 +113,18 @@ const handleSaveComment = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showFilePicker, menuOpenFor]);
 
+const MAX_FILE_SIZE = 20 * 1024 * 1024; // 5MB
+
+  
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+
+      if (file.size > MAX_FILE_SIZE) {
+    alert('File must be less than 20');
+    return;
+  }
     const reader = new FileReader();
     reader.onload = (event) => {
       const url = event.target?.result as string;

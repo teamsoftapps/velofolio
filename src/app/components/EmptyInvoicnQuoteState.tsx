@@ -2,7 +2,7 @@ import React from 'react'
 import AddButton from './AddButton'
 import { useRouter } from 'next/navigation'
 
-const EmptyInvoicnQuoteState = ({setOpenForm, id,type="Invoice"}:any) => {
+const EmptyInvoicnQuoteState = ({setOpenForm, id,type="Invoice",desibled=false}:any) => {
     const router = useRouter()
 
   return (
@@ -16,12 +16,12 @@ const EmptyInvoicnQuoteState = ({setOpenForm, id,type="Invoice"}:any) => {
           No {type} yet! Create your first {type} to keep your workflow on track.
         </p>
 
-        <div
+   {!desibled &&    <div
           className="w-40"
           onClick={() => router.push(`/add${type}?id=${id}`)}
         >
           <AddButton setOpenForm={setOpenForm} title={`Add ${type}`}/>
-        </div>
+        </div>}
       </div>
   )
 }

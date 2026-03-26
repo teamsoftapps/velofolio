@@ -1,13 +1,40 @@
 'use client';
 
 import React from 'react';
-import { FiChevronDown } from 'react-icons/fi';
+import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import ReportButton from './ReportButton';
-import { BiSolidReport } from 'react-icons/bi';
 import COLORS from '@/utils/Color';
+import { DateValue } from "@internationalized/date";
+import CalenderModal from "../CalenderModal";
 
-const ReportHeader = () => {
-  const [timeRange, setTimeRange] = React.useState('7 Days');
+const ReportHeader = ({ 
+  timeRange, 
+  setTimeRange, 
+  value, 
+  setValue 
+}: { 
+  timeRange: string; 
+  setTimeRange: (range: string) => void;
+  value: DateValue;
+  setValue: (val: DateValue) => void;
+}) => {
+  const [openCalender, setOpenCalender] = React.useState(false);
+
+  const getMonthName = (date: DateValue) => {
+    const jsDate = new Date(date.year, date.month - 1, date.day);
+    return jsDate.toLocaleString("en-US", { month: "long" });
+  };
+
+  const formatDate = (val: DateValue | null) => {
+    if (!val) return "Select date";
+    return `${String(val.day).padStart(2, "0")}-${getMonthName(val)}-${val.year}`;
+  };
+
+  const handleChangeValue = (newValue: DateValue) => {
+    setValue(newValue);
+    setOpenCalender(false);
+    setTimeRange("Custom");
+  };
 
   return (
     <div className="mb-6 px-2 lg:px-3 mt-15 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -25,15 +52,17 @@ const ReportHeader = () => {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 lg:w-auto md:justify-between">
         {/* Time Range Buttons */}
         <div className="flex w-full overflow-x-auto sm:w-auto">
-          {['7 Days', '30 Days', 'Mtd', 'Ytd'].map((range) => (
+          {['7 Days', '30 Days', 'Mtd', 'Ytd'].map((range, index) => (
             <button
               key={range}
               onClick={() => setTimeRange(range)}
-              className={`whitespace-nowrap px-3 py-2 text-sm font-medium transition-colors first:rounded-l-md last:rounded-r-md border border-gray-300 sm:text-base ${
+              className={`whitespace-nowrap px-3 py-2 text-sm font-medium transition-colors border border-gray-300 sm:text-base ${
+                index === 0 ? "rounded-l-md" : ""
+              } ${index === 3 ? "rounded-r-md" : ""} ${
                 timeRange === range
                   ? 'bg-[#01B0E9] text-white'
                   : 'bg-white text-gray-700 hover:bg-gray-50'
-              } ${range !== 'Ytd' ? 'border-r-0' : ''}`}
+              } ${index !== 3 ? 'border-r-0' : ''}`}
             >
               {range}
             </button>
@@ -42,21 +71,29 @@ const ReportHeader = () => {
 
         {/* Date Range Select */}
         <div className="relative w-full sm:w-60">
-          <select
-            className="w-full appearance-none  text-black rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-sm focus:border-[#01B0E9] focus:outline-none focus:ring-2 focus:ring-[#01B0E9]/20 sm:text-base"
-            defaultValue="26 Aug 2025 - 2 Sep 2025"
-          >
-            <option>26 Aug 2025 - 2 Sep 2025</option>
-            <option>1 Sep 2025 - 30 Sep 2025</option>
-          </select>
-          <FiChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" />
+           <button
+             onClick={() => setOpenCalender(!openCalender)}
+             className="appearance-none w-full cursor-pointer bg-white rounded-md py-2 px-3 pr-8 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black text-sm sm:text-base text-left border border-gray-300"
+           >
+             {formatDate(value)}
+           </button>
+
+           {openCalender && (
+             <div className="absolute top-12 right-0 bg-white rounded-2xl border-2 border-gray-200 z-[100] shadow-2xl">
+               <CalenderModal value={value} setValue={handleChangeValue} />
+             </div>
+           )}
+
+           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1 text-black">
+             {openCalender ? <FiChevronUp className="text-lg" /> : <FiChevronDown className="text-lg" />}
+           </div>
         </div>
 
         {/* Export Button */}
         <div className="w-full sm:w-auto">
           <ReportButton
             title="Export Report"
-            setOpenForm={() => {}}
+            setOpenForm={() => { }}
             color={COLORS.greenButton}
             hoverColor={COLORS.greenHover}
           />

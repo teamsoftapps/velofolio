@@ -5,11 +5,26 @@
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 
-const SearchComponent = ({ placeHolder }: { placeHolder: string }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+const SearchComponent = ({ 
+  placeHolder, 
+  value, 
+  onSearch 
+}: { 
+  placeHolder: string; 
+  value?: string; 
+  onSearch?: (val: string) => void 
+}) => {
+  const [internalQuery, setInternalQuery] = useState('');
+  
+  const query = value !== undefined ? value : internalQuery;
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
+    const val = e.target.value;
+    if (onSearch) {
+      onSearch(val);
+    } else {
+      setInternalQuery(val);
+    }
   };
 
   return (
@@ -18,7 +33,7 @@ const SearchComponent = ({ placeHolder }: { placeHolder: string }) => {
         <input
           type='text'
           placeholder={placeHolder}
-          value={searchQuery}
+          value={query}
           onChange={handleSearch}
           className='w-[80%] py-2 border-black focus:outline-none placeholder-black text-black '
         />

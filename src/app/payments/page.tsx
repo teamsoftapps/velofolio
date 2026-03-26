@@ -127,6 +127,11 @@ const paymentSummary = useMemo(() => {
                     sortBy={sortBy} // Pass the sorting state
             setSortBy={setSortBy} // Pass the setter
           />
+          {/* <div className='mb-4 flex flex-col items-end'>
+            <p className='text-[#6A7282] text-xl mb-2'>Paid</p>
+            <h1 className='text-[#01B0E9] text-4xl'>$12,500</h1>
+
+          </div> */}
           <OverviewChart chartData={PayementChartData} />
 
           <Table

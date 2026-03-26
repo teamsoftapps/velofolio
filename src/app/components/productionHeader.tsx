@@ -9,7 +9,15 @@ import { MdModeEditOutline } from 'react-icons/md';
 import AddTeamMembersModal from './AddTeamMemberModal';
 
 
-const ProductionHeader = () => {
+const ProductionHeader = ({ 
+  setOpenFilter, 
+  searchQuery, 
+  setSearchQuery 
+}: { 
+  setOpenFilter: (open: boolean) => void;
+  searchQuery: string;
+  setSearchQuery: (val: string) => void;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [boardMembers, setBoardMembers] = useState<any[]>([]);
 
@@ -24,7 +32,11 @@ const ProductionHeader = () => {
         
         {/* Search */}
         <div className="w-full sm:w-2/3">
-          <SearchComponent placeHolder="Search" />
+          <SearchComponent 
+            placeHolder="Search" 
+            value={searchQuery}
+            onSearch={setSearchQuery} 
+          />
         </div>
 
         {/* Sort & Filter */}
@@ -34,7 +46,7 @@ const ProductionHeader = () => {
           <SortButton />
         
 
-          <FilterButton />
+          <FilterButton setOpenFilter={setOpenFilter} />
         </div>
       </div>
 

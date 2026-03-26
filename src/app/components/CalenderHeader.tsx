@@ -20,9 +20,9 @@ import SortModal from './SortModal';
 //   // setIsSortOpen: (isOpen: boolean) => void;
 // }
 
-const OverviewHeader = ()=> {
+const OverviewHeader = () => {
   const currentPath = usePathname();
-const [isSortOpen, setIsSortOpen] = useState(false);
+  const [isSortOpen, setIsSortOpen] = useState(false);
   const [currentSort, setCurrentSort] = useState('added-newest');
   return (
     <div className='flex-col sm:flex-row  lg:w-full Header mt-10 flex  md:flex-row items-start md:items-center justify-between p-2 text-black'>
@@ -33,17 +33,17 @@ const [isSortOpen, setIsSortOpen] = useState(false);
       </div>
 
 
-   
-
- 
 
 
-  <div className='w-full md:w-auto'>
-    <AddButton
-      title={'Add New '}
-      setOpenForm={()=>console.log('')}
-    />
-  </div>
+
+
+
+      <div className='w-full md:w-auto'>
+        <AddButton
+          title={'Add New '}
+          setOpenForm={() => console.log('')}
+        />
+      </div>
 
 
 

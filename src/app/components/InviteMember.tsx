@@ -97,11 +97,11 @@ export default function InviteMemberModal({ isOpen, onClose, setWorkspaceMembers
                   </option>
                 ))}
               </select>
-              <div className="absolute right-3 top-3.5 pointer-events-none">
+              {/* <div className="absolute right-3 top-3.5 pointer-events-none">
                 <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-              </div>
+              </div> */}
             </div>
           </div>
 

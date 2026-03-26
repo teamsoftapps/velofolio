@@ -15,13 +15,15 @@ import { filterData, sortData, handleDelete, applyAdvancedFilters } from "../../
 const tableData = LeadData;
 
 const tableHeaders = [
+  { key: 'dateCreated', label: 'Lead Created' },
   { key: 'leadName', label: 'Lead Name' },
-  { key: 'leadCreated', label: 'Lead Created' },
   { key: 'interestedService', label: 'Lead Type' },
+  { key: 'leadSource', label: 'Lead Source' },
   { key: 'status', label: 'Status' },
   { key: 'eventDate', label: 'Event Date' },
   { key: 'priority', label: 'Priority' },
   { key: 'action', label: 'Action' },
+
 ];
 
 
@@ -109,6 +111,14 @@ export default function Page() {
             data={advancedfilteredData}
             setOpenForm={setOpenForm}
             setIsDeleteModalOpen={setIsDeleteModalOpen}
+            sortBy={sortBy}
+            onSort={(key: string) => {
+              if (sortBy.value === key) {
+                setSortBy({ value: key, direction: sortBy.direction === 'asc' ? 'desc' : 'asc' });
+              } else {
+                setSortBy({ value: key, direction: 'desc' });
+              }
+            }}
           />
         </div>
       </div>

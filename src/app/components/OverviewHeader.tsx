@@ -10,6 +10,7 @@ import { CiFilter } from 'react-icons/ci';
 import AddButton from './AddButton';
 import SortModal from './SortModal';
 import { SortOption } from './SortModal';
+import ImportClientsButton from './ImportClientsButton';
 
 interface SortState {
   value: string;
@@ -143,6 +144,9 @@ const [isSortOpen, setIsSortOpen] = useState(false);
       Send an Email
     </button>
   )}
+    {/* {currentPath === '/clients' && (
+   <ImportClientsButton/>
+  )} */}
 
 {
   currentPath=="/payments"? null:(

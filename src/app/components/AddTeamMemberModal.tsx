@@ -281,7 +281,13 @@ export default function AddTeamMembersModal({
 }) {
 
   const [boardMembers, setBoardMembers] = useState<Member[]>(propBoardMembers);
-  const [workspaceMembers, setWorkspaceMembers] = useState<Member[]>([]);
+const [workspaceMembers, setWorkspaceMembers] = useState<Member[]>([
+  { id: '1', name: 'John Doe', role: 'Editor', email: 'john@example.com', image: '/teampic1.png' },
+  { id: '2', name: 'Sara Lee', role: 'Designer', email: 'sara@example.com', image: '/teampic2.png' },
+  { id: '3', name: 'Mike Chen', role: 'Developer', email: 'mike@example.com', status: 'pending', image: '/teampic3.png' },
+  { id: '4', name: 'Alice Wong', role: 'Tester', email: 'alice@example.com', image: '/teampic4.png' },
+  { id: '5', name: 'Bob Smith', role: 'Manager', email: 'bob@example.com', image: '/teampic5.png' },
+]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
 

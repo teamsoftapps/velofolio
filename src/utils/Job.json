@@ -3,40 +3,44 @@
     "id": 1,
     "name": "Sarah Johnson.",
     "jobType": "Wedding",
-    "eventDate": "2025-10-01",
+    "eventDate": "2026-03-24",
     "assignedTeam": "John, Anna",
     "progress": "70%",
     "status": "In Progress",
+    "task": "Main Shoot",
     "action": ""
   },
   {
     "id": 2,
     "name": "David P.",
     "jobType": "Engagement",
-    "eventDate": "2025-10-08",
+    "eventDate": "2026-03-22",
     "assignedTeam": "Lisa",
     "progress": "40%",
     "status": "Upcoming",
+    "task": "Pre-Shoot Planning",
     "action": ""
   },
   {
     "id": 3,
     "name": "David P.",
     "jobType": "Engagement",
-    "eventDate": "2025-10-08",
+    "eventDate": "2026-03-20",
     "assignedTeam": "Lisa",
     "progress": "100%",
     "status": "Completed",
+    "task": "Photo Editing",
     "action": ""
   },
   {
     "id": 4,
     "name": "Sarah Johnson.",
     "jobType": "Wedding",
-    "eventDate": "2025-10-01",
+    "eventDate": "2026-03-25",
     "assignedTeam": "John, Anna",
     "progress": "10%",
     "status": "Pending",
+    "task": "Venue Walkthrough",
     "action": ""
   },
   {
@@ -47,26 +51,18 @@
     "assignedTeam": "Lisa",
     "progress": "70%",
     "status": "In Progress",
+    "task": "Engagement Session",
     "action": ""
   },
   {
     "id": 6,
-    "name": "David P.",
-    "jobType": "Engagement",
-    "eventDate": "2025-10-08",
-    "assignedTeam": "Lisa",
-    "progress": "40%",
-    "status": "Upcoming",
-    "action": ""
-  },
-  {
-    "id": 7,
     "name": "Sarah Johnson.",
     "jobType": "Wedding",
     "eventDate": "2025-10-01",
     "assignedTeam": "John, Anna",
     "progress": "100%",
     "status": "Completed",
+    "task": "Final Delivery",
     "action": ""
   }
 ]
