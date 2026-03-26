@@ -38,9 +38,9 @@ const OverviewHeader = () => {
 
 
 
-      <div className='w-full md:w-auto'>
+      <div className='w-full sm:w-48 ml-auto'>
         <AddButton
-          title={'Add New '}
+          title={'Add New'}
           setOpenForm={() => console.log('')}
         />
       </div>

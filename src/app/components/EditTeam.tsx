@@ -7,8 +7,9 @@ import { AiOutlineSearch as Search, AiOutlineClose as X } from 'react-icons/ai';
 export default function ChangeMembersModal({setTeamModal}:any) {
   return (
     <div className="bg-transparent flex items-start justify-start z-[2000]">
+       <div className="fixed inset-0 z-40 bg-transparent" onClick={() => setTeamModal(false)} />
       {/* Modal Box */}
-      <div className=" left-[370px] bg-white rounded-lg shadow-xl w-full max-w-md">
+      <div className="relative left-[370px] bg-white rounded-lg shadow-xl w-full max-w-md z-50" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="flex justify-center items-center p-2 border-b border-gray-200">
           <div className="w-60 text-center">

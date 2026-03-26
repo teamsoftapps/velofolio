@@ -92,16 +92,14 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
               <div className='hidden lg:flex items-center relative'>
                 <button
                   onClick={() => setIsNotifOpen(!isNotifOpen)}
-                  className='relative text-gray-700 hover:text-gray-900 mr-3 focus:outline-none p-2 bg-gray-50 rounded-full border-1 border-[#E5E7EB] cursor-pointer'
+                  className='relative text-gray-700 hover:text-gray-900 mr-3 focus:outline-none p-2 bg-gray-50 rounded-full border border-gray-200 cursor-pointer'
                   aria-label='Notifications'
                 >
-<span className="flex bg-[#01B0E9] max-w-[17px] left-4.5    top-0.5 absolute h-4 px-1 pt-[2px] rounded-full items-center justify-center text-[12px] font-semibold text-white">
-  {2}
-</span>                  <IoNotificationsOutline className='w-6 h-6' />
+                  <IoNotificationsOutline className='w-6 h-6' />
+                  <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#01B0E9] px-1 text-[11px] font-bold text-white ring-2 ring-white">
+                    2
+                  </span>
                 </button>
-                {isNotifOpen && (
-                  <NotificationModal isOpen={isNotifOpen} onClose={() => setIsNotifOpen(false)} />
-                )}
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className='flex items-center text-gray-700 cursor-pointer hover:text-gray-900 focus:outline-none transition-colors duration-200 border rounded-full px-2 border-gray-300'
@@ -142,14 +140,18 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
             {/* Mobile Menu Toggle */}
             <div className='lg:hidden flex items-center'>
               {isLoggedIn && (
-                <button
-                  onClick={() => setIsNotifOpen(!isNotifOpen)}
-                  className='text-gray-700 hover:text-gray-900 focus:outline-none p-2 mr-2 bg-gray-50 rounded-full shadow-md relative'
-                  aria-label='Notifications'
-                >
-                  <IoNotificationsOutline className='w-6 h-6' />
-                  <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-[#01B0E9] rounded-full ring-2 ring-white"></span>
-                </button>
+                <div className='relative'>
+                  <button
+                    onClick={() => setIsNotifOpen(!isNotifOpen)}
+                    className='text-gray-700 hover:text-gray-900 focus:outline-none p-2 mr-2 bg-gray-50 rounded-full shadow-sm border border-gray-100 relative'
+                    aria-label='Notifications'
+                  >
+                    <IoNotificationsOutline className='w-6 h-6' />
+                    <span className="absolute -top-1 -right-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#01B0E9] px-1 text-[11px] font-bold text-white ring-2 ring-white">
+                      2
+                    </span>
+                  </button>
+                </div>
               )}
 
               <button
@@ -215,6 +217,9 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
         </div>
       )}
       {workspace && <CreateWorkspaceModal setWorkspaceOpen={setWorkspaceOpen} />}
+      {isNotifOpen && (
+        <NotificationModal isOpen={isNotifOpen} onClose={() => setIsNotifOpen(false)} />
+      )}
     </nav>
   );
 };

@@ -25,21 +25,24 @@ const sortOptions: SortOption[] = [
   { id: 'payment-latest', label: 'Payment Due (Latest)', value: 'dueDate', direction: 'desc' },
 ];
 
-export default function SortModal({ 
-  isOpen, 
+export default function SortModal({
+  isOpen,
   onClose,
   currentSort,
-  onSortChange ,
+  onSortChange,
   sortBy,
-  setSortBy
-}: { 
-  isOpen: boolean; 
+  setSortBy,
+  options
+}: {
+  isOpen: boolean;
   onClose: () => void;
   currentSort: string;
-onSortChange: (option: SortOption) => void;
+  onSortChange: (option: SortOption) => void;
   setSortBy: React.Dispatch<React.SetStateAction<SortState>>;
-  sortBy: SortState
+  sortBy: SortState;
+  options?: SortOption[];
 }) {
+  const displayOptions = options || sortOptions;
   const [selected, setSelected] = useState(currentSort);
   const pathname=usePathname();
 
@@ -67,7 +70,7 @@ const handleApply = (option: SortOption) => {
           {/* Options List */}
           <div className="p-6">
             <div className="space-y-1">
-              {sortOptions.map((option) => (
+              {displayOptions.map((option) => (
                 <button
                   key={option.id}
                   onClick={()=>handleApply(option)}

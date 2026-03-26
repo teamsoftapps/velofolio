@@ -191,8 +191,8 @@ const SortableCard = memo(
               onClick={(e) => e.stopPropagation()}>
               <button
                 className={`p-2 rounded-md cursor-pointer w-28 text-left ${activeButton === 'Open Card'
-                    ? 'bg-[#00A4DD]  text-white'
-                    : 'bg-white text-black hover:bg-gray-100'
+                  ? 'bg-[#00A4DD]  text-white'
+                  : 'bg-white text-black hover:bg-gray-100'
                   }`}
                 onClick={onClick}>
                 Open Card
@@ -200,8 +200,8 @@ const SortableCard = memo(
 
               <button
                 className={`p-2 rounded-md cursor-pointer w-full text-left relative ${activeButton === 'Change Members'
-                    ? 'bg-[#00A4DD]  text-white'
-                    : 'bg-white text-black hover:bg-gray-100'
+                  ? 'bg-[#00A4DD]  text-white'
+                  : 'bg-white text-black hover:bg-gray-100'
                   }`}
                 onClick={() => {
                   setActiveButton('Change Members')
@@ -223,8 +223,8 @@ const SortableCard = memo(
 
               <button
                 className={`p-2 rounded-md cursor-pointer w-32 text-left ${activeButton === 'Change Cover'
-                    ? 'bg-[#00A4DD]  text-white'
-                    : 'bg-white text-black hover:bg-gray-100'
+                  ? 'bg-[#00A4DD]  text-white'
+                  : 'bg-white text-black hover:bg-gray-100'
                   }`}
                 onClick={() => handleClick('Change Cover')}>
                 Change Cover
@@ -232,8 +232,8 @@ const SortableCard = memo(
 
               <button
                 className={`p-2 rounded-md cursor-pointer w-24 text-left ${activeButton === 'Edit Dates'
-                    ? 'bg-[#00A4DD]  text-white'
-                    : 'bg-white text-black hover:bg-gray-100'
+                  ? 'bg-[#00A4DD]  text-white'
+                  : 'bg-white text-black hover:bg-gray-100'
                   }`}
                 onClick={() => handleClick('Edit Dates')}>
                 Edit Dates
@@ -321,16 +321,79 @@ const SortableList = memo(
     onCardClick,
     menuCardId,
     setMenuCardId,
+    onAddCard,
   }: {
     list: List;
     onCardClick: (card: Card) => void;
     menuCardId: string | null;
     setMenuCardId: React.Dispatch<React.SetStateAction<string | null>>;
+    onAddCard: (listId: string, card: Card) => void;
   }) => {
     const { setNodeRef, isOver } = useDroppable({ id: list.id });
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(list.title);
+    const [originalTitle, setOriginalTitle] = useState(list.title);
+    const [titleError, setTitleError] = useState(false);
+    const inputRef = React.useRef<HTMLInputElement>(null);
     const cards = Array.isArray(list?.cards) ? list.cards : [];
+
+    // Add-card form state
+    const [isAddingCard, setIsAddingCard] = useState(false);
+    const [newCardTitle, setNewCardTitle] = useState('');
+    const [newCardLabel, setNewCardLabel] = useState('');
+    const [newCardDate, setNewCardDate] = useState('');
+    const [newCardDesc, setNewCardDesc] = useState('');
+    const [newCardTitleError, setNewCardTitleError] = useState(false);
+    const [newCardImageFile, setNewCardImageFile] = useState<File | null>(null);
+    const [newCardImageUrl, setNewCardImageUrl] = useState<string | undefined>(undefined);
+    const addCardTitleRef = React.useRef<HTMLInputElement>(null);
+    const addCardImageRef = React.useRef<HTMLInputElement>(null);
+
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      // revoke old URL to avoid memory leaks
+      if (newCardImageUrl) URL.revokeObjectURL(newCardImageUrl);
+      setNewCardImageFile(file);
+      setNewCardImageUrl(URL.createObjectURL(file));
+    };
+
+    const removeImage = () => {
+      if (newCardImageUrl) URL.revokeObjectURL(newCardImageUrl);
+      setNewCardImageFile(null);
+      setNewCardImageUrl(undefined);
+      if (addCardImageRef.current) addCardImageRef.current.value = '';
+    };
+
+    const handleAddCard = () => {
+      if (!newCardTitle.trim()) {
+        setNewCardTitleError(true);
+        addCardTitleRef.current?.focus();
+        return;
+      }
+      const newCard: Card = {
+        id: `card-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        title: newCardTitle.trim(),
+        label: newCardLabel.trim() || 'NEW CLIENT',
+        date: newCardDate
+          ? new Date(newCardDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()
+          : new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase(),
+        description: newCardDesc.trim() || 'No description provided.',
+        attachments: 0,
+        comments: 0,
+        members: [],
+        image: newCardImageUrl,
+      };
+      onAddCard(list.id, newCard);
+      setNewCardTitle('');
+      setNewCardLabel('');
+      setNewCardDate('');
+      setNewCardDesc('');
+      setNewCardImageFile(null);
+      setNewCardImageUrl(undefined);
+      setNewCardTitleError(false);
+      setIsAddingCard(false);
+    };
 
     return (
       <div
@@ -342,25 +405,70 @@ const SortableList = memo(
             <BiPlus
               size={20}
               className={`${list.title === 'Pending'
-                  ? 'text-[#00A4DD] bg-[#01B0E91A]'
-                  : list.title === 'In Progress'
-                    ? 'text-[#FFC700] bg-[#FFC7001A]'
-                    : 'text-[#13CC95] bg-[#13CC95]/5'
+                ? 'text-[#00A4DD] bg-[#01B0E91A]'
+                : list.title === 'In Progress'
+                  ? 'text-[#FFC700] bg-[#FFC7001A]'
+                  : 'text-[#13CC95] bg-[#13CC95]/5'
                 } p-2 rounded-full w-9 text-2xl h-9`}
             />
             {isEditing ? (
-              <input
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                onBlur={() => {
-                  setIsEditing(false);
-                  list.title = title; // updates UI (better: lift state if needed)
-                }}
-                autoFocus
-                className="border px-2 py-1 rounded text-sm"
-              />
+              <div className="flex flex-col gap-1">
+                <input
+                  ref={inputRef}
+                  value={title}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                    if (e.target.value.trim()) setTitleError(false);
+                  }}
+                  onBlur={() => {
+                    if (!title.trim()) {
+                      setTitleError(true);
+                      // Keep editing and refocus after blur
+                      setTimeout(() => inputRef.current?.focus(), 0);
+                      return;
+                    }
+                    setIsEditing(false);
+                    setTitleError(false);
+                    setOriginalTitle(title.trim());
+                    list.title = title.trim();
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      if (!title.trim()) {
+                        setTitleError(true);
+                        return;
+                      }
+                      setIsEditing(false);
+                      setTitleError(false);
+                      setOriginalTitle(title.trim());
+                      list.title = title.trim();
+                    } else if (e.key === 'Escape') {
+                      setTitle(originalTitle);
+                      setTitleError(false);
+                      setIsEditing(false);
+                    }
+                  }}
+                  autoFocus
+                  className={`border px-2 py-1 rounded text-sm w-36 focus:outline-none transition-colors ${titleError
+                    ? 'border-red-500 bg-red-50 focus:ring-1 focus:ring-red-400'
+                    : 'border-blue-400 focus:ring-1 focus:ring-blue-300'
+                    }`}
+                />
+                {titleError && (
+                  <span className="text-red-500 text-xs font-medium animate-pulse">
+                    ⚠ Title cannot be empty
+                  </span>
+                )}
+              </div>
             ) : (
-              <span onDoubleClick={() => setIsEditing(true)}>
+              <span
+                onDoubleClick={() => {
+                  setOriginalTitle(title);
+                  setIsEditing(true);
+                }}
+                title="Double-click to edit"
+                className="cursor-text hover:underline hover:decoration-dashed"
+              >
                 {title}
               </span>
             )}
@@ -394,9 +502,137 @@ const SortableList = memo(
           </div>
         </SortableContext>
 
-        <button className='w-full mt-3 text-center text-gray-500 py-2 border-t border-gray-200 hover:bg-gray-50 rounded-b-lg transition-colors'>
-          + Add a card
-        </button>
+        {isAddingCard ? (
+          <div
+            className="mt-3 bg-white rounded-lg shadow-sm border border-blue-300 p-3 flex flex-col gap-2"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Title - Required */}
+            <div>
+              <input
+                ref={addCardTitleRef}
+                type="text"
+                value={newCardTitle}
+                onChange={(e) => {
+                  setNewCardTitle(e.target.value);
+                  if (e.target.value.trim()) setNewCardTitleError(false);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleAddCard();
+                  if (e.key === 'Escape') {
+                    setIsAddingCard(false);
+                    setNewCardTitle('');
+                    setNewCardTitleError(false);
+                  }
+                }}
+                autoFocus
+                placeholder="Card title (required)"
+                className={`w-full border rounded-md px-2 py-1.5 text-sm font-semibold focus:outline-none transition-colors ${newCardTitleError
+                  ? 'border-red-500 bg-red-50 focus:ring-1 focus:ring-red-400'
+                  : 'border-gray-300 focus:border-blue-400 focus:ring-1 focus:ring-blue-200'
+                  }`}
+              />
+              {newCardTitleError && (
+                <p className="text-red-500 text-xs mt-0.5">⚠ Title is required</p>
+              )}
+            </div>
+
+            {/* Label / Client Name */}
+            <input
+              type="text"
+              value={newCardLabel}
+              onChange={(e) => setNewCardLabel(e.target.value)}
+              placeholder="Client name (e.g. SARAH JOHNSON)"
+              className="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200 transition-colors"
+            />
+
+            {/* Date */}
+            <input
+              type="date"
+              value={newCardDate}
+              onChange={(e) => setNewCardDate(e.target.value)}
+              className="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm text-gray-600 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200 transition-colors"
+            />
+
+            {/* Description */}
+            <textarea
+              value={newCardDesc}
+              onChange={(e) => setNewCardDesc(e.target.value)}
+              placeholder="Description (optional)"
+              rows={2}
+              className="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm resize-none focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200 transition-colors"
+            />
+            {/* Image Upload */}
+            <div>
+              <p className="text-xs text-gray-500 mb-1 font-medium">Cover Image (optional)</p>
+              {newCardImageUrl ? (
+                <div className="relative rounded-md overflow-hidden">
+                  <img
+                    src={newCardImageUrl}
+                    alt="Card cover preview"
+                    className="w-full h-28 object-cover rounded-md"
+                  />
+                  <button
+                    type="button"
+                    onClick={removeImage}
+                    className="absolute top-1 right-1 bg-black/60 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-black/80 transition-colors cursor-pointer"
+                    title="Remove image"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => addCardImageRef.current?.click()}
+                  className="w-full h-20 border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center gap-1 text-gray-400 hover:border-blue-400 hover:text-blue-400 transition-colors cursor-pointer text-sm"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span>Upload cover image</span>
+                </button>
+              )}
+              <input
+                ref={addCardImageRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageUpload}
+              />
+            </div>
+
+            <div className="flex items-center gap-2 mt-1">
+              <button
+                onClick={handleAddCard}
+                className="px-3 py-1.5 bg-[#01B0E9] text-white text-sm font-medium rounded-md hover:bg-[#01B0E9]/85 transition-colors cursor-pointer"
+              >
+                Add Card
+              </button>
+              <button
+                onClick={() => {
+                  setIsAddingCard(false);
+                  setNewCardTitle('');
+                  setNewCardLabel('');
+                  setNewCardDate('');
+                  setNewCardDesc('');
+                  removeImage();
+                  setNewCardTitleError(false);
+                }}
+                className="px-3 py-1.5 text-gray-500 text-sm font-medium rounded-md hover:bg-gray-100 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            onClick={() => setIsAddingCard(true)}
+            className='w-full mt-3 text-center text-gray-500 py-2 border-t border-gray-200 hover:bg-gray-50 rounded-b-lg transition-colors'
+          >
+            + Add a card
+          </button>
+        )}
       </div>
     );
   }
@@ -618,6 +854,19 @@ const ProductionPage: React.FC = () => {
 
   const handleCardClick = (card: Card) => setModal(true);
 
+  const addCard = (listId: string, card: Card) => {
+    setData((prev) => ({
+      ...prev,
+      lists: {
+        ...prev.lists,
+        [listId]: {
+          ...prev.lists[listId],
+          cards: [...prev.lists[listId].cards, card],
+        },
+      },
+    }));
+  };
+
   return (
     <div className='min-h-screen w-full flex flex-col bg-gray-100 overflow-hidden relative'>
       <Navbar />
@@ -656,6 +905,7 @@ const ProductionPage: React.FC = () => {
                       onCardClick={handleCardClick}
                       menuCardId={menuCardId}
                       setMenuCardId={setMenuCardId}
+                      onAddCard={addCard}
                     />
                   ))}
               </SortableContext>

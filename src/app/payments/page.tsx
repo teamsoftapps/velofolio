@@ -16,7 +16,8 @@ import PayementChartData from '../../utils/PaymentChartData.json';
 import DeleteModal from '../components/DeleteModal';
 import PayementData from '../../utils/Payements.json';
 import FilterModal from '../components/FilterModal';
-import { filterData, sortData, handleDelete, applyAdvancedFilters } from '../../utils/TableUtils';
+import { DateValue, parseDate } from "@internationalized/date";
+import { filterData, sortData, handleDelete, applyAdvancedFilters, filterByTimeRange } from '../../utils/TableUtils';
 const tableData = PayementData;
 
 const tableHeaders = [
@@ -52,6 +53,8 @@ export default function Page() {
   direction: "desc",
 });;
 
+const [timeRange, setTimeRange] = useState("All Data");
+const [value, setValue] = useState<DateValue>(parseDate("2026-03-25")); 
 
  const [filters, setFilters] = useState({
     status: [],
@@ -67,11 +70,14 @@ export default function Page() {
 
   // Combine search + sort + filter
   const advancedfilteredData = useMemo(() => {
-    let result = filterData(tableData, searchedValue);
+    const customDate = timeRange === "Custom" ? new Date(value.year, value.month - 1, value.day) : undefined;
+    let result = filterByTimeRange(tableData, timeRange, customDate);
+    result = filterData(result, searchedValue);
     result = applyAdvancedFilters(result, filters);
     result = sortData(result, sortBy);
     return result;
-  }, [tableData, searchedValue, sortBy, filters]);
+  }, [tableData, searchedValue, sortBy, filters, timeRange, value]);
+
 const paymentSummary = useMemo(() => {
   let paid = 0;
   let unpaid = 0;
@@ -120,12 +126,16 @@ const paymentSummary = useMemo(() => {
           <OverviewHeader
             title={'Payements'}
             setOpenForm={setOpenForm}
-  summary={paymentSummary}
+            summary={paymentSummary}
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}
-                    sortBy={sortBy} // Pass the sorting state
+            sortBy={sortBy} // Pass the sorting state
             setSortBy={setSortBy} // Pass the setter
+            timeRange={timeRange}
+            setTimeRange={setTimeRange}
+            value={value}
+            setValue={setValue}
           />
           {/* <div className='mb-4 flex flex-col items-end'>
             <p className='text-[#6A7282] text-xl mb-2'>Paid</p>

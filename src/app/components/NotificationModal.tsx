@@ -49,10 +49,10 @@ const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
   return (
     <>
       {/* Overlay to close when clicking outside on mobile or backdrop */}
-      <div className="fixed inset-0 z-[100] lg:hidden bg-black/20" onClick={onClose} />
-      
-      <div className="absolute right-0 top-16 w-[320px] sm:w-[400px] bg-white rounded-2xl shadow-2xl border border-gray-100 z-[101] overflow-hidden transform origin-top-right transition-all duration-300 animate-in fade-in zoom-in-95">
-        
+      <div className="fixed inset-0 z-[100] bg-black/20 lg:bg-transparent" onClick={onClose} />
+
+      <div className="absolute right-0 top-17 w-[320px] sm:w-[400px] bg-white rounded-2xl shadow-2xl border border-gray-100 z-[101] overflow-hidden transform origin-top-right transition-all duration-300 animate-in fade-in zoom-in-95">
+
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-50 flex items-center justify-between bg-gray-50/50">
           <div className="flex items-center gap-2">
@@ -69,8 +69,8 @@ const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
           {mockNotifications.length > 0 ? (
             <div className="divide-y divide-gray-50">
               {mockNotifications.map((notif) => (
-                <div 
-                  key={notif.id} 
+                <div
+                  key={notif.id}
                   className={`px-6 py-4 hover:bg-blue-50/30 transition-colors cursor-pointer flex gap-4 ${!notif.isRead ? 'bg-blue-50/10' : ''}`}
                 >
                   <div className="flex-shrink-0 mt-1">

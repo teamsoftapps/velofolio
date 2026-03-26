@@ -25,10 +25,14 @@ export function filterData(data: any[], search: string) {
       item.firstName?.toLowerCase()?.includes(lower) ||
       item.lastName?.toLowerCase()?.includes(lower) ||
       item.email?.toLowerCase()?.includes(lower) ||
+      item.Email?.toLowerCase()?.includes(lower) ||
       item.phone?.includes(lower) ||
+      item.Phone?.includes(lower) ||
       item.client?.toLowerCase()?.includes(lower) ||
       item.leadName?.toLowerCase()?.includes(lower) ||
-      item.name?.toLowerCase()?.includes(lower)
+      item.name?.toLowerCase()?.includes(lower) ||
+      item.Name?.toLowerCase()?.includes(lower) ||
+      item.Role?.toLowerCase()?.includes(lower)
   );
 }
 
@@ -37,7 +41,7 @@ export function sortData(data: any[], sortBy: SortState) {
   const { value, direction } = sortBy;
 
   return [...data].sort((a: any, b: any) => {
-    if (['name', 'firstName', 'lastName', 'email', 'phone', 'status', 'event', 'leadName', 'client', 'jobType', 'task'].includes(value)) {
+    if (['name', 'firstName', 'lastName', 'email', 'phone', 'status', 'event', 'leadName', 'client', 'jobType', 'task', 'Name', 'Role', 'Email', 'Phone', 'Status', 'Assigned Jobs'].includes(value)) {
       const aVal = String(a[value] || '');
       const bVal = String(b[value] || '');
       return direction === 'asc'

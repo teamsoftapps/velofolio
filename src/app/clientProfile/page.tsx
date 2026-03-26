@@ -72,7 +72,7 @@ const ClientProfilePage = () => {
         </Link>
         <div className='flex flex-col lg:flex-row gap-4 sm:gap-6 md:gap-8 py-2'>
           {/* Box 1: Client Profile */}
-        <ClientProfile  />
+          <ClientProfile />
           {/* Box 2: Tabs and Content */}
           <div className='w-full lg:w-3/5 xl:w-2/3 bg-white p-4 sm:p-6 rounded-lg shadow-md border border-gray-300'>
             <div className='flex flex-wrap justify-between border-b border-gray-300 mb-3 sm:mb-4 gap-2'>
@@ -90,11 +90,10 @@ const ClientProfilePage = () => {
                     e.preventDefault();
                     setActiveTab(tab);
                   }}
-                  className={`px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 text-xs sm:text-sm md:text-base lg:text-lg font-medium ${
-                    activeTab === tab
-                      ? 'border-b-2 border-[#0B763E] text-black'
-                      : 'text-black hover:text-gray-700'
-                  }`}>
+                  className={`px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 text-xs sm:text-sm md:text-base lg:text-lg font-medium ${activeTab === tab
+                    ? 'border-b-2 border-[#0B763E] text-black'
+                    : 'text-black hover:text-gray-700'
+                    }`}>
                   {tab}
                 </a>
               ))}
@@ -181,10 +180,11 @@ const ClientProfilePage = () => {
                           Filter
                         </span>
                       </div>
-                      <AddButton
-                        setOpenForm={setOpenForm}
-                        title='Add Event'
-                      />
+                      <div className='w-48 '>
+                        <AddButton
+                          setOpenForm={setOpenForm}
+                          title='Add Event'
+                        /></div>
                     </div>
                   </div>
                   <div className='h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px] overflow-y-auto mt-4 sm:mt-6'>
@@ -206,13 +206,12 @@ const ClientProfilePage = () => {
                           </div>
                           <div className='w-2/3 sm:w-1/2 flex items-center rounded-full py-1 mt-2'>
                             <p
-                              className={`text-xs sm:text-sm md:text-sm lg:text-base px-2 sm:px-3 py-1 rounded-full ${
-                                event.status === 'COMPLETED'
-                                  ? 'text-white bg-[#13CC95]'
-                                  : event.status === 'IN PROGRESS'
+                              className={`text-xs sm:text-sm md:text-sm lg:text-base px-2 sm:px-3 py-1 rounded-full ${event.status === 'COMPLETED'
+                                ? 'text-white bg-[#13CC95]'
+                                : event.status === 'IN PROGRESS'
                                   ? 'text-white bg-[#01B0E9]'
                                   : 'text-white bg-red-500'
-                              }`}>
+                                }`}>
                               {event.status}
                             </p>
                           </div>
@@ -284,7 +283,7 @@ const ClientProfilePage = () => {
                 </div>
               </div>
             )}
-                  {activeTab === 'Contracts & Docs' && <Contracts/>}
+            {activeTab === 'Contracts & Docs' && <Contracts />}
             {activeTab === 'Tasks' && (
               <div className='flex flex-col gap-4 sm:gap-6'>
                 <div className='w-full bg-white p-4 sm:p-5 rounded-lg'>

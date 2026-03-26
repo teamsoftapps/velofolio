@@ -1,13 +1,27 @@
 import React from 'react'
 
-const ActionModalInvoice = ({deleteInvoice,duplicate}:any) => {
-    // console.log(id);
+const ActionModalInvoice = ({ deleteInvoice, duplicate, edit }: any) => {
   return (
-     <div className='bg-white w-40 absolute right-3 top-8 flex flex-col p-3  justify-start gap-1 border border-gray-300  shadow-md rounded-xl text-left inter'>
-                <button className='hover:bg-gray-100 cursor-pointer transition-all ease-in-out p-1.5 w-full text-left'>Edit </button>
-                <button className='hover:bg-gray-100 cursor-pointer transition-all ease-in-out p-1.5 w-full text-left'>Duplicate </button>
-                <button className='text-red-500 hover:bg-gray-100 cursor-pointer transition-all ease-in-out p-1.5 text-left w-full rounded-2xl' onClick={deleteInvoice}>Delete Invoice</button>
-              </div>
+    <div className='bg-white w-40 absolute right-3 top-8 flex flex-col p-2 justify-start gap-1 border border-gray-200 shadow-xl rounded-xl text-left inter z-[100]'>
+      <button 
+        onClick={edit}
+        className='hover:bg-gray-100 cursor-pointer transition-all p-2 w-full text-left rounded-lg text-sm font-medium'
+      >
+        Edit
+      </button>
+      <button 
+        onClick={duplicate}
+        className='hover:bg-gray-100 cursor-pointer transition-all p-2 w-full text-left rounded-lg text-sm font-medium'
+      >
+        Duplicate
+      </button>
+      <button 
+        onClick={deleteInvoice}
+        className='text-red-500 hover:bg-red-50 cursor-pointer transition-all p-2 text-left w-full rounded-lg text-sm font-medium'
+      >
+        Delete Invoice
+      </button>
+    </div>
   )
 }
 

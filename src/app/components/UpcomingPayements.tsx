@@ -38,16 +38,20 @@ const UpcomingPayements = ({ timeRange = "All Data", value }: UpcomingPayementsP
       ) : (
         <div className="flex flex-col space-y-3">
           {tableData.map((item, index) => (
-            <div key={index} className="flex flex-col sm:flex-row justify-between items-center py-3 border-b border-gray-300">
-               <div className="flex flex-col space-y-1">
-                  <span className="text-black font-medium">{item.client}</span>
-                  <span className="text-xs text-gray-500">{item.date}</span>
+            <div key={index} className="flex flex-row justify-between items-center py-4 border-b border-gray-100 last:border-0">
+               <div className="flex flex-col items-start">
+                  <span className="text-black font-semibold text-sm sm:text-base">{item.client}</span>
+                  <span className="text-[10px] sm:text-xs text-gray-400">{item.date}</span>
                </div>
-               <div className="flex items-center space-x-4">
-                  <span className={`text-sm px-2 py-0.5 rounded ${item.status === 'Paid' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+               <div className="flex items-center gap-3 sm:gap-6">
+                  <span className={`text-[10px] sm:text-xs px-2 py-1 rounded-md font-medium ${
+                    item.status?.toLowerCase() === 'paid' ? 'bg-green-50 text-green-600' : 
+                    item.status?.toLowerCase() === 'overdue' ? 'bg-red-50 text-red-600' :
+                    'bg-orange-50 text-orange-600'
+                  }`}>
                     {item.status}
                   </span>
-                  <span className="text-black font-semibold">{item.amount}</span>
+                  <span className="text-black font-bold text-sm sm:text-lg">{item.amount}</span>
                </div>
             </div>
           ))}

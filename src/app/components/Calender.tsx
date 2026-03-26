@@ -17,7 +17,7 @@ export default function Calendar({ setOpenFilter, filters }: any) {
   const [currentDate, setCurrentDate] = useState(today);
   const [view, setView] = useState<ViewType>('Month');
   const [value, setValue] = useState("")
-  
+
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
 
@@ -131,7 +131,7 @@ export default function Calendar({ setOpenFilter, filters }: any) {
       }));
       return [...prevMonthDays, ...currentMonthDays, ...nextMonthDays];
     }
-    
+
     if (view === 'Week') {
       const startOfWeek = new Date(currentDate);
       const day = startOfWeek.getDay();
@@ -156,7 +156,7 @@ export default function Calendar({ setOpenFilter, filters }: any) {
         isCurrentMonth: true,
       }];
     }
-    
+
     return [];
   }, [view, currentDate, daysInCurrentMonth, firstDayOfMonth, lastDayOfMonth, daysInPrevMonth, prevMonth, prevYear, currentMonth, currentYear, nextMonth, nextYear]);
 
@@ -174,20 +174,23 @@ export default function Calendar({ setOpenFilter, filters }: any) {
 
       {/* ---------- WEEKDAY LABELS ---------- */}
       {view !== 'Day' && (
-        <div className="grid grid-cols-7 mt-4 mx-6 text-center font-semibold border border-gray-200 bg-[#F4F4F5] rounded-lg overflow-hidden">
-          {weekLabels.map((d, i) => (
-            <div
-              key={d}
-              className={`py-3 text-sm uppercase tracking-wide border-gray-200 ${i !== 6 ? 'border-r' : ''}`}
-            >
-              {d}
-            </div>
-          ))}
+        <div className="overflow-x-auto scroller">
+          <div className="grid grid-cols-7 mt-4 mx-6 text-center font-semibold border border-gray-200 bg-[#F4F4F5] rounded-lg overflow-hidden min-w-[1000px] lg:min-w-full">
+            {weekLabels.map((d, i) => (
+              <div
+                key={d}
+                className={`py-3 text-sm uppercase tracking-wide border-gray-200 ${i !== 6 ? 'border-r' : ''}`}
+              >
+                {d}
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
       {/* ---------- DATES GRID ---------- */}
-      <div className={`grid ${view === 'Day' ? 'grid-cols-1' : 'grid-cols-7'} flex-1 mx-6`}>
+      <div className="overflow-x-auto scroller flex-1">
+        <div className={`grid ${view === 'Day' ? 'grid-cols-1' : 'grid-cols-7'} mx-6 min-w-[1000px] lg:min-w-full`}>
         {daysArray.map((dateObj, idx) => {
           const { day, month, year, isCurrentMonth } = dateObj;
           const dateKey = `${year}-${month + 1}-${day}`;
@@ -197,9 +200,8 @@ export default function Calendar({ setOpenFilter, filters }: any) {
           return (
             <div
               key={idx}
-              className={`border border-gray-100 flex flex-col items-start justify-start text-left transition-all ${
-                isToday ? 'bg-blue-100 text-blue-600' : isCurrentMonth ? 'hover:bg-gray-100 bg-white' : 'bg-white text-gray-400'
-              }`}
+              className={`border border-gray-100 flex flex-col items-start justify-start text-left transition-all ${isToday ? 'bg-blue-100 text-blue-600' : isCurrentMonth ? 'hover:bg-gray-100 bg-white' : 'bg-white text-gray-400'
+                }`}
               style={{
                 minHeight: '160px',
                 height: '170px',
@@ -210,11 +212,11 @@ export default function Calendar({ setOpenFilter, filters }: any) {
               <div className="text-[15px] font-semibold mb-1 ">{day}</div>
 
               <div className={`w-full rounded-lg flex-1 overflow-y-auto ${dayTags.length > 0 ? 'bg-[#FFF8E9]' : ''}`}>
-                 <div className="flex flex-wrap gap-1 p-1">
+                <div className="flex flex-wrap gap-1 p-1">
                   {dayTags.map((tag, i) => (
                     <span
                       key={i}
-                      className={`text-xs text-white px-1 py-0.5 rounded-full ${tag.color}`}
+                      className={`text-xs text-white px-2 py-1 rounded-full ${tag.color} whitespace-nowrap`}
                     >
                       {tag.label}
                     </span>
@@ -235,6 +237,7 @@ export default function Calendar({ setOpenFilter, filters }: any) {
             </div>
           );
         })}
+        </div>
       </div>
     </div>
   );

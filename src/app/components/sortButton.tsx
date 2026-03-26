@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import SortModal from './SortModal';
 import { FaSort } from 'react-icons/fa';
-const SortButton = ({sortBy, setSortBy}:any) => {
+const SortButton = ({sortBy, setSortBy, options}:any) => {
     const [currentSort, setCurrentSort] = useState('added-newest');
     const [isOpen, setIsOpen] = useState(false);
   return (<div className='relative'>
@@ -22,6 +22,7 @@ const SortButton = ({sortBy, setSortBy}:any) => {
   }}
   sortBy={sortBy}       // ✅ add this
   setSortBy={setSortBy} // ✅ add this
+  options={options}
 />
 
          </div>

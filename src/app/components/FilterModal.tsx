@@ -18,13 +18,28 @@ const teamMembers: TeamMember[] = [
   { id: 't5', name: 'Emma Wilson' },
 ];
 
-export default function FilterModal({ isOpen, onClose, isVisible, setIsVisible, onApply }: { isOpen: boolean; onClose: () => void, onApply: (filters: any) => void; isVisible: boolean, setIsVisible: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function FilterModal({ 
+  isOpen, 
+  onClose, 
+  isVisible, 
+  setIsVisible, 
+  onApply,
+  mode
+}: { 
+  isOpen: boolean; 
+  onClose: () => void;
+  onApply: (filters: any) => void;
+  isVisible: boolean;
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  mode?: string;
+}) {
   const pathname = usePathname();
   
   // Status Filters
   const [status, setStatus] = useState<string[]>([]);
   
   const getStatuses = () => {
+    if (mode === 'contracts') return ['Draft', 'Signed', 'Pending'];
     if (pathname === '/leads') return ['Active', 'Inactive', 'New Lead'];
     if (pathname === '/jobs') return ['In Progress', 'Upcoming', 'Completed', 'Pending', 'Active']; // Production specific
     if (pathname === '/payments') return ['Paid', 'Pending', 'Overdue'];
@@ -140,9 +155,11 @@ export default function FilterModal({ isOpen, onClose, isVisible, setIsVisible, 
 
           <div className="p-6 space-y-6 flex-1 overflow-y-auto scroller relative">
             {/* Status */}
-            {pathname !== '/payments' && (
+            {(pathname !== '/payments' || mode === 'contracts') && (
               <div>
-                <label className="block text-lg font-medium text-gray-700 mb-2">Status</label>
+                <label className="block text-lg font-medium text-gray-700 mb-2">
+                  {mode === 'contracts' ? 'Document Status' : 'Status'}
+                </label>
                 <div className="flex flex-wrap gap-2">
                   {statuses.map(s => (
                     <button
@@ -161,7 +178,7 @@ export default function FilterModal({ isOpen, onClose, isVisible, setIsVisible, 
             )}
 
             {/* Assigned Member (Production & Teams) */}
-            {(pathname === '/jobs' || pathname === '/team') && (
+            {mode !== 'contracts' && (pathname === '/jobs' || pathname === '/team') && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Assigned Member</label>
                 <div className="relative">
@@ -209,7 +226,7 @@ export default function FilterModal({ isOpen, onClose, isVisible, setIsVisible, 
             )}
 
             {/* Lead Source */}
-            {pathname !== '/payments' && pathname !== '/clients' && pathname !== '/jobs' && (
+            {mode !== 'contracts' && pathname !== '/payments' && pathname !== '/clients' && pathname !== '/jobs' && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Lead Source</label>
                 <div className="flex flex-wrap gap-2">
@@ -230,7 +247,7 @@ export default function FilterModal({ isOpen, onClose, isVisible, setIsVisible, 
             )}
 
             {/* Job Type / Event Type */}
-            {pathname !== '/payments' && (
+            {mode !== 'contracts' && pathname !== '/payments' && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">{pathname === '/jobs' ? 'Job Type' : 'Event Type'}</label>
                 <div className="flex flex-wrap gap-2">
@@ -274,7 +291,7 @@ export default function FilterModal({ isOpen, onClose, isVisible, setIsVisible, 
             </div>
 
             {/* Payment Status (Only Payments page) */}
-            {pathname === '/payments' && (
+            {mode !== 'contracts' && pathname === '/payments' && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Payment Status</label>
                 <div className="flex flex-wrap gap-2">

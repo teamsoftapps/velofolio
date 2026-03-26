@@ -188,6 +188,7 @@ import { filterData, sortData, SortState, applyAdvancedFilters } from "../../uti
 import RouteGuard from '../components/RouteGuard';
 import ImportClientsButton from '../components/ImportClientsButton';
 import ImportClientsModal from '../components/ImportClientModal';
+import ExportModal from '../components/ExportModal';
 
 const tableHeaders = [
   { key: 'dateCreated', label: 'Date Created' },
@@ -221,6 +222,7 @@ export default function ClientsPage() {
   });
 
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
 
   // ====================== IMPORT HANDLER ======================
   const handleImportSuccess = (newClientsFromCSV: any[]) => {
@@ -273,46 +275,61 @@ export default function ClientsPage() {
       alert("No data to export");
       return;
     }
+    setIsExportModalOpen(true);
+  };
 
-    // Create CSV Header
-    const headers = [
-      "Date Created", "First Name", "Last Name", "Email", 
-      "Phone", "Event", "Status", "Event Date"
-    ];
+  const performExport = (format: 'csv' | 'pdf') => {
+    const dateStamp = new Date().toISOString().split('T')[0];
+    const fileName = `clients_export_${dateStamp}`;
 
-    // Convert data to CSV rows
-    const rows = allTableData.map(row => [
-      row.dateCreated || '',
-      row.firstName || '',
-      row.lastName || '',
-      row.email || '',
-      row.phone || '',
-      row.event || '',
-      row.status || '',
-      row.eventDate || ''
-    ]);
-
-    // Combine headers + rows
-    const csvContent = [
-      headers.join(','),
-      ...rows.map(row => row.map(field => `"${field}"`).join(','))  // Quote fields to handle commas
-    ].join('\n');
-
-    // Download file
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `clients_export_${new Date().toISOString().split('T')[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (format === 'csv') {
+      const headers = [
+        "Date Created", "First Name", "Last Name", "Email",
+        "Phone", "Event", "Status", "Event Date"
+      ];
+      const rows = allTableData.map(row => [
+        row.dateCreated || '', row.firstName || '', row.lastName || '',
+        row.email || '', row.phone || '', row.event || '',
+        row.status || '', row.eventDate || ''
+      ]);
+      const csvContent = [
+        headers.join(','),
+        ...rows.map(row => row.map((field: string) => `"${field}"`).join(','))
+      ].join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${fileName}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      // PDF: open print dialog pre-populated with table data
+      const headers = ["Date Created", "First Name", "Last Name", "Email", "Phone", "Event", "Status", "Event Date"];
+      const rows = allTableData.map(row => [
+        row.dateCreated || '', row.firstName || '', row.lastName || '',
+        row.email || '', row.phone || '', row.event || '',
+        row.status || '', row.eventDate || ''
+      ]);
+      const tableRows = rows.map(r => `<tr>${r.map((c: string) => `<td style="border:1px solid #ddd;padding:6px 10px;font-size:12px">${c}</td>`).join('')}</tr>`).join('');
+      const html = `<html><head><title>Clients Export</title><style>body{font-family:sans-serif}table{border-collapse:collapse;width:100%}th{background:#01B0E9;color:#fff;padding:8px 10px;font-size:12px;text-align:left}</style></head><body><h2 style="margin-bottom:12px">Clients Export — ${dateStamp}</h2><table><thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${tableRows}</tbody></table></body></html>`;
+      const win = window.open('', '_blank');
+      if (win) { win.document.write(html); win.document.close(); win.print(); }
+    }
   };
 const handleDelete=()=>{
   console.log("Delte")
 }
   return (
     <RouteGuard allowedRoles={['superadmin']}>
+      <ExportModal
+        isOpen={isExportModalOpen}
+        onClose={() => setIsExportModalOpen(false)}
+        onConfirmExport={performExport}
+        fileName={`clients_export_${new Date().toISOString().split('T')[0]}`}
+        recordCount={allTableData.length}
+      />
       <Navbar />
 
       <ImportClientsModal

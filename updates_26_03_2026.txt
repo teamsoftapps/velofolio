@@ -1,0 +1,16 @@
+DATE: 27/03/2026
+PROJECT: Velofolio CRM Web
+
+UPDATES:
+
+Standardized global modal behavior (click-outside-to-close) across Add Lead, Add Client, Edit Team, Invoice/Quote, and Notification modals.
+Added PDF client export download functionality.
+Implemented Export Modal with animated download progress for CSV and PDF in the Clients page.
+Added empty-title validation for Production Board columns with inline error handling and Enter/Escape controls.
+Implemented “+ Add Card” inline form in Production Board with image upload and default values.
+Integrated sorting and filtering based on active columns in the Contracts table.
+Added date parsing and state handling for Payments page sorting.
+Applied multiple UI/UX refinements and layout fixes across the app.
+Improved Notification Modal UI/UX and positioning globally.
+Fixed Search Bar functionality on the Teams page.
+Added context-based sort and filter modal for the Contracts page.

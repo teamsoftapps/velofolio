@@ -125,16 +125,14 @@ export default function DateNavBar({
             <button
               onClick={() => setIsDropdownOpen((prev) => !prev)}
               disabled={currentView !== 'Month'} // dropdown only for month view
-              className={`flex items-center justify-center gap-1 font-medium text-gray-900 min-w-[160px] sm:min-w-[190px] text-center p-1.5 rounded-lg border transition-colors ${
-                currentView === 'Month' ? 'hover:bg-gray-50' : 'opacity-70 cursor-not-allowed'
-              }`}
+              className={`flex items-center justify-center gap-1 font-medium text-gray-900 min-w-[160px] sm:min-w-[190px] text-center p-1.5 rounded-lg border transition-colors ${currentView === 'Month' ? 'hover:bg-gray-50' : 'opacity-70 cursor-not-allowed'
+                }`}
             >
               <span className="text-sm sm:text-base">{getDisplayLabel()}</span>
               {currentView === 'Month' && (
                 <HiChevronDown
-                  className={`w-4 h-4 text-gray-600 transition-transform ${
-                    isDropdownOpen ? 'rotate-180' : ''
-                  }`}
+                  className={`w-4 h-4 text-gray-600 transition-transform ${isDropdownOpen ? 'rotate-180' : ''
+                    }`}
                 />
               )}
             </button>
@@ -146,12 +144,11 @@ export default function DateNavBar({
                   <button
                     key={idx}
                     onClick={() => handleSelectMonth(month)}
-                    className={`block w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${
-                      month.getMonth() === currentDate.getMonth() &&
-                      month.getFullYear() === currentDate.getFullYear()
+                    className={`block w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${month.getMonth() === currentDate.getMonth() &&
+                        month.getFullYear() === currentDate.getFullYear()
                         ? 'bg-[#01B0E9]/10 font-medium text-[#01B0E9]'
                         : 'text-gray-800'
-                    }`}
+                      }`}
                   >
                     {formatMonth(month)}
                   </button>
@@ -178,11 +175,10 @@ export default function DateNavBar({
                 onViewChange(view);
                 setIsDropdownOpen(false);
               }}
-              className={`flex-1 sm:flex-initial px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
-                currentView === view
+              className={`flex-1 sm:flex-initial px-3 py-1.5 text-sm font-medium rounded-md transition-all ${currentView === view
                   ? 'bg-[#01B0E9] text-white shadow-sm'
                   : 'text-gray-700 hover:text-gray-900'
-              }`}
+                }`}
             >
               {view}
             </button>

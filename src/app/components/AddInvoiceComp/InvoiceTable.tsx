@@ -20,6 +20,7 @@ interface InvoiceTableProps {
   items: InvoiceItem[];
   onDelete: (id: string) => void;
   onDuplicate: (id: string) => void;
+  onEdit?: (id: string) => void;
 }
 
 const formatCurrency = (value: string): string => {
@@ -27,7 +28,7 @@ const formatCurrency = (value: string): string => {
   return isNaN(numberValue) ? "$0.00" : `$${numberValue.toFixed(2)}`;
 };
 
-const InvoiceTable: React.FC<InvoiceTableProps> = ({ items, onDelete,onDuplicate }) => {
+const InvoiceTable: React.FC<InvoiceTableProps> = ({ items, onDelete, onDuplicate, onEdit }) => {
   const [modalOpen, setModalOpen] = useState<Record<string, boolean>>({});
   const pathname = usePathname();
 
@@ -74,9 +75,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ items, onDelete,onDuplicate
                   Amount
                 </th>
 
-                {!pathname.toLowerCase().includes("view") && (
-                  <th className="px-6 py-4 text-right text-sm font-medium w-12"></th>
-                )}
+                <th className="px-6 py-4 text-right text-sm font-medium w-12"></th>
               </tr>
             </thead>
 
@@ -116,20 +115,21 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ items, onDelete,onDuplicate
                     </div>
                   </td>
 
-                  {!pathname.toLowerCase().includes("view") && (
-                    <td className="px-6 py-4 text-right align-top relative">
-                      <div className="relative">
-                        <button
-                          className="text-gray-700 hover:text-gray-400 transition-colors p-2 rounded-full hover:bg-gray-100"
-                          onClick={(event) =>
-                            handleModalToggle(item.id, event)
-                          }
-                        >
-                          <SlOptionsVertical className="w-5 h-5" />
-                        </button>
+                  <td className="px-6 py-4 text-right align-top relative">
+                    <div className="relative">
+                      <button
+                        className="text-gray-700 hover:text-gray-400 transition-colors p-2 rounded-full hover:bg-gray-100"
+                        onClick={(event) =>
+                          handleModalToggle(item.id, event)
+                        }
+                      >
+                        <SlOptionsVertical className="w-5 h-5" />
+                      </button>
 
-                        {modalOpen[item.id] && (
-                          <div className="absolute top-0 right-0 mt-2 w-48 bg-white rounded-lg shadow-lg  z-50">
+                      {modalOpen[item.id] && (
+                        <>
+                          <div className="fixed inset-0 z-40 bg-transparent" onClick={() => handleCloseModal(item.id)} />
+                          <div className="absolute top-0 right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
                             <ActionModalInvoice
                               deleteInvoice={() => {
                                 onDelete(item.id);
@@ -139,13 +139,17 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ items, onDelete,onDuplicate
                                 onDuplicate(item.id);
                                 handleCloseModal(item.id);
                               }}
+                              edit={() => {
+                                onEdit?.(item.id);
+                                handleCloseModal(item.id);
+                              }}
                               onClose={() => handleCloseModal(item.id)}
                             />
                           </div>
-                        )}
-                      </div>
-                    </td>
-                  )}
+                        </>
+                      )}
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

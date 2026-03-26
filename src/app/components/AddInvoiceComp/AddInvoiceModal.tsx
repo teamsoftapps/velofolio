@@ -1,5 +1,5 @@
 
-             
+
 'use client';
 
 import React, { useState, useRef, ChangeEvent, DragEvent } from 'react';
@@ -13,15 +13,14 @@ interface AddInvoiceModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: AddItemData) => void;
-
+  initialData?: AddItemData | null;
 }
 
-
 interface AddItemData {
-    id: string;
+  id: string;
   name: string;
   description: string;
-  image: File | null;
+  image: any;
   imagePlacement: 'above' | 'below';
   discount: string;
   price: string;
@@ -30,9 +29,10 @@ interface AddItemData {
   totalAmount: string; 
 }
 
-const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSubmit }) => {
+const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSubmit, initialData }) => {
   const dispatch = useDispatch();
-const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.invoices);
+  const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.invoices);
+  
   const [formData, setFormData] = useState<AddItemData>({
     id: '',
     name: '',
@@ -43,12 +43,42 @@ const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.inv
     price: '',
     quantity: '',
     tax: '',
-    totalAmount: '0.00', // Initialize totalAmount
+    totalAmount: '0.00',
   });
+
+  const getImageUrl = (image: any): string => {
+    if (!image) return '';
+    if (typeof image === 'string') return image;
+    if (image instanceof File || image instanceof Blob) {
+      return URL.createObjectURL(image);
+    }
+    return '';
+  };
 
   const [isDragging, setIsDragging] = useState(false);
   const [hasImage, setHasImage] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    if (isOpen && initialData) {
+      setFormData(initialData);
+      setHasImage(!!initialData.image);
+    } else if (isOpen) {
+      setFormData({
+        id: '',
+        name: '',
+        description: '',
+        image: null,
+        imagePlacement: 'above',
+        discount: '',
+        price: '',
+        quantity: '',
+        tax: '',
+        totalAmount: '0.00',
+      });
+      setHasImage(false);
+    }
+  }, [isOpen, initialData]);
 
   const handleInputChange = (field: keyof AddItemData, value: string | File) => {
     setFormData(prev => {
@@ -65,7 +95,7 @@ const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.inv
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-  
+
     if (file) {
       setFormData(prev => ({ ...prev, image: file }));
       setHasImage(true);
@@ -106,15 +136,15 @@ const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.inv
   };
 
   const handleSubmit = (event: React.FormEvent) => {
-      event.preventDefault();
-      const id = Math.random().toString(36).substring(2, 9);
+    event.preventDefault();
+    const id = formData.id || Math.random().toString(36).substring(2, 9);
 
-  const newPackage = { ...formData, id };
+    const newPackage = { ...formData, id };
 
 
     if (formData.name.trim()) {
 
-        onSubmit(newPackage); 
+      onSubmit(newPackage);
 
       onClose();
     }
@@ -138,8 +168,8 @@ const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.inv
   };
 
   return (
-    <div className="fixed inset-0 bg-black/25 text-black text-md bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl w-full max-w-2xl mx-auto max-h-[80vh] flex flex-col">
+    <div className="fixed inset-0 bg-black/25 text-black text-md bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div className="bg-white rounded-2xl w-full max-w-2xl mx-auto max-h-[80vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="flex justify-between items-center py-3 px-4 border-gray-200 ">
           <h2 className="text-2xl font-semibold text-gray-900">Add Item</h2>
@@ -197,19 +227,21 @@ const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.inv
                   onDragLeave={handleDragLeave}
                   onDrop={handleDrop}
                 >
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/png,image/jpeg,image/jpg"
-                    onChange={handleImageUpload}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  />
+                  {!hasImage && (
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/png,image/jpeg,image/jpg"
+                      onChange={handleImageUpload}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    />
+                  )}
                   {hasImage ? (
-                    <div className="flex items-center justify-center h-full p-4">
+                    <div className="flex items-center justify-center h-full p-4 relative z-10">
                       <div className="flex flex-col items-center">
                         <div className="w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden relative">
                           <img
-                            src={formData.image ? URL.createObjectURL(formData.image) : ''}
+                            src={getImageUrl(formData.image)}
                             alt="Uploaded"
                             className="w-full h-full object-cover"
                           />
@@ -217,7 +249,7 @@ const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.inv
                         <button
                           type="button"
                           onClick={handleRemoveImage}
-                          className="mt-3 px-4 py-2 text-sm font-medium text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition-colors"
+                          className="mt-3 px-4 py-2 text-sm font-medium text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition-colors pointer-events-auto"
                         >
                           Remove Image
                         </button>
@@ -231,7 +263,7 @@ const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.inv
                   )}
                 </div>
               </div>
-              <ImageReplacementTab imagePlacement={formData.imagePlacement} setImagePlacement={(value:any) => handleInputChange('imagePlacement', value)} />
+              <ImageReplacementTab imagePlacement={formData.imagePlacement} setImagePlacement={(value: any) => handleInputChange('imagePlacement', value)} />
             </div>
           </div>
 
@@ -295,7 +327,7 @@ const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.inv
           </div>
 
           {/* Total Amount */}
-         <div className="w-full bg-[#EDEDED] rounded-md p-7">
+          <div className="w-full bg-[#EDEDED] rounded-md p-7">
             <div className="my-2">
               <h1 className="text-xl font-medium">Total Amount</h1>
               <h3 className="font-bold text-xl my-1">${formData.totalAmount}</h3>

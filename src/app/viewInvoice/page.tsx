@@ -19,10 +19,10 @@ const InvoiceViewPage = () => {
     const dispatch = useDispatch();
     const clientId = Number(searchParams.get("clientId") || searchParams.get("id"));
     const invoiceId = String(searchParams.get("InvoiceId"));
-    
+
     const { invoices } = useSelector((state: any) => state.persisted.invoiceandQuote);
     const invoice = invoices.find((inv: any) => inv.id === invoiceId);
-    
+
     const client = ClientData.find((c: any) => c.id === clientId);
     const packages = invoice?.packages || [];
     const totalAmount = invoice?.totalAmount || 0;
@@ -38,7 +38,7 @@ const InvoiceViewPage = () => {
     ];
 
     const handleSendInvoice = () => {
-        const updated = invoices.map((inv: any) => 
+        const updated = invoices.map((inv: any) =>
             inv.id === invoiceId ? { ...inv, status: 'SENT', sentAt: new Date().toISOString() } : inv
         );
         dispatch(setInvoices(updated));
@@ -54,11 +54,11 @@ const InvoiceViewPage = () => {
 
     const handleDuplicateInvoice = () => {
         const newId = Math.random().toString(36).substring(2, 9).toUpperCase();
-        const duplicated = { 
-            ...invoice, 
-            id: newId, 
-            status: 'DRAFT', 
-            createdAt: new Date().toISOString() 
+        const duplicated = {
+            ...invoice,
+            id: newId,
+            status: 'DRAFT',
+            createdAt: new Date().toISOString()
         };
         dispatch(setInvoices([...invoices, duplicated]));
         router.push(`/viewInvoice?InvoiceId=${newId}&clientId=${clientId}`);
@@ -70,7 +70,7 @@ const InvoiceViewPage = () => {
     };
 
     const handleMarkAsDraft = () => {
-        const updated = invoices.map((inv: any) => 
+        const updated = invoices.map((inv: any) =>
             inv.id === invoiceId ? { ...inv, status: 'DRAFT' } : inv
         );
         dispatch(setInvoices(updated));
@@ -95,7 +95,7 @@ const InvoiceViewPage = () => {
                     <div className='text-center'>
                         <h2 className='text-xl font-semibold'>Invoice not found</h2>
                         <p className='text-gray-500'>The invoice ID {invoiceId} does not exist or was deleted.</p>
-                        <button 
+                        <button
                             onClick={handleClose}
                             className="text-[#01B0E9] hover:underline mt-4 inline-block font-medium"
                         >
@@ -110,21 +110,21 @@ const InvoiceViewPage = () => {
     return (
         <div className='min-h-screen h-full inter w-full flex flex-col items-start bg-[#FAFAFA] text-black print:bg-white'>
             <div className="print:hidden w-full">
-               <Navbar guestLabel={`Invoice: #${invoiceId}`} />
+                <Navbar guestLabel={`Invoice: #${invoiceId}`} />
             </div>
             <div className='container w-full max-w-[1400px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 sm:px-6 md:px-8 flex flex-col gap-4'>
                 <div className='border-b-2 border-b-gray-200 flex justify-between items-center print:hidden'>
                     <div>
-                      <h1 className='text-2xl font-semibold text-black '>
-                        Invoice-{invoiceId} <span className="text-sm font-normal text-gray-500 ml-2">({invoice.status || 'DRAFT'})</span>
-                      </h1>
-                      <div className='flex items-center mt-2 text-[#a3a3a3] text-sm sm:text-base md:text-base lg:text-sm font-medium mb-2 sm:mb-3 md:mb-4'>
-                          <Link href={`/jobProfile?id=${clientId}`} className="hover:text-gray-900 transition-colors">Job Overview</Link>
-                          <span className="mx-2">|</span>
-                          <span>Invoices</span>
-                          <span className="mx-2">|</span>
-                          <span className="text-black font-semibold">Invoice-{invoiceId}</span>
-                      </div>
+                        <h1 className='text-2xl font-semibold text-black '>
+                            Invoice-{invoiceId} <span className="text-sm font-normal text-gray-500 ml-2">({invoice.status || 'DRAFT'})</span>
+                        </h1>
+                        <div className='flex items-center mt-2 text-[#a3a3a3] text-sm sm:text-base md:text-base lg:text-sm font-medium mb-2 sm:mb-3 md:mb-4'>
+                            <Link href={`/jobProfile?id=${clientId}`} className="hover:text-gray-900 transition-colors">Job Overview</Link>
+                            <span className="mx-2">|</span>
+                            <span>Invoices</span>
+                            <span className="mx-2">|</span>
+                            <span className="text-black font-semibold">Invoice-{invoiceId}</span>
+                        </div>
                     </div>
                     {invoice.status === 'SENT' && (
                         <div className="bg-green-100 text-green-700 px-4 py-1 rounded-full text-sm font-semibold">
@@ -132,11 +132,11 @@ const InvoiceViewPage = () => {
                         </div>
                     )}
                 </div>
-                
+
                 <div className="print:hidden">
                     <h1 className='text-xl font-semibold'>Payment Schedule</h1>
                     <p className='text-sm text-gray-400'>Assign a payment schedule to this invoice</p>
-                    
+
                     <div className='space-y-3 border-1 border-gray-200 rounded-xl mb-5'>
                         <div className='bg-white p-6 rounded-xl shadow-sm'>
                             <SplitInvoicePayment payments={payments} totalDue={totalAmount.toString()} />
@@ -144,13 +144,13 @@ const InvoiceViewPage = () => {
                                 <h3 className='text-lg font-bold'>Balance Due: ${totalAmount.toFixed(2)}</h3>
                             </div>
                             <div className='bg-[#E5F7FD] mt-6 p-4 rounded-lg'>
-                                <InvoiceSend 
-                                    onSendInvoice={handleSendInvoice} 
+                                <InvoiceSend
+                                    onSendInvoice={handleSendInvoice}
                                     onDelete={handleDeleteInvoice}
                                     onDuplicate={handleDuplicateInvoice}
                                     onDraft={handleMarkAsDraft}
                                     onDownload={handleDownloadInvoice}
-                                    type='Invoice' 
+                                    type='Invoice'
                                 />
                             </div>
                         </div>
@@ -158,11 +158,11 @@ const InvoiceViewPage = () => {
                 </div>
 
                 <div className='my-3 w-full bg-white p-8 rounded-xl shadow-sm border border-gray-100 print:shadow-none print:border-none'>
-                    <InvoiceMeta 
-                        id={invoiceId} 
-                        issueDate={new Date(invoice.createdAt || Date.now()).toLocaleDateString()} 
-                        from="Velofolio" 
-                        invoiceFor={client ? `${client.name}\n${client.email}\n${client.phone}\n${client.address}` : "Client details not available"} 
+                    <InvoiceMeta
+                        id={invoiceId}
+                        issueDate={new Date(invoice.createdAt || Date.now()).toLocaleDateString()}
+                        from="Velofolio"
+                        invoiceFor={client ? `${client.name}\n${client.email}\n${client.phone}\n${client.address}` : "Client details not available"}
                     />
 
                     <div className='my-10'>
@@ -184,9 +184,9 @@ const InvoiceViewPage = () => {
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="flex justify-center my-10 print:hidden">
-                    <button 
+                    <button
                         onClick={handleClose}
                         className="px-8 py-3 bg-gray-200 text-gray-700 rounded-full font-semibold hover:bg-gray-300 transition-colors"
                     >
