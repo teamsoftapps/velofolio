@@ -15,7 +15,8 @@ const tableHeaders = [
   { key: 'Name', label: 'Name' },
   { key: 'Role', label: 'Role' },
   { key: 'Email', label: 'Email' },
-  { key: 'Phone', label: 'Phone' },
+  { key: 'Phone', label: 'Phone' }, 
+    
   { key: 'Status', label: 'Status' },
   { key: 'Assigned Jobs', label: 'Assigned Jobs' },
   { key: 'Availability', label: 'Availability' },

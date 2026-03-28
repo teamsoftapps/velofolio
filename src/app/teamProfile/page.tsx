@@ -16,12 +16,23 @@ import { CiUser } from 'react-icons/ci';
 import { SlCalender } from 'react-icons/sl';
 import WorkloadOverview from '../components/WorkLoad';
 import Table from '../components/Table';
+import Performance from '../components/Performance';
+import AddTaskModal from '../components/AddTaskModal';
+import AddJobModal from '../components/AddJobModal';
 
 
 const ClientProfilePage = () => {
   const [activeTab, setActiveTab] = useState('Overview');
   const [openForm, setOpenForm] = useState(false);
-  
+  const [taskSearch, setTaskSearch] = useState('');
+  const [taskFilter, setTaskFilter] = useState('');
+  const [jobSearch, setJobSearch] = useState('');
+  const [jobFilter, setJobFilter] = useState('');
+  const [showTaskFilter, setShowTaskFilter] = useState(false);
+  const [showJobFilter, setShowJobFilter] = useState(false);
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [isJobModalOpen, setIsJobModalOpen] = useState(false);
+
   const TableData = [
     {
       task: 'Prepare Client Proposal',
@@ -112,6 +123,16 @@ const ClientProfilePage = () => {
   const [statusTab, setStatusTab] = useState('Active');
   const tabs = ['Active', 'In Active', 'On Leave'];
 
+  const filteredTasks = TableData.filter((t) =>
+    t.task.toLowerCase().includes(taskSearch.toLowerCase()) &&
+    (taskFilter === '' || t.status === taskFilter)
+  );
+
+  const filteredJobs = eventsData.filter((e) =>
+    e.title.toLowerCase().includes(jobSearch.toLowerCase()) &&
+    (jobFilter === '' || e.status === jobFilter)
+  );
+
   return (
     <div className='min-h-screen w-full flex flex-col bg-white'>
       <Navbar />
@@ -127,11 +148,11 @@ const ClientProfilePage = () => {
 
         {/* Main Content - Stack on mobile/tablet, side-by-side on desktop */}
         <div className='flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8'>
-          
+
           {/* PROFILE CARD - Full width on mobile/tablet, 1/3 on desktop */}
           <div className='w-full lg:w-1/3  flex-shrink-0'>
             <div className='bg-white p-3 sm:p-4 md:p-6 rounded-xl shadow-sm border border-gray-200'>
-              
+
               {/* Profile Header */}
               <div className='flex flex-row items-start justify-between w-full mb-3 sm:mb-4'>
                 <div className='flex justify-center  w-full'>
@@ -161,23 +182,22 @@ const ClientProfilePage = () => {
               </div>
 
               {/* Status Tabs */}
-       <div className='md:w-1/2 lg:w-full mx-auto mb-4'>
-  <div className='flex md:flex-nowrap md:px-1 md:py-0.5  justify-between gap-1 sm:gap-2 border border-gray-300 rounded-full p-1.5 bg-gray-50'>
-    {tabs.map((tab) => (
-      <button
-        key={tab}
-        onClick={() => setStatusTab(tab)}
-        className={`px-3 py-1.5 md:py-1.5 md:px-2 text-xs sm:text-sm rounded-full cursor-pointer transition-all duration-200 font-medium min-w-[70px] sm:min-w-[80px] ${
-          statusTab === tab
-            ? 'bg-[#01B0E9] text-white shadow-sm'
-            : 'text-gray-700 hover:bg-gray-100'
-        }`}
-      >
-        {tab}
-      </button>
-    ))}
-  </div>
-</div>
+              <div className='md:w-1/2 lg:w-full mx-auto mb-4'>
+                <div className='flex md:flex-nowrap md:px-1 md:py-0.5  justify-between gap-1 sm:gap-2 border border-gray-300 rounded-full p-1.5 bg-gray-50'>
+                  {tabs.map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setStatusTab(tab)}
+                      className={`px-3 py-1.5 md:py-1.5 md:px-2 text-xs sm:text-sm rounded-full cursor-pointer transition-all duration-200 font-medium min-w-[70px] sm:min-w-[80px] ${statusTab === tab
+                        ? 'bg-[#01B0E9] text-white shadow-sm'
+                        : 'text-gray-700 hover:bg-gray-100'
+                        }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
               {/* Joined Date */}
               <p className='text-xs sm:text-sm text-gray-500 text-center mb-4 sm:mb-6'>
@@ -189,7 +209,7 @@ const ClientProfilePage = () => {
                 <h3 className='text-sm sm:text-base font-semibold text-black mb-3 sm:mb-4'>
                   Personal Details
                 </h3>
-                
+
                 {/* Detail Items */}
                 <div className='space-y-2 sm:space-y-3'>
                   {[
@@ -212,9 +232,9 @@ const ClientProfilePage = () => {
           </div>
 
           {/* TABS CONTENT  */}
-          <div className='w-full lg:w-2/3'>
+          <div className='w-full lg:w-2/3 min-w-0'>
             <div className='bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden'>
-              
+
               {/* Tab Navigation  */}
               <div className='flex border-b border-gray-200 bg-gray-50 px-2 sm:px-4'>
                 {[
@@ -222,7 +242,7 @@ const ClientProfilePage = () => {
                   { key: 'Jobs', label: 'Jobs' },
                   { key: 'Tasks', label: 'Tasks' },
                   { key: 'Availibity', label: 'Availability' },
-                  { key: 'Invoices & Payments', label: 'Performance' },
+                  { key: 'Performance', label: 'Performance' },
                 ].map(({ key, label }) => (
                   <button
                     key={key}
@@ -230,11 +250,10 @@ const ClientProfilePage = () => {
                       e.preventDefault();
                       setActiveTab(key);
                     }}
-                    className={`flex-1 py-2.5 px-2 sm:px-3 text-center text-xs sm:text-sm md:text-base font-medium transition-all duration-200 whitespace-nowrap ${
-                      activeTab === key
-                        ? 'text-[#0B763E] border-b-2 border-[#0B763E]'
-                        : 'text-gray-600 hover:text-gray-900'
-                    }`}
+                    className={`flex-1 py-2.5 px-2 sm:px-3 text-center text-xs sm:text-sm md:text-base font-medium transition-all duration-200 whitespace-nowrap ${activeTab === key
+                      ? 'text-[#0B763E] border-b-2 border-[#0B763E]'
+                      : 'text-gray-600 hover:text-gray-900'
+                      }`}
                   >
                     {label}
                   </button>
@@ -243,47 +262,105 @@ const ClientProfilePage = () => {
 
               {/* Tab Content */}
               <div className='p-3 sm:p-4 md:p-6'>
-                
+
                 {activeTab === 'Availibity' && <Availibility />}
-                
+
                 {activeTab === 'Overview' && <WorkloadOverview />}
-             
-                
+
+                {activeTab === 'Performance' && <Performance />}
+
+
                 {activeTab === 'Tasks' && (
-                  <div className='space-y-4 '>
+                  <div className='space-y-4 w-full'>
+                    <AddTaskModal
+                      isOpen={isTaskModalOpen}
+                      onClose={() => setIsTaskModalOpen(false)}
+                      onAddTask={(data) => {
+                        console.log('New task:', data);
+                        // data includes: taskName, jobId, jobName, dueDate, priority, status, assigneeId, notes
+                      }}
+                      jobs={[
+                        { id: '1', name: 'Wedding Shoot', client: 'John & Emma' },
+                        { id: '2', name: 'Corporate Gala', client: 'BlueTech' },
+                      ]}
+                      members={[
+                        { id: '1', name: 'Sarah Johnson', image: '/teampic1.png' },
+                        { id: '2', name: 'John Doe', image: '/teampic2.png' },
+                      ]}
+                    />
                     <div className='flex flex-col sm:flex-row gap-2 sm:gap-4 justify-between items-start sm:items-center'>
-                      <div className='flex items-center bg-gray-100 p-2 rounded-lg cursor-pointer hover:bg-gray-200 transition duration-200'>
-                        <CiFilter className='w-4 h-4 sm:w-5 sm:h-5 text-gray-500 mr-2' />
-                        <span className='text-sm sm:text-base text-black'>Filter</span>
-                      </div>
-                        <div className=' w-full  sm:auto md:w-2/8'>
-                        <AddButton setOpenForm={setOpenForm} title='Add Task' />
-                        </div>
-                    </div>
-                    <Table headers={TableHeaders} data={TableData} />
-                  </div>
-                )}
-                
-                {activeTab === 'Jobs' && (
-                  <div className='space-y-4 sm:space-y-6 lg:max-h-[56vh] overflow-y-auto scroller'>
-                    {/* Search & Controls */}
-                    <div className='flex flex-col sm:flex-row  sm:justify-between  gap-3 sm:gap-4'>
                       <div className='w-full sm:w-1/2'>
-                        <SearchComponent placeHolder='Search jobs...' />
+                        <SearchComponent placeHolder='Search tasks...' value={taskSearch} onSearch={setTaskSearch} />
                       </div>
                       <div className='flex items-center justify-between w-full sm:w-[40%] gap-3'>
-                        <div className='flex items-center bg-gray-100 p-2 rounded-lg cursor-pointer hover:bg-gray-200 transition duration-200 flex-1 justify-center'>
-                          <CiFilter className='w-4 h-4 sm:w-5 sm:h-5 text-gray-500 mr-2' />
-                          <span className='text-sm sm:text-base text-black'>Filter</span>
+                        <div className='relative flex-1'>
+                          <div onClick={() => setShowTaskFilter(!showTaskFilter)} className='flex items-center bg-gray-100 p-2 rounded-lg cursor-pointer hover:bg-gray-200 transition duration-200 justify-center h-full'>
+                            <CiFilter className='w-4 h-4 sm:w-5 sm:h-5 text-gray-500 mr-2' />
+                            <span className='text-sm sm:text-base text-black'>Filter</span>
+                          </div>
+                          {showTaskFilter && (
+                            <div className='absolute top-full min-w-32 mt-1 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-full'>
+                              {['All', 'Pending', 'In Progress', 'Completed'].map(f => (
+                                <div key={f} className='p-2 hover:bg-gray-100 cursor-pointer text-sm text-black' onClick={() => { setTaskFilter(f === 'All' ? '' : f); setShowTaskFilter(false); }}>
+                                  {f}
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
-                        <div className=' w-full   md:w-2/3'>
-                        <AddButton setOpenForm={setOpenForm} title='Add Job' />
+                        <div className='w-full md:w-2/3'>
+                          <AddButton setOpenForm={setIsTaskModalOpen} title='Add Task' />
+                        </div>
+                      </div>
+                    </div>
+                    <Table headers={TableHeaders} data={filteredTasks} />
+                  </div>
+                )}
+
+                {activeTab === 'Jobs' && (
+                  <div className='space-y-4 sm:space-y-6 lg:max-h-[56vh] overflow-y-auto scroller'>
+                    <AddJobModal
+                      isOpen={isJobModalOpen}
+                      onClose={() => setIsJobModalOpen(false)}
+                      onAddJob={(data) => {
+                        console.log('New job:', data);
+                        // data includes: jobName, clientName, location, date, time, status, deliverables[], teamIds[], notes
+                      }}
+                      members={[
+                        { id: '1', name: 'Priya', image: '/teampic2.png', role: 'Photographer' },
+                        { id: '2', name: 'Sofia', image: '/teampic3.png', role: 'Assistant' },
+                      ]}
+                    />
+
+                    {/* Search & Controls */}
+                    <div className='flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-4'>
+                      <div className='w-full sm:w-1/2'>
+                        <SearchComponent placeHolder='Search jobs...' value={jobSearch} onSearch={setJobSearch} />
+                      </div>
+                      <div className='flex items-center justify-between w-full sm:w-[40%] gap-3'>
+                        <div className='relative flex-1'>
+                          <div onClick={() => setShowJobFilter(!showJobFilter)} className='flex items-center bg-gray-100 p-2 rounded-lg cursor-pointer hover:bg-gray-200 transition duration-200 justify-center h-full'>
+                            <CiFilter className='w-4 h-4 sm:w-5 sm:h-5 text-gray-500 mr-2' />
+                            <span className='text-sm sm:text-base text-black'>Filter</span>
+                          </div>
+                          {showJobFilter && (
+                            <div className='absolute min-w-32 top-full mt-1 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-full' onBlur={() => setShowJobFilter(false)}>
+                              {['All', 'NOT STARTED', 'IN PROGRESS', 'COMPLETED'].map(f => (
+                                <div key={f} className='p-2 hover:bg-gray-100 cursor-pointer text-sm text-black' onClick={() => { setJobFilter(f === 'All' ? '' : f); setShowJobFilter(false); }}>
+                                  {f}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        <div className='w-full md:w-2/3'>
+                          <AddButton setOpenForm={setIsJobModalOpen} title='Add Job' />
                         </div>
                       </div>
                     </div>
 
                     <div className='grid grid-cols-1 gap-4 sm:gap-6 max-h-[70vh] overflow-y-auto scroller'>
-                      {eventsData.map((event, index) => (
+                      {filteredJobs.map((event, index) => (
                         <div
                           key={index}
                           className='bg-gray-50 p-4 sm:p-5 rounded-lg border border-gray-200'
@@ -299,13 +376,12 @@ const ClientProfilePage = () => {
                           {/* Status Badge */}
                           <div className='w-full sm:w-auto mb-3'>
                             <span
-                              className={`inline-block px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${
-                                event.status === 'COMPLETED'
-                                  ? 'text-white bg-[#13CC95]'
-                                  : event.status === 'IN PROGRESS'
+                              className={`inline-block px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${event.status === 'COMPLETED'
+                                ? 'text-white bg-[#13CC95]'
+                                : event.status === 'IN PROGRESS'
                                   ? 'text-white bg-[#01B0E9]'
                                   : 'text-white bg-red-500'
-                              }`}
+                                }`}
                             >
                               {event.status}
                             </span>
@@ -359,6 +435,7 @@ const ClientProfilePage = () => {
                           </div>
                         </div>
                       ))}
+
                     </div>
                   </div>
                 )}

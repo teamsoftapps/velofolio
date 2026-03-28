@@ -88,7 +88,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
   };
 
   return (
-    <div className='bg-white p-8 z-40 rounded-lg shadow-lg w-full mt-12 max-w-3xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+    <div className='bg-white p-8 z-40 rounded-lg shadow-lg w-full mt-12 max-w-3xl absolute top-2/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
       <div className='absolute right-2'>
         <IoMdClose
           className='absolute top-4 right-4 text-4xl cursor-pointer text-gray-700'
@@ -164,33 +164,36 @@ const MemberForm: React.FC<MemberFormProps> = ({
         </div>
 
         {/* Email */}
-        <div className='flex flex-col'>
-          <label className='block text-md font-semibold text-gray-700'>
-            Email
-          </label>
-          <input
-            type='email'
-            name='email'
-            value={formData.email}
-            onChange={handleChange}
-            placeholder='Enter member email e.g. info@sarah.org'
-            className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
-          />
-        </div>
+        <div className='flex gap-4 w-full' >
 
-        {/* Phone */}
-        <div className='flex flex-col'>
-          <label className='block text-md font-semibold text-gray-700'>
-            Phone
-          </label>
-          <input
-            type='tel'
-            name='phone'
-            value={formData.phone}
-            onChange={handleChange}
-            placeholder='Enter member contact number e.g. +123 456 7890'
-            className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
-          />
+          <div className='flex flex-col w-full'>
+            <label className='block text-md font-semibold text-gray-700'>
+              Email
+            </label>
+            <input
+              type='email'
+              name='email'
+              value={formData.email}
+              onChange={handleChange}
+              placeholder='Enter member email e.g. info@sarah.org'
+              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
+            />
+          </div>
+
+          {/* Phone */}
+          <div className='flex flex-col w-full'>
+            <label className='block text-md font-semibold text-gray-700'>
+              Phone
+            </label>
+            <input
+              type='tel'
+              name='phone'
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder='Enter member contact number e.g. +123 456 7890'
+              className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
+            />
+          </div>
         </div>
 
         {/* Role & Status Row */}

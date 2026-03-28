@@ -5,6 +5,7 @@ import LeadData from '@/utils/Lead.json';
 import JobData from '@/utils/Job.json';
 import { DateValue } from '@internationalized/date';
 import { filterByTimeRange } from '@/utils/TableUtils';
+import AddShootModal from '../components/AddShootModal';
 
 interface UpcomingShootsProps {
   timeRange?: string;
@@ -13,10 +14,11 @@ interface UpcomingShootsProps {
 
 const UpcomingShoots = ({ timeRange = "All Data", value }: UpcomingShootsProps) => {
   const [openForm, setOpenForm] = useState(false);
+  const [isShootModalOpen, setIsShootModalOpen] = useState(false);
 
   const shootsData = useMemo(() => {
     const customDate = value ? new Date(value.year, value.month - 1, value.day) : undefined;
-    
+
     const filteredLeads = filterByTimeRange(LeadData, timeRange, customDate);
     const filteredJobs = filterByTimeRange(JobData, timeRange, customDate);
 
@@ -42,11 +44,23 @@ const UpcomingShoots = ({ timeRange = "All Data", value }: UpcomingShootsProps) 
   return (
     <div className=" p-4 sm:p-6 lg:p-8 border border-gray-300 rounded-lg shadow-md w-full lg:min-w-1/2 h-[450px] ">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 ">
+        <AddShootModal
+          isOpen={isShootModalOpen}
+          onClose={() => setIsShootModalOpen(false)}
+          onAddShoot={(data) => {
+            console.log('New shoot:', data);
+            // data includes: title, date, isAllDay, startTime, endTime, personId, type, category, status, notes
+          }}
+          people={[
+            { id: '1', name: 'Sarah Johnson', image: '/teampic1.png', role: 'Lead Photographer' },
+            { id: '2', name: 'David P.', image: '/teampic2.png', role: 'Photographer' },
+          ]}
+        />
         <h2 className="text-base sm:text-lg lg:text-xl font-medium text-black mb-2 sm:mb-0 w-48 xl:w-full">
           Upcoming Shoots & Appointments
         </h2>
         <div className="w-full sm:w-auto lg:w-[25%]">
-          <AddButton setOpenForm={setOpenForm} title="Add New" />
+          <AddButton setOpenForm={setIsShootModalOpen} title="Add New" />
         </div>
       </div>
 

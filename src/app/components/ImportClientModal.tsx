@@ -5,7 +5,7 @@ import { Upload, Download, X, FileText, CheckCircle, AlertCircle } from 'lucide-
 interface ImportClientsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onImportSuccess: (newClients: any[]) => void;   // ← New Prop
+  onImportSuccess: (newClients: any[]) => void;
 }
 
 const ImportClientsModal = ({ isOpen, onClose, onImportSuccess }: ImportClientsModalProps) => {
@@ -39,7 +39,7 @@ const ImportClientsModal = ({ isOpen, onClose, onImportSuccess }: ImportClientsM
     return lines.slice(1).map(line => {
       const values = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''));
       const client: any = {};
-      
+
       headers.forEach((header, i) => {
         const key = header.toLowerCase().replace(/\s+/g, '');
         client[key] = values[i] || '';
@@ -127,9 +127,8 @@ const ImportClientsModal = ({ isOpen, onClose, onImportSuccess }: ImportClientsM
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
-                className={`border-2 border-dashed rounded-2xl p-10 text-center transition-all ${
-                  isDragging ? 'border-[#33BFEC] bg-[#33BFEC]/5' : 'border-gray-300'
-                }`}
+                className={`border-2 border-dashed rounded-2xl p-10 text-center transition-all ${isDragging ? 'border-[#33BFEC] bg-[#33BFEC]/5' : 'border-gray-300'
+                  }`}
               >
                 <Upload className="mx-auto mb-4 text-gray-400" size={48} />
                 <p className="text-lg font-medium">Drop CSV file here</p>
