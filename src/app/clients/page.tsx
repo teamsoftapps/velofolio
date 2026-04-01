@@ -251,8 +251,8 @@ export default function ClientsPage() {
       phone: client.phone || 'N/A',
       event: client.event || 'Client Onboarding',
       status: client.status || 'New Lead',
-      eventDate: client.eventDate 
-        ? new Date(client.eventDate).toISOString().split('T')[0] 
+      eventDate: client.eventDate
+        ? new Date(client.eventDate).toISOString().split('T')[0]
         : 'N/A',
       nextTask: '—',
       _rawId: client.id,
@@ -318,9 +318,9 @@ export default function ClientsPage() {
       if (win) { win.document.write(html); win.document.close(); win.print(); }
     }
   };
-const handleDelete=()=>{
-  console.log("Delte")
-}
+  const handleDelete = () => {
+    console.log("Delte")
+  }
   return (
     <RouteGuard allowedRoles={['superadmin']}>
       <ExportModal
@@ -379,12 +379,12 @@ const handleDelete=()=>{
 
           {/* Import & Export Buttons */}
           <div className="w-full flex justify-end gap-5 mb-6">
-            <ImportClientsButton 
-              type="import" 
-              onClick={() => setIsImportModalOpen(true)} 
+            <ImportClientsButton
+              type="import"
+              onClick={() => setIsImportModalOpen(true)}
             />
-            <ImportClientsButton 
-              type="export" 
+            <ImportClientsButton
+              type="export"
               onClick={handleExport}           // ← Now working!
               showFormat={false}
             />

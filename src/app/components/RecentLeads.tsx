@@ -24,7 +24,7 @@ const RecentLeads = ({ setOpenForm, timeRange = "All Data", value }: RecentLeads
   const leadsData = useMemo(() => {
     const customDate = value ? new Date(value.year, value.month - 1, value.day) : undefined;
     const filtered = filterByTimeRange(LeadData, timeRange, customDate);
-    
+
     return filtered.map(l => ({
       dateCreated: l.dateCreated || l.eventDate || "N/A",
       leadName: l.leadName,
@@ -35,11 +35,11 @@ const RecentLeads = ({ setOpenForm, timeRange = "All Data", value }: RecentLeads
 
   return (
     <div className="bg-white p-6 sm:p-8  border border-gray-300 rounded-lg shadow-md w-full lg:min-w-1/2 h-[450px]  ">
-      <div className="flex flex-col sm:flex-row sm:justify-between  sm:items-center mb-4  lg:gap-0">
-        <h2 className="text-lg sm:text-xl lg:text-2xl font-medium text-black mb-2 sm:mb-0 w-40 xl:w-full">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-4">
+        <h2 className="text-lg sm:text-xl font-bold text-gray-900 flex-1">
           Recent Leads
         </h2>
-        <div className="w-full sm:w-auto lg:w-[25%]  ">
+        <div className="w-auto min-w-fit">
           <AddButton setOpenForm={setOpenForm} title="Add Lead" />
         </div>
       </div>

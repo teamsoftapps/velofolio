@@ -17,8 +17,8 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
-const ReportGraph = ({ selectedView, setSelectedView, selectedTab, setSelectedTab, timeRange }: any) => {
-  
+const ReportGraph = ({ selectedView, setSelectedView, selectedTab, setSelectedTab, timeRange, isPrint }: any) => {
+
   // ==================== DYNAMIC MULTIPLIER BASED ON TIME ====================
   const phaseMultiplier = useMemo(() => {
     switch (timeRange) {
@@ -89,7 +89,7 @@ const ReportGraph = ({ selectedView, setSelectedView, selectedTab, setSelectedTa
         borderColor: '#3B82F6',
         backgroundColor: 'rgba(59, 130, 246, 0.18)',
         fill: true,
-        tension: 0.4,
+        tension: 0,
         hidden: selectedTab !== 'All',
       },
       {
@@ -98,7 +98,7 @@ const ReportGraph = ({ selectedView, setSelectedView, selectedTab, setSelectedTa
         borderColor: '#F59E0B',
         backgroundColor: 'rgba(245, 158, 11, 0.18)',
         fill: true,
-        tension: 0.4,
+        tension: 0,
         hidden: selectedTab !== 'Leads' && selectedTab !== 'All',
       },
       {
@@ -107,7 +107,7 @@ const ReportGraph = ({ selectedView, setSelectedView, selectedTab, setSelectedTa
         borderColor: '#10B981',
         backgroundColor: 'rgba(16, 185, 129, 0.18)',
         fill: true,
-        tension: 0.4,
+        tension: 0,
         hidden: selectedTab !== 'Shoots' && selectedTab !== 'All',
       },
       {
@@ -116,7 +116,7 @@ const ReportGraph = ({ selectedView, setSelectedView, selectedTab, setSelectedTa
         borderColor: '#EF4444',
         backgroundColor: 'rgba(239, 68, 68, 0.18)',
         fill: true,
-        tension: 0.4,
+        tension: 0,
         hidden: selectedTab !== 'Revenue' && selectedTab !== 'All',
       },
     ];
@@ -128,7 +128,7 @@ const ReportGraph = ({ selectedView, setSelectedView, selectedTab, setSelectedTa
   };
 
   const options: ChartOptions<'line'> = {
-    responsive: true,
+    responsive: !isPrint,
     maintainAspectRatio: false,
     interaction: {
       mode: 'index',
@@ -166,48 +166,74 @@ const ReportGraph = ({ selectedView, setSelectedView, selectedTab, setSelectedTa
   };
 
   return (
-    <div className="w-full p-2 sm:p-6">
-      <div className="w-full rounded-xl border border-gray-200 bg-white p-2 shadow-sm sm:p-6">
+    <div className={`w-full ${isPrint ? 'p-0' : 'p-2 sm:p-6'}`}>
+      <div className={`w-full ${isPrint ? 'p-0 border-none rounded-none shadow-none bg-transparent' : 'rounded-xl border border-gray-200 bg-white p-2 shadow-sm sm:p-6'}`}>
 
         {/* Dropdown - RESTORED ORIGINAL */}
-        <div className="flex justify-end mb-6">
-          <select
-            value={selectedView}
-            onChange={(e) => {
-              setSelectedView(e.target.value as 'leads' | 'jobs' | 'payments');
-              setSelectedTab('All');
-            }}
-            className="bg-white border border-gray-300 hover:border-gray-400 px-5 py-3 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer w-56"
-          >
-            <option value="leads">Lead Stats</option>
-            <option value="jobs">Job Stats</option>
-            <option value="payments">Payments</option>
-          </select>
-        </div>
-
-        {/* Cards - RESTORED ORIGINAL STYLING (Blue borders on select) */}
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {currentCards.map((tab:any) => (
-            <button
-               key={tab.key}
-               onClick={() => setSelectedTab(tab.key as 'All' | 'Leads' | 'Shoots' | 'Revenue')}
-               className={`border border-white p-3 text-left transition-all ${
-                 selectedTab === tab.key
-                   ? 'border-blue-500 border-t-[#CCEFFB] bg-white shadow-sm'
-                   : 'border-gray-300 bg-gray-200 hover:bg-gray-100'
-               }`}
+        {!isPrint && (
+          <div className="flex justify-end mb-6">
+            <select
+              value={selectedView}
+              onChange={(e) => {
+                setSelectedView(e.target.value as 'leads' | 'jobs' | 'payments');
+                setSelectedTab('All');
+              }}
+              className="bg-white border border-gray-300 hover:border-gray-400 px-5 py-3 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer w-56"
             >
-              <p className="text-xs text-gray-600 sm:text-sm">{tab.label}</p>
-              <p className="mt-1 text-base font-semibold text-gray-900 sm:text-lg">
-                {tab.value}
-              </p>
-            </button>
-          ))}
-        </div>
+              <option value="leads">Lead Stats</option>
+              <option value="jobs">Job Stats</option>
+              <option value="payments">Payments</option>
+            </select>
+          </div>
+        )}
+
+        {/* Cards - hidden in print mode; rendered standalone on page 1 of PDF */}
+        {!isPrint && (
+          <div className={`w-full grid ${isPrint ? 'grid-cols-4' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'}`}>
+            {currentCards.map((tab: any) => (
+              <button
+                key={tab.key}
+                onClick={() => setSelectedTab(tab.key as 'All' | 'Leads' | 'Shoots' | 'Revenue')}
+                className={`border border-white p-3 text-left transition-all ${selectedTab === tab.key
+                  ? 'border-blue-500 border-t-[#CCEFFB] bg-white shadow-sm'
+                  : 'border-gray-300 bg-gray-200 hover:bg-gray-100'
+                  }`}
+              >
+                <p className="text-xs text-gray-600 sm:text-sm">{tab.label}</p>
+                <p className="mt-1 text-base font-semibold text-gray-900 sm:text-lg">
+                  {tab.value}
+                </p>
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Chart */}
-        <div className="mt-8 w-full h-64 sm:h-72 lg:h-80">
-          <Line data={graphData} options={options} />
+        <div
+          className="mt-8"
+          style={isPrint ? { width: '100%', height: '520px' } : { width: '100%', height: '320px' }}
+        >
+          <Line
+            data={graphData}
+            options={{
+              ...options,
+              responsive: true,
+              maintainAspectRatio: false,
+            }}
+          />
+        </div>
+
+        {/* Static Legend — always visible, critical for print readability */}
+        <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 px-1">
+          {chartDatasets.map((ds: any) => !ds.hidden && (
+            <div key={ds.label} className="flex items-center gap-2">
+              <span
+                className="inline-block w-3 h-3 rounded-full flex-shrink-0"
+                style={{ backgroundColor: ds.borderColor }}
+              />
+              <span className="text-xs text-gray-600 font-medium">{ds.label}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>

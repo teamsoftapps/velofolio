@@ -17,14 +17,13 @@ const Table = ({
   setDeleteModal,
   color,
   setIsDeleteModalOpen,
-  itemsPerPage=8,
+  itemsPerPage = 8,
   sortBy,
   onSort,
 }: any) => {
   const router = useRouter();
-  // const itemsPerPage = 8;
   const pasthname = usePathname();
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
@@ -32,7 +31,6 @@ const Table = ({
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
 
   const availabilityMap: any = {
     Free: { color: 'text-green-500', icon: <FaCircleCheck className="w-4 h-4" /> },
@@ -50,313 +48,219 @@ const Table = ({
     'On Leave': 'bg-[#01B0E9]',
     Completed: 'bg-[#14CB95]',
     New: 'bg-[#01B0E9]',
-    Pending:pasthname=="/payments"? "bg-[#FEBE2A] ":"bg-gray-100",
+    Pending: pasthname == "/payments" ? "bg-[#FEBE2A] " : "bg-[#71717A]",
+    pending: pasthname == "/payments" ? "bg-[#FEBE2A] " : "bg-[#71717A]",
     'In Progress': 'bg-[#FEBE2A]',
-    Overdue:"bg-[#14CB95]",
-    Inactive:"bg-gray-200",
-    Approved:'bg-green-500',
-    Rejected:'bg-red-500',
-     Signed: 'bg-[#FEBE2A] text-black',
-     Draft : 'bg-[#13CC95]',
-     Upcoming:"bg-[#01B0E9]"
+    Overdue: "bg-[#14CB95]",
+    Inactive: "bg-gray-200",
+    Approved: 'bg-green-500',
+    Rejected: 'bg-red-500',
+    Signed: 'bg-[#FFB800]',
+    Draft: 'bg-[#10B981]',
+    Upcoming: "bg-[#01B0E9]",
+  };
 
+  const statusIcons: any = {
+    Signed: <div className="w-4 h-4 rounded-full bg-black/20 flex items-center justify-center mr-2"><div className="w-1.5 h-1.5 rounded-full bg-black/60" /></div>,
+    Draft: <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center mr-2"><div className="w-1.5 h-1.5 rounded-full bg-white/80" /></div>,
   };
 
   const priorityColors: any = {
-    High: 'bg-[#F7631C] text-white',
-    Medium: 'bg-[#01B0E9] text-white',
-    Low: 'bg-[#FEBE2A] text-white',
+    High: 'bg-[#EF4444] text-white',
+    Medium: 'bg-[#FBBF24] text-white',
+    Low: 'bg-[#22C55E] text-white',
   };
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
+  const isProfileOrDashboard = pasthname === '/teamProfile' || pasthname === '/dashboard' || pasthname === '/clientProfile' || pasthname === '/reports' || pasthname.includes('/jobProfile');
+
   return (
     <>
- <div
-  className={`w-full mt-4 md:p-3 
-    ${
-      pasthname === '/teamProfile' || pasthname === '/dashboard' || pasthname === '/clientProfile'|| pasthname === '/reports'|| pasthname.includes('/jobProfile')
-        ? 'lg:p-0'
-        : 'lg:p-7 border-1 border-gray-300 rounded-2xl'
-    }
-    ${pasthname === '/dashboard' ? 'h-[230px] overflow-auto' : ''}
-  `}
->
-
-        <div className="overflow-x-auto overflow-y-auto max-h-[600px]">
-          <table className="min-w-[450px] sm:min-w-[850px] md:min-w-[1000px] lg:min-w-full bg-white table-auto border-collapse text-wrap">
-            <thead className="bg-gray-200 text-black border-0 rounded-lg w-full">
-              <tr>
+      <div
+        className={`w-full mt-4 bg-white ${isProfileOrDashboard ? 'p-0' : 'border border-gray-200 rounded-[24px] p-6 shadow-sm mb-10'
+          }`}
+      >
+        <div className="overflow-x-auto no-scrollbar">
+          <table className="w-full border-separate border-spacing-y-0">
+            <thead>
+              <tr className="bg-[#F4F5F7]">
                 {headers?.map((header: any, index: any) => {
                   const isSortable = header.key === 'dateCreated' && onSort;
+                  const isFirst = index === 0;
+                  const isLast = index === headers.length - 1;
                   return (
-                  <th
-                    key={index}
-                    onClick={() => isSortable && onSort(header.key)}
-                    className={`px-2 ${pasthname === '/teamProfile' ? "lg:px-5  w-full" :"md:px-6"} sm:px-4  py-1 sm:py-2 md:py-3 text-center text-xs sm:text-sm md:text-base font-semibold ${isSortable ? 'cursor-pointer hover:bg-gray-300 transition-colors' : ''}`}
-                  >
-                    <div className="flex items-center justify-center gap-1">
-                      {header.label || header.key || header}
-                      {isSortable && sortBy?.value === header.key ? (
-                        sortBy.direction === 'asc' ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />
-                      ) : (
-                        isSortable ? <FiChevronDown className="w-4 h-4 text-gray-400" /> : null
-                      )}
-                    </div>
-                  </th>
-                )})}
+                    <th
+                      key={index}
+                      onClick={() => isSortable && onSort(header.key)}
+                      className={`
+                        py-4 px-4 text-base font-medium text-black border-y border-gray-200 whitespace-nowrap
+                        ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount') ? 'text-center' : 'text-left'}
+                        ${isFirst ? 'rounded-l-lg border-l' : ''}
+                        ${isLast ? 'rounded-r-lg border-r' : ''}
+                        ${isSortable ? 'cursor-pointer hover:bg-gray-200 transition-colors' : ''}
+                      `}
+                    >
+                      <div className={`flex items-center gap-1 ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount') ? 'justify-center' : 'justify-start'}`}>
+                        {header.label || header.key || header}
+                        {isSortable && sortBy?.value === header.key && (
+                          sortBy.direction === 'asc' ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />
+                        )}
+                      </div>
+                    </th>
+                  );
+                })}
               </tr>
+              {/* Spacer row for padding between header and first cell */}
+              <tr className="h-6"><td colSpan={headers?.length}></td></tr>
             </thead>
 
             <tbody>
               {paginatedData.length === 0 ? (
                 <tr>
-                  <td colSpan={headers?.length || 1} className="py-20 text-center text-gray-500 italic bg-gray-50">
-                    No records found matching your current filters.
+                  <td colSpan={headers?.length || 1} className="py-20 text-center text-gray-500 italic">
+                    No records found matching your filters.
                   </td>
                 </tr>
               ) : (
                 paginatedData.map((row: any, rowIndex: any) => (
-                <tr
-                  key={rowIndex}
-                  onClick={() => {
-                    if (pasthname === '/clients') router.push(`/clientProfile`);
-                     if (pasthname === '/jobs') router.push(`/jobProfile?id=${rowIndex+1}`);
-                    if (pasthname === '/team') router.push(`/teamProfile`);
-                    if (pasthname === '/payments') router.push(`/invoice?id=${rowIndex+1}`);
-                  }}
-                  className="text-black hover:bg-[#daf2fa] text-xs sm:text-sm md:text-base transition-colors duration-200 cursor-pointer"
-                >
-                  {headers?.map((header: any, cellIndex: any) => {
-                    const key = header.key || header;
+                  <tr
+                    key={rowIndex}
+                    onClick={() => {
+                      if (pasthname === '/clients') router.push(`/clientProfile`);
+                      if (pasthname === '/jobs') router.push(`/jobProfile?id=${rowIndex + 1}`);
+                      if (pasthname === '/team') router.push(`/teamProfile`);
+                      if (pasthname === '/payments') router.push(`/viewInvoice?InvoiceId=${row.invoiceNumber}`);
+                    }}
+                    className="hover:bg-[#F9FAFB] transition-colors cursor-pointer group"
+                  >
+                    {headers?.map((header: any, cellIndex: any) => {
+                      const key = header.key || header;
 
-                    // Action column
-                    if (key === 'action' || key === 'Action') {
+                      if (key === 'action' || key === 'Action') {
+                        return (
+                          <td key={cellIndex} className="py-4 text-center border-b border-gray-200 px-4">
+                            <div className="flex justify-center">
+                              <SlOptionsVertical className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
+                            </div>
+                          </td>
+                        );
+                      }
+
+                      if (key === 'Name' || (pasthname === "/payments" && key === "client")) {
+                        return (
+                          <td key={cellIndex} className="py-4 px-4 border-b border-gray-200">
+                            <div className="flex items-center gap-3 justify-start">
+                              <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
+                                {row.avatar ? (
+                                  <Image src={row.avatar} alt="v" width={40} height={40} className="w-full h-full object-cover" />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center font-bold text-gray-500">
+                                    {(row.client || row.Name || "U")[0]}
+                                  </div>
+                                )}
+                              </div>
+                              <span className="text-sm font-medium text-black truncate max-w-[140px]">
+                                {row.client || row.Name}
+                              </span>
+                            </div>
+                          </td>
+                        );
+                      }
+
+                      if (key === 'status' || key === 'Status' || key === "paymentStatus" || key === "Payment Status") {
+                        const statusVal = row[key];
+                        const needsBlackText = [
+                          'New Lead', 'Inactive', 'InActive', 'Signed',
+                          'Active', 'In Progress', 'Draft'
+                        ].includes(statusVal);
+
+                        const textColor = needsBlackText ? 'text-black' : 'text-white';
+                        const icon = statusIcons[statusVal];
+
+                        return (
+                          <td key={cellIndex} className="py-4 text-left border-b border-gray-200 px-4">
+                            <div className="flex justify-start">
+                              <span className={`px-3 py-1.5 rounded-full text-[11px] font-medium uppercase tracking-wide inline-flex items-center justify-center w-fit ${textColor} ${statusColors[statusVal] || 'bg-gray-100'}`}>
+                                {icon && icon}
+                                {statusVal}
+                              </span>
+                            </div>
+                          </td>
+                        );
+                      }
+
+                      if (key === 'progress') {
+                        const progressValue = Math.min(
+                          100,
+                          Math.max(0, Number(String(row[key]).replace('%', '')) || 0)
+                        );
+                        const progressColor =
+                          progressValue === 100 ? 'bg-[#14CB95]' : 'bg-[#00A4DD]';
+
+                        return (
+                          <td
+                            key={cellIndex}
+                            className="py-4 px-4 text-center border-b border-gray-100 min-w-[120px]"
+                          >
+                            <div className="w-full bg-gray-200 rounded-full h-3 relative p-2 pb-3 border-1">
+                              <p className="text-[10px] sm:text-xs md:text-sm absolute inset-0 flex items-center justify-center z-20 font-bold">
+                                {progressValue}%
+                              </p>
+                              <div
+                                className={`h-3 -mt-1 relative rounded-full ${progressColor} transition-all duration-300 shadow-sm`}
+                                style={{ width: `${progressValue}%` }}
+                              ></div>
+                            </div>
+                          </td>
+                        );
+                      }
+
+                      // Priority column
+                      if (key === 'priority' || key === 'Priority') {
+                        const priorityVal = row[key];
+                        return (
+                          <td
+                            key={cellIndex}
+                            className="py-4 text-left border-b border-gray-200 px-4"
+                          >
+                            <div className="flex justify-start">
+                              <span
+                                className={`px-3 py-1.5 rounded-full text-[11px] font-medium uppercase tracking-wide w-fit text-center ${priorityColors[priorityVal] || 'bg-gray-200 text-gray-700'}`}
+                              >
+                                {priorityVal}
+                              </span>
+                            </div>
+                          </td>
+                        );
+                      }
+
                       return (
-                        <td
-                          key={cellIndex}
-                          onClick={(e) => {
-    e.stopPropagation(); // Prevent row click
-    // setIsDeleteModalOpen(true);
-    setDeleteModal(true); // Open your modal
-  }}
-                          className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8] "
-                        >
-                          <SlOptionsVertical className="w-5 h-5 sm:w-6 sm:h-6 mx-auto cursor-pointer" />
-                        </td>
-                      );
-                    }
-                 
-                       if (key === 'task' || key === 'Task') {
-                      return (
-                        <td
-                          key={cellIndex}
-                          onClick={() => setIsDeleteModalOpen(true)}
-                          className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8]  sm:min-w-[120px]"
-                        >
+                        <td key={cellIndex} className={`py-4 px-4 border-b border-gray-200 text-base font-medium text-black whitespace-nowrap ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount') ? 'text-center' : 'text-left'}`}>
                           {row[key]}
                         </td>
                       );
-                    }
-                    if ( key === "Name") {
-  return (
-    <td
-      key={cellIndex}
-      className="py-2 sm:py-3 md:py-4  border-b border-[#D4D4D8] min-w-[140px]"
-    >
-      <div className="flex items-center justify-start ml-4 gap-5">
-        {row.avatar ? (
-          <Image
-            src={row.avatar}
-            alt={row.client || row.Name}
-            width={36}
-            height={36}
-            className="w-9 h-9 rounded-full object-cover"
-          />
-        ) : (
-          <div className="w-9 h-9 rounded-full bg-gray-300 text-left flex items-center justify-center text-black font-semibold">
-            {row.client?.[0] || row.Name?.[0]}
-          </div>
-        )}
-        <span className="text-sm font-medium text-gray-800 truncate max-w-[100px]">
-          {row.client || row.Name}
-        </span>
-      </div>
-    </td>
-  );
-}
-if (pasthname === "/payments") {
-  if (key === "client") {
-    return (
-      <td
-        key={cellIndex}
-        className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8] min-w-[120px] sm:min-w-[120px] md:min-w-[140px] lg:w-[160px]"
-      >
-        <div className="flex items-center justify-center gap-2">
-          <Image
-            src={row.avatar || "./images/teampic1.png"}
-            alt={row.client || "client"}
-            width={32}
-            height={32}
-            className="w-9 h-9 rounded-full object-cover"
-          />
-          <span className="text-sm font-medium text-gray-800 truncate max-w-[100px]">
-            {row.client}
-          </span>
-        </div>
-      </td>
-    );
-  }
-if (key === "paymentMethod") {
-  return (
-    <td
-      key={cellIndex}
-      className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8] min-w-[120px] sm:min-w-[120px] md:min-w-[140px] lg:w-[190px]"
-    >
-      <div className="flex items-center justify-center gap-2">
-        <span className="text-sm font-medium text-gray-800 truncate max-w-[100px]">
-          {row[key]}
-        </span>
-        <SlOptionsVertical className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer text-gray-600 hover:text-gray-800" />
-      </div>
-    </td>
-  );
-}
-
-}
-
-                    // Status column
-       if (key === 'status' || key === 'Status' || key==="paymentStatus" || key==="Payment Status") {
-          
-  const textColor =
-    row[key] === 'New Lead' || row[key] === 'Pending' || row[key] === 'Inactive' || row[key] === 'Signed' ? 'text-black' : 'text-white';
-
-  return (
-    <td
-      key={cellIndex}
-      className="py-2 sm:py-3 md:py-2 text-center border-b border-[#D4D4D8] min-w-[80px] sm:min-w-[80px] md:min-w-[100px] lg:w-[140px]"
-    >
-      <span
-        className={`p-1 px-2 sm:px-2 max-w-[120px] lg:p-0.5 inline-block rounded-2xl w-full ${textColor} ${
-          statusColors[row[key]] || 'bg-gray-900'
-        }`}
-      >
-        {row[key]}
-      </span>
-    </td>
-  );
-}
-
-
-
-                    // Priority column
-                    if (key === 'priority' || key === 'Priority') {
-                      return (
-                        <td
-                          key={cellIndex}
-                          className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8]"
-                        >
-                          <span
-                            className={`p-1 px-2 sm:px-3 rounded-2xl text-black ${
-                              priorityColors[row[key]] || 'bg-gray-200'
-                            }`}
-                          >
-                            {row[key]}
-                          </span>
-                        </td>
-                      );
-                    }
-
-                    // Email column
-                    if (key === 'Email') {
-                      return (
-                        <td
-                          key={cellIndex}
-                          className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8] text-[#1796c0]"
-                        >
-                          <span className="p-1 px-2 sm:px-3 rounded-2xl">
-                            {row[key]}
-                          </span>
-                        </td>
-                      );
-                    }
-
-                    // Availability column
-                    if (key === 'Availability' || key === 'availability') {
-                      const avail = availabilityMap[row[key]] || { color: 'text-gray-500', icon: null };
-                      return (
-                        <td
-                          key={cellIndex}
-                          className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8]"
-                        >
-                          <span
-                            className={`p-1  px-2 sm:px-3 rounded-2xl flex items-center justify-center gap-1 sm:gap-2 md:gap-3 ${avail.color}`}
-                          >
-                            {avail.icon}
-                            {row[key]}
-                          </span>
-                        </td>
-                      );
-                    }
-
-                    // Progress column
-                    if (key === 'progress') {
-                      const progressValue = Math.min(
-                        100,
-                        Math.max(0, Number(String(row[key]).replace('%', '')) || 0)
-                      );
-                      const progressColor =
-                        progressValue === 100 ? 'bg-[#14CB95]' : 'bg-[#00A4DD]';
-
-                      return (
-                        <td
-                          key={cellIndex}
-                          className="py-2 sm:py-3 md:py-4 text-center border-b border-[#D4D4D8]"
-                        >
-                          <div className="w-full bg-gray-200 rounded-full h-3 relative p-2 pb-3 border-1">
-                            <p className="text-[10px] sm:text-xs md:text-sm absolute inset-0 flex items-center justify-center z-20">
-                              {progressValue}%
-                            </p>
-                            <div
-                              className={`h-3 -mt-1 relative rounded-full ${progressColor} transition-all duration-300`}
-                              style={{ width: `${progressValue}%` }}
-                            ></div>
-                          </div>
-                        </td>
-                      );
-                    }
-
-                    // Default column
-                    return (
-                      <td
-                        key={cellIndex}
-                        className="py-2 sm:py-3 md:py-4 px-2 sm:px-4 md:px-6 sm:min-w-[110px] text-center border-b border-[#D4D4D8]"
-                      >
-                        {row[key]}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))
-            )}
-          </tbody>
+                    })}
+                  </tr>
+                ))
+              )}
+            </tbody>
           </table>
         </div>
       </div>
 
-     {!(pasthname === '/reports' || pasthname === '/clientProfile') && (
-  <Pagination
-    totalPages={totalPages}
-    onPageChange={handlePageChange}
-    initialPage={currentPage}
-    color={color}
-    hoverColor={pasthname === '/dashboard' ? COLORS.BlueButtonhover : COLORS.greenHover}
-    disabledColor={pasthname === '/dashboard' ? COLORS.BlueDisabled : COLORS.GreenDisabled}
-  />
-)}
-
+      {!(pasthname === '/reports' || pasthname === '/clientProfile') && (
+        <Pagination
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          initialPage={currentPage}
+          color={color}
+          hoverColor={pasthname === '/dashboard' ? COLORS.BlueButtonhover : COLORS.greenHover}
+          disabledColor={pasthname === '/dashboard' ? COLORS.BlueDisabled : COLORS.GreenDisabled}
+        />
+      )}
     </>
   );
 };

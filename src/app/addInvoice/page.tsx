@@ -154,6 +154,8 @@ const JobProfilePage = () => {
           setPackages={setPackages} 
           generatedId={generatedId} 
           invoiceDate={invoiceDate} 
+          clientName={data?.client?.name}
+          jobTitle={data?.jobDetails?.title}
           onEditItem={(itemId: any) => {
             const item = packages.find(p => p.id === itemId);
             if (item) {

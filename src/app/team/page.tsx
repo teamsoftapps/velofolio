@@ -1,6 +1,6 @@
 
 'use client';
-import React, { useEffect ,useMemo,useState} from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import Navbar from '../components/Navbar';
 import Table from '../components/Table';
@@ -15,8 +15,8 @@ const tableHeaders = [
   { key: 'Name', label: 'Name' },
   { key: 'Role', label: 'Role' },
   { key: 'Email', label: 'Email' },
-  { key: 'Phone', label: 'Phone' }, 
-    
+  { key: 'Phone', label: 'Phone' },
+
   { key: 'Status', label: 'Status' },
   { key: 'Assigned Jobs', label: 'Assigned Jobs' },
   { key: 'Availability', label: 'Availability' },
@@ -29,36 +29,36 @@ export default function Page() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false
   // const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
- 
-    interface SortState {
-  value: string;
-  direction: "asc" | "desc";
-}
+
+  interface SortState {
+    value: string;
+    direction: "asc" | "desc";
+  }
   const [sortBy, setSortBy] = useState<SortState>({
-  value: "createdAt",
-  direction: "desc",
-});;
- 
+    value: "createdAt",
+    direction: "desc",
+  });;
+
   const [filters, setFilters] = useState({
-     status: [],
-     selectedMembers: [],
-     leadSource: [],
-     eventType: [],
-     fromDate: "",
-     toDate: "",
-     paymentStatus: [],
-   });
- 
- 
- 
-   // Combine search + sort + filter
-   const advancedfilteredData = useMemo(() => {
-     let result = filterData(tableData, searchedValue);
-     result = applyAdvancedFilters(result, filters);
-     result = sortData(result, sortBy);
-     return result;
-   }, [tableData, searchedValue, sortBy, filters]);
- 
+    status: [],
+    selectedMembers: [],
+    leadSource: [],
+    eventType: [],
+    fromDate: "",
+    toDate: "",
+    paymentStatus: [],
+  });
+
+
+
+  // Combine search + sort + filter
+  const advancedfilteredData = useMemo(() => {
+    let result = filterData(tableData, searchedValue);
+    result = applyAdvancedFilters(result, filters);
+    result = sortData(result, sortBy);
+    return result;
+  }, [tableData, searchedValue, sortBy, filters]);
+
 
   const handleDeleteConfirm = () => {
     console.log('Team deleted');
@@ -82,14 +82,14 @@ export default function Page() {
           setOpenForm={setOpenForm}
         />
       )}
-           <FilterModal
-            isOpen={openFilter}
-            onClose={() => setOpenFilter(false)}
-            isVisible={openFilter}
-            setIsVisible={setOpenFilter}
-            onApply={(newFilters)=>setFilters(newFilters)}
-            
-          />
+      <FilterModal
+        isOpen={openFilter}
+        onClose={() => setOpenFilter(false)}
+        isVisible={openFilter}
+        setIsVisible={setOpenFilter}
+        onApply={(newFilters) => setFilters(newFilters)}
+
+      />
       <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] pt-6 pb-24'>
         {/* <Pagination /> */}
         <div className='container mx-auto  w-[100%] h-[80vh]'>
@@ -101,13 +101,13 @@ export default function Page() {
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}
             sortBy={{ value: 'createdAt', direction: 'desc' }}
-            setSortBy={() => {}}
+            setSortBy={() => { }}
           />
 
           <Table
             headers={tableHeaders}
             data={advancedfilteredData}
-           
+
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setIsDeleteModalOpen={setIsDeleteModalOpen}

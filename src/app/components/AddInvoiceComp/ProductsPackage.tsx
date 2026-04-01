@@ -26,7 +26,7 @@ import {
   rectSortingStrategy,
 } from '@dnd-kit/sortable';
 
-const ProductsPackage = ({ id, setOpenForm, type = "Invoice", packages = [], setPackages, generatedId, invoiceDate, onEditItem }: any) => {
+const ProductsPackage = ({ id, setOpenForm, type = "Invoice", packages = [], setPackages, generatedId, invoiceDate, clientName, jobTitle, onEditItem }: any) => {
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const clientId = Number(searchParams.get("clientId") || searchParams.get("id"));
@@ -192,6 +192,8 @@ const ProductsPackage = ({ id, setOpenForm, type = "Invoice", packages = [], set
     const item = {
       id: generatedId || Math.random().toString(36).substring(2, 9).toUpperCase(),
       clientId: id,
+      clientName: clientName,
+      jobTitle: jobTitle,
       packages: packages,
       totalAmount: totalAmountNum,
       splitType: splitType,

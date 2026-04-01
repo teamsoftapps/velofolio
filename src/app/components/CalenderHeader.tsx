@@ -38,10 +38,10 @@ const OverviewHeader = () => {
 
 
 
-      <div className='w-full sm:w-48 ml-auto'>
+      <div className='flex items-center justify-end flex-1'>
         <AddButton
           title={'Add New'}
-          setOpenForm={() => console.log('')}
+          setOpenForm={() => console.log('Open Form clicked')}
         />
       </div>
 

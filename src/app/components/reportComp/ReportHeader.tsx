@@ -7,16 +7,18 @@ import COLORS from '@/utils/Color';
 import { DateValue } from "@internationalized/date";
 import CalenderModal from "../CalenderModal";
 
-const ReportHeader = ({ 
-  timeRange, 
-  setTimeRange, 
-  value, 
-  setValue 
-}: { 
-  timeRange: string; 
+const ReportHeader = ({
+  timeRange,
+  setTimeRange,
+  value,
+  setValue,
+  onExport
+}: {
+  timeRange: string;
   setTimeRange: (range: string) => void;
   value: DateValue;
   setValue: (val: DateValue) => void;
+  onExport?: () => void;
 }) => {
   const [openCalender, setOpenCalender] = React.useState(false);
 
@@ -56,13 +58,11 @@ const ReportHeader = ({
             <button
               key={range}
               onClick={() => setTimeRange(range)}
-              className={`whitespace-nowrap px-3 py-2 text-sm font-medium transition-colors border border-gray-300 sm:text-base ${
-                index === 0 ? "rounded-l-md" : ""
-              } ${index === 3 ? "rounded-r-md" : ""} ${
-                timeRange === range
+              className={`whitespace-nowrap px-3 py-2 text-sm font-medium transition-colors border border-gray-300 sm:text-base ${index === 0 ? "rounded-l-md" : ""
+                } ${index === 3 ? "rounded-r-md" : ""} ${timeRange === range
                   ? 'bg-[#01B0E9] text-white'
                   : 'bg-white text-gray-700 hover:bg-gray-50'
-              } ${index !== 3 ? 'border-r-0' : ''}`}
+                } ${index !== 3 ? 'border-r-0' : ''}`}
             >
               {range}
             </button>
@@ -71,29 +71,29 @@ const ReportHeader = ({
 
         {/* Date Range Select */}
         <div className="relative w-full sm:w-60">
-           <button
-             onClick={() => setOpenCalender(!openCalender)}
-             className="appearance-none w-full cursor-pointer bg-white rounded-md py-2 px-3 pr-8 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black text-sm sm:text-base text-left border border-gray-300"
-           >
-             {formatDate(value)}
-           </button>
+          <button
+            onClick={() => setOpenCalender(!openCalender)}
+            className="appearance-none w-full cursor-pointer bg-white rounded-md py-2 px-3 pr-8 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black text-sm sm:text-base text-left border border-gray-300"
+          >
+            {formatDate(value)}
+          </button>
 
-           {openCalender && (
-             <div className="absolute top-12 right-0 bg-white rounded-2xl border-2 border-gray-200 z-[100] shadow-2xl">
-               <CalenderModal value={value} setValue={handleChangeValue} />
-             </div>
-           )}
+          {openCalender && (
+            <div className="absolute top-12 right-0 bg-white rounded-2xl border-2 border-gray-200 z-[100] shadow-2xl">
+              <CalenderModal value={value} setValue={handleChangeValue} />
+            </div>
+          )}
 
-           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1 text-black">
-             {openCalender ? <FiChevronUp className="text-lg" /> : <FiChevronDown className="text-lg" />}
-           </div>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-1 text-black">
+            {openCalender ? <FiChevronUp className="text-lg" /> : <FiChevronDown className="text-lg" />}
+          </div>
         </div>
 
         {/* Export Button */}
         <div className="w-full sm:w-auto">
           <ReportButton
             title="Export Report"
-            setOpenForm={() => { }}
+            setOpenForm={onExport || (() => { })}
             color={COLORS.greenButton}
             hoverColor={COLORS.greenHover}
           />

@@ -1,40 +1,35 @@
 
+/** @format */
+
 'use client';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Table from '../components/Table';
 import OverviewHeader from '../components/OverviewHeader';
 import OverviewChart from '../components/OverviewChart';
-import LeadsData from '../../utils/LeadsChart.json';
-import LeadForm from '../components/LeadFormModel';
-import DeleteModal from '../components/DeleteModal';
-import LeadData from '../../utils/Lead.json';
 import FilterModal from '../components/FilterModal';
-import { filterData, sortData, handleDelete, applyAdvancedFilters } from "../../utils/TableUtils";
+import LeadsDataRaw from '../../utils/Lead.json';
+import { filterData, sortData, applyAdvancedFilters, filterByTimeRange } from '../../utils/TableUtils';
+import RouteGuard from '../components/RouteGuard';
 
-const tableData = LeadData;
+const tableData = LeadsDataRaw;
 
 const tableHeaders = [
-  { key: 'dateCreated', label: 'Lead Created' },
+  { key: 'dateCreated', label: 'Date Created' },
   { key: 'leadName', label: 'Lead Name' },
-  { key: 'interestedService', label: 'Lead Type' },
-  { key: 'leadSource', label: 'Lead Source' },
+  { key: 'interestedService', label: 'Service' },
   { key: 'status', label: 'Status' },
   { key: 'eventDate', label: 'Event Date' },
   { key: 'priority', label: 'Priority' },
   { key: 'action', label: 'Action' },
-
 ];
 
-
 export default function Page() {
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
-  // const [searchedData, setSearchedData] = React.useState<any[]>([]);
   const [searchedValue, setSearchedValue] = React.useState('');
-
   const [OpenForm, setOpenForm] = useState(false);
 
-  const [openFilter, setOpenFilter] = useState<boolean>(false);
   interface SortState {
     value: string;
     direction: "asc" | "desc";
@@ -42,8 +37,8 @@ export default function Page() {
   const [sortBy, setSortBy] = useState<SortState>({
     value: "createdAt",
     direction: "desc",
-  });;
-
+  });
+  const [timeRange, setTimeRange] = useState("7 Days");
 
   const [filters, setFilters] = useState({
     status: [],
@@ -55,66 +50,64 @@ export default function Page() {
     paymentStatus: [],
   });
 
-
-
-  // Combine search + sort + filter
   const advancedfilteredData = useMemo(() => {
-    let result = filterData(tableData, searchedValue);
+    let result = filterByTimeRange(tableData, timeRange);
+    result = filterData(result, searchedValue);
     result = applyAdvancedFilters(result, filters);
     result = sortData(result, sortBy);
     return result;
-  }, [tableData, searchedValue, sortBy, filters]);
+  }, [tableData, searchedValue, sortBy, filters, timeRange]);
 
+  const dynamicLeadsChart = useMemo(() => {
+    const subtitle = timeRange === "7 Days" ? "(This Week)" : (timeRange === "30 Days" || timeRange === "Mtd") ? "(This Month)" : "(This Year)";
+
+    return [
+      { title: "New Leads", subtitle, count: 6, percentageChange: 15.01 },
+      { title: "Active Leads", subtitle, count: 6, percentageChange: 8.01 },
+      { title: "Converted Leads", subtitle, count: 0, percentageChange: 12.01 },
+      { title: "Lost Leads", subtitle, count: 0, percentageChange: 0.0 }
+    ];
+  }, [timeRange]);
 
   return (
-    <>
+    <RouteGuard allowedRoles={['superadmin']}>
       <Navbar />
-      {OpenForm && (
-        <LeadForm
-          onSubmit={(data) => console.log('Form submitted:', data)}
-          setOpenForm={setOpenForm}
-        />
-      )}
-      {isDeleteModalOpen && (
-        <DeleteModal
-          isOpen={isDeleteModalOpen}
-          onClose={() => setIsDeleteModalOpen(false)}
-          onConfirm={() => handleDelete(setIsDeleteModalOpen)}
-        />
-      )}
+
       <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden pt-6 pb-24'>
-        {/* <Pagination /> */}
-        <div className='container mx-auto bg-[#FAFAFA] w-[100%] '>
+        <div className='w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8'>
           <OverviewHeader
             title={'Leads'}
             setOpenForm={setOpenForm}
-            // setSearchedData={setSearchedData}
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}
             sortBy={sortBy}
             setSortBy={setSortBy}
-
+            timeRange={timeRange}
+            setTimeRange={setTimeRange}
           />
-          <OverviewChart chartData={LeadsData} />
+          <OverviewChart chartData={dynamicLeadsChart} variant="sparkline" />
+
           <FilterModal
             isOpen={openFilter}
             onClose={() => setOpenFilter(false)}
             isVisible={openFilter}
             setIsVisible={setOpenFilter}
-            onApply={(newFilters) => setFilters(newFilters)}
-
+            onApply={(newfilters) => setFilters(newfilters)}
           />
 
           <Table
             headers={tableHeaders}
             data={advancedfilteredData}
             setOpenForm={setOpenForm}
-            setIsDeleteModalOpen={setIsDeleteModalOpen}
+            setDeleteModal={setIsDeleteModalOpen}
             sortBy={sortBy}
             onSort={(key: string) => {
               if (sortBy.value === key) {
-                setSortBy({ value: key, direction: sortBy.direction === 'asc' ? 'desc' : 'asc' });
+                setSortBy({
+                  value: key,
+                  direction: sortBy.direction === 'asc' ? 'desc' : 'asc',
+                });
               } else {
                 setSortBy({ value: key, direction: 'desc' });
               }
@@ -122,6 +115,6 @@ export default function Page() {
           />
         </div>
       </div>
-    </>
+    </RouteGuard>
   );
 }

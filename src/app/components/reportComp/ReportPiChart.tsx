@@ -13,18 +13,6 @@ import {
 
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip);
 
-const options: ChartOptions<'polarArea'> = {
-  responsive: true,
-  maintainAspectRatio: true,
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      callbacks: { label: ctx => `$ ${ctx.label}: ${ctx.raw}` },
-    },
-  },
-  scales: { r: { display: false } },
-};
-
 const centerDotPlugin: Plugin<'polarArea'> = {
   id: 'centerDot',
   afterDatasetsDraw(chart) {
@@ -47,8 +35,20 @@ const centerDotPlugin: Plugin<'polarArea'> = {
   },
 };
 
-export default function PaymentsBreakdown({ selectedView, timeRange }: any) {
+export default function PaymentsBreakdown({ selectedView, timeRange, isPrint }: any) {
   
+  const options: ChartOptions<'polarArea'> = {
+    responsive: !isPrint,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: { label: ctx => `$ ${ctx.label}: ${ctx.raw}` },
+      },
+    },
+    scales: { r: { display: false } },
+  };
+
   // ==================== DYNAMIC MULTIPLIER BASED ON TIME ====================
   const phaseMultiplier = useMemo(() => {
     switch (timeRange) {
@@ -96,17 +96,21 @@ export default function PaymentsBreakdown({ selectedView, timeRange }: any) {
   const total = current.data.reduce((a: number, b: number) => a + b, 0);
 
   return (
-    <div className="flex items-center justify-center md:w-full lg:w-auto flex-grow md:bg-white lg:bg-transparent">
-      <div className="mb-3 w-full max-w-sm rounded-lg bg-white p-4 lg:shadow-sm sm:max-w-md sm:p-3 md:max-w-sm">
-        <h2 className="mb-1 text-center text-lg font-semibold text-gray-900 sm:mb-6 sm:text-xl">
-          {selectedView.charAt(0).toUpperCase() + selectedView.slice(1)} Breakdown
-        </h2>
+    <div className={`flex items-center justify-center ${isPrint ? 'w-full bg-transparent' : 'md:w-full lg:w-auto flex-grow md:bg-white lg:bg-transparent'}`}>
+      <div className={`mb-3 w-full ${isPrint ? 'p-0 shadow-none border-none rounded-none' : 'max-w-sm rounded-lg bg-white p-4 lg:shadow-sm sm:max-w-md sm:p-3 md:max-w-sm'}`}>
+        {!isPrint && (
+          <h2 className="mb-1 text-center text-lg font-semibold text-gray-900 sm:mb-6 sm:text-xl">
+            {selectedView.charAt(0).toUpperCase() + selectedView.slice(1)} Breakdown
+          </h2>
+        )}
 
-        <div className="mx-auto aspect-square w-full max-w-xs sm:max-w-sm md:max-w-xs">
+        <div className={`mx-auto aspect-square w-full ${isPrint ? 'max-w-[400px]' : 'max-w-xs sm:max-w-sm md:max-w-xs'}`}>
           <PolarArea
             data={data}
             options={options}
             plugins={[centerDotPlugin]}
+            width={isPrint ? 400 : undefined}
+            height={isPrint ? 400 : undefined}
           />
         </div>
 

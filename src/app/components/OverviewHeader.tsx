@@ -3,7 +3,7 @@
 'use client';
 import React, { useState } from 'react';
 import { GoSearch } from 'react-icons/go';
-import { FaSort } from 'react-icons/fa';
+import { FaSort, FaPlus } from 'react-icons/fa6';
 import { usePathname } from 'next/navigation';
 import { MdEmail } from 'react-icons/md';
 import { CiFilter } from 'react-icons/ci';
@@ -73,113 +73,110 @@ const OverviewHeader = ({
     return `${String(value.day).padStart(2, "0")}-${getMonthName(value)}-${value.year}`;
   }
   return (
-    <div className='flex-col sm:flex-row  lg:w-full Header mt-10 flex  md:flex-row items-start md:items-center justify-between p-2 text-black'>
+    <div className='flex flex-col lg:w-full Header mt-4 text-black'>
+      <div className='flex flex-col lg:flex-row lg:items-center justify-between w-full gap-4'>
+        {/* Left: Title & Breadcrumb */}
+        <div className='flex flex-col'>
+          <h1 className="text-2xl font-bold text-gray-900">{title} Overview</h1>
+          <nav className='flex text-sm text-[#8c8c8c] mt-1'>
+            <span>Dashboard</span>
+            <span className="mx-2">|</span>
+            <span className="text-[#8c8c8c] capitalize">{title} Overview</span>
+          </nav>
+        </div>
 
-      <div className='w-full sm:w-6/20 md:w-6/20  lg:block md:block lg:w-6/18 left p-2'>
-        <h1 className={` ${currentPath == "/payments" ? " md:text-xl  lg:2xl" : "text-2xl"} mb-3 font-semibold`}>{title} Overview</h1>
-        <h3 className='text-gray-600 text-sm'>Dashboard | {title} Overview</h3>
-      </div>
+        {/* Right: Controls Bar */}
+        <div className='flex flex-wrap items-center gap-3 lg:justify-end flex-1'>
+          {/* Search Bar */}
+          <div className='relative flex-1 min-w-[280px] md:max-w-xs bg-white border border-[#E5E7EB] rounded-lg h-11 flex items-center px-4'>
+            <input
+              type='text'
+              placeholder='Search by name, event, email'
+              value={searchedValue}
+              className='w-full outline-none text-sm text-gray-900 placeholder:text-[#9CA3AF]'
+              onChange={(e) => setSearchedValue(e.target.value)}
+            />
+            <GoSearch className='text-[#9CA3AF] text-lg ml-2' />
+          </div>
 
-
-
-      <div className={`flex flex-col gap-4 w-full lg:w-auto right items-center lg:items-end ${currentPath == "/payments" ? "xl:w-2/3 lg:w-3/4" : "lg:w-auto"}`}>
-        <div className="flex flex-col md:flex-row w-full gap-3 justify-end items-stretch md:items-center flex-wrap">
-          {currentPath === "/payments" && setTimeRange && value && (
-            <div className="flex flex-col sm:flex-row items-center gap-3">
-              <div className="flex border border-gray-300 rounded-md overflow-hidden bg-white shrink-0">
-                {["7 Days", "30 Days", "Mtd", "Ytd", "All Data"].map((range, index) => (
-                  <button
-                    key={range}
-                    className={`px-3 py-2 text-xs border-r border-gray-300 last:border-r-0 cursor-pointer transition-colors ${timeRange === range
-                      ? "bg-[rgb(1,176,233)] text-white" : "bg-gray-100 text-black hover:bg-gray-200"}`}
-                    onClick={() => setTimeRange(range)}
-                  >
-                    {range}
-                  </button>
-                ))}
-              </div>
-              <div className="relative w-full sm:w-44 shrink-0">
+          {/* Time Filter Buttons */}
+          {setTimeRange && (
+            <div className='flex border border-[#E5E7EB] rounded-lg overflow-hidden bg-white h-11 flex-shrink-0'>
+              {["7 Days", "30 Days", "Mtd", "Ytd"].map((range, index) => (
                 <button
-                  className="appearance-none w-full cursor-pointer bg-white rounded-md py-2 px-3 pr-8 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black text-xs text-left border border-gray-300 flex items-center justify-between"
+                  key={range}
+                  className={`px-3 md:px-4 text-sm font-medium transition-colors border-r border-[#E5E7EB] last:border-0 cursor-pointer ${timeRange === range
+                    ? "bg-[#01B0E9] text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`}
+                  onClick={() => setTimeRange(range)}
+                >
+                  {range}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Action Buttons: Sort, Filter, Add */}
+          <div className='flex items-center gap-2 flex-shrink-0'>
+            <button
+              className='flex items-center justify-center gap-2 h-11 px-4 bg-white border border-[#E5E7EB] rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer'
+              onClick={() => setIsSortOpen(true)}
+            >
+              <FaSort className='text-gray-400' />
+              <span>Sort</span>
+            </button>
+            <SortModal
+              isOpen={isSortOpen}
+              onClose={() => setIsSortOpen(false)}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              currentSort={currentSort}
+              onSortChange={(option) => {
+                setCurrentSort(option.id);
+                setSortBy({ value: option.value, direction: option.direction });
+              }}
+            />
+
+            <button
+              className='flex items-center justify-center gap-2 h-11 px-4 bg-white border border-[#E5E7EB] rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer'
+              onClick={() => setOpenFilter(true)}
+            >
+              <CiFilter className='text-lg' />
+              <span>Filter</span>
+            </button>
+
+            {value && setValue && (
+              <div className="relative">
+                <button
+                  className="flex items-center justify-center gap-2 h-11 px-4 bg-white border border-[#E5E7EB] rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
                   onClick={() => setOpenCalender(!openCalender)}
                 >
-                  <span className="truncate">{formatDate(value)}</span>
-                  {openCalender ? <FiChevronUp className="text-base shrink-0" /> : <FiChevronDown className="text-base shrink-0" />}
+                  <FiChevronDown className={`transition-transform ${openCalender ? 'rotate-180' : ''}`} />
+                  <span>{formatDate(value)}</span>
                 </button>
                 {openCalender && (
-                  <div className="absolute top-full right-0 mt-2 bg-white rounded-2xl border-2 border-gray-200 z-[1000] shadow-2xl">
+                  <div className="absolute top-full right-0 mt-2 bg-white rounded-xl border border-[#E5E7EB] z-[1000] shadow-xl">
                     <CalenderModal value={value} setValue={handleChangeValue} />
                   </div>
                 )}
               </div>
-            </div>
-          )}
-
-          <div className={`w-full md:w-64 shrink-0 bg-white text-black flex items-center gap-2 p-1 rounded-md border border-gray-300`}>
-            <input
-              type='text'
-              placeholder='Search by name/email'
-              value={searchedValue}
-              className='w-full h-8 p-2 text-xs sm:text-sm outline-none border-none'
-              onChange={(e) => setSearchedValue(e.target.value)}
-            />
-            <button
-              type='submit'
-              className='px-2 cursor-pointer flex justify-center items-center'
-            >
-              <GoSearch className='w-4 h-4 text-gray-600' />
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
-            {currentPath !== '/team' && (
-              <div className='relative shrink-0'>
-                <button className='
-                  flex items-center gap-1 h-10 py-2 pr-3 pl-2 
-                  bg-white cursor-pointer hover:bg-[#F4F4F5]
-                  rounded-md border border-gray-300
-                  z-1000
-                ' onClick={() => setIsSortOpen(true)}>
-                  <FaSort className='w-4 h-4 text-gray-700' />
-                  <span className='text-sm'>Sort</span>
-                </button>
-                <SortModal
-                  isOpen={isSortOpen}
-                  onClose={() => setIsSortOpen(false)}
-                  sortBy={sortBy}
-                  setSortBy={setSortBy}
-                  currentSort={currentSort}
-                  onSortChange={(option) => {
-                    setCurrentSort(option.id);
-                    setSortBy({ value: option.value, direction: option.direction });
-                  }}
-                />
-              </div>
             )}
 
-            <button className='
-              flex items-center gap-1 h-10 py-2 pr-3 pl-2
-              bg-white cursor-pointer hover:bg-[#F4F4F5]
-              rounded-md border border-gray-300 shrink-0
-            '
-              onClick={() => setOpenFilter(true)}
-            >
-              <CiFilter className='w-4 h-4' />
-              <span className='text-sm'>Filter</span>
-            </button>
-
-            {currentPath === '/payments' ? null : (
-              <div className='shrink-0 min-w-[140px]'>
-                <AddButton
-                  title={'Add New ' + title.slice(0, -1)}
-                  setOpenForm={setOpenForm}
-                />
-              </div>
+            {currentPath !== '/payments' && (
+              <button
+                className='flex items-center gap-3 h-11 pl-1.5 pr-6 bg-[#01B0E9] rounded-full text-sm font-bold text-white shadow-sm hover:brightness-105 transition-all cursor-pointer whitespace-nowrap w-fit'
+                onClick={() => setOpenForm(true)}
+              >
+                <div className="w-8 h-8 rounded-full bg-black/15 flex items-center justify-center">
+                  <FaPlus className="w-3.5 h-3.5" />
+                </div>
+                <span>
+                  {currentPath === '/team' ? 'Add New Member' : `Add New ${title.slice(-1) === 's' ? title.slice(0, -1) : title}`}
+                </span>
+              </button>
             )}
           </div>
         </div>
       </div>
-
     </div>
   );
 };

@@ -1,19 +1,19 @@
 
-// };
+/** @format */
+
 'use client';
 import React, { useMemo, useState } from 'react';
 import Navbar from '../components/Navbar';
-
 import Table from '../components/Table';
 import OverviewHeader from '../components/OverviewHeader';
 import OverviewChart from '../components/OverviewChart';
 import DeleteModal from '../components/DeleteModal';
 import FilterModal from '../components/FilterModal';
-import JobsData from '../../utils/Job.json';
-import JobsChartData from '../../utils/JobsChart.json';
+import JobsDataRaw from '../../utils/Job.json';
+import { filterData, sortData, handleDelete, applyAdvancedFilters, filterByTimeRange } from '../../utils/TableUtils';
+import RouteGuard from '../components/RouteGuard';
 
-const tableData = JobsData;
-import { filterData, sortData, handleDelete, applyAdvancedFilters } from '../../utils/TableUtils';
+const tableData = JobsDataRaw;
 
 const tableHeaders = [
   { key: 'name', label: 'Job Name/ Client' },
@@ -27,11 +27,10 @@ const tableHeaders = [
 
 export default function Page() {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false); // Renamed for clarity, initialized to false
-  // const [searchedData, setSearchedData] = React.useState<any[]>([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
   const [searchedValue, setSearchedValue] = React.useState('');
-
   const [OpenForm, setOpenForm] = useState(false);
+
   interface SortState {
     value: string;
     direction: "asc" | "desc";
@@ -39,9 +38,8 @@ export default function Page() {
   const [sortBy, setSortBy] = useState<SortState>({
     value: "createdAt",
     direction: "desc",
-  });;
-  // const filteredData = useMemo(() => filterData(tableData, searchedValue), [tableData, searchedValue]);
-  // const sortedData = useMemo(() => sortData(filteredData, sortBy), [filteredData, sortBy]);
+  });
+  const [timeRange, setTimeRange] = useState("7 Days");
 
   const [filters, setFilters] = useState({
     status: [],
@@ -53,23 +51,28 @@ export default function Page() {
     paymentStatus: [],
   });
 
-
-
-  // Combine search + sort + filter
   const advancedfilteredData = useMemo(() => {
-    let result = filterData(tableData, searchedValue);
+    let result = filterByTimeRange(tableData, timeRange);
+    result = filterData(result, searchedValue);
     result = applyAdvancedFilters(result, filters);
     result = sortData(result, sortBy);
     return result;
-  }, [tableData, searchedValue, sortBy, filters]);
+  }, [tableData, searchedValue, sortBy, filters, timeRange]);
 
+  const dynamicJobsChart = useMemo(() => {
+    return [
+      { title: "Total Jobs", count: 1, percentageChange: 12.5, colorClass: "bg-[#01B0E9]" },
+      { title: "Active Jobs", count: 0, percentageChange: 7.0, colorClass: "bg-yellow-500" },
+      { title: "Completed Jobs", count: 0, percentageChange: 9.0, colorClass: "bg-green-500" },
+      { title: "Cancelled Jobs", count: 0, percentageChange: -3.0, colorClass: "bg-gray-500" }
+    ];
+  }, [advancedfilteredData]);
 
   return (
-    <>
+    <RouteGuard allowedRoles={['superadmin']}>
       <Navbar />
 
       <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden pt-6 pb-24'>
-
         {isDeleteModalOpen && (
           <DeleteModal
             isOpen={isDeleteModalOpen}
@@ -77,27 +80,28 @@ export default function Page() {
             onConfirm={() => handleDelete(setIsDeleteModalOpen)}
           />
         )}
-        <FilterModal
-          isOpen={openFilter}
-          onClose={() => setOpenFilter(false)}
-          isVisible={openFilter}
-          setIsVisible={setOpenFilter}
-          onApply={(newfilters) => setFilters(newfilters)}
 
-        />
-
-        <div className='container mx-auto bg-[#FAFAFA] w-[100%] '>
+        <div className='w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8'>
           <OverviewHeader
             title={'Jobs'}
             setOpenForm={setOpenForm}
-
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}
             sortBy={sortBy}
             setSortBy={setSortBy}
+            timeRange={timeRange}
+            setTimeRange={setTimeRange}
           />
-          <OverviewChart chartData={JobsChartData} />
+          <OverviewChart chartData={dynamicJobsChart} variant="default" />
+
+          <FilterModal
+            isOpen={openFilter}
+            onClose={() => setOpenFilter(false)}
+            isVisible={openFilter}
+            setIsVisible={setOpenFilter}
+            onApply={(newfilters) => setFilters(newfilters)}
+          />
 
           <Table
             headers={tableHeaders}
@@ -107,6 +111,6 @@ export default function Page() {
           />
         </div>
       </div>
-    </>
+    </RouteGuard>
   );
 }

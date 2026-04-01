@@ -7,13 +7,22 @@ export interface SortState {
 
 // --- helper to get date correctly from different item types ---
 export function getItemDate(item: any): Date | null {
-  // Prioritize eventDate as requested, then fall back to creation/due dates
-  const dateStr = item.eventDate || item.leadCreated || item.dateCreated || item.createdAt || item.date || item.dueDate;
+  // Prioritize creation/entry dates for dashboard filtering, then fall back to event/due dates
+  const dateStr = item.dateCreated || item.leadCreated || item.createdAt || item.date || item.eventDate || item.dueDate;
   
-  if (!dateStr || dateStr === 'N/A' || typeof dateStr !== 'string' && typeof dateStr !== 'number' && !(dateStr instanceof Date)) return null;
+  if (!dateStr || dateStr === 'N/A' || (typeof dateStr !== 'string' && typeof dateStr !== 'number' && !(dateStr instanceof Date))) return null;
   
   const d = new Date(dateStr);
-  return isNaN(d.getTime()) ? null : d;
+  if (!isNaN(d.getTime())) return d;
+
+  // Fallback to createdAt if the dueDate is a descriptive string (like "Upon Signing")
+  const fallbackDate = item.createdAt || item.date || item.eventDate;
+  if (fallbackDate) {
+    const d2 = new Date(fallbackDate);
+    if (!isNaN(d2.getTime())) return d2;
+  }
+  
+  return null;
 }
 
 // --- search filter Function ---

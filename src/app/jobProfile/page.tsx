@@ -223,9 +223,9 @@ const JobProfilePage = () => {
             <div className='w-full h-[500px] bg-white p-4 sm:p-8 rounded-lg mt-4   overflow-y-auto scroller'>
               {activeTab === 'Invoices' && (
                 <>
-                  {invoices?.length > 0 ? (
+                  {invoices?.filter((inv: any) => inv.clientId === id).length > 0 ? (
                     <div className="space-y-4 flex items-center flex-col">
-                      {invoices.map((invoice: any) => (
+                      {invoices.filter((inv: any) => inv.clientId === id).map((invoice: any) => (
                         <InvoiceCard
                           key={invoice.id}
                           {...invoice}
@@ -253,9 +253,9 @@ const JobProfilePage = () => {
 
               {activeTab === 'Quotes' && (
                 <>
-                  {quotes?.length > 0 ? (
+                  {quotes?.filter((q: any) => q.clientId === id).length > 0 ? (
                     <div className='flex flex-col items-center space-y-4'>
-                      {quotes.map((quote: any) => (
+                      {quotes.filter((q: any) => q.clientId === id).map((quote: any) => (
                         <InvoiceCard
                           key={quote.id}
                           type='Quote'

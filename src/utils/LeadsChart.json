@@ -1,26 +1,26 @@
 [
   {
-    "title": "Total Leads",
+    "title": "New Leads",
     "count": 22,
-    "percentageChange": 15.0,
+    "percentageChange": 15.01,
     "colorClass": "bg-[#01B0E9]"
   },
   {
     "title": "Active Leads",
-    "count": 10,
-    "percentageChange": 8.0,
-    "colorClass": "bg-yellow-500"
+    "count": 18,
+    "percentageChange": 8.01,
+    "colorClass": "bg-[#FFB800]"
   },
   {
     "title": "Converted Leads",
     "count": 10,
-    "percentageChange": 12.0,
-    "colorClass": "bg-green-500"
+    "percentageChange": 12.01,
+    "colorClass": "bg-[#10B981]"
   },
   {
     "title": "Lost Leads",
     "count": 0,
     "percentageChange": 0.0,
-    "colorClass": "bg-gray-500"
+    "colorClass": "bg-[#6B7280]"
   }
 ]

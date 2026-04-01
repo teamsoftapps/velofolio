@@ -62,14 +62,14 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
 
           {/* Desktop Menu - AUTH ONLY */}
           {isLoggedIn && (
-            <div className='hidden lg:flex items-center space-x-2 xl:space-x-4'>
+            <div className='hidden lg:flex items-center space-x-1 xl:space-x-4 overflow-hidden'>
               {tabs.map((tab) => {
                 const isActive = pathname === tab.href || pathname.startsWith(tab.href + '/');
                 return (
                   <Link
                     key={tab.name}
                     href={tab.href}
-                    className={`px-3 py-2 rounded-lg text-base xl:text-lg font-medium flex flex-col items-center transition-colors duration-200 ${isActive ? 'text-[#01B0E9] bg-blue-50 ' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}
+                    className={`px-2 xl:px-3 py-2 rounded-lg text-xs xl:text-[15px] font-medium flex flex-col items-center transition-colors duration-200 flex-shrink-0 whitespace-nowrap ${isActive ? 'text-[#01B0E9] bg-blue-50 ' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}
                   >
                     <Image
                       src={tab.icon}
