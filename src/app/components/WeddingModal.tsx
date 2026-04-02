@@ -44,6 +44,7 @@ const PreWeddingModal: React.FC<PreWeddingModalProps> = ({ setModal }) => {
   const pickerRef = useRef<HTMLDivElement>(null);
   const [comment, setComment] = useState('');
   const [isCommentEditing, setIsCommentEditing] = useState(false);
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
   const [commentModel,setCommentModal] = useState<boolean>(false)
   const [attachments, setAttachments] = useState<
     { id: string; name: string; url: string; date: string; type: string }[]
@@ -62,34 +63,62 @@ const PreWeddingModal: React.FC<PreWeddingModalProps> = ({ setModal }) => {
     { id: string; name: string;  date: string; comment: string }[]
   >([]);
   const handleEditComment = (id: string) => {
-    const commentToEdit = commentData.find((comment) => comment.id === id);
+    const commentToEdit = commentData.find((c) => c.id === id);
     if (commentToEdit) {
       setComment(commentToEdit.comment);
       setIsCommentEditing(true);
+      setEditingCommentId(id);
+      setIsFocused(true);
     }
-    
-  }
-const DeleteComment = (id: string) => {
-  setCommentData(commentData.filter((comment) => comment.id !== id));
-}
-const handleSaveComment = () => {
-  if(comment.trim() === '') return
-  const newComment = {
-    id: Date.now().toString(),
-    name: 'John Doe',
-    date: `Added ${new Date().toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    })}`,
-    comment,
   };
-  setCommentData([...commentData, newComment]);
-  setComment('');
-}
+
+  const DeleteComment = (id: string) => {
+    setCommentData(commentData.filter((comment) => comment.id !== id));
+  };
+
+  const handleSaveComment = () => {
+    if (comment.trim() === '') return;
+
+    if (isCommentEditing && editingCommentId) {
+      setCommentData(
+        commentData.map((c) =>
+          c.id === editingCommentId
+            ? {
+                ...c,
+                comment,
+                date: `Edited ${new Date().toLocaleString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                  hour: 'numeric',
+                  minute: '2-digit',
+                  hour12: true,
+                })}`,
+              }
+            : c
+        )
+      );
+      setEditingCommentId(null);
+      setIsCommentEditing(false);
+    } else {
+      const newComment = {
+        id: Date.now().toString(),
+        name: 'John Doe',
+        date: `Added ${new Date().toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true,
+        })}`,
+        comment,
+      };
+      setCommentData([...commentData, newComment]);
+    }
+    setComment('');
+    setIsFocused(false);
+  };
 
 
 
@@ -598,15 +627,15 @@ const MAX_FILE_SIZE = 20 * 1024 * 1024; // 5MB
             <div className='mt-4 space-y-4 min-h-[300px] w-full  overflow-y-auto'>
               {
                commentData.map((data, index) => (
-                <CommentItem
-                 key={data.id}
-    id={data.id}
-    name={data.name}
-    comment={data.comment}
-    setIsCommentEditing={setIsCommentEditing}
- 
-    date={data.date}
-    onDelete={DeleteComment}/>
+                  <CommentItem
+                    key={data.id}
+                    id={data.id}
+                    name={data.name}
+                    comment={data.comment}
+                    onEdit={handleEditComment}
+                    date={data.date}
+                    onDelete={DeleteComment}
+                  />
     
                  
                 ))

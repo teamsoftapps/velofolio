@@ -114,9 +114,10 @@ export default function AddShootModal({
 
     return (
         <>
-            <div className="fixed inset-0  bg-black/50 z-40" onClick={onClose} />
-            <div className="fixed inset-0 flex top-16  items-center justify-center z-50 p-4">
-                <div className="bg-white rounded-md shadow-xl w-full max-w-xl max-h-[90vh] overflow-y-auto">
+            <div className="fixed inset-0  bg-black/50 z-40 w-full " onClick={onClose} />
+            <div className="fixed inset-0 flex top-16  items-center justify-center z-50 p-4" onClick={onClose} // 👈 catch outside clicks here
+            >
+                <div className="bg-white rounded-md shadow-xl w-full max-w-xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
                     <div className="flex items-center justify-between p-4  border-gray-100">
                         <h2 className="text-lg font-medium text-gray-900">Add Shoot / Appointment</h2>
                         <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">

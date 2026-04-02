@@ -25,7 +25,7 @@ const TeamUtilization = () => {
   ];
 
   return (
-    <div className="bg-white rounded-2xl shadow-md w-full  h-auto p-6 mb-5">
+    <div className="bg-white rounded-2xl w-full  h-auto p-6 mb-5">
       <div className=" flex-col  my-2 sm:flex-row flex items-start  sm:items-center justify-between mb-4">
         <h1 className="text-md sm:text-xl font-semibold text-gray-800 flex items-center"><RiTeamFill className='w-6 h-6 mr-2' /> Team Utilization Overview</h1>
         <DropOption options={['View by Department', 'View by Team']} />
@@ -33,7 +33,7 @@ const TeamUtilization = () => {
 
       {/* Reuse your main table */}
       <MiniTable headers={tableHeaders} data={tableData} />
- <FooterUtilizPerfom title='Utilization' />
+      <FooterUtilizPerfom title='Utilization' />
     </div>
   );
 };

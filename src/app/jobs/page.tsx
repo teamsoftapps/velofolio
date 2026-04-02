@@ -12,6 +12,7 @@ import FilterModal from '../components/FilterModal';
 import JobsDataRaw from '../../utils/Job.json';
 import { filterData, sortData, handleDelete, applyAdvancedFilters, filterByTimeRange } from '../../utils/TableUtils';
 import RouteGuard from '../components/RouteGuard';
+import AddJobModal from '../components/AddJobModal';
 
 const tableData = JobsDataRaw;
 
@@ -30,6 +31,7 @@ export default function Page() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
   const [searchedValue, setSearchedValue] = React.useState('');
   const [OpenForm, setOpenForm] = useState(false);
+  const [showJobModal, setShowJobModal] = useState(false);
 
   interface SortState {
     value: string;
@@ -39,7 +41,7 @@ export default function Page() {
     value: "createdAt",
     direction: "desc",
   });
-  const [timeRange, setTimeRange] = useState("7 Days");
+  const [timeRange, setTimeRange] = useState("Ytd");
 
   const [filters, setFilters] = useState({
     status: [],
@@ -60,13 +62,25 @@ export default function Page() {
   }, [tableData, searchedValue, sortBy, filters, timeRange]);
 
   const dynamicJobsChart = useMemo(() => {
+    const totalJobs = advancedfilteredData.length;
+    const activeJobs = advancedfilteredData.filter((job: any) => job.status && job.status.toLowerCase() === 'in progress').length;
+    const completedJobs = advancedfilteredData.filter((job: any) => job.status && job.status.toLowerCase() === 'completed').length;
+    const cancelledJobs = advancedfilteredData.filter((job: any) => job.status && job.status.toLowerCase() === 'cancelled').length;
+
     return [
-      { title: "Total Jobs", count: 1, percentageChange: 12.5, colorClass: "bg-[#01B0E9]" },
-      { title: "Active Jobs", count: 0, percentageChange: 7.0, colorClass: "bg-yellow-500" },
-      { title: "Completed Jobs", count: 0, percentageChange: 9.0, colorClass: "bg-green-500" },
-      { title: "Cancelled Jobs", count: 0, percentageChange: -3.0, colorClass: "bg-gray-500" }
+      { title: "Total Jobs", count: totalJobs, percentageChange: 12.5, colorClass: "bg-[#01B0E9]" },
+      { title: "Active Jobs", count: activeJobs, percentageChange: 7.0, colorClass: "bg-yellow-500" },
+      { title: "Completed Jobs", count: completedJobs, percentageChange: 9.0, colorClass: "bg-green-500" },
+      { title: "Cancelled Jobs", count: cancelledJobs, percentageChange: -3.0, colorClass: "bg-gray-500" }
     ];
   }, [advancedfilteredData]);
+
+  const members = [
+    { id: 1, name: "John Doe" },
+    { id: 2, name: "Jane Smith" },
+    { id: 3, name: "Bob Johnson" },
+    { id: 4, name: "Alice Williams" },
+  ];
 
   return (
     <RouteGuard allowedRoles={['superadmin']}>
@@ -80,11 +94,21 @@ export default function Page() {
             onConfirm={() => handleDelete(setIsDeleteModalOpen)}
           />
         )}
+        {showJobModal && (
+          <AddJobModal
+            isOpen={showJobModal}
+            onClose={() => setShowJobModal(false)}
 
+            onAddJob={() => setShowJobModal(false)}
+
+
+
+          />
+        )}
         <div className='w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8'>
           <OverviewHeader
             title={'Jobs'}
-            setOpenForm={setOpenForm}
+            setOpenForm={setShowJobModal}
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}

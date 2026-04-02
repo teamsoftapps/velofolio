@@ -8,17 +8,33 @@ interface CommentItemProps {
   comment: string;
   date: string;
   onDelete: (id: string) => void;
-  setIsCommentEditing: (isEditing: boolean) => void;
+  onEdit: (id: string) => void;
 }
 
-const CommentItem: React.FC<CommentItemProps> = ({ id, name, comment, date, onDelete,setIsCommentEditing }) => {
+const CommentItem: React.FC<CommentItemProps> = ({ id, name, comment, date, onDelete, onEdit }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  // Helper: show "Just now" if < 1 min
+  // Helper: show "Just now" if < 1 min, while respecting Added/Edited prefix
   const formatDate = (dateString: string) => {
-    const diff = Date.now() - new Date(dateString).getTime();
-    if (diff < 60000) return 'Just now';
-    return `Added ${new Date(dateString).toLocaleString()}`;
+    let rawDate = dateString;
+    let prefix = 'Added';
+
+    if (dateString.startsWith('Edited ')) {
+      prefix = 'Edited';
+      rawDate = dateString.replace('Edited ', '');
+    } else if (dateString.startsWith('Added ')) {
+      prefix = 'Added';
+      rawDate = dateString.replace('Added ', '');
+    }
+
+    const diff = Date.now() - new Date(rawDate).getTime();
+    if (diff >= 0 && diff < 60000) return `${prefix} just now`;
+
+    // if already formatted with prefix, return as is
+    if (dateString.startsWith('Added') || dateString.startsWith('Edited')) {
+      return dateString;
+    }
+    return `${prefix} ${new Date(rawDate).toLocaleString()}`;
   };
 
   return (
@@ -30,7 +46,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ id, name, comment, date, onDe
       />
       <div className="flex flex-col-reverse w-[80%] relative">
         <div className="flex items-center gap-3 text-md text-gray-500">
-          <button className="underline cursor-pointer" onClick={()=>setIsCommentEditing(true)}>Edit</button>
+          <button className="underline cursor-pointer" onClick={() => onEdit(id)}>Edit</button>
           <button
             className="underline cursor-pointer"
             onClick={() => setShowDeleteModal(true)}

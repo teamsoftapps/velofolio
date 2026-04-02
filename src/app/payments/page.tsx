@@ -85,7 +85,7 @@ export default function Page() {
     direction: "desc",
   });;
 
-  const [timeRange, setTimeRange] = useState("All Data");
+  const [timeRange, setTimeRange] = useState("Ytd");
   const [value, setValue] = useState<DateValue>(parseDate("2026-03-25"));
 
   const [filters, setFilters] = useState({
@@ -126,16 +126,19 @@ export default function Page() {
     advancedfilteredData.forEach((item: any) => {
       const amount = cleanNumber(item.amount);
       const paidAmount = cleanNumber(item.paid);
+      const balance = cleanNumber(item.balance);
 
       total += amount;
+      paid += paidAmount;
 
       const status = String(item.paymentStatus || "").toLowerCase();
-      if (status === 'paid') {
-        paid += paidAmount;
-      } else if (status === 'overdue' || status === 'unpaid') {
-        unpaid += amount;
+      if (status === 'overdue' || status === 'unpaid') {
+        unpaid += balance;
       } else if (status === 'pending') {
-        pending += amount;
+        pending += balance;
+      } else if (status === 'paid' && balance > 0) {
+        // Safe fallback if it's marked "paid" but somehow has a balance
+        pending += balance;
       }
     });
 
@@ -155,7 +158,7 @@ export default function Page() {
     <>
       <Navbar />
 
-      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden pt-6 pb-24'>
+      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden pt-6 pb-24 '>
         {/* <Pagination /> */}
         {isDeleteModalOpen && (
           <DeleteModal
@@ -172,7 +175,7 @@ export default function Page() {
           onApply={(newFilters) => setFilters(newFilters)}
 
         />
-        <div className='container mx-auto bg-[#FAFAFA] w-[100%] '>
+        <div className='container mx-auto bg-[#FAFAFA] w-[100%]  px-4 sm:px-10 '>
           <OverviewHeader
             title={'Payements'}
             setOpenForm={setOpenForm}

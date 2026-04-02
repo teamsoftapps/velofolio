@@ -33,7 +33,7 @@ const UpcomingPayements = ({ timeRange = "All Data", value }: UpcomingPayementsP
       });
     });
 
-    const mergedData = [ ...PayementData, ...milestonePayments ];
+    const mergedData = [...PayementData, ...milestonePayments];
 
     const customDate = value ? new Date(value.year, value.month - 1, value.day) : undefined;
     const filtered = filterByTimeRange(mergedData, timeRange, customDate);
@@ -49,57 +49,61 @@ const UpcomingPayements = ({ timeRange = "All Data", value }: UpcomingPayementsP
   }, [timeRange, value, invoices]);
 
   return (
-    <div className='bg-white p-8 border border-gray-300 rounded-lg shadow-md h-[450px] w-full  lg:min-w-1/2 overflow-y-auto'>
-      <div className=' w-full flex flex-row justify-between items-center mb-4'>
-        <h2 className=' text-lg font-medium text-[20px] sm:text-[22px] lg:text-[24px] text-black'>
+    <div className='bg-white border border-gray-300 rounded-lg shadow-md h-[650px] w-full lg:min-w-1/2 flex flex-col overflow-hidden'>
+      {/* Sticky heading — never scrolls */}
+      <div className='px-8 pt-8 pb-4 flex-shrink-0 w-full flex flex-row justify-between items-center'>
+        <h2 className='text-lg font-medium text-[20px] sm:text-[22px] lg:text-[24px] text-black'>
           Overdue & Upcoming Payments
         </h2>
       </div>
 
-      {tableData.length === 0 ? (
-        <div className='bg-[#F4F4F5] w-full h-[160px] mx-auto mt-12 text-center p-4 flex flex-col justify-center items-center text-black'>
-          No Invoices and Payments Record Found
-        </div>
-      ) : (
-        <div className="flex flex-col space-y-3">
-          {tableData.map((item, index) => (
-            <div key={index} className="flex flex-row justify-between items-center py-4 border-b border-gray-100 last:border-0">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
-                  {item.avatar ? (
-                    <img
-                      src={item.avatar}
-                      alt={item.client}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center font-bold text-gray-500 text-sm">
-                      {item.client[0]}
-                    </div>
-                  )}
+      {/* Scrollable rows */}
+      <div className='flex-1 overflow-y-auto px-8 pb-8'>
+        {tableData.length === 0 ? (
+          <div className='bg-[#F4F4F5] w-full h-[160px] mx-auto mt-12 text-center p-4 flex flex-col justify-center items-center text-black'>
+            No Invoices and Payments Record Found
+          </div>
+        ) : (
+          <div className="flex flex-col space-y-3">
+            {tableData.map((item, index) => (
+              <div key={index} className="flex flex-row justify-between items-center py-4 border-b border-gray-100 last:border-0">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
+                    {item.avatar ? (
+                      <img
+                        src={item.avatar}
+                        alt={item.client}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center font-bold text-gray-500 text-sm">
+                        {item.client[0]}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-col items-start">
+                    <span className="text-black font-semibold text-sm sm:text-base">{item.client}</span>
+                    <span className="text-[10px] sm:text-xs text-gray-400">{item.date}</span>
+                  </div>
                 </div>
-                <div className="flex flex-col items-start">
-                  <span className="text-black font-semibold text-sm sm:text-base">{item.client}</span>
-                  <span className="text-[10px] sm:text-xs text-gray-400">{item.date}</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 sm:gap-6">
-                <span className={`text-[10px] sm:text-xs px-2 py-1 rounded-md font-medium ${item.status?.toLowerCase() === 'paid' ? 'bg-green-50 text-green-600' :
+                <div className="flex items-center gap-3 sm:gap-6">
+                  <span className={`text-[10px] sm:text-xs px-2 py-1 rounded-md font-medium ${item.status?.toLowerCase() === 'paid' ? 'bg-green-50 text-green-600' :
                     item.status?.toLowerCase() === 'overdue' ? 'bg-red-50 text-red-600' :
                       'bg-orange-50 text-orange-600'
-                  }`}>
-                  {item.status}
-                </span>
-                <span className="text-black font-bold text-sm sm:text-lg">
-                  {typeof item.amount === 'string' && !item.amount.startsWith('$') ? `$${Number(item.amount).toLocaleString()}` : 
-                   typeof item.amount === 'number' ? `$${item.amount.toLocaleString()}` : 
-                   item.amount}
-                </span>
+                    }`}>
+                    {item.status}
+                  </span>
+                  <span className="text-black font-bold text-sm sm:text-lg">
+                    {typeof item.amount === 'string' && !item.amount.startsWith('$') ? `$${Number(item.amount).toLocaleString()}` :
+                      typeof item.amount === 'number' ? `$${item.amount.toLocaleString()}` :
+                        item.amount}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div> {/* end scrollable rows */}
     </div>
   );
 };

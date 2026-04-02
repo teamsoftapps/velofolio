@@ -118,8 +118,8 @@ export default function AddJobModal({
     return (
         <>
             <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose} />
-            <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-                <div className="bg-white rounded-md shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="fixed inset-0 flex items-center justify-center z-50 p-4" >
+                <div className="bg-white rounded-md shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
                     <div className="flex items-center justify-between p-4 border-b border-gray-100">
                         <h2 className="text-lg font-medium text-gray-900">Add New Job</h2>
                         <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
@@ -170,8 +170,8 @@ export default function AddJobModal({
                                         type="button"
                                         onClick={() => setFormData({ ...formData, status: status.value as JobData['status'] })}
                                         className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${formData.status === status.value
-                                                ? `${status.bgColor} border-transparent ${status.textColor}`
-                                                : 'bg-white border-gray-300 text-gray-600 hover:bg-gray-50'
+                                            ? `${status.bgColor} border-transparent ${status.textColor}`
+                                            : 'bg-white border-gray-300 text-gray-600 hover:bg-gray-50'
                                             }`}
                                     >
                                         <div className={`w-2 h-2 rounded-full ${formData.status === status.value ? status.color : 'bg-gray-400'}`} />
@@ -235,8 +235,8 @@ export default function AddJobModal({
                                         type="button"
                                         onClick={() => handleDeliverableToggle(item)}
                                         className={`px-3 py-1.5 rounded-md text-sm transition-all ${formData.deliverables.includes(item)
-                                                ? 'bg-[#01B0E9] text-white'
-                                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                            ? 'bg-[#01B0E9] text-white'
+                                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                             }`}
                                     >
                                         {item}

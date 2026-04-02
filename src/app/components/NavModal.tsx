@@ -28,16 +28,24 @@ export default function ProfileModal({ setProfileOpen ,companies}: ProfileModalP
   const router=useRouter()
 const user=useSelector((state:any)=>state.persisted.auth.user)
 const [signOut, { isLoading }] = useSignOutMutation();
-const handleLogout=async()=>{
-
-  const res = await signOut({}).unwrap();
-  toast.success(res.msg);
+const handleLogout = async () => {
+  // 1. Clear credentials from local state first
   dispatch(clearCredientials());
   persistor.purge();
-  router.push('/')
-
   
-}
+  // 2. Immediately route user away to login
+  router.push('/');
+  
+  // 3. Call the backend signout API
+  try {
+    const res = await signOut({}).unwrap();
+    if (res?.msg) {
+      toast.success(res.msg);
+    }
+  } catch (err) {
+    console.error("Sign Out API error:", err);
+  }
+};
   return (
     <>
       <div

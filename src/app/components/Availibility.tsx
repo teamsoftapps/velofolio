@@ -146,13 +146,13 @@ const CalendarTableComponent: React.FC = () => {
         <table className='w-full border-separate border-spacing-y-4 '>
           <thead className='bg-gray-200 rounded-3xl border-gray-300 border-1'>
             <tr>
-              <th className='p-2'>Su</th>
-              <th className='p-2'>Mo</th>
-              <th className='p-2'>Tu</th>
-              <th className='p-2'>We</th>
-              <th className='p-2'>Th</th>
-              <th className='p-2'>Fr</th>
-              <th className='p-2'>Sa</th>
+              <th className='p-2'>Sun</th>
+              <th className='p-2'>Mon</th>
+              <th className='p-2'>Tue</th>
+              <th className='p-2'>Wed</th>
+              <th className='p-2'>Thu</th>
+              <th className='p-2'>Fri</th>
+              <th className='p-2'>Sat</th>
             </tr>
           </thead>
           <tbody>

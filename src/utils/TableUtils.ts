@@ -50,12 +50,25 @@ export function sortData(data: any[], sortBy: SortState) {
   const { value, direction } = sortBy;
 
   return [...data].sort((a: any, b: any) => {
-    if (['name', 'firstName', 'lastName', 'email', 'phone', 'status', 'event', 'leadName', 'client', 'jobType', 'task', 'Name', 'Role', 'Email', 'Phone', 'Status', 'Assigned Jobs'].includes(value)) {
+    if (['name', 'firstName', 'lastName', 'email', 'phone', 'status', 'event', 'leadName', 'client', 'job', 'jobType', 'task', 'Name', 'Role', 'Email', 'Phone', 'Status', 'Assigned Jobs', 'invoiceNumber', 'paymentStatus', 'paymentMethod'].includes(value)) {
       const aVal = String(a[value] || '');
       const bVal = String(b[value] || '');
       return direction === 'asc'
         ? aVal.localeCompare(bVal)
         : bVal.localeCompare(aVal);
+    }
+
+    if (['amount', 'paid', 'balance'].includes(value)) {
+      const cleanNumber = (val: any) => {
+        if (typeof val === 'number') return val;
+        if (!val) return 0;
+        const cleaned = String(val).replace(/[^\d.-]/g, '');
+        return parseFloat(cleaned) || 0;
+      };
+      
+      const aNum = cleanNumber(a[value]);
+      const bNum = cleanNumber(b[value]);
+      return direction === 'asc' ? aNum - bNum : bNum - aNum;
     }
 
     if (['dueDate', 'eventDate', 'createdAt', 'leadCreated', 'dateCreated', 'date'].includes(value)) {

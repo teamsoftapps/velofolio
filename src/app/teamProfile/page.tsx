@@ -267,7 +267,7 @@ const ClientProfilePage = () => {
 
                 {activeTab === 'Overview' && <WorkloadOverview />}
 
-                {activeTab === 'Performance' && <Performance />}
+                {/* {activeTab === 'Performance' && <Performance />} */}
 
 
                 {activeTab === 'Tasks' && (

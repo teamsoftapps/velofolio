@@ -145,7 +145,7 @@ const reports = () => {
       {/* 1. SCREEN ONLY CONTENT (The interactive dashboard) */}
       <div className="screen-only-content">
         <Navbar />
-        <div className='container mx-auto w-[100%] h-full'>
+        <div className='container mx-auto w-[100%] h-full px-4 sm:px-10'>
           <ReportHeader
             timeRange={timeRange}
             setTimeRange={setTimeRange}
@@ -154,18 +154,18 @@ const reports = () => {
             onExport={handleExport}
           />
 
-          <div className='charts px-2 lg:px-3 flex gap-3 md:gap-10 w-full flex-col lg:flex-row items-start justify-between mt-10 overflow-hidden'>
+          <div className='charts px-2 lg:px-3 flex gap-3 md:gap-10 w-full flex-col lg:flex-row items-start justify-between overflow-hidden'>
             <div className='w-full sm:w-2/3 md:w-full lg:w-2/3 border border-gray-200 bg-white shadow-sm overflow-hidden rounded-xl'>
-              <ReportGraph 
-                selectedView={selectedView} 
-                setSelectedView={setSelectedView} 
-                selectedTab={selectedTab} 
+              <ReportGraph
+                selectedView={selectedView}
+                setSelectedView={setSelectedView}
+                selectedTab={selectedTab}
                 setSelectedTab={setSelectedTab}
                 timeRange={timeRange}
               />
             </div>
-            <ReportPiChart 
-              selectedView={selectedView} 
+            <ReportPiChart
+              selectedView={selectedView}
               timeRange={timeRange}
             />
           </div>
@@ -355,9 +355,9 @@ const reports = () => {
                       <div style={{ marginBottom: '16px' }}>
                         <ReportGraph
                           selectedView={view}
-                          setSelectedView={() => {}}
+                          setSelectedView={() => { }}
                           selectedTab="All"
-                          setSelectedTab={() => {}}
+                          setSelectedTab={() => { }}
                           timeRange={timeRange}
                           isPrint={true}
                         />

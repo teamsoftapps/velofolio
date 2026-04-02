@@ -1,6 +1,6 @@
 
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { Line } from "react-chartjs-2";
 import {
@@ -49,7 +49,17 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
     const jsDate = new Date(date.year, date.month - 1, date.day);
     return jsDate.toLocaleString("en-US", { month: "long" });
   };
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const listener = (e: PointerEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setOpenCalender(false);
+      }
+    };
+    document.addEventListener("pointerdown", listener);
+    return () => document.removeEventListener("pointerdown", listener);
+  }, []);
   const handleChangeValue = (newValue: DateValue) => {
     setValue(newValue);
     setOpenCalender(false);
@@ -133,10 +143,10 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
         events: filteredJobs.length,
         avgRevenue: filteredJobs.length > 0 ? (filteredPayments.reduce((sum, p) => sum + parseFloat(p.paid.replace(/[$,]/g, "")), 0) / filteredJobs.length) : 0,
       },
-      graph: { 
-        labels, 
-        leadPoints, 
-        jobPoints: shootPoints, 
+      graph: {
+        labels,
+        leadPoints,
+        jobPoints: shootPoints,
         paymentPoints: revenuePoints,
         utilizationPoints: shootPoints.map(p => Math.min(100, p * 20)),
         avgRevenuePoints: revenuePoints.map((r, i) => shootPoints[i] > 0 ? r / shootPoints[i] : 0)
@@ -221,7 +231,7 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
   };
 
   return (
-    <div className="w-full bg-white p-4 sm:p-6 rounded-lg shadow-md border border-gray-300">
+    <div className="w-full bg-white p-4 sm:p-6 rounded-lg  border border-gray-300">
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-6">
         <div className="relative w-full xl:w-72">
           <select
@@ -254,7 +264,7 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
               </button>
             ))}
           </div>
-          <div className="relative min-w-[180px] flex-1">
+          <div className="relative min-w-[180px] flex-1" onClick={(e) => e.stopPropagation()}>
             <button className="w-full cursor-pointer bg-gray-50 border border-gray-300 rounded-lg py-2.5 px-4 pr-10 text-left text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
               onClick={() => setOpenCalender(!openCalender)}
             >
@@ -264,7 +274,7 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
               {openCalender ? <FiChevronUp className="text-lg" /> : <FiChevronDown className="text-lg" />}
             </div>
             {openCalender && (
-              <div className="absolute top-full right-0 mt-2 bg-white rounded-xl border border-gray-200 z-[100] shadow-2xl">
+              <div className="absolute top-full right-0 mt-2 bg-white rounded-xl border border-gray-200 z-[100] shadow-2xl" ref={wrapperRef} >
                 <CalenderModal value={value} setValue={handleChangeValue} />
               </div>
             )}
@@ -299,7 +309,7 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
         <Line data={graphData} options={options} />
       </div>
 
-      <div className="flex justify-center gap-10 mt-6">
+      <div className="flex justify-center gap-80 mt-6">
         <div className="flex items-center space-x-2">
           <div className="w-3.5 h-3.5 bg-[#90C0A4] rounded-sm"></div>
           <span className="text-gray-500 text-sm font-medium">Leads</span>

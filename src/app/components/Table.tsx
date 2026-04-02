@@ -58,6 +58,7 @@ const Table = ({
     Signed: 'bg-[#FFB800]',
     Draft: 'bg-[#10B981]',
     Upcoming: "bg-[#01B0E9]",
+    "Not Started": "bg-[#71717A]",
   };
 
   const statusIcons: any = {
@@ -183,7 +184,7 @@ const Table = ({
                         return (
                           <td key={cellIndex} className="py-4 text-left border-b border-gray-200 px-4">
                             <div className="flex justify-start">
-                              <span className={`px-3 py-1.5 rounded-full text-[11px] font-medium uppercase tracking-wide inline-flex items-center justify-center w-fit ${textColor} ${statusColors[statusVal] || 'bg-gray-100'}`}>
+                              <span className={`px-3 py-1.5 rounded-full text-[11px] font-medium uppercase tracking-wide inline-flex items-center justify-center w-fit whitespace-nowrap ${textColor} ${statusColors[statusVal] || 'bg-gray-100'}`}>
                                 {icon && icon}
                                 {statusVal}
                               </span>

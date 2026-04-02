@@ -14,7 +14,7 @@ import { SortOption } from './SortModal';
 import ImportClientsButton from './ImportClientsButton';
 import CalenderModal from "./CalenderModal";
 import { DateValue } from "@internationalized/date";
-
+import Link from "next/link";
 interface SortState {
   value: string;
   direction: 'asc' | 'desc';
@@ -72,16 +72,28 @@ const OverviewHeader = ({
     if (!value) return "No date selected";
     return `${String(value.day).padStart(2, "0")}-${getMonthName(value)}-${value.year}`;
   }
+  const pathSegments = currentPath.split("/").filter(Boolean);
   return (
     <div className='flex flex-col lg:w-full Header mt-4 text-black'>
       <div className='flex flex-col lg:flex-row lg:items-center justify-between w-full gap-4'>
         {/* Left: Title & Breadcrumb */}
         <div className='flex flex-col'>
           <h1 className="text-2xl font-bold text-gray-900">{title} Overview</h1>
-          <nav className='flex text-sm text-[#8c8c8c] mt-1'>
-            <span>Dashboard</span>
-            <span className="mx-2">|</span>
-            <span className="text-[#8c8c8c] capitalize">{title} Overview</span>
+          <nav className="flex text-sm text-[#8c8c8c] mt-1 gap-2">
+            <Link href="/dashboard">Dashboard</Link>
+
+            {pathSegments.map((segment, index) => {
+              const href = "/" + pathSegments.slice(0, index + 1).join("/");
+
+              return (
+                <React.Fragment key={href}>
+                  <span>|</span>
+                  <Link href={href} className="capitalize hover:text-black">
+                    {segment} Overview
+                  </Link>
+                </React.Fragment>
+              );
+            })}
           </nav>
         </div>
 

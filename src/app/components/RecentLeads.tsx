@@ -34,7 +34,7 @@ const RecentLeads = ({ setOpenForm, timeRange = "All Data", value }: RecentLeads
   }, [timeRange, value]);
 
   return (
-    <div className="bg-white p-6 sm:p-8  border border-gray-300 rounded-lg shadow-md w-full lg:min-w-1/2 h-[450px]  ">
+    <div className="bg-white p-6 sm:p-8  border border-gray-300 rounded-lg shadow-md w-full lg:min-w-1/2 h-[650px]  ">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-4">
         <h2 className="text-lg sm:text-xl font-bold text-gray-900 flex-1">
           Recent Leads
@@ -48,7 +48,7 @@ const RecentLeads = ({ setOpenForm, timeRange = "All Data", value }: RecentLeads
         data={leadsData}
         headers={tableHeaders}
         color={COLORS.headerBlueButtonbg}
-        itemsPerPage={5}
+        itemsPerPage={10}
         hoverColor={COLORS.BlueButtonhover}
       />
     </div>

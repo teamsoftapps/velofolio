@@ -25,7 +25,7 @@ export default function Home() {
         <Navbar />
 
         {/* Top Row: Main Graph & Team Stats */}
-        <div className='w-full lg:w-[94%] xl:w-4/5 my-8 flex flex-col lg:flex-row justify-center mx-auto gap-8 items-stretch px-4 sm:px-6'>
+        <div className='w-full lg:w-[94%] xl:w-4/5 my-8 flex flex-col lg:flex-row justify-center mx-auto gap-8 items-stretch px-4 pt-6 sm:px-8'>
           <div className='w-full lg:w-[62%] flex'>
             <DashboardGraph
               timeRange={timeRange}

@@ -150,11 +150,13 @@ const SortableCard = memo(
     onClick,
     menuCardId,
     setMenuCardId,
+    onUpdateCard,
   }: {
     card: Card;
     onClick?: () => void;
     menuCardId: string | null;
     setMenuCardId: React.Dispatch<React.SetStateAction<string | null>>;
+    onUpdateCard?: (updated: Card) => void;
   }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =
       useSortable({ id: card.id });
@@ -187,7 +189,7 @@ const SortableCard = memo(
           {/* Menu Content */}
           {menuCardId === card.id && (
             <div
-              className='flex gap-1 text-left flex-col z-100000 mb-3   fixed sm:absolute   right-10 w-[200px] h-[190px] top-36 bg-white sm:bg-transparent sm:-right-[250px] sm:top-20 sm:w-[250px] shadow-md rounded-md p-2  '
+              className='flex gap-1 text-left flex-col z-100000 mb-3   fixed sm:absolute   right-10 w-[200px] h-[190px] top-36 bg-white sm:bg-transparent sm:-right-[250px] sm:top-20 sm:w-[250px]  rounded-md p-2  '
               onClick={(e) => e.stopPropagation()}>
               <button
                 className={`p-2 rounded-md cursor-pointer w-28 text-left ${activeButton === 'Open Card'
@@ -206,38 +208,70 @@ const SortableCard = memo(
                 onClick={() => {
                   setActiveButton('Change Members')
                   setTeamModal(true)
-
                 }}>
                 Change Members
               </button>
               {teamModal && (
                 <div
-                  className="absolute top-24 sm:top-24 -left-2 sm:left-0 ml-2 z-[2000]  h-[400px] w-54 sm:w-80"
+                  className="absolute top-24 sm:top-24 -left-2 sm:-left-40 ml-2 z-[2000] h-[400px] w-54 sm:w-80"
                   onClick={(e) => e.stopPropagation()}
                 >
-
-                  <EditTeamModal setTeamModal={setTeamModal} />
-
+                  <EditTeamModal
+                    setTeamModal={setTeamModal}
+                    currentMembers={card.members}
+                    onUpdateMembers={(newMembers: string[]) => onUpdateCard && onUpdateCard({ ...card, members: newMembers })}
+                  />
                 </div>
               )}
 
-              <button
-                className={`p-2 rounded-md cursor-pointer w-32 text-left ${activeButton === 'Change Cover'
-                  ? 'bg-[#00A4DD]  text-white'
-                  : 'bg-white text-black hover:bg-gray-100'
-                  }`}
-                onClick={() => handleClick('Change Cover')}>
-                Change Cover
-              </button>
+              <div className="relative">
+                <button
+                  className={`p-2 rounded-md cursor-pointer w-32 text-left ${activeButton === 'Change Cover'
+                    ? 'bg-[#00A4DD]  text-white'
+                    : 'bg-white text-black hover:bg-gray-100'
+                    }`}
+                  onClick={() => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'image/*';
+                    input.onchange = (e: any) => {
+                      const file = e.target.files[0];
+                      if (file && onUpdateCard) {
+                        onUpdateCard({ ...card, image: URL.createObjectURL(file) });
+                        setMenuCardId(null);
+                      }
+                    };
+                    input.click();
+                  }}>
+                  Change Cover
+                </button>
+              </div>
 
-              <button
-                className={`p-2 rounded-md cursor-pointer w-24 text-left ${activeButton === 'Edit Dates'
-                  ? 'bg-[#00A4DD]  text-white'
-                  : 'bg-white text-black hover:bg-gray-100'
-                  }`}
-                onClick={() => handleClick('Edit Dates')}>
-                Edit Dates
-              </button>
+              <div className="relative">
+                <button
+                  className={`p-2 rounded-md cursor-pointer w-24 text-left ${activeButton === 'Edit Dates'
+                    ? 'bg-[#00A4DD]  text-white'
+                    : 'bg-white text-black hover:bg-gray-100'
+                    }`}
+                  onClick={() => setActiveButton(activeButton === 'Edit Dates' ? null : 'Edit Dates')}>
+                  Edit Dates
+                </button>
+                {activeButton === 'Edit Dates' && (
+                  <div className="absolute top-10 left-0 bg-white p-2 border border-gray-200 rounded shadow-md z-[2000]" onClick={e => e.stopPropagation()}>
+                    <input
+                      type="date"
+                      className="border rounded p-1 text-sm bg-white"
+                      onChange={(e) => {
+                        if (onUpdateCard && e.target.value) {
+                          const formatted = new Date(e.target.value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+                          onUpdateCard({ ...card, date: formatted });
+                          setMenuCardId(null);
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
@@ -305,7 +339,10 @@ const SortableCard = memo(
             </div>
           </div>
           {menuCardId === card.id && (
-            <button className='bg-[#01B0E9] p-2 rounded-md text-white w-36 absolute -bottom-14 left-0'>
+            <button
+              className='bg-[#01B0E9] p-2 rounded-md text-white w-36 absolute -bottom-14 left-0'
+              onClick={(e) => { e.stopPropagation(); setMenuCardId(null); }}
+            >
               Save
             </button>
           )}
@@ -322,12 +359,14 @@ const SortableList = memo(
     menuCardId,
     setMenuCardId,
     onAddCard,
+    onUpdateCard,
   }: {
     list: List;
     onCardClick: (card: Card) => void;
     menuCardId: string | null;
     setMenuCardId: React.Dispatch<React.SetStateAction<string | null>>;
     onAddCard: (listId: string, card: Card) => void;
+    onUpdateCard?: (listId: string, card: Card) => void;
   }) => {
     const { setNodeRef, isOver } = useDroppable({ id: list.id });
     const [isEditing, setIsEditing] = useState(false);
@@ -336,6 +375,19 @@ const SortableList = memo(
     const [titleError, setTitleError] = useState(false);
     const inputRef = React.useRef<HTMLInputElement>(null);
     const cards = Array.isArray(list?.cards) ? list.cards : [];
+
+    // Color picker state
+    const beautifulColors = [
+      '#00A4DD', // Blue
+      '#FFC700', // Yellow
+      '#13CC95', // Green
+      '#FF5733', // Red/Orange
+      '#9B59B6', // Purple
+      '#E84393', // Pink
+    ];
+    const defaultColor = list.title === 'Pending' ? beautifulColors[0] : list.title === 'In Progress' ? beautifulColors[1] : beautifulColors[2];
+    const [color, setColor] = useState(defaultColor);
+    const [showColorPicker, setShowColorPicker] = useState(false);
 
     // Add-card form state
     const [isAddingCard, setIsAddingCard] = useState(false);
@@ -402,15 +454,29 @@ const SortableList = memo(
           }`}>
         <div className='flex justify-between items-center mb-3'>
           <h3 className='font-semibold text-lg text-black flex items-center gap-6'>
-            <BiPlus
-              size={20}
-              className={`${list.title === 'Pending'
-                ? 'text-[#00A4DD] bg-[#01B0E91A]'
-                : list.title === 'In Progress'
-                  ? 'text-[#FFC700] bg-[#FFC7001A]'
-                  : 'text-[#13CC95] bg-[#13CC95]/5'
-                } p-2 rounded-full w-9 text-2xl h-9`}
-            />
+            <div className="relative">
+              <BiPlus
+                size={20}
+                className="p-2 rounded-full w-9 text-2xl h-9 cursor-pointer transition-colors duration-300"
+                style={{ color, backgroundColor: `${color}1A` }}
+                onClick={() => setShowColorPicker(!showColorPicker)}
+              />
+              {showColorPicker && (
+                <div
+                  className="absolute top-10 left-0 bg-white p-2 rounded-md shadow-lg border border-gray-100 flex gap-2 z-[3000]"
+                  onClick={e => e.stopPropagation()}
+                >
+                  {beautifulColors.map(c => (
+                    <div
+                      key={c}
+                      className="w-5 h-5 rounded-full cursor-pointer hover:scale-125 transition-transform"
+                      style={{ backgroundColor: c }}
+                      onClick={() => { setColor(c); setShowColorPicker(false); }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
             {isEditing ? (
               <div className="flex flex-col gap-1">
                 <input
@@ -491,6 +557,7 @@ const SortableList = memo(
                     onClick={() => onCardClick(card)}
                     menuCardId={menuCardId}
                     setMenuCardId={setMenuCardId}
+                    onUpdateCard={(updated) => onUpdateCard && onUpdateCard(list.id, updated)}
                   />
                 )
             )}
@@ -867,11 +934,24 @@ const ProductionPage: React.FC = () => {
     }));
   };
 
+  const updateCard = (listId: string, updatedCard: Card) => {
+    setData((prev) => ({
+      ...prev,
+      lists: {
+        ...prev.lists,
+        [listId]: {
+          ...prev.lists[listId],
+          cards: prev.lists[listId].cards.map(c => c.id === updatedCard.id ? updatedCard : c),
+        },
+      },
+    }));
+  };
+
   return (
     <div className='min-h-screen w-full flex flex-col bg-gray-100 overflow-hidden relative'>
       <Navbar />
       <div
-        className={`w-full max-w-[1600px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 ${modal ? 'blur-sm' : ''
+        className={`w-full max-w-[1600px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 pt-6 sm:px-17 ${modal ? 'blur-sm' : ''
           }`}>
         <ProductionHeader
           setOpenFilter={setOpenFilter}
@@ -886,7 +966,7 @@ const ProductionPage: React.FC = () => {
             onDragEnd={handleDragEnd}>
             <div
               ref={scrollContainerRef}
-              className={`flex  sm:flex-row gap-5 lg:gap-7 lg:mx-0.5 py-6 overflow-x-auto sm:overflow-y-hidden ${menuCardId ? "h-[650px] " : ""}  scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent`}
+              className={`flex sm:flex-row gap-5 lg:gap-7 lg:mx-0.5 py-6 overflow-x-auto overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent ${menuCardId ? 'min-h-[650px]' : ''}`}
               style={{
                 WebkitOverflowScrolling: 'touch',
                 scrollBehavior: 'auto',
@@ -906,6 +986,7 @@ const ProductionPage: React.FC = () => {
                       menuCardId={menuCardId}
                       setMenuCardId={setMenuCardId}
                       onAddCard={addCard}
+                      onUpdateCard={updateCard}
                     />
                   ))}
               </SortableContext>

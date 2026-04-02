@@ -50,7 +50,7 @@ const DashboardTable = ({
 
   return (
     <>
-      <div className="w-full mt-2 lg:p-0 h-[260px] overflow-auto scroller">
+      <div className="w-full mt-2 lg:p-0 h-[460px]  overflow-auto scroller">
         <div className="overflow-x-auto overflow-y-auto max-h-[600px]">
           <table className="min-w-[400px] w-full bg-white table-auto border-collapse text-wrap">
             <thead className="bg-gray-100 text-black border-0 rounded-lg w-full">
@@ -102,18 +102,17 @@ const DashboardTable = ({
                     ) {
                       const textColor =
                         row[key] === "New Lead" ||
-                        row[key] === "Pending" ||
-                        row[key] === "Inactive" ||
-                        row[key] === "Signed"
+                          row[key] === "Pending" ||
+                          row[key] === "Inactive" ||
+                          row[key] === "Signed"
                           ? "text-black"
                           : "text-white";
 
                       return (
                         <td key={cellIndex} className="py-2 px-1 text-center min-w-[70px]">
                           <span
-                            className={`px-2 py-0.5 inline-block rounded-full truncate text-xs sm:text-[13px] font-medium leading-tight shadow-sm ${textColor} ${
-                              statusColors[row[key]] || "bg-gray-900"
-                            }`}
+                            className={`px-2 py-0.5 inline-block rounded-full truncate text-xs sm:text-[13px] font-medium leading-tight shadow-sm ${textColor} ${statusColors[row[key]] || "bg-gray-900"
+                              }`}
                           >
                             {row[key]}
                           </span>
@@ -136,14 +135,14 @@ const DashboardTable = ({
       </div>
 
       <div className="-mt-0">
-          <Pagination
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-            initialPage={currentPage}
-            color={color}
-            hoverColor={COLORS.BlueButtonhover}
-            disabledColor={COLORS.BlueDisabled}
-          />
+        <Pagination
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          initialPage={currentPage}
+          color={color}
+          hoverColor={COLORS.BlueButtonhover}
+          disabledColor={COLORS.BlueDisabled}
+        />
       </div>
     </>
   );

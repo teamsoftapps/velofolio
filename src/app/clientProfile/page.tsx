@@ -329,6 +329,7 @@ import Contracts from '../components/Contracts';
 import ClientProfile from '../components/ClientProfile';
 import Image from 'next/image';
 import InvoiceCard from '../components/JobProfileComp/InvoiceCard';
+import Table from '../components/Table';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
@@ -413,6 +414,18 @@ const ClientProfilePage = () => {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
 
+  // Local state for dynamically added Tasks
+  const [clientTasks, setClientTasks] = useState<any[]>([]);
+
+  const TaskTableHeaders = [
+    { key: 'task', label: 'Task' },
+    { key: 'job', label: 'Job' },
+    { key: 'duedate', label: 'Due Date' },
+    { key: 'priority', label: 'Priority' },
+    { key: 'status', label: 'Status' },
+    { key: 'action', label: 'Action' },
+  ];
+
   // Search States
   const [eventSearch, setEventSearch] = useState('');
   const [taskSearch, setTaskSearch] = useState('');
@@ -430,7 +443,7 @@ const ClientProfilePage = () => {
   const [tempNotes, setTempNotes] = useState(clientData.notes);
 
   // Original Events Data
-  const eventsData: Event[] = [
+  const [eventsData, setEventsData] = useState<Event[]>([
     {
       title: 'Pre-Wedding Shoot - Sarah & John',
       status: 'COMPLETED',
@@ -463,7 +476,7 @@ const ClientProfilePage = () => {
       deliverables: ['Full Video', 'Edited Clips'],
       team: ['Sofia', 'Mike'],
     },
-  ];
+  ]);
 
   // Lead Source Options
   const leadSourceOptions = [
@@ -509,29 +522,34 @@ const ClientProfilePage = () => {
     e.preventDefault();
     // Use FormData to get values from the form
     const formData = new FormData(e.currentTarget as HTMLFormElement);
-    const taskData = {
-      name: formData.get('taskName'),
-      assignee: formData.get('assignee'),
-      priority: formData.get('priority'),
-      dueDate: formData.get('dueDate'),
-      description: formData.get('description'),
+    const selectedJob = formData.get('jobId') as string;
+    
+    const newTask = {
+      task: formData.get('taskName') || 'Unnamed Task',
+      job: selectedJob ? selectedJob : 'General Client Task',
+      duedate: formData.get('dueDate') || 'No Date',
+      priority: formData.get('priority') || 'Medium',
+      status: 'Pending',
+      action: 'View',
     };
-    console.log('Task Added:', taskData);
+    
+    setClientTasks(prev => [...prev, newTask]);
     setIsTaskModalOpen(false);
   };
 
   const handleAddEvent = (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget as HTMLFormElement);
-    const eventData = {
-      title: formData.get('eventTitle'),
-      status: formData.get('status'),
-      location: formData.get('location'),
-      date: formData.get('date'),
-      deliverables: formData.get('deliverables')?.toString().split(',').map(s => s.trim()),
-      team: formData.getAll('teamMember'),
+    const newEvent: Event = {
+      title: (formData.get('eventTitle') as string) || 'New Event',
+      status: (formData.get('status') as Event['status']) || 'NOT STARTED',
+      location: (formData.get('location') as string) || 'TBD',
+      date: (formData.get('date') as string)?.replace('T', ', ') || 'TBD',
+      deliverables: (formData.get('deliverables') as string)?.toString().split(',').map(s => s.trim()).filter(Boolean) || [],
+      team: formData.getAll('teamMember') as string[],
     };
-    console.log('Event Added:', eventData);
+    
+    setEventsData(prev => [newEvent, ...prev]);
     setIsEventModalOpen(false);
   };
 
@@ -803,19 +821,30 @@ const ClientProfilePage = () => {
              {activeTab === 'Tasks' && (
               <div className='flex flex-col gap-4 sm:gap-6'>
                 <div className='w-full bg-white p-4 sm:p-5 rounded-lg'>
-                  <div className='h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px] overflow-y-auto mt-4 sm:mt-6 flex flex-col items-center justify-start pt-8 sm:pt-12'>
-                    <div className='mb-6 sm:mb-8 w-full flex justify-center'>
-                      <img src='/images/no-task.png' alt='No tasks' className='w-[100] h-[100] object-contain' />
+                  {clientTasks.length === 0 ? (
+                    <div className='h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px] overflow-y-auto mt-4 sm:mt-6 flex flex-col items-center justify-start pt-8 sm:pt-12'>
+                      <div className='mb-6 sm:mb-8 w-full flex justify-center'>
+                        <img src='/images/no-task.png' alt='No tasks' className='w-[100] h-[100] object-contain' />
+                      </div>
+                      <div className='text-center mb-6 sm:mb-8 flex justify-center'>
+                        <p className='w-5/8 text-sm sm:text-base md:text-lg lg:text-xl text-black'>
+                          No tasks yet! Create your first task to keep your workflow on track.
+                        </p>
+                      </div>
+                      <div>
+                        <AddButton setOpenForm={() => setIsTaskModalOpen(true)} title='Add Task' />
+                      </div>
                     </div>
-                    <div className='text-center mb-6 sm:mb-8 flex justify-center'>
-                      <p className='w-5/8 text-sm sm:text-base md:text-lg lg:text-xl text-black'>
-                        No tasks yet! Create your first task to keep your workflow on track.
-                      </p>
+                  ) : (
+                    <div className='w-full'>
+                      <div className='flex justify-end mb-4'>
+                        <div className='w-48'>
+                          <AddButton setOpenForm={() => setIsTaskModalOpen(true)} title='Add Task' />
+                        </div>
+                      </div>
+                      <Table headers={TaskTableHeaders} data={clientTasks} />
                     </div>
-                    <div>
-                      <AddButton setOpenForm={() => setIsTaskModalOpen(true)} title='Add Task' />
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             )}
@@ -1037,6 +1066,20 @@ const ClientProfilePage = () => {
                 placeholder="e.g., Follow up with Sarah"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent outline-none transition-all text-sm"
               />
+            </div>
+
+            {/* Related Job */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">Job / Event</label>
+              <select 
+                name="jobId"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent outline-none transition-all text-sm bg-white"
+              >
+                <option value="">General Client Task (No specific job)</option>
+                {eventsData.map((event, idx) => (
+                  <option key={idx} value={event.title}>{event.title}</option>
+                ))}
+              </select>
             </div>
 
             {/* Assignee & Priority Row */}

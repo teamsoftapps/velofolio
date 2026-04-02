@@ -9,7 +9,7 @@ import { MdEmail } from 'react-icons/md';
 import { CiFilter } from 'react-icons/ci';
 import AddButton from './AddButton';
 import SortModal from './SortModal';
-
+import Link from "next/link";
 // interface OverviewHeaderProps {
 //   title: string;
 //   setSearchedData: (data: []) => void;
@@ -22,6 +22,7 @@ import SortModal from './SortModal';
 
 const OverviewHeader = () => {
   const currentPath = usePathname();
+  const pathSegments = currentPath.split("/").filter(Boolean);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [currentSort, setCurrentSort] = useState('added-newest');
   return (
@@ -29,7 +30,15 @@ const OverviewHeader = () => {
 
       <div className='w-full sm:w-6/20 md:w-6/20 lg:block md:block lg:w-6/18 left p-2'>
         <h1 className='text-2xl mb-3 font-semibold'>Calendar Overview</h1>
-        <h3 className='text-gray-600 text-sm'>Dashboard | Calendar Overview</h3>
+        <h3 className='text-gray-600 text-sm flex gap-2'>
+          <Link href="/dashboard" className="hover:text-black">
+            Dashboard
+          </Link>
+          <span>|</span>
+          <Link href="/calendar" className="hover:text-black">
+            Calendar Overview
+          </Link>
+        </h3>
       </div>
 
 

@@ -11,6 +11,7 @@ import FilterModal from '../components/FilterModal';
 import LeadsDataRaw from '../../utils/Lead.json';
 import { filterData, sortData, applyAdvancedFilters, filterByTimeRange } from '../../utils/TableUtils';
 import RouteGuard from '../components/RouteGuard';
+import LeadForm from '../components/LeadFormModel';
 
 const tableData = LeadsDataRaw;
 
@@ -29,7 +30,7 @@ export default function Page() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
   const [searchedValue, setSearchedValue] = React.useState('');
   const [OpenForm, setOpenForm] = useState(false);
-
+  const [openLeadsModal, setOpenLeadsModal] = useState(false);
   interface SortState {
     value: string;
     direction: "asc" | "desc";
@@ -38,7 +39,7 @@ export default function Page() {
     value: "createdAt",
     direction: "desc",
   });
-  const [timeRange, setTimeRange] = useState("7 Days");
+  const [timeRange, setTimeRange] = useState("Ytd");
 
   const [filters, setFilters] = useState({
     status: [],
@@ -75,9 +76,17 @@ export default function Page() {
 
       <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden pt-6 pb-24'>
         <div className='w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8'>
+          {
+            openLeadsModal && (
+              <LeadForm
+                onSubmit={() => { console.log("Form submitted"); setOpenLeadsModal(false) }}
+                setOpenForm={setOpenLeadsModal}
+              />
+            )
+          }
           <OverviewHeader
             title={'Leads'}
-            setOpenForm={setOpenForm}
+            setOpenForm={setOpenLeadsModal}
             setSearchedValue={setSearchedValue}
             searchedValue={searchedValue}
             setOpenFilter={setOpenFilter}
@@ -85,6 +94,7 @@ export default function Page() {
             setSortBy={setSortBy}
             timeRange={timeRange}
             setTimeRange={setTimeRange}
+
           />
           <OverviewChart chartData={dynamicLeadsChart} variant="sparkline" />
 

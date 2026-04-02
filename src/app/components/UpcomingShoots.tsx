@@ -41,7 +41,7 @@ const UpcomingShoots = ({ timeRange = "All Data", value }: UpcomingShootsProps) 
   }, [timeRange, value]);
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 border border-gray-300 rounded-lg shadow-md w-full h-[450px] bg-white">
+    <div className="p-4 sm:p-6 lg:p-8 border border-gray-300 rounded-lg shadow-md w-full h-[650px] bg-white">
       <AddShootModal
         isOpen={isShootModalOpen}
         onClose={() => setIsShootModalOpen(false)}
@@ -51,7 +51,7 @@ const UpcomingShoots = ({ timeRange = "All Data", value }: UpcomingShootsProps) 
           { id: '2', name: 'David P.', image: '/teampic2.png', role: 'Photographer' },
         ]}
       />
-      
+
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
         <h2 className="text-lg sm:text-xl font-bold text-gray-900 flex-1">
           Upcoming Shoots & Appointments
@@ -61,7 +61,7 @@ const UpcomingShoots = ({ timeRange = "All Data", value }: UpcomingShootsProps) 
         </div>
       </div>
 
-      <div className="flex flex-col space-y-3 h-[300px] overflow-y-auto no-scrollbar">
+      <div className="flex flex-col space-y-3 h-[500px] overflow-y-hidden no-scrollbar">
         {shootsData.length === 0 ? (
           <div className="text-gray-500 text-center py-10 italic text-sm">No shoots found in this range</div>
         ) : shootsData.map((shoot, index) => (

@@ -59,10 +59,10 @@ export default function PremiumPortraitPackage({
 
 
             <div className="w-full flex items-center justify-between bg-gray-100 p-2 mt-2 rounded-lg">
-              <MdDragIndicator 
-                {...attributes} 
-                {...listeners} 
-                className="w-6 h-6 text-gray-400 cursor-grab active:cursor-grabbing hover:text-gray-600 transition-colors" 
+              <MdDragIndicator
+                {...attributes}
+                {...listeners}
+                className="w-6 h-6 text-gray-400 cursor-grab active:cursor-grabbing hover:text-gray-600 transition-colors"
               />
 
               <div className="flex justify-center sm:justify-end items-center gap-3">
@@ -87,7 +87,7 @@ export default function PremiumPortraitPackage({
                 )}
 
                 {onDelete && (
-                  <button 
+                  <button
                     onClick={() => onDelete(id)}
                     className="p-2.5 rounded-full bg-white shadow-sm ring-1 ring-gray-200 transition-all hover:bg-gray-50 focus:outline-none"
                     title="Delete"
@@ -104,14 +104,14 @@ export default function PremiumPortraitPackage({
                   >
                     <SlOptions className="w-5 h-5 text-gray-600" />
                   </button>
-                  
+
                   {showOptions && (
                     <>
                       <div className="fixed inset-0 z-40 bg-transparent" onClick={() => setShowOptions(false)} />
                       <div className="absolute right-0 top-full mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden" onClick={(e) => e.stopPropagation()}>
                         <button className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 transition-colors text-left">
-                           <CiFileOn className="w-4 h-4 text-gray-500" />
-                           <span>Download</span>
+                          <CiFileOn className="w-4 h-4 text-gray-500" />
+                          <span>Download</span>
                         </button>
                       </div>
                     </>
