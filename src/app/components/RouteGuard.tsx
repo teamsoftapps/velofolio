@@ -24,7 +24,7 @@ export default function RouteGuard({
 
   useEffect(() => {
     const isPublicRoute = publicRoutes.includes(pathname);
-    
+
     // Redirect logged-in users away from guest-only routes
     // Both "/" and "/signin" are handled here
     if (isLoggedIn && (pathname === "/" || pathname === "/signin" || pathname === "/signup")) {
@@ -58,8 +58,8 @@ export default function RouteGuard({
             {isLoggedIn && publicRoutes.includes(pathname)
               ? "Redirecting to dashboard..."
               : !isLoggedIn && !publicRoutes.includes(pathname)
-              ? "Redirecting to login..."
-              : "Verifying access..."}
+                ? "Redirecting to login..."
+                : "Verifying access..."}
           </p>
         </div>
       </div>

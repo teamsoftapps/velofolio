@@ -148,89 +148,92 @@ export default function ClientsPage() {
   }
   return (
     <RouteGuard allowedRoles={['superadmin']}>
-      <ExportModal
-        isOpen={isExportModalOpen}
-        onClose={() => setIsExportModalOpen(false)}
-        onConfirmExport={performExport}
-        fileName={`clients_export_${new Date().toISOString().split('T')[0]}`}
-        recordCount={allTableData.length}
-      />
-      <Navbar />
-
-      <ImportClientsModal
-        isOpen={isImportModalOpen}
-        onClose={() => setIsImportModalOpen(false)}
-        onImportSuccess={handleImportSuccess}
-      />
-
-      {isFormOpen && (
-        <ClientFormModal
-          onSubmit={(data) => {
-            console.log('Form submitted:', data);
-            setIsFormOpen(false);
-          }}
-          setOpenForm={setIsFormOpen}
-          setClients={setClients}
+      <div className="bg-[#FAFAFA]">
+        <ExportModal
+          isOpen={isExportModalOpen}
+          onClose={() => setIsExportModalOpen(false)}
+          onConfirmExport={performExport}
+          fileName={`clients_export_${new Date().toISOString().split('T')[0]}`}
+          recordCount={allTableData.length}
         />
-      )}
+        <Navbar />
 
-      {isDeleteModalOpen && (
-        <DeleteModal
-          isOpen={isDeleteModalOpen}
-          onClose={() => setIsDeleteModalOpen(false)}
-          onConfirm={handleDelete}
-        />
-      )}
-
-      <FilterModal
-        isOpen={openFilter}
-        onClose={() => setOpenFilter(false)}
-        isVisible={openFilter}
-        setIsVisible={setOpenFilter}
-        onApply={(newFilters) => setFilters(newFilters)}
-      />
-
-      <div className='w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-24'>        <div className="container mx-auto w-full">
-        <OverviewHeader
-          title="Clients"
-          setOpenForm={setIsFormOpen}
-          searchedValue={searchedValue}
-          setSearchedValue={setSearchedValue}
-          setOpenFilter={setOpenFilter}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
+        <ImportClientsModal
+          isOpen={isImportModalOpen}
+          onClose={() => setIsImportModalOpen(false)}
+          onImportSuccess={handleImportSuccess}
         />
 
-        {/* Import & Export Buttons */}
-        <div className="w-full flex justify-end gap-5 mb-6">
-          <ImportClientsButton
-            type="import"
-            onClick={() => setIsImportModalOpen(true)}
+        {isFormOpen && (
+          <ClientFormModal
+            onSubmit={(data) => {
+              console.log('Form submitted:', data);
+              setIsFormOpen(false);
+            }}
+            setOpenForm={setIsFormOpen}
+            setClients={setClients}
           />
-          <ImportClientsButton
-            type="export"
-            onClick={handleExport}           // ← Now working!
-            showFormat={false}
+        )}
+
+        {isDeleteModalOpen && (
+          <DeleteModal
+            isOpen={isDeleteModalOpen}
+            onClose={() => setIsDeleteModalOpen(false)}
+            onConfirm={handleDelete}
+          />
+        )}
+
+        <FilterModal
+          isOpen={openFilter}
+          onClose={() => setOpenFilter(false)}
+          isVisible={openFilter}
+          setIsVisible={setOpenFilter}
+          onApply={(newFilters) => setFilters(newFilters)}
+        />
+
+      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] pb-24'>
+        <div className='w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8 pt-6'>
+          <OverviewHeader
+            title="Clients"
+            setOpenForm={setIsFormOpen}
+            searchedValue={searchedValue}
+            setSearchedValue={setSearchedValue}
+            setOpenFilter={setOpenFilter}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+          />
+
+          {/* Import & Export Buttons */}
+          <div className="w-full flex justify-end gap-5 mb-6">
+            <ImportClientsButton
+              type="import"
+              onClick={() => setIsImportModalOpen(true)}
+            />
+            <ImportClientsButton
+              type="export"
+              onClick={handleExport}           // ← Now working!
+              showFormat={false}
+            />
+          </div>
+
+          <Table
+            headers={tableHeaders}
+            data={advancedfilteredData}
+            setDeleteModal={setIsDeleteModalOpen}
+            sortBy={sortBy}
+            onSort={(key: string) => {
+              if (sortBy.value === key) {
+                setSortBy({
+                  value: key,
+                  direction: sortBy.direction === 'asc' ? 'desc' : 'asc',
+                });
+              } else {
+                setSortBy({ value: key, direction: 'desc' });
+              }
+            }}
           />
         </div>
-
-        <Table
-          headers={tableHeaders}
-          data={advancedfilteredData}
-          setDeleteModal={setIsDeleteModalOpen}
-          sortBy={sortBy}
-          onSort={(key: string) => {
-            if (sortBy.value === key) {
-              setSortBy({
-                value: key,
-                direction: sortBy.direction === 'asc' ? 'desc' : 'asc',
-              });
-            } else {
-              setSortBy({ value: key, direction: 'desc' });
-            }
-          }}
-        />
-      </div>
+        </div>
       </div>
     </RouteGuard>
   );

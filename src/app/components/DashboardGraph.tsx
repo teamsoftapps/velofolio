@@ -139,8 +139,7 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
         leads: filteredLeads.length,
         jobs: filteredJobs.length,
         payments: filteredPayments.reduce((sum, p) => sum + parseFloat(p.paid.replace(/[$,]/g, "")), 0),
-        utilization: 64, // Mock overall utilization
-        events: filteredJobs.length,
+
         avgRevenue: filteredJobs.length > 0 ? (filteredPayments.reduce((sum, p) => sum + parseFloat(p.paid.replace(/[$,]/g, "")), 0) / filteredJobs.length) : 0,
       },
       graph: {
@@ -148,7 +147,6 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
         leadPoints,
         jobPoints: shootPoints,
         paymentPoints: revenuePoints,
-        utilizationPoints: shootPoints.map(p => Math.min(100, p * 20)),
         avgRevenuePoints: revenuePoints.map((r, i) => shootPoints[i] > 0 ? r / shootPoints[i] : 0)
       }
     };
@@ -188,26 +186,6 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
         pointBackgroundColor: "#01B0E9",
       },
       {
-        label: "Utilization",
-        data: (selectedTab === "Team Utilization") ? dashboardStats.graph.utilizationPoints : [],
-        borderColor: "#FEBE2A",
-        backgroundColor: "#FEBE2A",
-        fill: false,
-        tension: 0.1,
-        pointRadius: 4,
-        pointBackgroundColor: "#FEBE2A",
-      },
-      {
-        label: "Event Count",
-        data: (selectedTab === "Event Count") ? dashboardStats.graph.jobPoints : [],
-        borderColor: "#A855F7",
-        backgroundColor: "#A855F7",
-        fill: false,
-        tension: 0.1,
-        pointRadius: 4,
-        pointBackgroundColor: "#A855F7",
-      },
-      {
         label: "Avg Revenue",
         data: (selectedTab === "Average Revenue") ? dashboardStats.graph.avgRevenuePoints : [],
         borderColor: "#EC4899",
@@ -242,8 +220,6 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
             <option>Leads</option>
             <option>Jobs</option>
             <option>Payments</option>
-            <option>Team Utilization</option>
-            <option>Event Count</option>
             <option>Average Revenue</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
@@ -287,8 +263,6 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
           { label: "Leads", key: "Leads", value: dashboardStats.stats.leads, extra: "" },
           { label: "Jobs", key: "Jobs", value: dashboardStats.stats.jobs, extra: "" },
           { label: "Payments", key: "Payments", value: `$${dashboardStats.stats.payments.toLocaleString()}`, extra: "($0)" },
-          { label: "Utilization", key: "Team Utilization", value: `%${dashboardStats.stats.utilization}`, extra: "" },
-          { label: "Event Count", key: "Event Count", value: "3.5", extra: "" },
           { label: "Avg Revenue", key: "Average Revenue", value: `$${dashboardStats.stats.avgRevenue.toFixed(0)}`, extra: "($0)" },
         ].map((tab) => (
           <div

@@ -114,7 +114,7 @@ const OverviewHeader = ({
           {/* Time Filter Buttons */}
           {setTimeRange && (
             <div className='flex border border-[#E5E7EB] rounded-lg overflow-hidden bg-white h-11 flex-shrink-0'>
-              {["7 Days", "30 Days", "Mtd", "Ytd"].map((range, index) => (
+              {["7 Days", "30 Days", "Mtd", "Ytd", "All Data"].map((range, index) => (
                 <button
                   key={range}
                   className={`px-3 md:px-4 text-sm font-medium transition-colors border-r border-[#E5E7EB] last:border-0 cursor-pointer ${timeRange === range

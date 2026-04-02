@@ -16,9 +16,9 @@ import LeadForm from '../components/LeadFormModel';
 const tableData = LeadsDataRaw;
 
 const tableHeaders = [
-  { key: 'dateCreated', label: 'Date Created' },
   { key: 'leadName', label: 'Lead Name' },
-  { key: 'interestedService', label: 'Service' },
+  { key: 'dateCreated', label: 'Lead Created' },
+  { key: 'interestedService', label: 'Job Type' },
   { key: 'status', label: 'Status' },
   { key: 'eventDate', label: 'Event Date' },
   { key: 'priority', label: 'Priority' },
@@ -109,6 +109,7 @@ export default function Page() {
           <Table
             headers={tableHeaders}
             data={advancedfilteredData}
+            unit="Leads"
             setOpenForm={setOpenForm}
             setDeleteModal={setIsDeleteModalOpen}
             sortBy={sortBy}

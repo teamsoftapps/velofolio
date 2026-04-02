@@ -4,7 +4,7 @@
 'use client';
 import React, { useMemo, useState } from 'react';
 import Navbar from '../components/Navbar';
-import Table from '../components/Table';
+import JobsTable from '../components/JobsTable';
 import OverviewHeader from '../components/OverviewHeader';
 import OverviewChart from '../components/OverviewChart';
 import DeleteModal from '../components/DeleteModal';
@@ -17,9 +17,9 @@ import AddJobModal from '../components/AddJobModal';
 const tableData = JobsDataRaw;
 
 const tableHeaders = [
-  { key: 'name', label: 'Job Name/ Client' },
+  { key: 'name', label: 'Job Name' },
   { key: 'jobType', label: 'Job Type' },
-  { key: 'eventDate', label: 'Event Date' },
+  { key: 'eventDate', label: 'Event Date & Time' },
   { key: 'assignedTeam', label: 'Assigned Team' },
   { key: 'progress', label: 'Progress' },
   { key: 'status', label: 'Status' },
@@ -41,7 +41,7 @@ export default function Page() {
     value: "createdAt",
     direction: "desc",
   });
-  const [timeRange, setTimeRange] = useState("Ytd");
+  const [timeRange, setTimeRange] = useState("All Data");
 
   const [filters, setFilters] = useState({
     status: [],
@@ -76,10 +76,13 @@ export default function Page() {
   }, [advancedfilteredData]);
 
   const members = [
-    { id: 1, name: "John Doe" },
-    { id: 2, name: "Jane Smith" },
-    { id: 3, name: "Bob Johnson" },
-    { id: 4, name: "Alice Williams" },
+    { id: 1, name: "John" },
+    { id: 2, name: "Anna" },
+    { id: 3, name: "Lisa" },
+    { id: 4, name: "Chris" },
+    { id: 5, name: "Maria" },
+    { id: 6, name: "Steve" },
+    { id: 7, name: "Sarah" },
   ];
 
   return (
@@ -127,11 +130,9 @@ export default function Page() {
             onApply={(newfilters) => setFilters(newfilters)}
           />
 
-          <Table
+          <JobsTable
             headers={tableHeaders}
             data={advancedfilteredData}
-            setOpenForm={setOpenForm}
-            setDeleteModal={setIsDeleteModalOpen}
           />
         </div>
       </div>

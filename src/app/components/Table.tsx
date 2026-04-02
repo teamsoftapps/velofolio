@@ -10,6 +10,9 @@ import Pagination from './Pagination';
 import COLORS from '@/utils/Color';
 import Image from 'next/image';
 import { FiChevronUp, FiChevronDown } from 'react-icons/fi';
+import { FaFlag } from 'react-icons/fa';
+import { HiDotsVertical } from "react-icons/hi";
+import { HiArrowLongLeft, HiArrowLongRight } from "react-icons/hi2";
 
 const Table = ({
   headers,
@@ -17,13 +20,15 @@ const Table = ({
   setDeleteModal,
   color,
   setIsDeleteModalOpen,
-  itemsPerPage = 8,
+  itemsPerPage: initialItemsPerPage = 8,
   sortBy,
   onSort,
+  unit = "Items"
 }: any) => {
   const router = useRouter();
   const pasthname = usePathname();
 
+  const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
@@ -38,27 +43,27 @@ const Table = ({
     'Part-Time': { color: 'text-yellow-500', icon: <FaClock className="w-4 h-4" /> },
   };
 
-  const statusColors: any = {
-    'New Lead': 'bg-[#FEBE2A]',
-    Proposal: 'bg-[#01B0E9]',
-    Booked: 'bg-[#14CB95]',
-    Done: 'bg-green-500',
-    Paid: 'bg-[#01B0E9]',
-    Active: 'bg-[#FEBE2A]',
-    'On Leave': 'bg-[#01B0E9]',
-    Completed: 'bg-[#14CB95]',
-    New: 'bg-[#01B0E9]',
-    Pending: pasthname == "/payments" ? "bg-[#FEBE2A] " : "bg-[#71717A]",
-    pending: pasthname == "/payments" ? "bg-[#FEBE2A] " : "bg-[#71717A]",
-    'In Progress': 'bg-[#FEBE2A]',
-    Overdue: "bg-[#14CB95]",
-    Inactive: "bg-gray-200",
-    Approved: 'bg-green-500',
-    Rejected: 'bg-red-500',
-    Signed: 'bg-[#FFB800]',
-    Draft: 'bg-[#10B981]',
-    Upcoming: "bg-[#01B0E9]",
-    "Not Started": "bg-[#71717A]",
+  const statusStyles: any = {
+    'New Lead': 'bg-[#FFF9E5] text-[#D97706]',
+    Proposal: 'bg-[#E0F2FE] text-[#0284C7]',
+    Booked: 'bg-[#DCFCE7] text-[#15803D]',
+    Done: 'bg-[#DCFCE7] text-[#15803D]',
+    Paid: 'bg-[#E0F2FE] text-[#0284C7]',
+    Active: 'bg-[#FFF9E5] text-[#D97706]',
+    'On Leave': 'bg-[#E0F2FE] text-[#0284C7]',
+    Completed: 'bg-[#DCFCE7] text-[#15803D]',
+    New: 'bg-[#E0F2FE] text-[#0284C7]',
+    Pending: 'bg-[#F3F4F6] text-[#6B7280]',
+    pending: 'bg-[#F3F4F6] text-[#6B7280]',
+    'In Progress': 'bg-[#FFF9E5] text-[#D97706]',
+    Overdue: 'bg-[#FEE2E2] text-[#EF4444]',
+    Inactive: 'bg-[#F3F4F6] text-[#6B7280]',
+    Approved: 'bg-[#DCFCE7] text-[#15803D]',
+    Rejected: 'bg-[#FEE2E2] text-[#EF4444]',
+    Signed: 'bg-[#FFF9E5] text-[#D97706]',
+    Draft: 'bg-[#F3F4F6] text-[#6B7280]',
+    Upcoming: 'bg-[#E0F2FE] text-[#0284C7]',
+    "Not Started": 'bg-[#F3F4F6] text-[#6B7280]',
   };
 
   const statusIcons: any = {
@@ -66,7 +71,7 @@ const Table = ({
     Draft: <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center mr-2"><div className="w-1.5 h-1.5 rounded-full bg-white/80" /></div>,
   };
 
-  const priorityColors: any = {
+  const priorityStyles: any = {
     High: 'bg-[#EF4444] text-white',
     Medium: 'bg-[#FBBF24] text-white',
     Low: 'bg-[#22C55E] text-white',
@@ -87,9 +92,9 @@ const Table = ({
         <div className="overflow-x-auto no-scrollbar">
           <table className="w-full border-separate border-spacing-y-0">
             <thead>
-              <tr className="bg-[#F4F5F7]">
+              <tr className="bg-[#F8F9FB]">
                 {headers?.map((header: any, index: any) => {
-                  const isSortable = header.key === 'dateCreated' && onSort;
+                  const isSortable = (header.key === 'dateCreated' || header.key === 'leadCreated') && onSort;
                   const isFirst = index === 0;
                   const isLast = index === headers.length - 1;
                   return (
@@ -97,17 +102,17 @@ const Table = ({
                       key={index}
                       onClick={() => isSortable && onSort(header.key)}
                       className={`
-                        py-4 px-4 text-base font-medium text-black border-y border-gray-200 whitespace-nowrap
+                        py-4 px-4 text-sm font-semibold text-gray-700 border-y border-gray-100 whitespace-nowrap
                         ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount') ? 'text-center' : 'text-left'}
-                        ${isFirst ? 'rounded-l-lg border-l' : ''}
-                        ${isLast ? 'rounded-r-lg border-r' : ''}
-                        ${isSortable ? 'cursor-pointer hover:bg-gray-200 transition-colors' : ''}
+                        ${isFirst ? 'rounded-l-xl border-l' : ''}
+                        ${isLast ? 'rounded-r-xl border-r' : ''}
+                        ${isSortable ? 'cursor-pointer hover:bg-gray-50 transition-colors' : ''}
                       `}
                     >
-                      <div className={`flex items-center gap-1 ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount') ? 'justify-center' : 'justify-start'}`}>
+                      <div className={`flex items-center gap-2 ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount') ? 'justify-center' : 'justify-start'}`}>
                         {header.label || header.key || header}
                         {isSortable && sortBy?.value === header.key && (
-                          sortBy.direction === 'asc' ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />
+                          sortBy.direction === 'asc' ? <FiChevronUp className="w-4 h-4 text-gray-400" /> : <FiChevronDown className="w-4 h-4 text-gray-400" />
                         )}
                       </div>
                     </th>
@@ -142,29 +147,25 @@ const Table = ({
 
                       if (key === 'action' || key === 'Action') {
                         return (
-                          <td key={cellIndex} className="py-4 text-center border-b border-gray-200 px-4">
+                          <td key={cellIndex} className="py-5 px-4 border-b border-gray-50 text-center">
                             <div className="flex justify-center">
-                              <SlOptionsVertical className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
+                              <HiDotsVertical className="w-5 h-5 text-gray-700 font-bold group-hover:text-black" />
                             </div>
                           </td>
                         );
                       }
 
-                      if (key === 'Name' || (pasthname === "/payments" && key === "client")) {
+                      if (key === 'Name' || key === 'leadName' || key === 'firstName' || key === 'lastName' || key === 'email' || (pasthname === "/payments" && key === "client")) {
                         return (
-                          <td key={cellIndex} className="py-4 px-4 border-b border-gray-200">
+                          <td key={cellIndex} className="py-5 px-4 border-b border-gray-50">
                             <div className="flex items-center gap-3 justify-start">
-                              <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
-                                {row.avatar ? (
-                                  <Image src={row.avatar} alt="v" width={40} height={40} className="w-full h-full object-cover" />
-                                ) : (
-                                  <div className="w-full h-full flex items-center justify-center font-bold text-gray-500">
-                                    {(row.client || row.Name || "U")[0]}
-                                  </div>
-                                )}
-                              </div>
-                              <span className="text-sm font-medium text-black truncate max-w-[140px]">
-                                {row.client || row.Name}
+                              {(row.avatar || row.Avatar) && (
+                                <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden flex-shrink-0">
+                                  <Image src={row.avatar || row.Avatar} alt="v" width={40} height={40} className="w-full h-full object-cover" />
+                                </div>
+                              )}
+                              <span className="text-sm font-medium text-gray-700 truncate max-w-[160px]">
+                                {row[key]}
                               </span>
                             </div>
                           </td>
@@ -173,19 +174,10 @@ const Table = ({
 
                       if (key === 'status' || key === 'Status' || key === "paymentStatus" || key === "Payment Status") {
                         const statusVal = row[key];
-                        const needsBlackText = [
-                          'New Lead', 'Inactive', 'InActive', 'Signed',
-                          'Active', 'In Progress', 'Draft'
-                        ].includes(statusVal);
-
-                        const textColor = needsBlackText ? 'text-black' : 'text-white';
-                        const icon = statusIcons[statusVal];
-
                         return (
-                          <td key={cellIndex} className="py-4 text-left border-b border-gray-200 px-4">
+                          <td key={cellIndex} className="py-5 px-4 border-b border-gray-50 text-left">
                             <div className="flex justify-start">
-                              <span className={`px-3 py-1.5 rounded-full text-[11px] font-medium uppercase tracking-wide inline-flex items-center justify-center w-fit whitespace-nowrap ${textColor} ${statusColors[statusVal] || 'bg-gray-100'}`}>
-                                {icon && icon}
+                              <span className={`px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider inline-flex items-center justify-center w-fit whitespace-nowrap ${statusStyles[statusVal] || 'bg-gray-100 text-gray-600'}`}>
                                 {statusVal}
                               </span>
                             </div>
@@ -219,18 +211,18 @@ const Table = ({
                         );
                       }
 
-                      // Priority column
                       if (key === 'priority' || key === 'Priority') {
                         const priorityVal = row[key];
                         return (
                           <td
                             key={cellIndex}
-                            className="py-4 text-left border-b border-gray-200 px-4"
+                            className="py-5 px-4 border-b border-gray-50 text-left"
                           >
                             <div className="flex justify-start">
                               <span
-                                className={`px-3 py-1.5 rounded-full text-[11px] font-medium uppercase tracking-wide w-fit text-center ${priorityColors[priorityVal] || 'bg-gray-200 text-gray-700'}`}
+                                className={`px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider w-fit inline-flex items-center gap-1.5 ${priorityStyles[priorityVal] || 'bg-gray-100 text-gray-600'}`}
                               >
+                                <FaFlag className="w-3 h-3" />
                                 {priorityVal}
                               </span>
                             </div>
@@ -239,7 +231,7 @@ const Table = ({
                       }
 
                       return (
-                        <td key={cellIndex} className={`py-4 px-4 border-b border-gray-200 text-base font-medium text-black whitespace-nowrap ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount') ? 'text-center' : 'text-left'}`}>
+                        <td key={cellIndex} className={`py-5 px-4 border-b border-gray-50 text-sm font-medium text-gray-700 whitespace-nowrap ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount') ? 'text-center' : 'text-left'}`}>
                           {row[key]}
                         </td>
                       );
@@ -250,18 +242,80 @@ const Table = ({
             </tbody>
           </table>
         </div>
-      </div>
 
-      {!(pasthname === '/reports' || pasthname === '/clientProfile') && (
-        <Pagination
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          initialPage={currentPage}
-          color={color}
-          hoverColor={pasthname === '/dashboard' ? COLORS.BlueButtonhover : COLORS.greenHover}
-          disabledColor={pasthname === '/dashboard' ? COLORS.BlueDisabled : COLORS.GreenDisabled}
-        />
-      )}
+        {!(pasthname === '/reports' || pasthname === '/clientProfile') && (
+          <div className="relative mt-4 flex justify-center items-center bg-white py-4 border-t border-gray-100 px-4">
+            <div className="absolute left-6 mb-4 sm:mb-0">
+              <select
+                value={itemsPerPage}
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="appearance-none bg-gray-50 border border-gray-100 rounded-lg py-2.5 px-6 pr-10 text-sm font-semibold text-gray-700 focus:outline-none cursor-pointer"
+              >
+                <option value={8}>8 {unit}</option>
+                <option value={15}>15 {unit}</option>
+                <option value={20}>20 {unit}</option>
+                <option value={50}>50 {unit}</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+                <FiChevronDown className="w-4 h-4" />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-black'}`}
+              >
+                <HiArrowLongLeft className="w-5 h-5" />
+                Previous
+              </button>
+
+              <div className="flex items-center gap-1 mx-2">
+                {[...Array(totalPages)].map((_, i) => {
+                  const pageNum = i + 1;
+                  // Simple pagination logic for brevity: show first 3, last 2, and current around dots
+                  if (
+                    totalPages <= 7 ||
+                    pageNum === 1 ||
+                    pageNum === totalPages ||
+                    (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+                  ) {
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => handlePageChange(pageNum)}
+                        className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${currentPage === pageNum ? 'bg-black text-white shadow-md shadow-gray-200' : 'text-gray-500 hover:bg-gray-50'}`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  }
+                  if (
+                    (pageNum === 2 && currentPage > 4) ||
+                    (pageNum === totalPages - 1 && currentPage < totalPages - 3)
+                  ) {
+                    return <span key={pageNum} className="px-2 text-gray-400">...</span>;
+                  }
+                  return null;
+                })}
+              </div>
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === totalPages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-black'}`}
+              >
+                Next
+                <HiArrowLongRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 };
