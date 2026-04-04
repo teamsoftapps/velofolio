@@ -4,6 +4,7 @@
 import { FaArrowTrendUp, FaArrowTrendDown } from 'react-icons/fa6';
 import { Line } from 'react-chartjs-2';
 import Image from 'next/image';
+import { colors } from '../../utils/colors';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -52,7 +53,7 @@ const LeadCard = ({
     return (
       <div className={`rounded-lg p-5 md:p-7 ${colorClass} ${textColor} shadow-md w-full sm:w-[calc(50%-8px)] lg:w-[calc(25%-12px)] flex-shrink-0`}>
         <h3 className='text-base md:text-lg font-medium'>{title}</h3>
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center'>
           <div className='flex flex-col mt-2 w-auto'>
             <span className='text-xl md:text-3xl font-bold min-w-[85px] '>
               {count} <span className='text-sm font-extralight'>{countlabel}</span>
@@ -63,21 +64,28 @@ const LeadCard = ({
               </span>
             </span>
           </div>
-          <Image src={'/Diagram.svg'} alt='diagram' width={100} height={100} className='w-20 md:w-28 lg:w-40' />
+          <Image src={'/Diagram.svg'} alt='diagram' width={100} height={100} className='w-20 md:w-28 lg:w-30' />
         </div>
       </div>
     );
   }
 
   const themes = {
-    blue: { bg: 'bg-[#DEF5FF]', pillBg: 'bg-[#01B0E9]', pillText: 'text-white', chartColor: '#01B0E9' },
-    yellow: { bg: 'bg-[#FFF4D1]', pillBg: 'bg-[#FFB800]', pillText: 'text-gray-900', chartColor: '#FFB800' },
-    green: { bg: 'bg-[#E4F9F2]', pillBg: 'bg-[#10B981]', pillText: 'text-white', chartColor: '#10B981' },
-    gray: { bg: 'bg-[#F2F4F7]', pillBg: 'bg-[#6B7280]', pillText: 'text-white', chartColor: '#6B7280' },
+    blue: { bgStr: `${colors.primary}15`, pillBg: colors.primary, pillText: colors.white, chartColor: colors.primary },
+    yellow: { bgStr: `${colors.warning}20`, pillBg: colors.warning, pillText: colors.gray900, chartColor: colors.warning },
+    green: { bgStr: `${colors.success}15`, pillBg: colors.success, pillText: colors.white, chartColor: colors.success },
+    gray: { bgStr: `${colors.gray500}15`, pillBg: colors.gray500, pillText: colors.white, chartColor: colors.gray500 },
   };
 
   const currentTheme = themes[theme];
+  const themeSVGs: Record<string, string> = {
+    blue: '/bDiagram.svg',
+    green: '/greDiagram.svg',
+    yellow: '/yDiagram.svg',
+    gray: '/gDiagram.svg',
+  };
 
+  const diagramSrc = themeSVGs[theme] || '/DiagramBlue.svg';
   const data = {
     labels: chartData.map((_, i) => i),
     datasets: [
@@ -109,7 +117,7 @@ const LeadCard = ({
   };
 
   return (
-    <div className={`p-6 ${currentTheme.bg} rounded-xl border border-white/40 flex flex-col w-full sm:w-[calc(50%-8px)] lg:w-[calc(25%-12px)] flex-shrink-0 shadow-sm`}>
+    <div className={`p-6 rounded-xl border flex flex-col w-full sm:w-[calc(50%-8px)] lg:w-[calc(25%-12px)] flex-shrink-0 `} style={{ backgroundColor: currentTheme.bgStr, borderColor: 'rgba(255,255,255,0.4)' }}>
       <div className="flex items-center gap-1.5 mb-1">
         <span className="text-gray-900 text-[14px] font-semibold">{title}</span>
         <span className="text-[#9CA3AF] text-[14px] font-normal">{subtitle}</span>
@@ -117,15 +125,15 @@ const LeadCard = ({
 
       <div className="flex justify-between items-end mt-1">
         <div className="flex flex-col">
-          <span className="text-3xl font-extrabold text-gray-900 leading-tight">{count}</span>
-          <div className={`mt-2 flex items-center justify-between gap-2 px-2 py-1 ${currentTheme.pillBg} ${currentTheme.pillText} rounded-md text-[11px] font-bold w-full min-w-[80px]`}>
+          <span className="text-3xl font-semibold text-gray-900 leading-tight">{count}</span>
+          <div className={`mt-2 flex items-center justify-between gap-2 px-2 py-1 rounded-md text-[11px] font-bold w-full min-w-[80px]`} style={{ backgroundColor: currentTheme.pillBg, color: currentTheme.pillText }}>
             <span>{percentageChange > 0 ? "+" : ""}{percentageChange.toFixed(2)}%</span>
             {percentageChange >= 0 ? <FaArrowTrendUp className="w-3 h-3" /> : <FaArrowTrendDown className="w-3 h-3" />}
           </div>
         </div>
 
-        <div className="w-24 h-14 sm:w-28 sm:h-18 lg:w-32 lg:h-20 ml-2">
-          <Line data={data} options={options} />
+        <div className="flex-shrink-0 ml-2">
+          <Image src={diagramSrc} alt="diagram" width={100} height={100} className="w-20 md:w-28 lg:w-40" />
         </div>
       </div>
     </div>
@@ -148,9 +156,10 @@ interface LeadDashboardProps {
 const OverviewChart = ({ chartData, variant = 'default' }: LeadDashboardProps) => {
   const getTheme = (title: string): 'blue' | 'yellow' | 'green' | 'gray' => {
     const t = title.toLowerCase();
-    if (t.includes('new') || t.includes('total') || t.includes('paid')) return 'blue';
-    if (t.includes('active') || t.includes('unpaid')) return 'yellow';
-    if (t.includes('converted') || t.includes('pending')) return 'green';
+    if (t.includes('new') || t.includes('total') || t.includes('paid') || t.includes('total jobs')) return 'blue';
+    if (t.includes('active') || t.includes('pending') || t.includes('unpaid') || t.includes('active jobs')) return 'yellow';
+    if (t.includes('converted') || t.includes('overdue') || t.includes('completed')) return 'green';
+    if (t.includes('lost') || t.includes('cancelled') || t.includes('upcoming')) return 'gray';
     return 'gray';
   };
 

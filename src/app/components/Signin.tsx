@@ -143,7 +143,7 @@ onSubmit={async (values, { setSubmitting }) => {
                   id="password"
                   name="password"
                   type="password"
-                   autoComplete="email"
+                   autoComplete="current-password"
                   placeholder="Enter your password"
                   className="w-full px-4 py-3 border text-gray-700 border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent outline-none transition"
                 />

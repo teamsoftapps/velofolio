@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { colors } from '../../utils/colors';
 import { MdClose, MdCalendarToday, MdLocationOn, MdPersonAdd, MdCheck } from 'react-icons/md';
 import Image from 'next/image';
 
@@ -32,8 +33,8 @@ interface AddJobModalProps {
 
 const statusOptions = [
     { value: 'pending', label: 'Pending', color: 'bg-gray-400', bgColor: 'bg-gray-100', textColor: 'text-gray-700' },
-    { value: 'in-progress', label: 'In Progress', color: 'bg-[#01B0E9]', bgColor: 'bg-blue-50', textColor: 'text-[#01B0E9]' },
-    { value: 'completed', label: 'Completed', color: 'bg-emerald-500', bgColor: 'bg-emerald-50', textColor: 'text-emerald-600' },
+    { value: 'in-progress', label: 'In Progress', colorStr: colors.primary, bgColor: 'bg-blue-50', textColorStr: colors.primary },
+    { value: 'completed', label: 'Completed', colorStr: colors.success, bgColor: 'bg-emerald-50', textColorStr: colors.success },
 ];
 
 const defaultDeliverables = ['Full Film', 'Teaser', 'RAW Photos', 'Edited Photos', 'Album', 'Drone Footage'];
@@ -137,6 +138,7 @@ export default function AddJobModal({
                                 <input
                                     type="text"
                                     required
+                                    maxLength={100}
                                     placeholder="e.g., Wedding Ceremony"
                                     value={formData.jobName}
                                     onChange={(e) => setFormData({ ...formData, jobName: e.target.value })}
@@ -150,6 +152,7 @@ export default function AddJobModal({
                                 <input
                                     type="text"
                                     required
+                                    maxLength={100}
                                     placeholder="e.g., Sarah & John"
                                     value={formData.clientName}
                                     onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
@@ -170,11 +173,12 @@ export default function AddJobModal({
                                         type="button"
                                         onClick={() => setFormData({ ...formData, status: status.value as JobData['status'] })}
                                         className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${formData.status === status.value
-                                            ? `${status.bgColor} border-transparent ${status.textColor}`
+                                            ? `${status.bgColor} border-transparent`
                                             : 'bg-white border-gray-300 text-gray-600 hover:bg-gray-50'
                                             }`}
+                                        style={formData.status === status.value && status.textColorStr ? { color: status.textColorStr } : {}}
                                     >
-                                        <div className={`w-2 h-2 rounded-full ${formData.status === status.value ? status.color : 'bg-gray-400'}`} />
+                                        <div className={`w-2 h-2 rounded-full ${formData.status === status.value && !status.colorStr ? status.color : 'bg-transparent'}`} style={formData.status === status.value && status.colorStr ? { backgroundColor: status.colorStr } : {}} />
                                         <span className="text-sm font-medium">{status.label}</span>
                                     </button>
                                 ))}
@@ -191,6 +195,7 @@ export default function AddJobModal({
                                     <input
                                         type="text"
                                         required
+                                        maxLength={255}
                                         placeholder="Enter location..."
                                         value={formData.location}
                                         onChange={(e) => setFormData({ ...formData, location: e.target.value })}
@@ -235,9 +240,10 @@ export default function AddJobModal({
                                         type="button"
                                         onClick={() => handleDeliverableToggle(item)}
                                         className={`px-3 py-1.5 rounded-md text-sm transition-all ${formData.deliverables.includes(item)
-                                            ? 'bg-[#01B0E9] text-white'
+                                            ? 'text-white'
                                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                             }`}
+                                        style={formData.deliverables.includes(item) ? { backgroundColor: colors.primary } : {}}
                                     >
                                         {item}
                                     </button>
@@ -246,6 +252,7 @@ export default function AddJobModal({
                             <div className="flex gap-2">
                                 <input
                                     type="text"
+                                    maxLength={100}
                                     placeholder="Add custom deliverable..."
                                     value={customDeliverable}
                                     onChange={(e) => setCustomDeliverable(e.target.value)}
@@ -330,7 +337,7 @@ export default function AddJobModal({
                                                     </div>
                                                 </div>
                                                 {isSelected && (
-                                                    <div className="w-5 h-5 bg-[#01B0E9] rounded flex items-center justify-center">
+                                                    <div className="w-5 h-5 rounded flex items-center justify-center" style={{ backgroundColor: colors.primary }}>
                                                         <MdCheck className="w-3 h-3 text-white" />
                                                     </div>
                                                 )}
@@ -348,6 +355,7 @@ export default function AddJobModal({
                             </label>
                             <textarea
                                 rows={2}
+                                maxLength={2000}
                                 value={formData.notes}
                                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                 placeholder="Add job details, special requirements..."
@@ -366,7 +374,8 @@ export default function AddJobModal({
                             </button>
                             <button
                                 type="submit"
-                                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-[#01B0E9] hover:bg-[#0095c7] rounded-md transition-colors"
+                                className="flex-1 px-4 py-2 text-sm font-medium text-white hover:brightness-110 rounded-md transition-colors"
+                                style={{ backgroundColor: colors.primary }}
                             >
                                 Add Job
                             </button>

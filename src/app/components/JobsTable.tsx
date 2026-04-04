@@ -61,7 +61,7 @@ const JobsTable = ({
   };
 
   return (
-    <div className="w-full mt-4 bg-white border border-gray-200 rounded-[24px] p-6 shadow-sm mb-10">
+    <div className="w-full mt-4 bg-white border border-gray-200 rounded-[24px] p-6 mb-10">
       <div className="overflow-x-auto no-scrollbar">
         <table className="w-full border-separate border-spacing-y-0">
           <thead>
@@ -91,7 +91,7 @@ const JobsTable = ({
               <tr>
                 <td
                   colSpan={headers.length}
-                  className="py-20 text-center text-gray-500 italic font-medium"
+                  className="py-20 text-center text-gray-2000 italic font-medium"
                 >
                   No jobs found matching your filters.
                 </td>
@@ -101,14 +101,14 @@ const JobsTable = ({
                 <tr
                   key={rowIndex}
                   onClick={() => router.push(`/jobProfile?id=${row.id}`)}
-                  className="hover:bg-[#F9FAFB] transition-colors cursor-pointer group"
+                  className="hover:bg-[#F9FAFB] transition-colors cursor-pointer group border-b border-black"
                 >
                   {headers.map((header: any, cellIndex: number) => {
                     const key = header.key;
 
                     if (key === "name") {
                       return (
-                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-50">
+                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
                           <span className="text-sm font-semibold text-gray-900 truncate max-w-[150px] block">
                             {row.name}
                           </span>
@@ -119,11 +119,11 @@ const JobsTable = ({
                     if (key === "assignedTeam") {
                       const members = (row.assignedTeam || "").split(",").map((s: string) => s.trim());
                       return (
-                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-50">
+                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
                           <div className="flex items-center -space-x-2">
                             {members.map((m: string, i: number) => (
                               <div key={i} className="group/avatar relative transition-all hover:scale-110 hover:z-40 cursor-pointer">
-                                <div className="w-8 h-8 rounded-full border-2 border-white bg-gray-100 shadow-sm overflow-hidden relative">
+                                <div className="w-10 h-10 rounded-full border-2 border-white bg-gray-100 overflow-hidden relative">
                                   <Image
                                     src={memberAvatars[m] || `https://ui-avatars.com/api/?name=${m}&background=random&color=fff`}
                                     alt={m}
@@ -140,8 +140,8 @@ const JobsTable = ({
                                 </div>
                               </div>
                             ))}
-                            <div className="w-8 h-8 rounded-full border-2 border-white bg-gray-50 flex items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-100 transition-colors shadow-sm ml-1 border-dashed border-gray-300">
-                                <span className="text-sm font-bold">+</span>
+                            <div className="w-8 h-8 rounded-full border-2 border-gray-100  flex items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-100 transition-colors ml-1 border-dashed border-gray-300">
+                              <span className="text-sm font-bold">+</span>
                             </div>
                           </div>
                         </td>
@@ -152,7 +152,7 @@ const JobsTable = ({
                       const progressValue = parseInt(row.progress) || 0;
                       const barColor = getProgressColor(progressValue, row.status);
                       return (
-                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-50 min-w-[180px]">
+                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 min-w-[180px]">
                           <div className="flex items-center gap-3 w-full">
                             <div className="flex-1 bg-[#F1F3F9] rounded-full h-2.5 relative overflow-hidden">
                               <div
@@ -172,11 +172,10 @@ const JobsTable = ({
                       const statusVal = row.status;
                       const isCompleted = statusVal === "Completed";
                       return (
-                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-50">
+                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
                           <span
-                            className={`px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider inline-flex items-center gap-1.5 ${
-                              statusStyles[statusVal] || "bg-gray-100 text-gray-600"
-                            }`}
+                            className={`px-4 py-1.5 rounded-full text-[11px] font-medium uppercase tracking-wider inline-flex items-center gap-1.5 ${statusStyles[statusVal] || "bg-gray-100 text-gray-600"
+                              }`}
                           >
                             {isCompleted && <FaCheckCircle className="w-3.5 h-3.5" />}
                             {statusVal.toUpperCase()}
@@ -187,7 +186,7 @@ const JobsTable = ({
 
                     if (key === "action") {
                       return (
-                        <td key={cellIndex} className="py-5 px-6 border-b border-gray-50 text-center">
+                        <td key={cellIndex} className="py-5 px-6 border-b border-gray-200 text-center">
                           <div className="flex justify-center">
                             <HiDotsVertical className="w-5 h-5 text-gray-700 font-bold group-hover:text-black transition-colors" />
                           </div>
@@ -198,11 +197,11 @@ const JobsTable = ({
                     return (
                       <td
                         key={cellIndex}
-                        className="py-5 px-4 border-b border-gray-50 text-sm font-medium text-gray-700 whitespace-nowrap"
+                        className="py-5 px-4 border-b border-gray-200 text-sm font-medium text-black whitespace-nowrap"
                       >
                         {row[key]}
                         {key === "eventDate" && (
-                             <p className="text-[10px] text-gray-400 font-normal mt-1">(2:20 PM to 4:00 PM)</p>
+                          <p className="text-[12px] text-gray-400 font-medium mt-1">(2:20 PM to 4:00 PM)</p>
                         )}
                       </td>
                     );
@@ -222,7 +221,7 @@ const JobsTable = ({
               setItemsPerPage(Number(e.target.value));
               setCurrentPage(1);
             }}
-            className="appearance-none bg-gray-50 border border-gray-100 rounded-lg py-2.5 px-6 pr-10 text-sm font-semibold text-gray-700 focus:outline-none cursor-pointer shadow-sm"
+            className="appearance-none bg-gray-200 border border-gray-100 rounded-lg py-2.5 px-6 pr-10 text-sm font-semibold text-gray-700 focus:outline-none cursor-pointer shadow-sm"
           >
             <option value={8}>8 {unit}</option>
             <option value={15}>15 {unit}</option>
@@ -238,11 +237,10 @@ const JobsTable = ({
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${
-              currentPage === 1
-                ? "text-gray-300 cursor-not-allowed"
-                : "text-gray-500 hover:text-black"
-            }`}
+            className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === 1
+              ? "text-gray-300 cursor-not-allowed"
+              : "text-gray-2000 hover:text-black"
+              }`}
           >
             <HiArrowLongLeft className="w-5 h-5" />
             Previous
@@ -261,11 +259,10 @@ const JobsTable = ({
                   <button
                     key={pageNum}
                     onClick={() => handlePageChange(pageNum)}
-                    className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${
-                      currentPage === pageNum
-                        ? "bg-black text-white shadow-md shadow-gray-200"
-                        : "text-gray-500 hover:bg-gray-50"
-                    }`}
+                    className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${currentPage === pageNum
+                      ? "bg-black text-white shadow-md shadow-gray-200"
+                      : "text-gray-2000 hover:bg-gray-200"
+                      }`}
                   >
                     {pageNum}
                   </button>
@@ -288,11 +285,10 @@ const JobsTable = ({
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${
-              currentPage === totalPages
-                ? "text-gray-300 cursor-not-allowed"
-                : "text-gray-500 hover:text-black"
-            }`}
+            className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === totalPages
+              ? "text-gray-300 cursor-not-allowed"
+              : "text-gray-2000 hover:text-black"
+              }`}
           >
             Next
             <HiArrowLongRight className="w-5 h-5" />

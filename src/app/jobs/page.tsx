@@ -3,6 +3,7 @@
 
 'use client';
 import React, { useMemo, useState } from 'react';
+import { colors } from "../../utils/colors";
 import Navbar from '../components/Navbar';
 import JobsTable from '../components/JobsTable';
 import OverviewHeader from '../components/OverviewHeader';
@@ -13,6 +14,7 @@ import JobsDataRaw from '../../utils/Job.json';
 import { filterData, sortData, handleDelete, applyAdvancedFilters, filterByTimeRange } from '../../utils/TableUtils';
 import RouteGuard from '../components/RouteGuard';
 import AddJobModal from '../components/AddJobModal';
+import generateChartData from '@/utils/ChartLogics';
 
 const tableData = JobsDataRaw;
 
@@ -62,17 +64,18 @@ export default function Page() {
   }, [tableData, searchedValue, sortBy, filters, timeRange]);
 
   const dynamicJobsChart = useMemo(() => {
+
     const totalJobs = advancedfilteredData.length;
     const activeJobs = advancedfilteredData.filter((job: any) => job.status && job.status.toLowerCase() === 'in progress').length;
     const completedJobs = advancedfilteredData.filter((job: any) => job.status && job.status.toLowerCase() === 'completed').length;
     const cancelledJobs = advancedfilteredData.filter((job: any) => job.status && job.status.toLowerCase() === 'cancelled').length;
 
-    return [
-      { title: "Total Jobs", count: totalJobs, percentageChange: 12.5, colorClass: "bg-[#01B0E9]" },
-      { title: "Active Jobs", count: activeJobs, percentageChange: 7.0, colorClass: "bg-yellow-500" },
-      { title: "Completed Jobs", count: completedJobs, percentageChange: 9.0, colorClass: "bg-green-500" },
-      { title: "Cancelled Jobs", count: cancelledJobs, percentageChange: -3.0, colorClass: "bg-gray-500" }
-    ];
+    return generateChartData([
+      { title: "Total Jobs", count: totalJobs, percentageChange: 12.5, theme: "blue" },
+      { title: "Active Jobs", count: activeJobs, percentageChange: 7.0, theme: "yellow" },
+      { title: "Completed Jobs", count: completedJobs, percentageChange: 9.0, theme: "green" },
+      { title: "Cancelled Jobs", count: cancelledJobs, percentageChange: -3.0, theme: "gray" }
+    ], timeRange);
   }, [advancedfilteredData]);
 
   const members = [
@@ -89,7 +92,7 @@ export default function Page() {
     <RouteGuard allowedRoles={['superadmin']}>
       <Navbar />
 
-      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden pt-6 pb-24'>
+      <div className='min-h-screen w-full flex flex-col items-start overflow-x-hidden pt-6 pb-24' style={{ backgroundColor: colors.bgLight }}>
         {isDeleteModalOpen && (
           <DeleteModal
             isOpen={isDeleteModalOpen}
@@ -120,7 +123,7 @@ export default function Page() {
             timeRange={timeRange}
             setTimeRange={setTimeRange}
           />
-          <OverviewChart chartData={dynamicJobsChart} variant="default" />
+          <OverviewChart chartData={dynamicJobsChart} variant="sparkline" />
 
           <FilterModal
             isOpen={openFilter}

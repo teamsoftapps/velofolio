@@ -2,6 +2,7 @@
 /** @format */
 'use client';
 import React, { useState } from 'react';
+import { colors } from "../../utils/colors";
 import { GoSearch } from 'react-icons/go';
 import { FaSort, FaPlus } from 'react-icons/fa6';
 import { usePathname } from 'next/navigation';
@@ -15,6 +16,7 @@ import ImportClientsButton from './ImportClientsButton';
 import CalenderModal from "./CalenderModal";
 import { DateValue } from "@internationalized/date";
 import Link from "next/link";
+import InviteEmailButton from './InviteEmailButton';
 interface SortState {
   value: string;
   direction: 'asc' | 'desc';
@@ -88,8 +90,8 @@ const OverviewHeader = ({
               return (
                 <React.Fragment key={href}>
                   <span>|</span>
-                  <Link href={href} className="capitalize hover:text-black">
-                    {segment} Overview
+                  <Link href={href} className="hover:text-black">
+                    {segment.charAt(0).toUpperCase() + segment.slice(1)} Overview
                   </Link>
                 </React.Fragment>
               );
@@ -118,7 +120,8 @@ const OverviewHeader = ({
                 <button
                   key={range}
                   className={`px-3 md:px-4 text-sm font-medium transition-colors border-r border-[#E5E7EB] last:border-0 cursor-pointer ${timeRange === range
-                    ? "bg-[#01B0E9] text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`}
+                    ? "text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`}
+                  style={timeRange === range ? { backgroundColor: colors.primary } : {}}
                   onClick={() => setTimeRange(range)}
                 >
                   {range}
@@ -128,7 +131,7 @@ const OverviewHeader = ({
           )}
 
           {/* Action Buttons: Sort, Filter, Add */}
-          <div className='flex items-center gap-2 flex-shrink-0'>
+          <div className='flex items-center gap-2 flex-wrap lg:flex-nowrap'>
             <button
               className='flex items-center justify-center gap-2 h-11 px-4 bg-white border border-[#E5E7EB] rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer'
               onClick={() => setIsSortOpen(true)}
@@ -172,10 +175,15 @@ const OverviewHeader = ({
                 )}
               </div>
             )}
-
+            {
+              currentPath === '/team' && (
+                <InviteEmailButton onClick={() => setOpenForm(true)} />
+              )
+            }
             {currentPath !== '/payments' && (
               <button
-                className='flex items-center gap-3 h-11 pl-1.5 pr-6 bg-[#01B0E9] rounded-full text-sm font-bold text-white shadow-sm hover:brightness-105 transition-all cursor-pointer whitespace-nowrap w-fit'
+                className='flex items-center gap-3 h-11 py-3 pl-1.5 pr-6 rounded-full text-sm font-bold text-white shadow-sm hover:brightness-105 transition-all cursor-pointer whitespace-nowrap w-fit'
+                style={{ backgroundColor: colors.primary }}
                 onClick={() => setOpenForm(true)}
               >
                 <div className="w-8 h-8 rounded-full bg-black/15 flex items-center justify-center">

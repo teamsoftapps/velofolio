@@ -222,6 +222,8 @@ const [createClient] = useCreateClientMutation();
               <input
                 type='text'
                 name='firstName'
+                required
+                maxLength={100}
                 value={formData.firstName}
                 onChange={handleChange}
                 placeholder={
@@ -241,6 +243,8 @@ const [createClient] = useCreateClientMutation();
                 <input
                   type='text'
                   name='lastName'
+                  required={activeTab === 'Client'}
+                  maxLength={100}
                   value={formData.lastName}
                   onChange={handleChange}
                   placeholder='Enter last name'
@@ -257,6 +261,8 @@ const [createClient] = useCreateClientMutation();
                 <input
                   type='text'
                   name='personName'
+                  required={activeTab === 'Company'}
+                  maxLength={100}
                   value={formData.personName}
                   onChange={handleChange}
                   placeholder='Enter person name'
@@ -276,6 +282,8 @@ const [createClient] = useCreateClientMutation();
             <input
               type='email'
               name='email'
+              required
+              maxLength={255}
               value={formData.email}
               onChange={handleChange}
               placeholder={
@@ -295,6 +303,10 @@ const [createClient] = useCreateClientMutation();
             <input
               type='tel'
               name='phone'
+              required
+              maxLength={20}
+              pattern="^[+]?[0-9\s\-()]{7,20}$"
+              title="Enter a valid phone number (e.g. +123 456 7890)"
               value={formData.phone}
               onChange={handleChange}
                placeholder={
@@ -316,6 +328,7 @@ const [createClient] = useCreateClientMutation();
             </label>
             <select
               name='leadSource'
+              required
               value={formData.leadSource}
               onChange={handleChange}
               className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
@@ -335,6 +348,7 @@ const [createClient] = useCreateClientMutation();
             </label>
             <select
               name='status'
+              required
               value={formData.status}
               onChange={handleChange}
               className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
@@ -356,6 +370,8 @@ const [createClient] = useCreateClientMutation();
             <input
               type='text'
               name='address'
+              required
+              maxLength={255}
               value={formData.address}
               onChange={handleChange}
               placeholder='Enter address'
@@ -372,6 +388,8 @@ const [createClient] = useCreateClientMutation();
               <input
                 type='text'
                 name='country'
+                required
+                maxLength={100}
                 value={formData.country}
                 onChange={handleChange}
                 placeholder='Enter country'
@@ -386,6 +404,8 @@ const [createClient] = useCreateClientMutation();
               <input
                 type='text'
                 name='city'
+                required
+                maxLength={100}
                 value={formData.city}
                 onChange={handleChange}
                 placeholder='Enter city'
@@ -401,6 +421,7 @@ const [createClient] = useCreateClientMutation();
             </label>
             <select
               name='timezone'
+              required
               value={formData.timezone}
               onChange={handleChange}
               className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
@@ -442,6 +463,7 @@ const [createClient] = useCreateClientMutation();
             </label>
             <textarea
               name='notes'
+              maxLength={2000}
               value={formData.notes}
               onChange={handleChange}
               placeholder='Enter any additional notes'

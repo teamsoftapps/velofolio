@@ -1,7 +1,7 @@
 
 /** @format */
-
 import React, { useState } from 'react';
+import { colors } from "../../utils/colors";
 import SearchComponent from './SearchComponent';
 import SortButton from './sortButton';
 import FilterButton from './filterButton';
@@ -73,7 +73,7 @@ const ProductionHeader = ({
         </div>
 <div className='relative'>
         {/* Add Button */}
-        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#00A4DD] flex items-center justify-center text-white cursor-pointer hover:bg-[#008ac0] transition" onClick={()=>setIsOpen(true)}>
+        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white cursor-pointer hover:brightness-90 transition" style={{ backgroundColor: colors.primaryHover }} onClick={()=>setIsOpen(true)}>
           <span className="text-lg sm:text-[25px]">+</span>
         </div>
 

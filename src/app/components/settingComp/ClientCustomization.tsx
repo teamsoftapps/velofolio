@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 const ClientCustomization = () => {
-  const [settings, setSettings]:any = useState({
+  const [settings, setSettings] = useState<Record<string, any>>({
     showLogoInvoice: true,
     showLogoEmail: false,
     showWatermark: true,
@@ -63,13 +63,14 @@ const toggles = [
             <h3 className="text-lg">Portal Theme</h3>
             <select
               value={settings.portalTheme}
-              onChange={(e) =>
-                setSettings({ ...settings, portalTheme: e.target.value })
-              }
-              className="w-44   px-2 py-1.5 bg-[#F4F4F5] border border-[#D4D4D8] rounded-sm"
+              onChange={(e) => {
+                setSettings({ ...settings, portalTheme: e.target.value });
+              }}
+              className="w-44 px-2 py-1.5 bg-[#F4F4F5] border border-[#D4D4D8] rounded-sm"
+              disabled
             >
-              <option>Light</option>
-              <option>Dark</option>
+              <option value="Light">Light</option>
+              <option value="Dark">Dark</option>
             </select>
           </div>
 

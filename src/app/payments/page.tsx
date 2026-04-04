@@ -7,6 +7,7 @@
 // };
 'use client';
 import React, { useEffect, useMemo, useState } from 'react';
+import { colors } from '../../utils/colors';
 import Navbar from '../components/Navbar';
 
 import Table from '../components/Table';
@@ -20,6 +21,7 @@ import { DateValue, parseDate } from "@internationalized/date";
 import { filterData, sortData, handleDelete, applyAdvancedFilters, filterByTimeRange } from '../../utils/TableUtils';
 import { useSelector } from 'react-redux';
 import JobDetail from '../../utils/JobDetail.json';
+import generateChartData from '@/utils/ChartLogics';
 const tableData = PayementData;
 
 const tableHeaders = [
@@ -147,18 +149,18 @@ export default function Page() {
 
   // Dynamically generate chart stats for Payments
   const dynamicPaymentChartData = useMemo(() => {
-    return [
-      { title: "Total Payments Received", count: `$${paymentSummary.paid.toLocaleString()}`, percentageChange: 10.2, colorClass: "bg-[#01B0E9]" },
-      { title: "Pending Payments", count: `$${paymentSummary.pending.toLocaleString()}`, percentageChange: 4.8, colorClass: "bg-yellow-500" },
-      { title: "Overdue Payments", count: `$${paymentSummary.unpaid.toLocaleString()}`, percentageChange: -3.4, colorClass: "bg-green-500" },
-      { title: "Upcoming Due Payments", count: `$${Math.max(0, paymentSummary.total - paymentSummary.paid - paymentSummary.unpaid - paymentSummary.pending).toLocaleString()}`, percentageChange: 5.6, colorClass: "bg-gray-500" }
-    ];
-  }, [paymentSummary]);
+    return generateChartData([
+      { title: "Total Payments Received", count: `$${paymentSummary.paid.toLocaleString()}`, percentageChange: 10.2, theme: 'blue' },
+      { title: "Pending Payments", count: `$${paymentSummary.pending.toLocaleString()}`, percentageChange: 4.8, theme: 'yellow' },
+      { title: "Overdue Payments", count: `$${paymentSummary.unpaid.toLocaleString()}`, percentageChange: -3.4, theme: 'green' },
+      { title: "Upcoming Due Payments", count: `$${Math.max(0, paymentSummary.total - paymentSummary.paid - paymentSummary.unpaid - paymentSummary.pending).toLocaleString()}`, percentageChange: 5.6, theme: 'gray' }
+    ], timeRange);
+  }, [paymentSummary, timeRange]);
   return (
     <>
       <Navbar />
 
-      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden pt-6 pb-24 '>
+      <div className='min-h-screen w-full flex flex-col items-start overflow-x-hidden pt-6 pb-24' style={{ backgroundColor: colors.bgLight }}>
         {/* <Pagination /> */}
         {isDeleteModalOpen && (
           <DeleteModal
@@ -175,9 +177,9 @@ export default function Page() {
           onApply={(newFilters) => setFilters(newFilters)}
 
         />
-        <div className='container mx-auto bg-[#FAFAFA] w-[100%]  px-4 sm:px-10 '>
+        <div className='container mx-auto w-[100%] px-4 sm:px-10 '>
           <OverviewHeader
-            title={'Payements'}
+            title={'Payments'}
             setOpenForm={setOpenForm}
             summary={paymentSummary}
             setSearchedValue={setSearchedValue}
@@ -190,7 +192,7 @@ export default function Page() {
             value={value}
             setValue={setValue}
           />
-          <OverviewChart chartData={dynamicPaymentChartData} />
+          <OverviewChart chartData={dynamicPaymentChartData} variant="sparkline" />
 
           <Table
             headers={tableHeaders}

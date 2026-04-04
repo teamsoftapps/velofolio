@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="170.643" height="66.885" viewBox="0 0 170.643 66.885">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#13cc95"/>
+      <stop offset="1" stop-color="#13cc95" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g id="Diagram" transform="translate(0.828 -11.005)">
+    <path id="Path_4" data-name="Path 4" d="M0,34.459S8.55,22.824,15.332,22.824l15.02,21.462L45.57,18.948l9.469,12.669L74.261,0,85.3,17.829l14.693,5,12.553,21.462L124.4,44.7l6.193-16.6,10.767,16.6,5.54-10.24L157.956,28.1l11.057-13.667V55.9c0,4.947-2.829,8.957-6.318,8.957H6.318C2.829,64.852,0,60.842,0,55.9Z" transform="translate(0 13.038)" fill="url(#linear-gradient)"/>
+    <path id="Path_4-2" data-name="Path 4" d="M0,37.416S8.55,24.782,15.332,24.782l15.02,23.3L45.57,20.574,55.039,34.33,74.261,0,85.3,19.358l14.693,5.424,12.553,23.3,11.857.449,6.193-18.025,10.767,18.025,5.54-11.118,11.057-6.907,11.057-14.84" transform="translate(0 13.038)" fill="none" stroke="#13cc95" stroke-width="2"/>
+  </g>
+</svg>

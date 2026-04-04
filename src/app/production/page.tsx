@@ -21,8 +21,8 @@ import {
   DragOverlay,
   useDroppable,
   TouchSensor
-
 } from '@dnd-kit/core';
+import { colors } from '@/utils/colors';
 
 import {
   SortableContext,
@@ -193,18 +193,20 @@ const SortableCard = memo(
               onClick={(e) => e.stopPropagation()}>
               <button
                 className={`p-2 rounded-md cursor-pointer w-28 text-left ${activeButton === 'Open Card'
-                  ? 'bg-[#00A4DD]  text-white'
+                  ? 'text-white'
                   : 'bg-white text-black hover:bg-gray-100'
                   }`}
+                style={activeButton === 'Open Card' ? { backgroundColor: colors.primaryHover } : {}}
                 onClick={onClick}>
                 Open Card
               </button>
 
               <button
                 className={`p-2 rounded-md cursor-pointer w-full text-left relative ${activeButton === 'Change Members'
-                  ? 'bg-[#00A4DD]  text-white'
+                  ? 'text-white'
                   : 'bg-white text-black hover:bg-gray-100'
                   }`}
+                style={activeButton === 'Change Members' ? { backgroundColor: colors.primaryHover } : {}}
                 onClick={() => {
                   setActiveButton('Change Members')
                   setTeamModal(true)
@@ -227,9 +229,10 @@ const SortableCard = memo(
               <div className="relative">
                 <button
                   className={`p-2 rounded-md cursor-pointer w-32 text-left ${activeButton === 'Change Cover'
-                    ? 'bg-[#00A4DD]  text-white'
+                    ? 'text-white'
                     : 'bg-white text-black hover:bg-gray-100'
                     }`}
+                  style={activeButton === 'Change Cover' ? { backgroundColor: colors.primaryHover } : {}}
                   onClick={() => {
                     const input = document.createElement('input');
                     input.type = 'file';
@@ -250,9 +253,10 @@ const SortableCard = memo(
               <div className="relative">
                 <button
                   className={`p-2 rounded-md cursor-pointer w-24 text-left ${activeButton === 'Edit Dates'
-                    ? 'bg-[#00A4DD]  text-white'
+                    ? 'text-white'
                     : 'bg-white text-black hover:bg-gray-100'
                     }`}
+                  style={activeButton === 'Edit Dates' ? { backgroundColor: colors.primaryHover } : {}}
                   onClick={() => setActiveButton(activeButton === 'Edit Dates' ? null : 'Edit Dates')}>
                   Edit Dates
                 </button>
@@ -300,7 +304,7 @@ const SortableCard = memo(
             {card.title}
           </h4>
           <div className='flex items-center justify-between my-2 w-full'>
-            <span className='text-[#01B0E9] text-xs sm:text-sm bg-[#01B0E9]/15 rounded-full px-1 py-0.5'>
+            <span className='text-xs sm:text-sm rounded-full px-1 py-0.5' style={{ color: colors.primary, backgroundColor: `${colors.primary}26` }}>
               {card.label}
             </span>
             <span className='text-[#D66C55] text-xs sm:text-sm bg-[#D66C55]/15 rounded-full px-1  py-0.5'>
@@ -340,7 +344,8 @@ const SortableCard = memo(
           </div>
           {menuCardId === card.id && (
             <button
-              className='bg-[#01B0E9] p-2 rounded-md text-white w-36 absolute -bottom-14 left-0'
+              className='p-2 rounded-md text-white w-36 absolute -bottom-14 left-0'
+              style={{ backgroundColor: colors.primary }}
               onClick={(e) => { e.stopPropagation(); setMenuCardId(null); }}
             >
               Save
@@ -378,12 +383,12 @@ const SortableList = memo(
 
     // Color picker state
     const beautifulColors = [
-      '#00A4DD', // Blue
-      '#FFC700', // Yellow
-      '#13CC95', // Green
-      '#FF5733', // Red/Orange
-      '#9B59B6', // Purple
-      '#E84393', // Pink
+      colors.primaryHover, // Blue '#00A4DD'
+      colors.warningBright, // Yellow '#FFC700'
+      colors.kanbanGreen, // Green '#13CC95'
+      colors.kanbanRed, // Red/Orange '#FF5733'
+      colors.kanbanPurple, // Purple '#9B59B6'
+      colors.kanbanPink, // Pink '#E84393'
     ];
     const defaultColor = list.title === 'Pending' ? beautifulColors[0] : list.title === 'In Progress' ? beautifulColors[1] : beautifulColors[2];
     const [color, setColor] = useState(defaultColor);
@@ -672,7 +677,8 @@ const SortableList = memo(
             <div className="flex items-center gap-2 mt-1">
               <button
                 onClick={handleAddCard}
-                className="px-3 py-1.5 bg-[#01B0E9] text-white text-sm font-medium rounded-md hover:bg-[#01B0E9]/85 transition-colors cursor-pointer"
+                className="px-3 py-1.5 text-white text-sm font-medium rounded-md transition-colors cursor-pointer"
+                style={{ backgroundColor: colors.primary }}
               >
                 Add Card
               </button>

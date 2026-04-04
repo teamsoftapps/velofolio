@@ -26,10 +26,10 @@ const JobTask = ({ timeRange = "All Data", value }: JobTaskProps) => {
 
     return filtered.map(j => ({
       jobDate: j.eventDate || "N/A",
-      jobName: j.name,
-      jobType: j.jobType,
+      jobName: <div className="truncate max-w-[90px] sm:max-w-[130px] mx-auto" title={j.name}>{j.name}</div>,
+      jobType: <div className="truncate max-w-[80px] sm:max-w-[100px] mx-auto" title={j.jobType}>{j.jobType}</div>,
       status: j.status,
-      task: j.task || 'N/A'
+      task: <div className="truncate max-w-[110px] sm:max-w-[160px] mx-auto" title={j.task || 'N/A'}>{j.task || 'N/A'}</div>
     })).sort((a, b) => new Date(a.jobDate).getTime() - new Date(b.jobDate).getTime());
   }, [timeRange, value]);
 
@@ -41,7 +41,7 @@ const JobTask = ({ timeRange = "All Data", value }: JobTaskProps) => {
         </h2>
       </div>
 
-      <DashboardTable data={jobsData} headers={tableHeaders} itemsPerPage={5} color={COLORS.headerBlueButtonbg} hoverColor={COLORS.BlueButtonhover} />
+      <DashboardTable data={jobsData} headers={tableHeaders} itemsPerPage={10} color={COLORS.headerBlueButtonbg} hoverColor={COLORS.BlueButtonhover} />
     </div>
   );
 };

@@ -14,7 +14,7 @@ import invoiceAndQuoteReducer from "./slices/invoiceSlice";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "invoiceandQuote"], // persist both auth and invoices/quotes
+  whitelist: ["auth", "invoiceandQuote", "ui"], // persist auth, invoices/quotes, and UI theme
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

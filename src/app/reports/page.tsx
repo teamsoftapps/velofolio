@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from 'react'
+import { colors } from '../../utils/colors'
 import Navbar from '../components/Navbar'
 import ReportHeader from '../components/reportComp/ReportHeader'
 import ReportGraph from '../components/reportComp/ReportGraph'
@@ -67,7 +68,7 @@ const reports = () => {
   const summary = getSummary();
 
   return (
-    <div className='w-full min-h-screen bg-[#FAFAFA] pb-24'>
+    <div className='w-full min-h-screen pb-24' style={{ backgroundColor: colors.bgLight }}>
       <style jsx global>{`
         @media screen {
           .print-only-container {
@@ -276,13 +277,13 @@ const reports = () => {
                 {/* ===== COVER PAGE ===== */}
                 <div style={{ pageBreakAfter: 'always', breakAfter: 'page' }}>
                   {/* Header */}
-                  <div style={{ borderBottom: '4px solid #01B0E9', paddingBottom: '16px', marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                  <div style={{ borderBottom: `4px solid ${colors.primary}`, paddingBottom: '16px', marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                     <div>
                       <h1 style={{ fontSize: '40px', fontWeight: 800, color: '#111827', marginBottom: '4px' }}>Reports Overview</h1>
                       <p style={{ fontSize: '16px', color: '#6b7280', fontWeight: 500 }}>Full Business Performance Report — All Sections</p>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <p style={{ fontSize: '13px', fontWeight: 700, color: '#01B0E9' }}>VELOFOLIO ANALYTICS</p>
+                      <p style={{ fontSize: '13px', fontWeight: 700, color: colors.primary }}>VELOFOLIO ANALYTICS</p>
                       <p style={{ fontSize: '12px', color: '#9ca3af', marginTop: '4px' }}>Period: {timeRange}</p>
                       <p style={{ fontSize: '12px', color: '#9ca3af' }}>Date: {calendarValue.day} {getMonthName(calendarValue)} {calendarValue.year}</p>
                       <p style={{ fontSize: '12px', color: '#9ca3af' }}>Generated: {new Date().toLocaleDateString()}</p>
@@ -291,7 +292,7 @@ const reports = () => {
 
                   {/* Report overview snapshot */}
                   <div style={{ marginBottom: '28px', padding: '20px', backgroundColor: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: '10px' }}>
-                    <p style={{ fontSize: '11px', fontWeight: 700, color: '#01B0E9', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px' }}>Report Contents</p>
+                    <p style={{ fontSize: '11px', fontWeight: 700, color: colors.primary, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px' }}>Report Contents</p>
                     <p style={{ fontSize: '13px', color: '#374151', lineHeight: 1.7 }}>
                       This report provides a complete business performance overview across three key areas: <strong>Lead Acquisition</strong>, <strong>Job Fulfillment</strong>, and <strong>Revenue & Payments</strong>.
                       All figures reflect the <strong>{timeRange}</strong> period.

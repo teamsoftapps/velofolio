@@ -3,6 +3,7 @@
 
 'use client';
 import React, { useMemo, useState } from 'react';
+import { colors } from "../../utils/colors";
 import Navbar from '../components/Navbar';
 import Table from '../components/Table';
 import OverviewHeader from '../components/OverviewHeader';
@@ -74,7 +75,7 @@ export default function Page() {
     <RouteGuard allowedRoles={['superadmin']}>
       <Navbar />
 
-      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] overflow-x-hidden pt-6 pb-24'>
+      <div className='min-h-screen w-full flex flex-col items-start overflow-x-hidden pt-6 pb-24' style={{ backgroundColor: colors.bgLight }}>
         <div className='w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8'>
           {
             openLeadsModal && (

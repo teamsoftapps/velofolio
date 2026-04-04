@@ -190,24 +190,22 @@ const JobProfilePage = () => {
         </div>
 
         {/* Right Section */}
-        <div className='w-full lg:w-[65%] flex flex-col h-screen overflow-y-scroll scroller pb-24 lg:pb-32'>
+        <div className='w-full lg:w-[65%] flex flex-col flex-col-reverse mt-4    min-h-screen overflow-y-scroll scroller pb-24 lg:pb-32'>
           {/* Stepper */}
-          <div className='w-full flex justify-end'>
-            <div className='w-40 '>
-              <AddButton title='Add New' setOpenForm={setOpenForm} />
-            </div>
-          </div>
+
           <div className=''>
             <WorkflowSteps />
           </div>
 
+
           {/* Tabs */}
           <div className='w-full mt-4 h-[620px] bg-white p-3 sm:p-6 rounded-lg shadow-md'>
+
             <div className='flex  lg:justify-between scroller gap-2 sm:gap-3 overflow-x-auto p-2 border-2 border-gray-300 rounded-xl'>
-              {['Invoices', 'Quotes', 'Contracts',  'Questionnaires','Files'
-              
-              // ,'Notes'
-            ].map(tab => (
+              {['Invoices', 'Quotes', 'Contracts', 'Questionnaires', 'Files'
+
+                // ,'Notes'
+              ].map(tab => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
@@ -274,9 +272,14 @@ const JobProfilePage = () => {
                 </>
               )}
               {activeTab === 'Contracts' && <Contracts />}
-              {activeTab === 'Questionnaires' &&   <EmptyInvoicnQuoteState setOpenForm={setOpenForm} id={id} type='Questionnaire'  desibled={true}/>}
-              {activeTab === 'Files' &&   <EmptyInvoicnQuoteState setOpenForm={setOpenForm} id={id} type='File'  desibled={true}/>}
+              {activeTab === 'Questionnaires' && <EmptyInvoicnQuoteState setOpenForm={setOpenForm} id={id} type='Questionnaire' desibled={true} />}
+              {activeTab === 'Files' && <EmptyInvoicnQuoteState setOpenForm={setOpenForm} id={id} type='File' desibled={true} />}
 
+            </div>
+          </div>
+          <div className='w-full flex justify-end'>
+            <div className='w-40 '>
+              <AddButton title='Add New' setOpenForm={setOpenForm} />
             </div>
           </div>
         </div>

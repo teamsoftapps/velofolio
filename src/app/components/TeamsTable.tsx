@@ -6,6 +6,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import { HiArrowLongLeft, HiArrowLongRight } from "react-icons/hi2";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import { RiLoopRightLine } from "react-icons/ri";
+import { useRouter } from "next/navigation";
 
 const TeamsTable = ({
   headers,
@@ -13,6 +14,7 @@ const TeamsTable = ({
   unit = "Team Members",
   initialItemsPerPage = 8,
 }: any) => {
+  const router = useRouter();
   const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -72,6 +74,7 @@ const TeamsTable = ({
               paginatedData.map((row: any, rowIndex: number) => (
                 <tr
                   key={rowIndex}
+                  onClick={() => router.push(`/teamProfile?id=${row.id || rowIndex + 1}`)}
                   className="hover:bg-[#F9FAFB] transition-colors cursor-pointer group"
                 >
                   {headers.map((header: any, cellIndex: number) => {
@@ -79,7 +82,7 @@ const TeamsTable = ({
 
                     if (key === "Name") {
                       return (
-                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-50">
+                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-full overflow-hidden relative shadow-sm border-2 border-white">
                               <Image
@@ -89,7 +92,7 @@ const TeamsTable = ({
                                 className="object-cover"
                               />
                             </div>
-                            <span className="text-[13px] font-medium text-gray-800 whitespace-nowrap">
+                            <span className="text-[16px] font-medium text-gray-800 whitespace-nowrap">
                               {row.Name}
                             </span>
                           </div>
@@ -99,8 +102,8 @@ const TeamsTable = ({
 
                     if (key === "Email") {
                       return (
-                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-50 lowercase">
-                          <a href={`mailto:${row.Email}`} className="text-[13px] font-normal text-[#0ea5e9] hover:underline whitespace-nowrap">
+                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 lowercase">
+                          <a href={`mailto:${row.Email}`} className="text-[16px] font-normal text-[#14B6EB] underline whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                             {row.Email}
                           </a>
                         </td>
@@ -110,11 +113,10 @@ const TeamsTable = ({
                     if (key === "Status") {
                       const statusVal = row.Status;
                       return (
-                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-50">
+                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
                           <span
-                            className={`px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider inline-flex items-center ${
-                              statusStyles[statusVal] || "bg-gray-100 text-gray-600"
-                            }`}
+                            className={`px-4 py-1.5 rounded-full text-[12px] font-semibold uppercase tracking-wider inline-flex items-center ${statusStyles[statusVal] || "bg-gray-100 text-gray-600"
+                              }`}
                           >
                             {statusVal.toUpperCase()}
                           </span>
@@ -127,19 +129,19 @@ const TeamsTable = ({
                       const isFree = avail === "Free";
                       const isBusy = avail === "Busy";
                       return (
-                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-50">
+                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
                           {isFree ? (
-                             <span className="text-sm font-semibold text-[#14CC95] flex items-center gap-1.5">
-                                <IoCheckmarkCircleSharp className="w-5 h-5" />
-                                Free
-                             </span>
+                            <span className="text-[15px] font-semibold text-[#14CC95] flex items-center gap-1.5">
+                              <IoCheckmarkCircleSharp className="w-5 h-5" />
+                              Free
+                            </span>
                           ) : isBusy ? (
-                             <span className="text-sm font-semibold text-[#00B4FF] flex items-center gap-1.5">
-                                <RiLoopRightLine className="w-5 h-5" />
-                                Busy
-                             </span>
+                            <span className="text-[15px] font-semibold text-[#00B4FF] flex items-center gap-1.5">
+                              <RiLoopRightLine className="w-5 h-5" />
+                              Busy
+                            </span>
                           ) : (
-                             <span className="text-[13px] font-medium text-gray-400">N/A</span>
+                            <span className="text-[15px] font-medium text-gray-500">N/A</span>
                           )}
                         </td>
                       );
@@ -147,7 +149,7 @@ const TeamsTable = ({
 
                     if (key === "Action") {
                       return (
-                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-50 text-center">
+                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 text-center">
                           <div className="flex justify-center">
                             <HiDotsVertical className="w-5 h-5 text-gray-700 font-bold group-hover:text-black transition-colors" />
                           </div>
@@ -158,7 +160,7 @@ const TeamsTable = ({
                     return (
                       <td
                         key={cellIndex}
-                        className="py-5 px-4 border-b border-gray-50 text-[13px] font-normal text-gray-500 whitespace-nowrap"
+                        className="py-5 px-4 border-b border-gray-200 text-[15px] font-normal text-black whitespace-nowrap"
                       >
                         {row[key]}
                       </td>
@@ -195,11 +197,10 @@ const TeamsTable = ({
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${
-              currentPage === 1
-                ? "text-gray-300 cursor-not-allowed"
-                : "text-gray-500 hover:text-black"
-            }`}
+            className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === 1
+              ? "text-gray-300 cursor-not-allowed"
+              : "text-gray-500 hover:text-black"
+              }`}
           >
             <HiArrowLongLeft className="w-5 h-5" />
             Previous
@@ -218,11 +219,10 @@ const TeamsTable = ({
                   <button
                     key={pageNum}
                     onClick={() => handlePageChange(pageNum)}
-                    className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${
-                      currentPage === pageNum
-                        ? "bg-black text-white shadow-md shadow-gray-200"
-                        : "text-gray-500 hover:bg-gray-50"
-                    }`}
+                    className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${currentPage === pageNum
+                      ? "bg-black text-white shadow-md shadow-gray-200"
+                      : "text-gray-500 hover:bg-gray-50"
+                      }`}
                   >
                     {pageNum}
                   </button>
@@ -245,11 +245,10 @@ const TeamsTable = ({
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${
-              currentPage === totalPages
-                ? "text-gray-300 cursor-not-allowed"
-                : "text-gray-500 hover:text-black"
-            }`}
+            className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === totalPages
+              ? "text-gray-300 cursor-not-allowed"
+              : "text-gray-500 hover:text-black"
+              }`}
           >
             Next
             <HiArrowLongRight className="w-5 h-5" />

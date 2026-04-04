@@ -3,6 +3,7 @@
 
 "use client";
 import React from "react";
+import { colors } from "../../utils/colors";
 import { FiChevronDown } from "react-icons/fi";
 import DropOption from "./DropOption";
 
@@ -63,8 +64,8 @@ const TeamUtilization = () => {
             {/* Utilization */}
             <div className="w-24 flex justify-center flex-shrink-0">
               <span
-                className={`inline-flex items-center justify-center w-14 h-8 sm:w-16 sm:h-9 rounded-full text-white text-xs sm:text-sm font-bold shadow-sm ${member.utilization >= 90 ? "bg-[#10B981]" : "bg-[#01B0E9]"
-                  }`}
+                className={`inline-flex items-center justify-center w-14 h-8 sm:w-16 sm:h-9 rounded-full text-white text-xs sm:text-sm font-bold shadow-sm`}
+                style={{ backgroundColor: member.utilization >= 90 ? colors.success : colors.primary }}
               >
                 {member.utilization}%
               </span>

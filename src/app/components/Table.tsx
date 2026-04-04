@@ -2,6 +2,7 @@
 /** @format */
 'use client';
 import React, { useState } from 'react';
+import { colors } from "../../utils/colors";
 import { SlOptionsVertical } from 'react-icons/sl';
 import { FaCircleCheck, FaClock } from 'react-icons/fa6';
 import { IoMdRefreshCircle } from 'react-icons/io';
@@ -39,7 +40,7 @@ const Table = ({
 
   const availabilityMap: any = {
     Free: { color: 'text-green-500', icon: <FaCircleCheck className="w-4 h-4" /> },
-    Busy: { color: 'text-[#01B0E9]', icon: <IoMdRefreshCircle className="w-4 h-4" /> },
+    Busy: { color: colors.primary, icon: <IoMdRefreshCircle className="w-4 h-4" /> },
     'Part-Time': { color: 'text-yellow-500', icon: <FaClock className="w-4 h-4" /> },
   };
 
@@ -147,7 +148,7 @@ const Table = ({
 
                       if (key === 'action' || key === 'Action') {
                         return (
-                          <td key={cellIndex} className="py-5 px-4 border-b border-gray-50 text-center">
+                          <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 text-center">
                             <div className="flex justify-center">
                               <HiDotsVertical className="w-5 h-5 text-gray-700 font-bold group-hover:text-black" />
                             </div>
@@ -157,7 +158,7 @@ const Table = ({
 
                       if (key === 'Name' || key === 'leadName' || key === 'firstName' || key === 'lastName' || key === 'email' || (pasthname === "/payments" && key === "client")) {
                         return (
-                          <td key={cellIndex} className="py-5 px-4 border-b border-gray-50">
+                          <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
                             <div className="flex items-center gap-3 justify-start">
                               {(row.avatar || row.Avatar) && (
                                 <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden flex-shrink-0">
@@ -175,7 +176,7 @@ const Table = ({
                       if (key === 'status' || key === 'Status' || key === "paymentStatus" || key === "Payment Status") {
                         const statusVal = row[key];
                         return (
-                          <td key={cellIndex} className="py-5 px-4 border-b border-gray-50 text-left">
+                          <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 text-left">
                             <div className="flex justify-start">
                               <span className={`px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider inline-flex items-center justify-center w-fit whitespace-nowrap ${statusStyles[statusVal] || 'bg-gray-100 text-gray-600'}`}>
                                 {statusVal}
@@ -191,7 +192,7 @@ const Table = ({
                           Math.max(0, Number(String(row[key]).replace('%', '')) || 0)
                         );
                         const progressColor =
-                          progressValue === 100 ? 'bg-[#14CB95]' : 'bg-[#00A4DD]';
+                          progressValue === 100 ? colors.accentGreen : colors.primaryHover;
 
                         return (
                           <td
@@ -203,8 +204,8 @@ const Table = ({
                                 {progressValue}%
                               </p>
                               <div
-                                className={`h-3 -mt-1 relative rounded-full ${progressColor} transition-all duration-300 shadow-sm`}
-                                style={{ width: `${progressValue}%` }}
+                                className={`h-3 -mt-1 relative rounded-full transition-all duration-300 shadow-sm`}
+                                style={{ width: `${progressValue}%`, backgroundColor: progressColor }}
                               ></div>
                             </div>
                           </td>
@@ -216,7 +217,7 @@ const Table = ({
                         return (
                           <td
                             key={cellIndex}
-                            className="py-5 px-4 border-b border-gray-50 text-left"
+                            className="py-5 px-4 border-b border-gray-200 text-left"
                           >
                             <div className="flex justify-start">
                               <span
@@ -231,7 +232,7 @@ const Table = ({
                       }
 
                       return (
-                        <td key={cellIndex} className={`py-5 px-4 border-b border-gray-50 text-sm font-medium text-gray-700 whitespace-nowrap ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount') ? 'text-center' : 'text-left'}`}>
+                        <td key={cellIndex} className={`py-5 px-4 border-b border-gray-200 text-sm font-medium text-gray-700 whitespace-nowrap ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount') ? 'text-center' : 'text-left'}`}>
                           {row[key]}
                         </td>
                       );

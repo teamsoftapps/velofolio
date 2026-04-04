@@ -12,39 +12,39 @@
     "avatar": "/teampic1.png"
   },
   {
-    "client": "Sarah Lee",
-    "job": "Wedding Film",
-    "invoiceNumber": "INV-024",
-    "amount": "$2,000",
-    "paid": "$1,500",
-    "balance": "$500",
+    "client": "Mark Johnson",
+    "job": "Corporate Video",
+    "invoiceNumber": "INV-025",
+    "amount": "$3,500",
+    "paid": "$3,500",
+    "balance": "$0",
     "paymentStatus": "Paid",
     "dueDate": "2026-03-15",
-    "paymentMethod": "Bank Transfer",
-    "avatar": "/teampic1.png"
+    "paymentMethod": "Credit Card",
+    "avatar": "/teampic2.png"
   },
   {
-    "client": "Sarah Lee",
-    "job": "Wedding Film",
-    "invoiceNumber": "INV-024",
-    "amount": "$2,000",
-    "paid": "$2,500",
-    "balance": "$500",
+    "client": "Emily Davis",
+    "job": "Engagement Shoot",
+    "invoiceNumber": "INV-026",
+    "amount": "$1,200",
+    "paid": "$400",
+    "balance": "$800",
     "paymentStatus": "Overdue",
     "dueDate": "2026-03-18",
-    "paymentMethod": "Bank Transfer",
-    "avatar": "/teampic1.png"
+    "paymentMethod": "PayPal",
+    "avatar": "/teampic3.png"
   },
-    {
-    "client": "Sarah Lee",
-    "job": "Wedding Film",
-    "invoiceNumber": "INV-024",
+  {
+    "client": "David Smith",
+    "job": "Real Estate Tour",
+    "invoiceNumber": "INV-027",
     "amount": "$7,000",
     "paid": "$2,500",
-    "balance": "$2200",
+    "balance": "$4500",
     "paymentStatus": "Overdue",
     "dueDate": "2026-03-22",
     "paymentMethod": "Bank Transfer",
-    "avatar": "/teampic1.png"
+    "avatar": "/teampic4.png"
   }
 ]

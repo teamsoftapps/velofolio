@@ -1,6 +1,7 @@
 
 'use client';
 import React, { useMemo, useState } from 'react';
+import { colors } from "../../utils/colors";
 
 import Navbar from '../components/Navbar';
 import FilterModal from '../components/FilterModal';
@@ -137,8 +138,8 @@ export default function ClientsPage() {
         row.email || '', row.phone || '', row.event || '',
         row.status || '', row.eventDate || ''
       ]);
-      const tableRows = rows.map(r => `<tr>${r.map((c: string) => `<td style="border:1px solid #ddd;padding:6px 10px;font-size:12px">${c}</td>`).join('')}</tr>`).join('');
-      const html = `<html><head><title>Clients Export</title><style>body{font-family:sans-serif}table{border-collapse:collapse;width:100%}th{background:#01B0E9;color:#fff;padding:8px 10px;font-size:12px;text-align:left}</style></head><body><h2 style="margin-bottom:12px">Clients Export — ${dateStamp}</h2><table><thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${tableRows}</tbody></table></body></html>`;
+      const tableRows = rows.map(r => `<tr>${r.map((c: string) => `<td style="border:1px solid ${colors.grayBorder};padding:6px 10px;font-size:12px">${c}</td>`).join('')}</tr>`).join('');
+      const html = `<html><head><title>Clients Export</title><style>body{font-family:sans-serif}table{border-collapse:collapse;width:100%}th{background:${colors.primary};color:${colors.white};padding:8px 10px;font-size:12px;text-align:left}</style></head><body><h2 style="margin-bottom:12px">Clients Export — ${dateStamp}</h2><table><thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${tableRows}</tbody></table></body></html>`;
       const win = window.open('', '_blank');
       if (win) { win.document.write(html); win.document.close(); win.print(); }
     }
@@ -148,7 +149,7 @@ export default function ClientsPage() {
   }
   return (
     <RouteGuard allowedRoles={['superadmin']}>
-      <div className="bg-[#FAFAFA]">
+      <div style={{ backgroundColor: colors.bgLight }}>
         <ExportModal
           isOpen={isExportModalOpen}
           onClose={() => setIsExportModalOpen(false)}
@@ -191,7 +192,7 @@ export default function ClientsPage() {
           onApply={(newFilters) => setFilters(newFilters)}
         />
 
-      <div className='min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] pb-24'>
+      <div className='min-h-screen w-full flex flex-col items-start pb-24' style={{ backgroundColor: colors.bgLight }}>
         <div className='w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8 pt-6'>
           <OverviewHeader
             title="Clients"

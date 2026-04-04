@@ -1,5 +1,6 @@
 
 "use client";
+import { colors } from "../../utils/colors";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { Line } from "react-chartjs-2";
@@ -158,42 +159,43 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
       {
         label: "Leads",
         data: (selectedTab === "Leads" || selectedTab === "All") ? dashboardStats.graph.leadPoints : [],
-        borderColor: "#90C0A4",
-        backgroundColor: "#90C0A4",
+        borderColor: colors.mutedGreen,
+        backgroundColor: colors.mutedGreen,
         fill: false,
         tension: 0.1,
         pointRadius: 4,
-        pointBackgroundColor: "#90C0A4",
+        pointBackgroundColor: colors.mutedGreen,
       },
       {
         label: "Jobs Accepted",
         data: (selectedTab === "Jobs" || selectedTab === "All") ? dashboardStats.graph.jobPoints : [],
-        borderColor: "#0E7D4B",
-        backgroundColor: "#0E7D4B",
+        borderColor: colors.darkGreen,
+        backgroundColor: colors.darkGreen,
         fill: false,
         tension: 0.1,
         pointRadius: 4,
-        pointBackgroundColor: "#0E7D4B",
+        pointBackgroundColor: colors.darkGreen,
+
       },
       {
         label: "Payments",
         data: (selectedTab === "Payments") ? dashboardStats.graph.paymentPoints : [],
-        borderColor: "#01B0E9",
-        backgroundColor: "#01B0E9",
+        borderColor: colors.primary,
+        backgroundColor: colors.primary,
         fill: false,
         tension: 0.1,
         pointRadius: 4,
-        pointBackgroundColor: "#01B0E9",
+        pointBackgroundColor: colors.primary,
       },
       {
         label: "Avg Revenue",
         data: (selectedTab === "Average Revenue") ? dashboardStats.graph.avgRevenuePoints : [],
-        borderColor: "#EC4899",
-        backgroundColor: "#EC4899",
+        borderColor: colors.accentPink,
+        backgroundColor: colors.accentPink,
         fill: false,
         tension: 0.1,
         pointRadius: 4,
-        pointBackgroundColor: "#EC4899",
+        pointBackgroundColor: colors.accentPink,
       },
     ],
   }), [dashboardStats, selectedTab]);
@@ -205,7 +207,7 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
       legend: { display: false },
       title: { display: false },
     },
-    scales: { x: { grid: { display: true, color: "rgba(0, 0, 0, 0.05)" } }, y: { beginAtZero: true, grid: { display: true, color: "rgba(0, 0, 0, 0.05)" }, ticks: { stepSize: 1 } } },
+    scales: { x: { grid: { display: true, color: "rgba(0, 0, 0, 0.05)" } }, y: { beginAtZero: true, grid: { display: true, min: 0, color: "rgba(0, 0, 0, 0.05)" }, ticks: { stepSize: 1 } } },
   };
 
   return (
@@ -232,8 +234,9 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
             {["7 Days", "30 Days", "Mtd", "Ytd", "All Data"].map((range) => (
               <button
                 key={range}
-                className={`px-3 py-2 text-xs md:text-sm font-medium border-r border-[#E5E7EB] last:border-0 cursor-pointer transition-colors ${timeRange === range
-                  ? "bg-[#01B0E9] text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`}
+                className={`px-3 py-2 text-xs md:text-sm font-medium border-r border-gray-200 last:border-0 cursor-pointer transition-colors ${timeRange === range
+                  ? "text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`}
+                style={timeRange === range ? { backgroundColor: colors.primary } : {}}
                 onClick={() => setTimeRange(range)}
               >
                 {range}
@@ -268,7 +271,8 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
           <div
             key={tab.key}
             className={`min-w-[120px] flex-1 p-3 border-r border-gray-100 cursor-pointer transition-all duration-200 
-              ${selectedTab === tab.key ? "bg-white border-t-2 border-t-[#01B0E9]" : "bg-[#F9FAFB] border-t-2 border-t-transparent hover:bg-gray-50"}`}
+              ${selectedTab === tab.key ? "bg-white border-t-2" : "border-t-2 border-t-transparent hover:bg-gray-50"}`}
+            style={selectedTab === tab.key ? { borderTopColor: colors.primary } : { backgroundColor: colors.gray50 }}
             onClick={() => handleTabClick(tab.key)}
           >
             <p className="text-gray-500 text-xs font-medium mb-1 uppercase tracking-tight">{tab.label}</p>
@@ -285,11 +289,11 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
 
       <div className="flex justify-center gap-80 mt-6">
         <div className="flex items-center space-x-2">
-          <div className="w-3.5 h-3.5 bg-[#90C0A4] rounded-sm"></div>
+          <div className="w-3.5 h-3.5 rounded-sm" style={{ backgroundColor: colors.mutedGreen }}></div>
           <span className="text-gray-500 text-sm font-medium">Leads</span>
         </div>
         <div className="flex items-center space-x-2">
-          <div className="w-3.5 h-3.5 bg-[#0E7D4B] rounded-sm"></div>
+          <div className="w-3.5 h-3.5 rounded-sm" style={{ backgroundColor: colors.darkGreen }}></div>
           <span className="text-gray-900 text-sm font-bold">Jobs Accepted</span>
         </div>
       </div>
