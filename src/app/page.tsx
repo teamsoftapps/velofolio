@@ -5,11 +5,11 @@ import RouteGuard from './components/RouteGuard'
 import Homepage from './components/Homepage/Homepage'
 const page = () => {
   return (
-    // <RouteGuard>
+    <RouteGuard>
 
-    <div><SignIn /></div>
+      <div><SignIn /></div>
 
-    // </RouteGuard>
+    </RouteGuard>
   )
 }
 
