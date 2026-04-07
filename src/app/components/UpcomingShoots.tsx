@@ -41,7 +41,7 @@ const UpcomingShoots = ({ timeRange = "All Data", value }: UpcomingShootsProps) 
   }, [timeRange, value]);
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 border border-gray-300 rounded-lg shadow-md w-full h-[650px] bg-white">
+    <div className="p-4 sm:p-6 lg:p-8 border border-gray-300 rounded-lg w-full h-[650px] bg-white">
       <AddShootModal
         isOpen={isShootModalOpen}
         onClose={() => setIsShootModalOpen(false)}

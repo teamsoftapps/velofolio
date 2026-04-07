@@ -92,7 +92,7 @@ const TeamsTable = ({
                                 className="object-cover"
                               />
                             </div>
-                            <span className="text-[16px] font-medium text-gray-800 whitespace-nowrap">
+                            <span className="text-[15px] font-medium text-black whitespace-nowrap">
                               {row.Name}
                             </span>
                           </div>
@@ -103,7 +103,7 @@ const TeamsTable = ({
                     if (key === "Email") {
                       return (
                         <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 lowercase">
-                          <a href={`mailto:${row.Email}`} className="text-[16px] font-normal text-[#14B6EB] underline whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                          <a href={`mailto:${row.Email}`} className="text-[15px] font-medium text-[#14B6EB] underline whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                             {row.Email}
                           </a>
                         </td>
@@ -160,7 +160,7 @@ const TeamsTable = ({
                     return (
                       <td
                         key={cellIndex}
-                        className="py-5 px-4 border-b border-gray-200 text-[15px] font-normal text-black whitespace-nowrap"
+                        className="py-5 px-4 border-b border-gray-200 text-[15px] font-medium text-black whitespace-nowrap"
                       >
                         {row[key]}
                       </td>

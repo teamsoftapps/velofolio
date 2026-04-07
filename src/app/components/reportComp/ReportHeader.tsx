@@ -51,7 +51,7 @@ const ReportHeader = ({
       </div>
 
       {/* Right: Controls */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 lg:w-auto md:justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 lg:w-auto md:justify-between flex-wrap">
         {/* Time Range Buttons */}
         <div className="flex w-full overflow-x-auto sm:w-auto">
           {['7 Days', '30 Days', 'Mtd', 'Ytd'].map((range, index) => (

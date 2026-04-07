@@ -189,20 +189,25 @@ const ReportGraph = ({ selectedView, setSelectedView, selectedTab, setSelectedTa
 
         {/* Cards - hidden in print mode; rendered standalone on page 1 of PDF */}
         {!isPrint && (
-          <div className={`w-full grid ${isPrint ? 'grid-cols-4' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'}`}>
-            {currentCards.map((tab: any) => (
+          <div className={`w-full grid ${isPrint ? 'grid-cols-4' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'} border-l border-t border-gray-200 rounded-lg overflow-hidden`}>
+            {currentCards.map((tab: any, index: number) => (
               <button
                 key={tab.key}
                 onClick={() => setSelectedTab(tab.key as 'All' | 'Leads' | 'Shoots' | 'Revenue')}
-                className={`border border-white p-3 text-left transition-all ${selectedTab === tab.key
-                  ? 'border-blue-500 border-t-[#CCEFFB] bg-white shadow-sm'
-                  : 'border-gray-300 bg-gray-200 hover:bg-gray-100'
+                className={`p-4 sm:p-6 text-left transition-all border-r border-b border-gray-200 ${selectedTab === tab.key
+                  ? 'bg-white'
+                  : 'bg-[#F9FAFB] hover:bg-gray-100'
                   }`}
               >
-                <p className="text-xs text-gray-600 sm:text-sm">{tab.label}</p>
-                <p className="mt-1 text-base font-semibold text-gray-900 sm:text-lg">
-                  {tab.value}
-                </p>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">{tab.label}</span>
+                  <span className="text-xl sm:text-2xl font-semibold text-gray-900">
+                    {tab.value}
+                  </span>
+                </div>
+                {selectedTab === tab.key && (
+                  <div className="mt-3 h-1.5 w-full rounded-full" style={{ backgroundColor: chartDatasets[index].borderColor }} />
+                )}
               </button>
             ))}
           </div>

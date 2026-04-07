@@ -70,6 +70,9 @@ const Table = ({
   const statusIcons: any = {
     Signed: <div className="w-4 h-4 rounded-full bg-black/20 flex items-center justify-center mr-2"><div className="w-1.5 h-1.5 rounded-full bg-black/60" /></div>,
     Draft: <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center mr-2"><div className="w-1.5 h-1.5 rounded-full bg-white/80" /></div>,
+    Active: <div className="w-1.5 h-1.5  rounded-full bg-[#D97706] mr-2" />,
+    Inactive: <div className="w-1.5 h-1.5 rounded-full bg-[#6B7280] mr-2" />,
+    'New Lead': <div className="w-1.5 h-1.5 rounded-full bg-[#D97706] mr-2" />,
   };
 
   const priorityStyles: any = {
@@ -103,14 +106,14 @@ const Table = ({
                       key={index}
                       onClick={() => isSortable && onSort(header.key)}
                       className={`
-                        py-4 px-4 text-sm font-semibold text-gray-700 border-y border-gray-100 whitespace-nowrap
-                        ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount') ? 'text-center' : 'text-left'}
+                        py-4 px-4 text-[15px] font-semibold text-gray-700 border-y border-gray-100 whitespace-nowrap
+                        ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount' || header.key === 'jobs' || header.label === 'Jobs' || header.key === 'action' || header.label === 'Action') ? 'text-center' : 'text-left'}
                         ${isFirst ? 'rounded-l-xl border-l' : ''}
                         ${isLast ? 'rounded-r-xl border-r' : ''}
                         ${isSortable ? 'cursor-pointer hover:bg-gray-50 transition-colors' : ''}
                       `}
                     >
-                      <div className={`flex items-center gap-2 ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount') ? 'justify-center' : 'justify-start'}`}>
+                      <div className={`flex items-center gap-2 ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount' || header.key === 'jobs' || header.label === 'Jobs' || header.key === 'action' || header.label === 'Action') ? 'justify-center' : 'justify-start'}`}>
                         {header.label || header.key || header}
                         {isSortable && sortBy?.value === header.key && (
                           sortBy.direction === 'asc' ? <FiChevronUp className="w-4 h-4 text-gray-400" /> : <FiChevronDown className="w-4 h-4 text-gray-400" />
@@ -136,7 +139,7 @@ const Table = ({
                   <tr
                     key={rowIndex}
                     onClick={() => {
-                      if (pasthname === '/clients') router.push(`/clientProfile`);
+                      if (pasthname === '/clients') router.push(`/clientProfile?id=${row.id}`);
                       if (pasthname === '/jobs') router.push(`/jobProfile?id=${rowIndex + 1}`);
                       if (pasthname === '/team') router.push(`/teamProfile`);
                       if (pasthname === '/payments') router.push(`/viewInvoice?InvoiceId=${row.invoiceNumber}`);
@@ -156,16 +159,20 @@ const Table = ({
                         );
                       }
 
-                      if (key === 'Name' || key === 'leadName' || key === 'firstName' || key === 'lastName' || key === 'email' || (pasthname === "/payments" && key === "client")) {
+                      if (key === 'name' || key === 'Name' || key === 'leadName' || key === 'firstName' || key === 'lastName' || key === 'email' || (pasthname === "/payments" && key === "client")) {
                         return (
                           <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
                             <div className="flex items-center gap-3 justify-start">
-                              {(row.avatar || row.Avatar) && (
-                                <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden flex-shrink-0">
-                                  <Image src={row.avatar || row.Avatar} alt="v" width={40} height={40} className="w-full h-full object-cover" />
+                              {(row.avatar || row.Avatar || (pasthname === "/payments" && key === "client")) && (
+                                <div className="w-10 h-10 rounded-full bg-[#f0f2f5] overflow-hidden flex-shrink-0 flex items-center justify-center text-[#6B7280] font-bold text-sm border border-gray-100">
+                                  {(row.avatar || row.Avatar) ? (
+                                    <Image src={row.avatar || row.Avatar} alt={String(row[key] || '').charAt(0).toUpperCase()} width={40} height={40} className="w-full h-full object-cover" />
+                                  ) : (
+                                    <span>{String(row[key] || '').charAt(0).toUpperCase()}</span>
+                                  )}
                                 </div>
                               )}
-                              <span className="text-sm font-medium text-gray-700 truncate max-w-[160px]">
+                              <span className={`text-[15px] font-medium text-black ${key === 'email' ? '' : 'truncate max-w-[160px]'}`}>
                                 {row[key]}
                               </span>
                             </div>
@@ -178,7 +185,8 @@ const Table = ({
                         return (
                           <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 text-left">
                             <div className="flex justify-start">
-                              <span className={`px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider inline-flex items-center justify-center w-fit whitespace-nowrap ${statusStyles[statusVal] || 'bg-gray-100 text-gray-600'}`}>
+                              <span className={`px-4 py-1.5 rounded-full text-[12px] font-bold uppercase tracking-wider inline-flex items-center justify-center w-fit whitespace-nowrap ${statusStyles[statusVal] || 'bg-gray-100 text-gray-600'}`}>
+                                {statusIcons[statusVal]}
                                 {statusVal}
                               </span>
                             </div>
@@ -232,7 +240,7 @@ const Table = ({
                       }
 
                       return (
-                        <td key={cellIndex} className={`py-5 px-4 border-b border-gray-200 text-sm font-medium text-gray-700 whitespace-nowrap ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount') ? 'text-center' : 'text-left'}`}>
+                        <td key={cellIndex} className={`py-5 px-4 border-b border-gray-200 text-[15px] font-medium text-black whitespace-nowrap ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount' || header.key === 'jobs' || header.label === 'Jobs') ? 'text-center' : 'text-left'}`}>
                           {row[key]}
                         </td>
                       );

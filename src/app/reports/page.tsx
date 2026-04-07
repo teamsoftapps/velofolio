@@ -146,7 +146,7 @@ const reports = () => {
       {/* 1. SCREEN ONLY CONTENT (The interactive dashboard) */}
       <div className="screen-only-content">
         <Navbar />
-        <div className='container mx-auto w-[100%] h-full px-4 sm:px-10'>
+        <div className='container mx-auto w-[100%] h-full px-2 lg:px-6'>
           <ReportHeader
             timeRange={timeRange}
             setTimeRange={setTimeRange}
@@ -155,8 +155,8 @@ const reports = () => {
             onExport={handleExport}
           />
 
-          <div className='charts px-2 lg:px-3 flex gap-3 md:gap-10 w-full flex-col lg:flex-row items-start justify-between overflow-hidden'>
-            <div className='w-full sm:w-2/3 md:w-full lg:w-2/3 border border-gray-200 bg-white shadow-sm overflow-hidden rounded-xl'>
+          <div className='charts px-1 flex gap-3 md:gap-8 w-full flex-col lg:flex-row items-start justify-between'>
+            <div className='w-full lg:w-3/4 border border-gray-200 bg-white shadow-sm overflow-hidden rounded-xl'>
               <ReportGraph
                 selectedView={selectedView}
                 setSelectedView={setSelectedView}
@@ -165,10 +165,12 @@ const reports = () => {
                 timeRange={timeRange}
               />
             </div>
-            <ReportPiChart
-              selectedView={selectedView}
-              timeRange={timeRange}
-            />
+            <div className='w-full lg:w-1/4'>
+              <ReportPiChart
+                selectedView={selectedView}
+                timeRange={timeRange}
+              />
+            </div>
           </div>
         </div>
       </div>

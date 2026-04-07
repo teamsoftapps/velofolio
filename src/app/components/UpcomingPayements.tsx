@@ -49,7 +49,7 @@ const UpcomingPayements = ({ timeRange = "All Data", value }: UpcomingPayementsP
   }, [timeRange, value, invoices]);
 
   return (
-    <div className='bg-white border border-gray-300 rounded-lg shadow-md h-[650px] w-full lg:min-w-1/2 flex flex-col overflow-hidden'>
+    <div className='bg-white border border-gray-300 rounded-lg h-[650px] w-full lg:min-w-1/2 flex flex-col overflow-hidden'>
       {/* Sticky heading — never scrolls */}
       <div className='px-8 pt-8 pb-4 flex-shrink-0 w-full flex flex-row justify-between items-center'>
         <h2 className='text-lg font-medium text-[20px] sm:text-[22px] lg:text-[24px] text-black'>

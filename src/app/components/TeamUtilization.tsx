@@ -1,14 +1,10 @@
-
-/** @format */
-
 "use client";
 import React from "react";
 import { colors } from "../../utils/colors";
 import { FiChevronDown } from "react-icons/fi";
-import DropOption from "./DropOption";
 
 const teamData = [
-  { name: "John Smith", role: "Lead Photographer", utilization: 85, jobs: 12 },
+  { name: "John Smith", role: "Editor", utilization: 85, jobs: 12 },
   { name: "Sarah Lee", role: "Videographer", utilization: 70, jobs: 9 },
   { name: "Mark Evans", role: "Project Manager", utilization: 90, jobs: 9 },
   { name: "Alex Turner", role: "Editor", utilization: 70, jobs: 9 },
@@ -16,47 +12,75 @@ const teamData = [
 ];
 
 const TeamUtilization = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [selectedDept, setSelectedDept] = React.useState("Department");
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <div className="bg-white p-6 sm:p-8 rounded-lg border border-gray-300  flex flex-col h-full w-full">
+    <div className="bg-white p-6 rounded-lg border border-gray-200 flex flex-col h-full w-full">
       {/* Header Section */}
-      <div className="flex justify-between items-center mb-8 gap-4">
-        <h2 className="text-xl sm:text-2xl font-medium text-gray-900 tracking-tight">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-semibold text-gray-900">
           Team Utilization
         </h2>
-        <DropOption
-          options={["View by Dept", "View by Role", "View by Team"]}
-          value={undefined}
-          onChange={undefined}
-          className="w-32 bg-gray-100 "
-        />
+        <div className="relative" ref={dropdownRef}>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="flex items-center gap-2 px-4 py-2 bg-[#F9FAFB] rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-200 transition-colors cursor-pointer capitalize"
+          >
+            <span>View by {selectedDept}</span>
+            <FiChevronDown className={`text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          {isOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden">
+              {["Department", "Role", "Team"].map((option) => (
+                <button
+                  key={option}
+                  onClick={() => {
+                    setSelectedDept(option);
+                    setIsOpen(false);
+                  }}
+                  className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-200 cursor-pointer hover:text-gray-900 transition-colors border-b border-gray-50 last:border-0"
+                >
+                  View by {option}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Table Header - Simplified & Aligned */}
-      <div className="hidden sm:flex items-center bg-[#F9FAFB] px-5 py-3 rounded-lg mb-4 text-[#6B7280] font-bold text-[10px] uppercase tracking-widest border border-gray-100">
-        <span className="flex-1">Team Member / Role</span>
+      {/* Table Header */}
+      <div className="flex items-center bg-[#F9FAFB] px-4 py-3 rounded-xl mb-2 text-[#4B5563] font-medium text-[13px]">
+        <span className="flex-1">Team Member</span>
         <span className="w-24 text-center">Utilization</span>
-        <span className="w-24 text-right">Jobs</span>
-      </div>
-
-      {/* Mobile Header (Visible only on small screens) */}
-      <div className="sm:hidden flex justify-between px-2 pb-2 mb-2 border-b border-gray-100 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-        <span>Member</span>
-        <span>Stats</span>
+        <span className="w-32 text-right">Jobs Assigned</span>
       </div>
 
       {/* List Items */}
-      <div className="space-y-4 flex-1 overflow-y-auto no-scrollbar">
+      <div className="flex-1 overflow-y-auto no-scrollbar">
         {teamData.map((member, index) => (
           <div
             key={index}
-            className="flex items-center justify-between py-4 border-b border-gray-50 last:border-0"
+            className="flex items-center justify-between py-4 border-b border-gray-100 last:border-0"
           >
             {/* Name & Role */}
-            <div className="flex flex-col flex-1 pl-1 min-w-0">
-              <span className="text-gray-900 font-medium text-base sm:text-lg truncate tracking-tight">
+            <div className="flex flex-col flex-1">
+              <span className="text-gray-950 font-medium text-[15px]">
                 {member.name}
               </span>
-              <span className="text-gray-400 text-xs sm:text-sm font-medium uppercase tracking-wide">
+              <span className="text-gray-400 text-[13px] font-normal">
                 {member.role}
               </span>
             </div>
@@ -64,16 +88,16 @@ const TeamUtilization = () => {
             {/* Utilization */}
             <div className="w-24 flex justify-center flex-shrink-0">
               <span
-                className={`inline-flex items-center justify-center w-14 h-8 sm:w-16 sm:h-9 rounded-full text-white text-xs sm:text-sm font-bold shadow-sm`}
-                style={{ backgroundColor: member.utilization >= 90 ? colors.success : colors.primary }}
+                className={`inline-flex items-center justify-center w-14 h-8 rounded-full text-white text-[13px] font-bold`}
+                style={{ backgroundColor: member.utilization >= 90 ? '#10B981' : '#01B0E9' }}
               >
                 {member.utilization}%
               </span>
             </div>
 
             {/* Jobs */}
-            <div className="w-24 text-right flex-shrink-0 pr-2">
-              <span className="text-gray-900 font-medium text-lg sm:text-xl tabular-nums">
+            <div className="w-32 text-center flex-shrink-0">
+              <span className="text-gray-900 font-medium text-[15px]">
                 {member.jobs}
               </span>
             </div>

@@ -230,7 +230,7 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex border border-gray-300 rounded-lg overflow-hidden bg-white shadow-sm">
+          <div className="flex border border-gray-300 rounded-lg overflow-hidden bg-white">
             {["7 Days", "30 Days", "Mtd", "Ytd", "All Data"].map((range) => (
               <button
                 key={range}
@@ -244,7 +244,7 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
             ))}
           </div>
           <div className="relative min-w-[180px] flex-1" onClick={(e) => e.stopPropagation()}>
-            <button className="w-full cursor-pointer bg-gray-50 border border-gray-300 rounded-lg py-2.5 px-4 pr-10 text-left text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+            <button className="w-full cursor-pointer bg-gray-50 border border-gray-300 rounded-lg py-2.5 px-4 pr-10 text-left text-sm text-gray-900 focus:outline-none"
               onClick={() => setOpenCalender(!openCalender)}
             >
               {formatDate(value)}

@@ -18,13 +18,12 @@ import ExportModal from '../components/ExportModal';
 
 const tableHeaders = [
   { key: 'dateCreated', label: 'Date Created' },
-  { key: 'firstName', label: 'First Name' },
-  { key: 'lastName', label: 'Last Name' },
+  { key: 'name', label: 'Name' },
+  { key: 'company', label: 'Company' },
   { key: 'email', label: 'Email' },
-  { key: 'phone', label: 'Phone' },
-  { key: 'event', label: 'Event' },
+  { key: 'jobs', label: 'Jobs' },
   { key: 'status', label: 'Status' },
-  { key: 'eventDate', label: 'Event Date' },
+  { key: 'action', label: 'Action' }
 ];
 
 export default function ClientsPage() {
@@ -68,23 +67,22 @@ export default function ClientsPage() {
 
   // ====================== COMBINED DATA FOR TABLE ======================
   const allTableData = useMemo(() => {
-    const mappedImportedClients = clients.map((client, index) => ({
-      id: `CLNT-${String(index + 1).padStart(3, '0')}`,
-      dateCreated: client.dateCreated || new Date().toISOString().split('T')[0],
-      firstName: client.firstName || 'Unknown',
-      lastName: client.lastName || '',
-      email: client.email || 'N/A',
-      phone: client.phone || 'N/A',
-      event: client.event || 'Client Onboarding',
-      status: client.status || 'New Lead',
-      eventDate: client.eventDate
-        ? new Date(client.eventDate).toISOString().split('T')[0]
-        : 'N/A',
-      nextTask: '—',
-      _rawId: client.id,
-    }));
+    const mapRow = (row: any, index: number) => ({
+      ...row,
+      id: row.id || `CLNT-${String(index + 1).padStart(3, '0')}`,
+      dateCreated: row.dateCreated || new Date().toISOString().split('T')[0],
+      name: `${row.firstName || row.name || 'Unknown'} ${row.lastName || ''}`.trim(),
+      company: row.company || '-',
+      email: row.email || 'N/A',
+      jobs: row.jobs || '3',
+      status: row.status || 'Active',
+      action: '',
+    });
 
-    return [...TableData, ...mappedImportedClients];
+    const mappedImportedClients = clients.map((client, index) => mapRow(client, index + TableData.length));
+    const mappedJsonData = TableData.map((row, index) => mapRow(row, index));
+
+    return [...mappedJsonData, ...mappedImportedClients];
   }, [clients]);
 
   // ====================== APPLY FILTERS + SEARCH + SORT ======================
@@ -110,13 +108,12 @@ export default function ClientsPage() {
 
     if (format === 'csv') {
       const headers = [
-        "Date Created", "First Name", "Last Name", "Email",
-        "Phone", "Event", "Status", "Event Date"
+        "Date Created", "Name", "Company", "Email",
+        "Jobs", "Status"
       ];
       const rows = allTableData.map(row => [
-        row.dateCreated || '', row.firstName || '', row.lastName || '',
-        row.email || '', row.phone || '', row.event || '',
-        row.status || '', row.eventDate || ''
+        row.dateCreated || '', row.name || '', row.company || '-',
+        row.email || '', row.jobs || '3', row.status || ''
       ]);
       const csvContent = [
         headers.join(','),
@@ -132,11 +129,10 @@ export default function ClientsPage() {
       document.body.removeChild(link);
     } else {
       // PDF: open print dialog pre-populated with table data
-      const headers = ["Date Created", "First Name", "Last Name", "Email", "Phone", "Event", "Status", "Event Date"];
+      const headers = ["Date Created", "Name", "Company", "Email", "Jobs", "Status"];
       const rows = allTableData.map(row => [
-        row.dateCreated || '', row.firstName || '', row.lastName || '',
-        row.email || '', row.phone || '', row.event || '',
-        row.status || '', row.eventDate || ''
+        row.dateCreated || '', row.name || '', row.company || '-',
+        row.email || '', row.jobs || '3', row.status || ''
       ]);
       const tableRows = rows.map(r => `<tr>${r.map((c: string) => `<td style="border:1px solid ${colors.grayBorder};padding:6px 10px;font-size:12px">${c}</td>`).join('')}</tr>`).join('');
       const html = `<html><head><title>Clients Export</title><style>body{font-family:sans-serif}table{border-collapse:collapse;width:100%}th{background:${colors.primary};color:${colors.white};padding:8px 10px;font-size:12px;text-align:left}</style></head><body><h2 style="margin-bottom:12px">Clients Export — ${dateStamp}</h2><table><thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${tableRows}</tbody></table></body></html>`;
@@ -145,7 +141,7 @@ export default function ClientsPage() {
     }
   };
   const handleDelete = () => {
-    console.log("Delte")
+    console.log("Delete")
   }
   return (
     <RouteGuard allowedRoles={['superadmin']}>
@@ -192,48 +188,49 @@ export default function ClientsPage() {
           onApply={(newFilters) => setFilters(newFilters)}
         />
 
-      <div className='min-h-screen w-full flex flex-col items-start pb-24' style={{ backgroundColor: colors.bgLight }}>
-        <div className='w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8 pt-6'>
-          <OverviewHeader
-            title="Clients"
-            setOpenForm={setIsFormOpen}
-            searchedValue={searchedValue}
-            setSearchedValue={setSearchedValue}
-            setOpenFilter={setOpenFilter}
-            sortBy={sortBy}
-            setSortBy={setSortBy}
-          />
-
-          {/* Import & Export Buttons */}
-          <div className="w-full flex justify-end gap-5 mb-6">
-            <ImportClientsButton
-              type="import"
-              onClick={() => setIsImportModalOpen(true)}
+        <div className='min-h-screen w-full flex flex-col items-start pb-24' style={{ backgroundColor: colors.bgLight }}>
+          <div className='w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8 pt-6 flex flex-col gap-6'>
+            <OverviewHeader
+              title="Clients"
+              setOpenForm={setIsFormOpen}
+              searchedValue={searchedValue}
+              setSearchedValue={setSearchedValue}
+              setOpenFilter={setOpenFilter}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
             />
-            <ImportClientsButton
-              type="export"
-              onClick={handleExport}           // ← Now working!
-              showFormat={false}
+
+            {/* Import & Export Buttons */}
+            <div className="w-full flex flex-wrap justify-end gap-5 mb-6 mt-4 lg:mt-0">
+              <ImportClientsButton
+                type="import"
+                onClick={() => setIsImportModalOpen(true)}
+              />
+              <ImportClientsButton
+                type="export"
+                onClick={handleExport}           // ← Now working!
+                showFormat={false}
+              />
+            </div>
+
+            <Table
+              headers={tableHeaders}
+              data={advancedfilteredData}
+              setDeleteModal={setIsDeleteModalOpen}
+              sortBy={sortBy}
+              unit="Clients"
+              onSort={(key: string) => {
+                if (sortBy.value === key) {
+                  setSortBy({
+                    value: key,
+                    direction: sortBy.direction === 'asc' ? 'desc' : 'asc',
+                  });
+                } else {
+                  setSortBy({ value: key, direction: 'desc' });
+                }
+              }}
             />
           </div>
-
-          <Table
-            headers={tableHeaders}
-            data={advancedfilteredData}
-            setDeleteModal={setIsDeleteModalOpen}
-            sortBy={sortBy}
-            onSort={(key: string) => {
-              if (sortBy.value === key) {
-                setSortBy({
-                  value: key,
-                  direction: sortBy.direction === 'asc' ? 'desc' : 'asc',
-                });
-              } else {
-                setSortBy({ value: key, direction: 'desc' });
-              }
-            }}
-          />
-        </div>
         </div>
       </div>
     </RouteGuard>
