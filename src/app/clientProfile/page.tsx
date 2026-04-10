@@ -17,6 +17,7 @@ import LeadForm from '../components/LeadFormModel';
 import AddJobModal from '../components/AddJobModal';
 import ClientForm from '../components/ClientFormModal';
 import DeleteModal from '../components/DeleteModal';
+import { toast } from 'react-toastify';
 
 import { useSearchParams } from 'next/navigation';
 import TableData from '../../utils/Data.json';
@@ -35,9 +36,13 @@ const ClientProfilePage = () => {
   const [isJobModalOpen, setIsJobModalOpen] = useState(false);
   const [isClientModalOpen, setIsClientModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [clientOverride, setClientOverride] = useState<Record<string, any>>({});
+
+  const setClient = (updater: (prev: any) => any) =>
+    setClientOverride((prev) => updater(prev));
 
   // Find dynamic client data or fallback to mock
-  const client = useMemo(() => {
+  const baseClient = useMemo(() => {
     const found = TableData.find(c => c.id === clientId);
     if (found) {
       return {
@@ -64,6 +69,9 @@ const ClientProfilePage = () => {
     };
   }, [clientId]);
 
+  // Merge live edits on top of the base client
+  const client = { ...baseClient, ...clientOverride };
+
   return (
     <div className='min-h-screen w-full flex flex-col items-start bg-[#F8F9FB]'>
       <Navbar />
@@ -87,8 +95,8 @@ const ClientProfilePage = () => {
 
           {/* Sidebar Area */}
           <div className="lg:col-span-4 xl:col-span-5 animate-in fade-in slide-in-from-left-4 duration-700">
-            <ClientProfileCard 
-              data={client} 
+            <ClientProfileCard
+              data={client}
               onEditClick={() => setIsClientModalOpen(true)}
               onDeleteClick={() => setIsDeleteModalOpen(true)}
             />
@@ -126,37 +134,45 @@ const ClientProfilePage = () => {
 
       {/* MODALS */}
       {isLeadModalOpen && (
-        <LeadForm 
-          onSubmit={(data) => console.log('Lead data:', data)} 
-          setOpenForm={setIsLeadModalOpen} 
+        <LeadForm
+          onSubmit={(data) => console.log('Lead data:', data)}
+          setOpenForm={setIsLeadModalOpen}
         />
       )}
 
       {isJobModalOpen && (
-        <AddJobModal 
-          isOpen={isJobModalOpen} 
-          onClose={() => setIsJobModalOpen(false)} 
-          onAddJob={(data) => console.log('Job data:', data)} 
+        <AddJobModal
+          isOpen={isJobModalOpen}
+          onClose={() => setIsJobModalOpen(false)}
+          onAddJob={(data) => console.log('Job data:', data)}
         />
       )}
 
       {isClientModalOpen && (
-        <ClientForm 
-          onSubmit={(data) => console.log('Client updated:', data)} 
+        <ClientForm
+          onSubmit={(data) => {
+            // Merge updated fields back into client state
+            setClient?.((prev: any) => ({ ...prev, ...data }));
+            setIsClientModalOpen(false);
+            toast.success('Client updated successfully!');
+          }}
           setOpenForm={setIsClientModalOpen}
           initialData={client}
           setClients={() => { }}
         />
       )}
 
-      <DeleteModal 
-        isOpen={isDeleteModalOpen} 
-        onClose={() => setIsDeleteModalOpen(false)} 
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={() => {
-          console.log('Client deleted');
           setIsDeleteModalOpen(false);
+          toast.success('Client deleted successfully.');
           router.push('/clients');
-        }} 
+        }}
+        title="Delete Client?"
+        message={`Are you sure you want to delete ${client.name}? This action cannot be undone.`}
+        confirmLabel="Delete Client"
       />
     </div>
   );

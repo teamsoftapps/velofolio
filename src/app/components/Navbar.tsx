@@ -4,11 +4,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import ProfileModal from './NavModal';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { clearCredientials } from '@/store/slices/authSlice';
+import { logOut } from '@/firebase_Routes/routes';
+import { auth } from '@/config/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import { useGetOrganizationsQuery } from '@/store/apis/Common';
 import CreateWorkspaceModal from './CreateWorkspace';
 import { IoNotificationsOutline } from "react-icons/io5";
@@ -25,8 +28,16 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
   const [workspace, setWorkspaceOpen] = useState(false);
   const { data: companies } = useGetOrganizationsQuery({});
 
-  const { token } = useSelector((state: any) => state.persisted?.auth || {});
-  const isLoggedIn = !!token;
+  const [firebaseUser, setFirebaseUser] = useState<any>(undefined);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setFirebaseUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const isLoggedIn = !!firebaseUser;
 
   const tabs = [
     { name: 'Dashboard', icon: '/images/home.png', href: '/dashboard' },
@@ -79,9 +90,9 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
                       width={24}
                       height={24}
                       className={`w-6 h-6 mb-1 ${isActive ? 'opacity-100' : 'opacity-60 hover:opacity-100'}`}
-                      style={{ 
-                        filter: isActive 
-                          ? 'invert(52%) sepia(91%) saturate(2251%) hue-rotate(167deg) brightness(98%) contrast(98%)' 
+                      style={{
+                        filter: isActive
+                          ? 'invert(52%) sepia(91%) saturate(2251%) hue-rotate(167deg) brightness(98%) contrast(98%)'
                           : 'none'
                       }}
                     />
@@ -199,9 +210,9 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
                         width={24}
                         height={24}
                         className={`w-6 h-6 mr-3 ${isActive ? 'opacity-100' : 'opacity-60 hover:opacity-100'}`}
-                        style={{ 
-                          filter: isActive 
-                            ? 'invert(52%) sepia(91%) saturate(2251%) hue-rotate(167deg) brightness(98%) contrast(98%)' 
+                        style={{
+                          filter: isActive
+                            ? 'invert(52%) sepia(91%) saturate(2251%) hue-rotate(167deg) brightness(98%) contrast(98%)'
                             : 'none'
                         }}
                       />
@@ -213,6 +224,7 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
                   <button
                     className='block w-full text-left px-3 py-2 text-base font-medium text-gray-700 rounded-md transition-colors duration-200 hover:bg-gray-100'
                     onClick={async () => {
+                      await logOut();
                       dispatch(clearCredientials());
                       setIsMobileMenuOpen(false);
                       router.push('/');

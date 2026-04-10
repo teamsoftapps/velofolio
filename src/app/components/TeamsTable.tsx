@@ -28,34 +28,28 @@ const TeamsTable = ({
     setCurrentPage(newPage);
   };
 
-  const statusStyles: any = {
-    "Active": "bg-[#FFC043] text-black",
-    "On Leave": "bg-[#00B1EF] text-white",
-    "Inactive": "bg-[#8E8E8E] text-white",
-  };
-
   return (
-    <div className="w-full mt-4 bg-white border border-gray-200 rounded-[24px] p-6 shadow-sm mb-10">
+    <div className="w-full mt-4 bg-white border border-gray-200 rounded-lg mt-8 p-6 shadow-sm mb-10">
       <div className="overflow-x-auto no-scrollbar">
         <table className="w-full border-separate border-spacing-y-0">
           <thead>
-            <tr className="bg-[#F8F9FB]">
+            <tr className="bg-[#F3F4F6]">
               {headers.map((header: any, index: number) => {
                 const isFirst = index === 0;
                 const isLast = index === headers.length - 1;
                 return (
                   <th
                     key={index}
-                    className={`py-4 px-4 text-[13px] font-semibold text-black border-y border-gray-100 whitespace-nowrap text-left
-                      ${isFirst ? "rounded-l-xl border-l" : ""}
-                      ${isLast ? "rounded-r-xl border-r" : ""}`}
+                    className={`py-4 px-4 text-[14px] font-semibold text-gray-800 border-y border-gray-200 whitespace-nowrap text-left
+                      ${isFirst ? "rounded-l-lg border-l" : ""}
+                      ${isLast ? "rounded-r-lg border-r" : ""}`}
                   >
                     {header.label}
                   </th>
                 );
               })}
             </tr>
-            <tr className="h-6">
+            <tr className="h-4">
               <td colSpan={headers.length}></td>
             </tr>
           </thead>
@@ -103,7 +97,7 @@ const TeamsTable = ({
                     if (key === "Email") {
                       return (
                         <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 lowercase">
-                          <a href={`mailto:${row.Email}`} className="text-[15px] font-medium text-[#14B6EB] underline whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                          <a href={`mailto:${row.Email}`} className="text-[14px] font-medium text-gray-800 whitespace-nowrap hover:text-black transition-colors" onClick={(e) => e.stopPropagation()}>
                             {row.Email}
                           </a>
                         </td>
@@ -111,37 +105,42 @@ const TeamsTable = ({
                     }
 
                     if (key === "Status") {
-                      const statusVal = row.Status;
+                      const statusVal = row.Status?.toUpperCase();
                       return (
                         <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
-                          <span
-                            className={`px-4 py-1.5 rounded-full text-[12px] font-semibold uppercase tracking-wider inline-flex items-center ${statusStyles[statusVal] || "bg-gray-100 text-gray-600"
-                              }`}
-                          >
-                            {statusVal.toUpperCase()}
-                          </span>
+                          {statusVal === "ACTIVE" && (
+                            <span className="px-3 py-1 bg-[#FFF4E5] text-[#F59E0B] rounded-full text-[12px] font-bold tracking-wide uppercase inline-flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]"></span> ACTIVE
+                            </span>
+                          )}
+                          {statusVal === "ON LEAVE" && (
+                            <span className="px-3 py-1 bg-[#E0F2FE] text-[#0EA5E9] rounded-full text-[12px] font-bold tracking-wide uppercase">
+                              ON LEAVE
+                            </span>
+                          )}
+                          {statusVal === "INACTIVE" && (
+                            <span className="px-3 py-1 bg-[#F3F4F6] text-[#9CA3AF] rounded-full text-[12px] font-bold tracking-wide uppercase">
+                              INACTIVE
+                            </span>
+                          )}
                         </td>
                       );
                     }
 
                     if (key === "Availability") {
                       const avail = row.Availability;
-                      const isFree = avail === "Free";
-                      const isBusy = avail === "Busy";
                       return (
                         <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
-                          {isFree ? (
-                            <span className="text-[15px] font-semibold text-[#14CC95] flex items-center gap-1.5">
-                              <IoCheckmarkCircleSharp className="w-5 h-5" />
-                              Free
+                          {avail === "Free" ? (
+                            <span className="text-[14px] font-medium text-[#10B981] flex items-center gap-1.5">
+                              <IoCheckmarkCircleSharp className="w-4 h-4" /> Free
                             </span>
-                          ) : isBusy ? (
-                            <span className="text-[15px] font-semibold text-[#00B4FF] flex items-center gap-1.5">
-                              <RiLoopRightLine className="w-5 h-5" />
-                              Busy
+                          ) : avail === "Busy" ? (
+                            <span className="text-[14px] font-medium text-[#0EA5E9] flex items-center gap-1.5">
+                              <RiLoopRightLine className="w-4 h-4" /> Busy
                             </span>
                           ) : (
-                            <span className="text-[15px] font-medium text-gray-500">N/A</span>
+                            <span className="text-[14px] font-medium text-gray-700">N/A</span>
                           )}
                         </td>
                       );
@@ -160,7 +159,7 @@ const TeamsTable = ({
                     return (
                       <td
                         key={cellIndex}
-                        className="py-5 px-4 border-b border-gray-200 text-[15px] font-medium text-black whitespace-nowrap"
+                        className="py-5 px-4 border-b border-gray-200 text-[14px] font-medium text-gray-800 whitespace-nowrap"
                       >
                         {row[key]}
                       </td>
@@ -173,22 +172,22 @@ const TeamsTable = ({
         </table>
       </div>
 
-      <div className="relative mt-8 flex justify-center items-center bg-white py-4 border-t border-gray-100">
-        <div className="absolute left-6">
+      <div className="mt-8 flex flex-col md:flex-row justify-between items-center bg-white py-4 border-t border-gray-100 px-6 gap-4">
+        <div className="relative flex-shrink-0">
           <select
             value={itemsPerPage}
             onChange={(e) => {
               setItemsPerPage(Number(e.target.value));
               setCurrentPage(1);
             }}
-            className="appearance-none bg-gray-50 border border-gray-100 rounded-lg py-2.5 px-6 pr-10 text-sm font-semibold text-gray-700 focus:outline-none cursor-pointer shadow-sm"
+            className="appearance-none bg-[#F3F4F6] border-none rounded-lg py-2.5 px-4 pr-10 text-[14px] font-medium text-gray-800 focus:outline-none cursor-pointer w-full"
           >
             <option value={8}>8 {unit}</option>
             <option value={15}>15 {unit}</option>
             <option value={20}>20 {unit}</option>
             <option value={50}>50 {unit}</option>
           </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
             <FiChevronDown className="w-4 h-4" />
           </div>
         </div>

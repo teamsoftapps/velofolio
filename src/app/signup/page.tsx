@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useSignupMutation } from "@/store/apis/Auth";
+import { signUpWithEmail, continueWithGoogle } from "@/firebase_Routes/routes";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import RouteGuard from "../components/RouteGuard";
@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { setCredientials } from "@/store/slices/authSlice";
 import { useValidateInviteQuery } from "@/store/apis/Common";
 import { Base_url } from "@/utils/Url";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 // Validation schema
 const SignupSchema = Yup.object({
   full_name: Yup.string().min(2, "Too short!").required("Full name is required"),
@@ -35,17 +36,19 @@ interface SignupPayload {
 
 const Signup: React.FC = () => {
   const router = useRouter();
-const dispatch = useDispatch();
-  const [signup] = useSignupMutation();
+  const dispatch = useDispatch();
+
+  const [showPassword, setShowPassword] = useState(false);
+
 
   // URL token handling
   const [invitationToken, setInvitationToken] = useState<string | null>(null);
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteRole, setInviteRole] = useState("");
   const [loadingInvite, setLoadingInvite] = useState(false);
-const { data, isLoading, error } = useValidateInviteQuery(invitationToken as string, {
-  skip: !invitationToken, // only run when token exists
-});
+  const { data, isLoading, error } = useValidateInviteQuery(invitationToken as string, {
+    skip: !invitationToken, // only run when token exists
+  });
   //---------------------------------------
   //  GET TOKEN FROM URL
   //---------------------------------------
@@ -58,23 +61,29 @@ const { data, isLoading, error } = useValidateInviteQuery(invitationToken as str
   //---------------------------------------
   //  FETCH INVITATION DETAILS
   //---------------------------------------
-useEffect(() => {
-  if (!data) return;
+  useEffect(() => {
+    if (!data) return;
 
-  if (!data.success) {
-    toast.error(data.message || "Invalid or expired invitation");
-    return;
-  }
+    if (!data.success) {
+      toast.error(data.message || "Invalid or expired invitation");
+      return;
+    }
 
-  setInviteEmail(data.email);
-  setInviteRole(data.role);
-}, [data]);
+    setInviteEmail(data.email);
+    setInviteRole(data.role);
+  }, [data]);
 
   //---------------------------------------
   //  GOOGLE LOGIN
   //---------------------------------------
-  const handleGoogleLogin = () => {
-    // window.location.href = `${Base_url}/auth/google`;
+  const handleGoogleLogin = async () => {
+    const response = await continueWithGoogle();
+    if (response.error) {
+      toast.error(response.error);
+    } else {
+      toast.success("Google Signup Successful");
+      router.push("/dashboard");
+    }
   };
 
   //---------------------------------------
@@ -133,53 +142,39 @@ useEffect(() => {
           </h1>
 
           {/* Formik Form */}
-<Formik
-  enableReinitialize
-  initialValues={{
-    full_name: "",
-    email: inviteEmail || "",
-    password: "",
-    agree: false,
-  }}
-  validationSchema={SignupSchema}
-onSubmit={async (values, { setSubmitting, resetForm }) => {
-  try {
-    if (inviteRole === "editor" && invitationToken) {
-      // Only send what backend expects
-    const response=  await signup({
-        token: invitationToken,
-        password: values.password,
-          full_name: values.full_name,  // <-- add this
-        role: "editor", // optional for RTK Query endpoint selection
-      }).unwrap();
-      dispatch(setCredientials(response));
+          <Formik
+            enableReinitialize
+            initialValues={{
+              full_name: "",
+              email: inviteEmail || "",
+              password: "",
+              agree: false,
+            }}
+            validationSchema={SignupSchema}
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
+              try {
+                const response = await signUpWithEmail(values.email, values.password, values.full_name);
+                if (response.error) {
+                  toast.error(response.error);
+                  return;
+                }
 
-      
-    } else {
-      // Normal signup for other roles
-      const { agree, ...dataToSend }: SignupPayload = values;
-      if (invitationToken) dataToSend.token = invitationToken;
-      if (inviteRole) dataToSend.role = inviteRole;
-
-      const response = await signup(dataToSend).unwrap();
-      //  dispatch(setCredientials(response));
-    }
-
-    toast.success("Signup successful!");
-    resetForm();
-    router.push("/signin"); // redirect
-  } catch (err: any) {
-    console.error("Signup error:", err);
-    toast.error("Signup failed: " + (err?.data?.msg || err.message));
-  } finally {
-    setSubmitting(false);
-  }
-}}
+                // Success flow
+                toast.success("Signup successful!");
+                resetForm();
+                router.push("/signin");
+              } catch (err: any) {
+                console.error("Signup error:", err);
+                toast.error("Signup failed: " + err.message);
+              } finally {
+                setSubmitting(false);
+              }
+            }}
 
 
 
 
->
+          >
             {({ isSubmitting }) => (
               <Form className="space-y-3">
                 {/* Full Name */}
@@ -204,9 +199,8 @@ onSubmit={async (values, { setSubmitting, resetForm }) => {
                     type="email"
                     disabled={!!invitationToken}
                     placeholder="Enter your email"
-                    className={`w-full px-4 py-3 border text-gray-700 border-gray-300 rounded-lg ${
-                      invitationToken ? "bg-gray-100 cursor-not-allowed" : "text-gray-700"
-                    }`}
+                    className={`w-full px-4 py-3 border text-gray-700 border-gray-300 rounded-lg ${invitationToken ? "bg-gray-100 cursor-not-allowed" : "text-gray-700"
+                      }`}
                   />
                   <ErrorMessage name="email" className="text-red-500 text-sm" component="div" />
                 </div>
@@ -214,12 +208,22 @@ onSubmit={async (values, { setSubmitting, resetForm }) => {
                 {/* Password */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                  <Field
-                    name="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    className="w-full px-4 py-3 border text-gray-500 border-gray-300 rounded-lg"
-                  />
+                  <div className="relative">
+                    <Field
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      className="w-full px-4 py-3 pr-12 border text-gray-500 border-gray-300 rounded-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-gray-600 transition-colors"
+                      tabIndex={-1}
+                    >
+                      {showPassword ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
+                    </button>
+                  </div>
                   <ErrorMessage name="password" className="text-red-500 text-sm" component="div" />
                 </div>
 

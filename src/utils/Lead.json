@@ -2,7 +2,7 @@
   {
     "leadName": "John Doe",
     "dateCreated": "2026-03-22",
-    "interestedService": "Web Development",
+    "interestedService": "Wedding Photography",
     "status": "InActive",
     "eventDate": "2026-03-25",
     "priority": "High",
@@ -11,7 +11,7 @@
   {
     "leadName": "Jane Smith",
     "dateCreated": "2026-03-24",
-    "interestedService": "Digital Marketing",
+    "interestedService": "Portrait Session",
     "status": "New Lead",
     "eventDate": "2026-03-30",
     "priority": "Medium",
@@ -20,7 +20,7 @@
   {
     "leadName": "Michael Johnson",
     "dateCreated": "2026-03-25",
-    "interestedService": "SEO Optimization",
+    "interestedService": "Event Coverage",
     "status": "New Lead",
     "eventDate": "2026-03-27",
     "priority": "Low",
@@ -30,7 +30,7 @@
   {
     "leadName": "Emily Brown",
     "dateCreated": "2026-03-20",
-    "interestedService": "App Design",
+    "interestedService": "Engagement Shoot",
     "status": "Active",
     "eventDate": "2026-04-02",
     "priority": "High",
@@ -39,7 +39,7 @@
   {
     "leadName": "Marcus Aurelius",
     "dateCreated": "2026-03-10",
-    "interestedService": "Consulting",
+    "interestedService": "Portfolio Update",
     "status": "New Lead",
     "eventDate": "2026-03-28",
     "priority": "High",
@@ -48,7 +48,7 @@
   {
     "leadName": "Sarah Johnson",
     "dateCreated": "2025-10-10",
-    "interestedService": "Web Development",
+    "interestedService": "Maternity Shoot",
     "status": "Active",
     "eventDate": "2025-11-05",
     "priority": "High",
@@ -57,7 +57,7 @@
   {
     "leadName": "John Doe",
     "dateCreated": "2026-03-22",
-    "interestedService": "Web Development",
+    "interestedService": "Wedding Film",
     "status": "InActive",
     "eventDate": "2026-03-25",
     "priority": "High",
@@ -66,7 +66,7 @@
   {
     "leadName": "Jane Smith",
     "dateCreated": "2026-03-24",
-    "interestedService": "Digital Marketing",
+    "interestedService": "Headshot Session",
     "status": "New Lead",
     "eventDate": "2026-03-30",
     "priority": "Medium",
@@ -75,7 +75,7 @@
   {
     "leadName": "Michael Johnson",
     "dateCreated": "2026-03-25",
-    "interestedService": "SEO Optimization",
+    "interestedService": "Real Estate Shoot",
     "status": "New Lead",
     "eventDate": "2026-03-27",
     "priority": "Low",
@@ -85,7 +85,7 @@
   {
     "leadName": "Emily Brown",
     "dateCreated": "2026-03-20",
-    "interestedService": "App Design",
+    "interestedService": "Proposal Coverage",
     "status": "Active",
     "eventDate": "2026-04-02",
     "priority": "High",
@@ -94,7 +94,7 @@
   {
     "leadName": "Marcus Aurelius",
     "dateCreated": "2026-03-10",
-    "interestedService": "Consulting",
+    "interestedService": "Product Photography",
     "status": "New Lead",
     "eventDate": "2026-03-28",
     "priority": "High",
@@ -103,7 +103,7 @@
   {
     "leadName": "Sarah Johnson",
     "dateCreated": "2025-10-10",
-    "interestedService": "Web Development",
+    "interestedService": "Wedding Photography",
     "status": "Active",
     "eventDate": "2025-11-05",
     "priority": "High",

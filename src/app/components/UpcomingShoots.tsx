@@ -1,6 +1,7 @@
 
 /** @format */
 import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import AddButton from './AddButton';
 import LeadData from '@/utils/Lead.json';
 import JobData from '@/utils/Job.json';
@@ -14,6 +15,7 @@ interface UpcomingShootsProps {
 }
 
 const UpcomingShoots = ({ timeRange = "All Data", value }: UpcomingShootsProps) => {
+  const router = useRouter();
   const [isShootModalOpen, setIsShootModalOpen] = useState(false);
 
   const shootsData = useMemo(() => {
@@ -37,11 +39,11 @@ const UpcomingShoots = ({ timeRange = "All Data", value }: UpcomingShootsProps) 
       task: j.jobType || 'Photography',
     }));
 
-    return [...leads, ...jobs].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    return [...leads, ...jobs].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).slice(0, 6);
   }, [timeRange, value]);
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 border border-gray-300 rounded-lg w-full h-[650px] bg-white">
+    <div className="p-6 sm:p-8 border border-gray-200 rounded-lg w-full flex flex-col h-[650px] bg-white">
       <AddShootModal
         isOpen={isShootModalOpen}
         onClose={() => setIsShootModalOpen(false)}
@@ -53,42 +55,66 @@ const UpcomingShoots = ({ timeRange = "All Data", value }: UpcomingShootsProps) 
       />
 
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
-        <h2 className="text-lg sm:text-xl font-bold text-gray-900 flex-1">
-          Upcoming Shoots & Appointments
+        <h2 className="text-xl font-semibold text-gray-900 flex-1">
+          Upcoming Job
         </h2>
         <div className="w-auto min-w-fit">
           <AddButton setOpenForm={setIsShootModalOpen} title="Add New" />
         </div>
       </div>
 
-      <div className="flex flex-col space-y-3 h-[500px] overflow-y-hidden no-scrollbar">
+      <div className="flex-1 flex flex-col overflow-y-auto no-scrollbar">
         {shootsData.length === 0 ? (
           <div className="text-gray-500 text-center py-10 italic text-sm">No shoots found in this range</div>
         ) : shootsData.map((shoot, index) => (
           <div
             key={index}
-            className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-3 border-b border-gray-100 last:border-0"
+            className="flex items-center gap-4 py-5 border-b border-gray-100 last:border-0"
           >
-            <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-3">
-              <span className="font-medium text-[11px] sm:text-xs text-gray-400 uppercase tracking-tight">
-                {shoot.date}
+            {/* Title */}
+            <div className="flex-[2] min-w-0">
+              <span className="text-[14px] sm:text-[15px] font-medium text-gray-900 block truncate" title={shoot.title}>
+                {shoot.title}
               </span>
-              <div className="flex items-center gap-2">
-                <span className={`w-2 h-2 ${shoot.type === 'Lead' ? 'bg-red-500' : 'bg-[#10B981]'} rounded-full`}></span>
-                <span className="text-sm font-semibold text-gray-900">{shoot.title}</span>
+            </div>
+
+            {/* Date & Time Group */}
+            <div className="flex-[2.5] flex items-center justify-between gap-4">
+              <div className="flex-1 min-w-fit">
+                <span className="text-[14px] sm:text-[15px] font-medium text-gray-900">
+                  {index === 0 ? "Today" : index === 1 ? "Tomorrow" : shoot.date}
+                </span>
+              </div>
+
+              <div className="flex-1 flex items-center gap-2 min-w-fit">
+                <span className={`w-2.5 h-2.5 rounded-full border border-gray-100 flex-shrink-0 ${index % 2 === 0 ? 'bg-[#F97316]' : 'bg-[#FB7185]'}`}></span>
+                <span className="text-[14px] sm:text-[15px] font-medium text-gray-900 whitespace-nowrap">
+                  {index % 2 === 0 ? "5 PM" : "All Day"}
+                </span>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 mt-2 sm:mt-0">
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${shoot.type === 'Lead' ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-green-50 text-green-600 border border-green-100'}`}>
-                {shoot.type}
-              </span>
-              <span className="text-[10px] font-medium px-2 py-0.5 rounded bg-gray-50 border border-gray-200 text-gray-600 uppercase">
+            {/* Task Pill */}
+            <div className="flex-1 flex justify-end">
+              <span className={`px-3 py-1 rounded-[4px] text-[12px] font-medium text-gray-900 border truncate max-w-[120px] text-center ${index % 2 === 0 ? 'bg-orange-50 border-orange-300' : 'bg-[#F0FDF4] border-[#10B981]'
+                }`}
+                title={shoot.task}
+              >
                 {shoot.task}
               </span>
             </div>
           </div>
         ))}
+      </div>
+
+      {/* View Jobs Button */}
+      <div className="mt-4 pt-2">
+        <button 
+          onClick={() => router.push('/jobs')}
+          className="w-full py-2.5 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors cursor-pointer"
+        >
+          View Jobs
+        </button>
       </div>
     </div>
   );

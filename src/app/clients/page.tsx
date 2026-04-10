@@ -201,7 +201,7 @@ export default function ClientsPage() {
             />
 
             {/* Import & Export Buttons */}
-            <div className="w-full flex flex-wrap justify-end gap-5 mb-6 mt-4 lg:mt-0">
+            <div className="w-full flex flex-wrap justify-end gap-5 mb-2 mt-4 lg:mt-0">
               <ImportClientsButton
                 type="import"
                 onClick={() => setIsImportModalOpen(true)}

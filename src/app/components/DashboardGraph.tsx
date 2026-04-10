@@ -42,9 +42,8 @@ interface DashboardGraphProps {
 }
 
 const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardGraphProps) => {
-  const [jobType, setJobType] = useState("Leads");
-  const [selectedTab, setSelectedTab] = useState("Leads");
-  const [openCalender, setOpenCalender] = useState(false)
+  const [selectedTab, setSelectedTab] = useState("Total Revenue");
+  const [openCalender, setOpenCalender] = useState(false);
 
   const getMonthName = (date: DateValue) => {
     const jsDate = new Date(date.year, date.month - 1, date.day);
@@ -72,17 +71,8 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
     return `${String(value.day).padStart(2, "0")}-${getMonthName(value)}-${value.year}`;
   }
 
-  useEffect(() => {
-    if (jobType === "All Job Types") {
-      setSelectedTab("All");
-    } else {
-      setSelectedTab(jobType);
-    }
-  }, [jobType]);
-
   const handleTabClick = (tab: string) => {
     setSelectedTab(tab);
-    setJobType(tab);
   };
 
   const dashboardStats = useMemo(() => {
@@ -153,52 +143,50 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
     };
   }, [timeRange, value]);
 
-  const graphData = useMemo(() => ({
-    labels: dashboardStats.graph.labels,
-    datasets: [
-      {
-        label: "Leads",
-        data: (selectedTab === "Leads" || selectedTab === "All") ? dashboardStats.graph.leadPoints : [],
-        borderColor: colors.mutedGreen,
-        backgroundColor: colors.mutedGreen,
-        fill: false,
-        tension: 0.1,
-        pointRadius: 4,
-        pointBackgroundColor: colors.mutedGreen,
-      },
-      {
-        label: "Jobs Accepted",
-        data: (selectedTab === "Jobs" || selectedTab === "All") ? dashboardStats.graph.jobPoints : [],
-        borderColor: colors.darkGreen,
-        backgroundColor: colors.darkGreen,
-        fill: false,
-        tension: 0.1,
-        pointRadius: 4,
-        pointBackgroundColor: colors.darkGreen,
+  const graphData = useMemo(() => {
+    let gradient: CanvasGradient | string = colors.primary;
+    if (typeof window !== "undefined") {
+      const ctx = document.createElement("canvas").getContext("2d");
+      if (ctx) {
+        gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, "rgba(0, 181, 226, 0.4)");
+        gradient.addColorStop(1, "rgba(0, 181, 226, 0.0)");
+      }
+    }
 
-      },
-      {
-        label: "Payments",
-        data: (selectedTab === "Payments") ? dashboardStats.graph.paymentPoints : [],
-        borderColor: colors.primary,
-        backgroundColor: colors.primary,
-        fill: false,
-        tension: 0.1,
-        pointRadius: 4,
-        pointBackgroundColor: colors.primary,
-      },
-      {
-        label: "Avg Revenue",
-        data: (selectedTab === "Average Revenue") ? dashboardStats.graph.avgRevenuePoints : [],
-        borderColor: colors.accentPink,
-        backgroundColor: colors.accentPink,
-        fill: false,
-        tension: 0.1,
-        pointRadius: 4,
-        pointBackgroundColor: colors.accentPink,
-      },
-    ],
-  }), [dashboardStats, selectedTab]);
+    let currentData = dashboardStats.graph.paymentPoints;
+    if (selectedTab === "Active Jobs") currentData = dashboardStats.graph.jobPoints;
+    if (selectedTab === "New Leads") currentData = dashboardStats.graph.leadPoints;
+
+    return {
+      labels: dashboardStats.graph.labels,
+      datasets: [
+        {
+          label: selectedTab,
+          data: currentData,
+          borderColor: colors.primary,
+          backgroundColor: gradient,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4,
+          pointBackgroundColor: "#fff",
+          pointBorderColor: colors.primary,
+          pointBorderWidth: 2,
+          pointHoverRadius: 6,
+        },
+        {
+          label: "Baseline",
+          data: dashboardStats.graph.labels.map(() => 0),
+          borderColor: colors.darkGreen,
+          backgroundColor: colors.darkGreen,
+          borderWidth: 1,
+          pointRadius: 3,
+          pointBackgroundColor: colors.darkGreen,
+          tension: 0,
+        }
+      ],
+    };
+  }, [dashboardStats, selectedTab]);
 
   const options = {
     responsive: true,
@@ -213,71 +201,54 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
   return (
     <div className="w-full bg-white p-4 sm:p-6 rounded-lg  border border-gray-300">
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-6">
-        <div className="relative w-full xl:w-72">
-          <select
-            value={jobType}
-            onChange={(e) => { setJobType(e.target.value); setSelectedTab(e.target.value); }}
-            className="appearance-none w-full bg-gray-50 border border-gray-300 rounded-lg py-2.5 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 cursor-pointer text-sm font-medium"
-          >
-            <option>Leads</option>
-            <option>Jobs</option>
-            <option>Payments</option>
-            <option>Average Revenue</option>
-          </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
-            <FiChevronDown className="text-lg" />
-          </div>
+        <div className="flex border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
+          {["7 Days", "30 Days", "Mtd", "Ytd"].map((range) => (
+            <button
+              key={range}
+              className={`px-4 py-2 text-sm font-medium border-r border-gray-200 last:border-0 cursor-pointer transition-colors ${timeRange === range
+                ? "text-white" : "bg-gray-50 text-gray-700 hover:bg-gray-100"}`}
+              style={timeRange === range ? { backgroundColor: colors.primary, borderColor: colors.primary } : {}}
+              onClick={() => setTimeRange(range)}
+            >
+              {range}
+            </button>
+          ))}
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex border border-gray-300 rounded-lg overflow-hidden bg-white">
-            {["7 Days", "30 Days", "Mtd", "Ytd", "All Data"].map((range) => (
-              <button
-                key={range}
-                className={`px-3 py-2 text-xs md:text-sm font-medium border-r border-gray-200 last:border-0 cursor-pointer transition-colors ${timeRange === range
-                  ? "text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`}
-                style={timeRange === range ? { backgroundColor: colors.primary } : {}}
-                onClick={() => setTimeRange(range)}
-              >
-                {range}
-              </button>
-            ))}
+        <div className="relative min-w-[240px]" onClick={(e) => e.stopPropagation()}>
+          <button className="w-full cursor-pointer bg-gray-50 border border-gray-200 rounded-lg py-2.5 px-4 pr-10 text-left text-sm text-gray-900 font-medium focus:outline-none"
+            onClick={() => setOpenCalender(!openCalender)}
+          >
+            26 Aug 2025 - 2 Sep 2025
+          </button>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+            {openCalender ? <FiChevronUp className="text-lg" /> : <FiChevronDown className="text-lg" />}
           </div>
-          <div className="relative min-w-[180px] flex-1" onClick={(e) => e.stopPropagation()}>
-            <button className="w-full cursor-pointer bg-gray-50 border border-gray-300 rounded-lg py-2.5 px-4 pr-10 text-left text-sm text-gray-900 focus:outline-none"
-              onClick={() => setOpenCalender(!openCalender)}
-            >
-              {formatDate(value)}
-            </button>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-              {openCalender ? <FiChevronUp className="text-lg" /> : <FiChevronDown className="text-lg" />}
+          {openCalender && (
+            <div className="absolute top-full right-0 mt-2 bg-white rounded-xl border border-gray-200 z-[100] shadow-2xl" ref={wrapperRef} >
+              <CalenderModal value={value} setValue={handleChangeValue} />
             </div>
-            {openCalender && (
-              <div className="absolute top-full right-0 mt-2 bg-white rounded-xl border border-gray-200 z-[100] shadow-2xl" ref={wrapperRef} >
-                <CalenderModal value={value} setValue={handleChangeValue} />
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </div>
 
-      <div className="flex border-b border-gray-100 overflow-x-auto no-scrollbar mb-6">
+      <div className="flex border-b border-gray-200 overflow-x-auto no-scrollbar mb-6">
         {[
-          { label: "Leads", key: "Leads", value: dashboardStats.stats.leads, extra: "" },
-          { label: "Jobs", key: "Jobs", value: dashboardStats.stats.jobs, extra: "" },
-          { label: "Payments", key: "Payments", value: `$${dashboardStats.stats.payments.toLocaleString()}`, extra: "($0)" },
-          { label: "Avg Revenue", key: "Average Revenue", value: `$${dashboardStats.stats.avgRevenue.toFixed(0)}`, extra: "($0)" },
+          { label: "Total Revenue", key: "Total Revenue", value: `$${dashboardStats.stats.payments.toLocaleString()}`, extra: "($0)" },
+          { label: "Pending Payments", key: "Pending Payments", value: "$2800", extra: "($0)" },
+          { label: "Active Jobs", key: "Active Jobs", value: dashboardStats.stats.jobs, extra: "" },
+          { label: "New Leads", key: "New Leads", value: dashboardStats.stats.leads, extra: "" },
         ].map((tab) => (
           <div
             key={tab.key}
-            className={`min-w-[120px] flex-1 p-3 border-r border-gray-100 cursor-pointer transition-all duration-200 
-              ${selectedTab === tab.key ? "bg-white border-t-2" : "border-t-2 border-t-transparent hover:bg-gray-50"}`}
-            style={selectedTab === tab.key ? { borderTopColor: colors.primary } : { backgroundColor: colors.gray50 }}
+            className={`min-w-[160px] flex-1 p-4 border-r border-gray-200 last:border-r-0 cursor-pointer transition-all duration-200 
+              ${selectedTab === tab.key ? "bg-white border-t-[3px]" : "border-t-[3px] border-t-transparent hover:bg-gray-100 bg-gray-50"}`}
+            style={selectedTab === tab.key ? { borderTopColor: colors.primary } : {}}
             onClick={() => handleTabClick(tab.key)}
           >
-            <p className="text-gray-500 text-xs font-medium mb-1 uppercase tracking-tight">{tab.label}</p>
-            <p className="text-gray-900 text-base sm:text-xl font-bold">
-              {tab.value} <span className="text-gray-400 font-normal text-xs">{tab.extra}</span>
+            <p className="text-gray-900 text-sm font-medium mb-1">{tab.label}</p>
+            <p className="text-gray-900 text-xl font-semibold">
+              {tab.value} {tab.extra && <span className="text-gray-400 font-normal text-sm">{tab.extra}</span>}
             </p>
           </div>
         ))}
@@ -285,17 +256,6 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
 
       <div className="h-[350px] sm:h-[400px]">
         <Line data={graphData} options={options} />
-      </div>
-
-      <div className="flex justify-center gap-80 mt-6">
-        <div className="flex items-center space-x-2">
-          <div className="w-3.5 h-3.5 rounded-sm" style={{ backgroundColor: colors.mutedGreen }}></div>
-          <span className="text-gray-500 text-sm font-medium">Leads</span>
-        </div>
-        <div className="flex items-center space-x-2">
-          <div className="w-3.5 h-3.5 rounded-sm" style={{ backgroundColor: colors.darkGreen }}></div>
-          <span className="text-gray-900 text-sm font-bold">Jobs Accepted</span>
-        </div>
       </div>
     </div>
   );

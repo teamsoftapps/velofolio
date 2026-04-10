@@ -45,34 +45,34 @@ const Table = ({
   };
 
   const statusStyles: any = {
-    'New Lead': 'bg-[#FFF9E5] text-[#D97706]',
-    Proposal: 'bg-[#E0F2FE] text-[#0284C7]',
-    Booked: 'bg-[#DCFCE7] text-[#15803D]',
-    Done: 'bg-[#DCFCE7] text-[#15803D]',
-    Paid: 'bg-[#E0F2FE] text-[#0284C7]',
-    Active: 'bg-[#FFF9E5] text-[#D97706]',
-    'On Leave': 'bg-[#E0F2FE] text-[#0284C7]',
-    Completed: 'bg-[#DCFCE7] text-[#15803D]',
-    New: 'bg-[#E0F2FE] text-[#0284C7]',
-    Pending: 'bg-[#F3F4F6] text-[#6B7280]',
-    pending: 'bg-[#F3F4F6] text-[#6B7280]',
-    'In Progress': 'bg-[#FFF9E5] text-[#D97706]',
-    Overdue: 'bg-[#FEE2E2] text-[#EF4444]',
-    Inactive: 'bg-[#F3F4F6] text-[#6B7280]',
-    Approved: 'bg-[#DCFCE7] text-[#15803D]',
-    Rejected: 'bg-[#FEE2E2] text-[#EF4444]',
-    Signed: 'bg-[#FFF9E5] text-[#D97706]',
-    Draft: 'bg-[#F3F4F6] text-[#6B7280]',
-    Upcoming: 'bg-[#E0F2FE] text-[#0284C7]',
-    "Not Started": 'bg-[#F3F4F6] text-[#6B7280]',
+    'New Lead': 'bg-[#FFF4E5] text-[#F59E0B]',
+    Proposal: 'bg-[#E0F2FE] text-[#0EA5E9]',
+    Booked: 'bg-[#DFF6EA] text-[#10B981]',
+    Done: 'bg-[#DFF6EA] text-[#10B981]',
+    Paid: 'bg-[#E0F2FE] text-[#0EA5E9]',
+    Active: 'bg-[#FFF4E5] text-[#F59E0B]',
+    'On Leave': 'bg-[#E0F2FE] text-[#0EA5E9]',
+    Completed: 'bg-[#DFF6EA] text-[#10B981]',
+    New: 'bg-[#E0F2FE] text-[#0EA5E9]',
+    Pending: 'bg-[#F3F4F6] text-[#9CA3AF]',
+    pending: 'bg-[#F3F4F6] text-[#9CA3AF]',
+    'In Progress': 'bg-[#FFF4E5] text-[#F59E0B]',
+    Overdue: 'bg-[#FEF2F2] text-[#EF4444]',
+    Inactive: 'bg-[#F3F4F6] text-[#9CA3AF]',
+    Approved: 'bg-[#DFF6EA] text-[#10B981]',
+    Rejected: 'bg-[#FEF2F2] text-[#EF4444]',
+    Signed: 'bg-[#FFF4E5] text-[#F59E0B]',
+    Draft: 'bg-[#F3F4F6] text-[#9CA3AF]',
+    Upcoming: 'bg-[#E0F2FE] text-[#0EA5E9]',
+    "Not Started": 'bg-[#F3F4F6] text-[#9CA3AF]',
   };
 
   const statusIcons: any = {
-    Signed: <div className="w-4 h-4 rounded-full bg-black/20 flex items-center justify-center mr-2"><div className="w-1.5 h-1.5 rounded-full bg-black/60" /></div>,
-    Draft: <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center mr-2"><div className="w-1.5 h-1.5 rounded-full bg-white/80" /></div>,
-    Active: <div className="w-1.5 h-1.5  rounded-full bg-[#D97706] mr-2" />,
-    Inactive: <div className="w-1.5 h-1.5 rounded-full bg-[#6B7280] mr-2" />,
-    'New Lead': <div className="w-1.5 h-1.5 rounded-full bg-[#D97706] mr-2" />,
+    Signed: <div className="w-4 h-4 rounded-full bg-black/20 flex items-center justify-center"><div className="w-1.5 h-1.5 rounded-full bg-black/60" /></div>,
+    Draft: <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center"><div className="w-1.5 h-1.5 rounded-full bg-white/80" /></div>,
+    Active: <div className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />,
+    Inactive: <div className="w-1.5 h-1.5 rounded-full bg-[#9CA3AF]" />,
+    'New Lead': <div className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />,
   };
 
   const priorityStyles: any = {
@@ -90,13 +90,13 @@ const Table = ({
   return (
     <>
       <div
-        className={`w-full mt-4 bg-white ${isProfileOrDashboard ? 'p-0' : 'border border-gray-200 rounded-[24px] p-6 shadow-sm mb-10'
+        className={`w-full bg-white ${isProfileOrDashboard ? 'p-0' : 'border border-gray-200 rounded-lg p-6 shadow-sm mb-10'
           }`}
       >
         <div className="overflow-x-auto no-scrollbar">
           <table className="w-full border-separate border-spacing-y-0">
             <thead>
-              <tr className="bg-[#F8F9FB]">
+              <tr className="bg-[#F3F4F6]">
                 {headers?.map((header: any, index: any) => {
                   const isSortable = (header.key === 'dateCreated' || header.key === 'leadCreated') && onSort;
                   const isFirst = index === 0;
@@ -106,11 +106,11 @@ const Table = ({
                       key={index}
                       onClick={() => isSortable && onSort(header.key)}
                       className={`
-                        py-4 px-4 text-[15px] font-semibold text-gray-700 border-y border-gray-100 whitespace-nowrap
+                        py-4 px-4 text-[14px] font-semibold text-gray-800 border-y border-gray-200 whitespace-nowrap
                         ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount' || header.key === 'jobs' || header.label === 'Jobs' || header.key === 'action' || header.label === 'Action') ? 'text-center' : 'text-left'}
-                        ${isFirst ? 'rounded-l-xl border-l' : ''}
-                        ${isLast ? 'rounded-r-xl border-r' : ''}
-                        ${isSortable ? 'cursor-pointer hover:bg-gray-50 transition-colors' : ''}
+                        ${isFirst ? 'rounded-l-lg border-l' : ''}
+                        ${isLast ? 'rounded-r-lg border-r' : ''}
+                        ${isSortable ? 'cursor-pointer hover:bg-gray-200 transition-colors' : ''}
                       `}
                     >
                       <div className={`flex items-center gap-2 ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount' || header.key === 'jobs' || header.label === 'Jobs' || header.key === 'action' || header.label === 'Action') ? 'justify-center' : 'justify-start'}`}>
@@ -124,7 +124,7 @@ const Table = ({
                 })}
               </tr>
               {/* Spacer row for padding between header and first cell */}
-              <tr className="h-6"><td colSpan={headers?.length}></td></tr>
+              <tr className="h-4"><td colSpan={headers?.length}></td></tr>
             </thead>
 
             <tbody>
@@ -159,7 +159,17 @@ const Table = ({
                         );
                       }
 
-                      if (key === 'name' || key === 'Name' || key === 'leadName' || key === 'firstName' || key === 'lastName' || key === 'email' || (pasthname === "/payments" && key === "client")) {
+                      if (key === 'email' || key === 'Email') {
+                        return (
+                          <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 lowercase">
+                            <a href={`mailto:${row[key]}`} className="text-[14px] font-medium text-gray-800 whitespace-nowrap hover:text-black transition-colors" onClick={(e) => e.stopPropagation()}>
+                              {row[key]}
+                            </a>
+                          </td>
+                        );
+                      }
+
+                      if (key === 'name' || key === 'Name' || key === 'leadName' || key === 'firstName' || key === 'lastName' || (pasthname === "/payments" && key === "client")) {
                         return (
                           <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
                             <div className="flex items-center gap-3 justify-start">
@@ -172,7 +182,7 @@ const Table = ({
                                   )}
                                 </div>
                               )}
-                              <span className={`text-[15px] font-medium text-black ${key === 'email' ? '' : 'truncate max-w-[160px]'}`}>
+                              <span className={`text-[15px] font-medium text-black truncate max-w-[160px]`}>
                                 {row[key]}
                               </span>
                             </div>
@@ -185,7 +195,7 @@ const Table = ({
                         return (
                           <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 text-left">
                             <div className="flex justify-start">
-                              <span className={`px-4 py-1.5 rounded-full text-[12px] font-bold uppercase tracking-wider inline-flex items-center justify-center w-fit whitespace-nowrap ${statusStyles[statusVal] || 'bg-gray-100 text-gray-600'}`}>
+                              <span className={`px-4 py-1.5 rounded-full text-[12px] font-bold uppercase tracking-wide inline-flex items-center justify-center w-fit whitespace-nowrap gap-1.5 ${statusStyles[statusVal] || 'bg-gray-100 text-gray-600'}`}>
                                 {statusIcons[statusVal]}
                                 {statusVal}
                               </span>
@@ -240,7 +250,7 @@ const Table = ({
                       }
 
                       return (
-                        <td key={cellIndex} className={`py-5 px-4 border-b border-gray-200 text-[15px] font-medium text-black whitespace-nowrap ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount' || header.key === 'jobs' || header.label === 'Jobs') ? 'text-center' : 'text-left'}`}>
+                        <td key={cellIndex} className={`py-5 px-4 border-b border-gray-200 text-[14px] font-medium text-gray-800 whitespace-nowrap ${(header.label === 'Assigned Jobs' || header.key === 'assignedJobs' || header.label === 'Event Count' || header.key === 'eventCount' || header.key === 'jobs' || header.label === 'Jobs') ? 'text-center' : 'text-left'}`}>
                           {row[key]}
                         </td>
                       );
@@ -253,22 +263,22 @@ const Table = ({
         </div>
 
         {!(pasthname === '/reports' || pasthname === '/clientProfile') && (
-          <div className="relative mt-4 flex justify-center items-center bg-white py-4 border-t border-gray-100 px-4">
-            <div className="absolute left-6 mb-4 sm:mb-0">
+          <div className="mt-4 flex flex-col md:flex-row justify-between items-center bg-white py-4 border-t border-gray-100 px-6 gap-4">
+            <div className="relative flex-shrink-0">
               <select
                 value={itemsPerPage}
                 onChange={(e) => {
                   setItemsPerPage(Number(e.target.value));
                   setCurrentPage(1);
                 }}
-                className="appearance-none bg-gray-50 border border-gray-100 rounded-lg py-2.5 px-6 pr-10 text-sm font-semibold text-gray-700 focus:outline-none cursor-pointer"
+                className="appearance-none bg-[#F3F4F6] border-none rounded-lg py-2.5 px-4 pr-10 text-[14px] font-medium text-gray-800 focus:outline-none cursor-pointer w-full"
               >
                 <option value={8}>8 {unit}</option>
                 <option value={15}>15 {unit}</option>
                 <option value={20}>20 {unit}</option>
                 <option value={50}>50 {unit}</option>
               </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
                 <FiChevronDown className="w-4 h-4" />
               </div>
             </div>

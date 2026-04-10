@@ -8,8 +8,8 @@
     "image": "/ClientProfileImage.png",
     "leadSource": "Facebook Ads",
     "assignedTeam": [
-      { "id": "TM-01", "name": "John Carter", "role": "Sales Manager" },
-      { "id": "TM-02", "name": "Emily Davis", "role": "Coordinator" }
+      { "id": "TM-01", "name": "John Carter", "role": "Studio Manager" },
+      { "id": "TM-02", "name": "Emily Davis", "role": "Shoot Coordinator" }
     ],
     "notes": "Prefers afternoon calls. Wedding project starting October.",
     "events": [
@@ -60,8 +60,8 @@
     "image": "/ClientProfileImage.png",
     "leadSource": "Referral",
     "assignedTeam": [
-      { "id": "TM-04", "name": "Daniel Kim", "role": "Sales Executive" },
-      { "id": "TM-05", "name": "Sophie Lane", "role": "Designer" }
+      { "id": "TM-04", "name": "Daniel Kim", "role": "Lead Photographer" },
+      { "id": "TM-05", "name": "Sophie Lane", "role": "Photo Editor" }
     ],
     "notes": "Requires custom theme decor. Budget flexible.",
     "events": [
@@ -126,7 +126,7 @@
     "image": "/ClientProfileImage.png",
     "leadSource": "LinkedIn",
     "assignedTeam": [
-      { "id": "TM-07", "name": "Karen Smith", "role": "CRM Specialist" }
+      { "id": "TM-07", "name": "Karen Smith", "role": "Social Media Manager" }
     ],
     "notes": "Very responsive. Wants immediate planning.",
     "events": [
@@ -184,7 +184,7 @@
     "image": "/ClientProfileImage.png",
     "leadSource": "YouTube Ads",
     "assignedTeam": [
-      { "id": "TM-09", "name": "Brian Collins", "role": "Marketing Manager" }
+      { "id": "TM-09", "name": "Brian Collins", "role": "Lead Videographer" }
     ],
     "notes": "Requested premium package.",
     "events": [],

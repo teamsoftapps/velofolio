@@ -13,6 +13,9 @@ import LeadsDataRaw from '../../utils/Lead.json';
 import { filterData, sortData, applyAdvancedFilters, filterByTimeRange } from '../../utils/TableUtils';
 import RouteGuard from '../components/RouteGuard';
 import LeadForm from '../components/LeadFormModel';
+import { addLead, LeadData } from '@/firebase_Routes/routes';
+import { auth } from '@/config/firebase';
+import { toast } from 'react-toastify';
 
 const tableData = LeadsDataRaw;
 
@@ -32,6 +35,23 @@ export default function Page() {
   const [searchedValue, setSearchedValue] = React.useState('');
   const [OpenForm, setOpenForm] = useState(false);
   const [openLeadsModal, setOpenLeadsModal] = useState(false);
+  const [isSubmittingLead, setIsSubmittingLead] = useState(false);
+
+  const handleAddLead = async (data: LeadData) => {
+    const uid = auth.currentUser?.uid;
+    if (!uid) { toast.error('You must be logged in to add a lead.'); return; }
+
+    setIsSubmittingLead(true);
+    const { leadId, error } = await addLead(uid, data);
+    setIsSubmittingLead(false);
+
+    if (error) {
+      toast.error('Failed to save lead: ' + error);
+    } else {
+      toast.success('Lead added successfully!');
+      setOpenLeadsModal(false);
+    }
+  };
   interface SortState {
     value: string;
     direction: "asc" | "desc";
@@ -80,7 +100,7 @@ export default function Page() {
           {
             openLeadsModal && (
               <LeadForm
-                onSubmit={() => { console.log("Form submitted"); setOpenLeadsModal(false) }}
+                onSubmit={handleAddLead}
                 setOpenForm={setOpenLeadsModal}
               />
             )

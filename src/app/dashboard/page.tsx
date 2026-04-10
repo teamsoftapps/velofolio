@@ -50,14 +50,14 @@ export default function Home() {
         </div>
 
         {/* Bottom Row: Detail Cards 2 - Independent of Graph Filters */}
-        <div className='w-[94%] xl:w-4/5 my-4 flex flex-col lg:flex-row justify-center mx-auto gap-8 items-stretch px-4 sm:px-6'>
+        {/* <div className='w-[94%] xl:w-4/5 my-4 flex flex-col lg:flex-row justify-center mx-auto gap-8 items-stretch px-4 sm:px-6'>
           <div className='w-full lg:w-1/2 flex'>
             <UpcomingPayements />
           </div>
           <div className='w-full lg:w-1/2 flex'>
             <JobTask />
           </div>
-        </div>
+        </div> */}
 
         {OpenForm && (
           <LeadForm

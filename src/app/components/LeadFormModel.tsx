@@ -77,7 +77,7 @@ const LeadForm: React.FC<LeadFormProps> = ({
           onSubmit={handleSubmit}
           className='flex flex-col gap-6 w-full'>
           <h2 className='text-lg sm:text-xl font-semibold text-center sm:text-left' style={{ color: colors.gray900 }}>
-            Add New Lead
+            {Object.keys(initialData).length > 0 ? 'Edit Lead' : 'Add New Lead'}
           </h2>
 
           {/* Lead Name */}
@@ -229,7 +229,7 @@ const LeadForm: React.FC<LeadFormProps> = ({
               className='w-40 p-2 rounded-full cursor-pointer'
               style={{ backgroundColor: colors.primary, color: colors.white }}
             >
-              Add Lead
+              {Object.keys(initialData).length > 0 ? 'Update Lead' : 'Add Lead'}
             </button>
             <button
               type='button'

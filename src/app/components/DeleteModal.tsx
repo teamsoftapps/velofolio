@@ -8,14 +8,16 @@ interface DeleteModalProps {
   onConfirm: () => void;
   title?: string;
   message?: string;
+  confirmLabel?: string;
 }
 
 const DeleteModal: React.FC<DeleteModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
-  title = 'Delete Client?',
-  message = 'Are you sure you would like to delete this client?',
+  title = 'Confirm Delete',
+  message = 'Are you sure you would like to delete this item? This action cannot be undone.',
+  confirmLabel = 'Delete',
 }) => {
   if (!isOpen) return null;
 
@@ -24,7 +26,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
       <div className='bg-white p-10 rounded-lg shadow-lg w-full max-w-md relative'>
         <button
           onClick={onClose}
-          className='absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-3xl  cursor-pointer'>
+          className='absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-3xl cursor-pointer'>
           &times;
         </button>
         <h2 className='text-xl text-black font-semibold text-center mb-4'>
@@ -34,12 +36,12 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
         <div className='flex justify-center space-x-4'>
           <button
             onClick={onConfirm}
-            className='bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600 cursor-pointer'>
-            Delete Client
+            className='bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 cursor-pointer transition-colors'>
+            {confirmLabel}
           </button>
           <button
             onClick={onClose}
-            className='bg-gray-200 text-gray-800 cursor-pointer px-4 py-2 rounded-md hover:bg-gray-300'>
+            className='bg-gray-200 text-gray-800 cursor-pointer px-6 py-2 rounded-md hover:bg-gray-300 transition-colors'>
             Cancel
           </button>
         </div>

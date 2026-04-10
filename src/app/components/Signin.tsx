@@ -1,13 +1,14 @@
 
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useSigninMutation, useSignInWithGoogleMutation, } from "@/store/apis/Auth";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { logInWithEmail, continueWithGoogle } from "@/firebase_Routes/routes";
 import { toast } from "react-toastify"
 import { setCredientials } from "@/store/slices/authSlice";
 import { useDispatch } from "react-redux";
@@ -22,15 +23,16 @@ const SignIn: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get("redirect") || "/dashboard";
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [signin] = useSigninMutation();
-  const [signInWithGoogle] = useSignInWithGoogleMutation();
-const {success}=toast
 const handleGoogleLogin = async () => {
-
-  // window.location.href = `${Base_url}/auth/google`;
-
-
+    const response = await continueWithGoogle();
+    if (response.error) {
+      toast.error(response.error);
+    } else {
+      toast.success("Google Login Successful");
+      router.push(redirectPath);
+    }
 }
 const dispatch=useDispatch()
   return (
@@ -81,25 +83,19 @@ const dispatch=useDispatch()
           validationSchema={signInSchema}
 onSubmit={async (values, { setSubmitting }) => {
   try {
-    const response = await signin(values).unwrap();
-    console.log(response);
-     dispatch(setCredientials(response));
-    toast.success("Login Successful");
-    router.push(redirectPath);
+    const response = await logInWithEmail(values.email, values.password);
+    
+    if (response.error) {
+      toast.error(response.error);
+    } else {
+      toast.success("Login Successful");
+      // Optional: dispatch Redux state here if needed
+      // dispatch(setCredientials({ user: response.user }));
+      router.push(redirectPath);
+    }
   } catch (error: any) {
     console.error("Login Error:", error);
-
-    // RTK Query error handling
-    if (error?.data?.msg) {
-      toast.error(error.data.msg);
-    } else if (error?.error) {
-      // fetch/network error
-      toast.error(error.error);
-    } else if (error?.message) {
-      toast.error(error.message);
-    } else {
-      toast.error("Something went wrong. Please try again.");
-    }
+    toast.error("Something went wrong. Please try again.");
   } finally {
     setSubmitting(false);
   }
@@ -139,14 +135,24 @@ onSubmit={async (values, { setSubmitting }) => {
                 >
                   Password
                 </label>
-                <Field
-                  id="password"
-                  name="password"
-                  type="password"
-                   autoComplete="current-password"
-                  placeholder="Enter your password"
-                  className="w-full px-4 py-3 border text-gray-700 border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent outline-none transition"
-                />
+                <div className="relative">
+                  <Field
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    placeholder="Enter your password"
+                    className="w-full px-4 py-3 pr-12 border text-gray-700 border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent outline-none transition"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-gray-600 transition-colors"
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
+                  </button>
+                </div>
                 <ErrorMessage
                   name="password"
                   component="div"

@@ -61,7 +61,7 @@ const JobsTable = ({
   };
 
   return (
-    <div className="w-full mt-4 bg-white border border-gray-200 rounded-[24px] p-6 mb-10">
+    <div className="w-full mt-4 bg-white border border-gray-200 rounded-lg p-6 mb-10">
       <div className="overflow-x-auto no-scrollbar">
         <table className="w-full border-separate border-spacing-y-0">
           <thead>
@@ -213,15 +213,15 @@ const JobsTable = ({
         </table>
       </div>
 
-      <div className="relative mt-8 flex justify-center items-center bg-white py-4 border-t border-gray-100">
-        <div className="absolute left-6">
+      <div className="mt-8 flex flex-col md:flex-row justify-between items-center bg-white py-4 border-t border-gray-100 px-6 gap-4">
+        <div className="relative flex-shrink-0">
           <select
             value={itemsPerPage}
             onChange={(e) => {
               setItemsPerPage(Number(e.target.value));
               setCurrentPage(1);
             }}
-            className="appearance-none bg-gray-200 border border-gray-100 rounded-lg py-2.5 px-6 pr-10 text-sm font-semibold text-gray-700 focus:outline-none cursor-pointer shadow-sm"
+            className="appearance-none bg-gray-200 border border-gray-100 rounded-lg py-2.5 px-6 pr-10 text-sm font-semibold text-gray-700 focus:outline-none cursor-pointer shadow-sm w-full"
           >
             <option value={8}>8 {unit}</option>
             <option value={15}>15 {unit}</option>
