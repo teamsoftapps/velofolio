@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PayementData from '@/utils/Payements.json';
+import { colors } from "@/utils/colors";
 import { DateValue } from '@internationalized/date';
 import { filterByTimeRange } from '@/utils/TableUtils';
 import JobDetail from '@/utils/JobDetail.json';
@@ -87,10 +88,19 @@ const UpcomingPayements = ({ timeRange = "All Data", value }: UpcomingPayementsP
                   </div>
                 </div>
                 <div className="flex items-center gap-3 sm:gap-6">
-                  <span className={`text-[10px] sm:text-xs px-2 py-1 rounded-md font-medium ${item.status?.toLowerCase() === 'paid' ? 'bg-green-50 text-green-600' :
-                    item.status?.toLowerCase() === 'overdue' ? 'bg-red-50 text-red-600' :
-                      'bg-orange-50 text-orange-600'
-                    }`}>
+                  <span 
+                    className={`text-[10px] sm:text-[11px] px-4 py-1.5 rounded-full font-bold uppercase tracking-wider ${
+                      item.status?.toLowerCase() === 'paid' ? 'text-white' :
+                      item.status?.toLowerCase() === 'overdue' ? 'text-white' :
+                      'text-black'
+                    }`}
+                    style={{
+                      backgroundColor: 
+                        item.status?.toLowerCase() === 'paid' ? colors.primary :
+                        item.status?.toLowerCase() === 'overdue' ? colors.gray700 :
+                        colors.warningBright
+                    }}
+                  >
                     {item.status}
                   </span>
                   <span className="text-black font-bold text-sm sm:text-lg">

@@ -64,17 +64,17 @@ const tableData = [
 const TeamnPermission = () => {
   return (
     <div className="container mx-auto bg-[#FAFAFA] w-full mt-10 px-4 md:px-6">
-      <OverviewChart chartData={TeamChartData} />
+      <OverviewChart chartData={TeamChartData} variant="sparkline" />
 
-   
-      <div className="w-full mt-5 flex flex-col lg:flex-row gap-5 justify-between">
+
+      <div className="w-full mt-5 flex flex-col lg:flex-row gap-5 justify-between items-start">
         {/* User Table */}
-        <div className="w-full lg:w-3/4 bg-white rounded-xl p-3 h-auto lg:h-[650px] overflow-x-auto">
+        <div className="w-full lg:w-3/4 bg-white rounded-xl p-3 h-auto overflow-x-auto">
           <UserTable headers={tableHeaders} data={tableData} />
         </div>
 
         {/* Permissions */}
-        <div className="w-full   lg:w-2/5 h-auto lg:h-[650px]   rounded-xl p-3">
+        <div className="w-full lg:w-2/5 h-auto rounded-xl">
           <Permissions />
         </div>
       </div>

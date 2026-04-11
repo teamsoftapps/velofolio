@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import OtpInput from './OtpInput';
 
 export default function TwoFactorSetupModal({ setIsOpenTFAModal, onEnable }: any) {
- const secretCode = 'DRN2QCDD2YBURZWE3PUNHNDWP6S3REZM';
+  const secretCode = 'DRN2QCDD2YBURZWE3PUNHNDWP6S3REZM';
   const [TFAContinue, setTFAContinue] = useState(false);
   const [copied, setCopied] = useState(false);
   const [timestamp, setTimestamp] = useState(Date.now()); // track last update
@@ -23,16 +23,16 @@ export default function TwoFactorSetupModal({ setIsOpenTFAModal, onEnable }: any
 
 
   const qrValue = `otpauth://totp/velofolio:user?secret=${secretCode}&issuer=Velofolio&time=${timestamp}`;
-  
-const handleCopy = () => {
-  navigator.clipboard.writeText(secretCode);
-  setCopied(true);
 
-  setTimeout(() => {
-    setCopied(false);
-  }, 1500);
-};
- const handleClose = () => {
+  const handleCopy = () => {
+    navigator.clipboard.writeText(secretCode);
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 1500);
+  };
+  const handleClose = () => {
     setIsOpenTFAModal(false);
     onEnable && onEnable(); // enable 2FA after closing modal
   };
@@ -48,9 +48,9 @@ const handleCopy = () => {
               Set Up Two-Factor Authentication
             </h2>
             <button
-            onClick={()=>setIsOpenTFAModal(false)
+              onClick={() => setIsOpenTFAModal(false)
 
-            }
+              }
               aria-label="Close modal"
               className="text-gray-400 hover:text-gray-600 transition-colors"
             >
@@ -60,80 +60,80 @@ const handleCopy = () => {
 
           {/* Body */}
           <div className="px-8  ">
-          <div className=" bg-[#F4F4F5] p-6 rounded-2xl">
-       { !TFAContinue &&  <div >
+            <div className=" bg-[#F4F4F5] p-6 rounded-2xl">
+              {!TFAContinue && <div >
 
-            <p className="text-center text-base font-medium text-black mb-4 mx-20">
-              Scan this QR code using Google Authenticator, Authy, or any 2FA app.
-            </p>
+                <p className="text-center text-base font-medium text-black mb-4 mx-20">
+                  Scan this QR code using Google Authenticator, Authy, or any 2FA app.
+                </p>
 
-            {/* QR Code Placeholder */}
+                {/* QR Code Placeholder */}
 
-            <div  className="flex justify-center mb-5">
+                <div className="flex justify-center mb-5">
 
-            <QRCode value={qrValue} size={160} />
+                  <QRCode value={qrValue} size={160} />
+                </div>
+
+                <p className="text-left text-base font-medium text-black mb-4">
+                  If you can't scan the image, enter this code instead:
+                </p>
+
+                {/* Secret Code */}
+                <div className="flex items-center justify-center gap-3 bg-white">
+                  <code className=" px-4 py-2 rounded-lg font-mono text-sm tracking-wider">
+                    {secretCode}
+                  </code>
+                  <div className="relative">
+                    <button
+                      onClick={handleCopy}
+                      className="p-2 text-gray-600 cursor-pointer hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                      aria-label="Copy code"
+                    >
+                      <Copy className="w-5 h-5" />
+                    </button>
+
+                    {copied && (
+                      <span className="absolute -top-9 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded-md whitespace-nowrap">
+                        Copied!
+                      </span>
+                    )}
+                  </div>
+
+                </div>
+              </div>
+              }
+              {TFAContinue && <OtpInput onComplete={(otp) => console.log("OTP:", otp)} />
+              }
+
+
+
+
+
             </div>
-
-            <p className="text-left text-base font-medium text-black mb-4">
-              If you can't scan the image, enter this code instead:
-            </p>
-
-            {/* Secret Code */}
-            <div className="flex items-center justify-center gap-3 bg-white">
-              <code className=" px-4 py-2 rounded-lg font-mono text-sm tracking-wider">
-                {secretCode}
-              </code>
-            <div className="relative">
-  <button
-    onClick={handleCopy}
-    className="p-2 text-gray-600 cursor-pointer hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
-    aria-label="Copy code"
-  >
-    <Copy className="w-5 h-5" />
-  </button>
-
-  {copied && (
-    <span className="absolute -top-9 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded-md whitespace-nowrap">
-      Copied!
-    </span>
-  )}
-</div>
-
-            </div>
-          </div>
-}
-   { TFAContinue && <OtpInput onComplete={(otp) => console.log("OTP:", otp)} />
-}
-
-
-
-
-
-          </div>
           </div>
 
           {/* Footer */}
           <div className="flex justify-between gap-4 px-8 py-6 border-gray-200">
             <button className="px-6 py-2 border-[#E7E7E9] border-2  cursor-pointer rounded-full font-medium transition-colors"
-            onClick={()=>setIsOpenTFAModal(false)}
+              onClick={() => setIsOpenTFAModal(false)}
             >
               Cancel
             </button>
             <button className="px-6 py-2 bg-[#01B0E9] rounded-full text-white  cursor-pointer font-medium transition-colors"
-            onClick={()=>{
-              if(TFAContinue){
-                setIsOpenTFAModal(false)
-                
-                setTFAContinue(!TFAContinue)
-                 handleClose();
-              }
-              else{
-                setTFAContinue(!TFAContinue)
-               
-              }
+              onClick={() => {
+                if (TFAContinue) {
+                  setIsOpenTFAModal(false)
 
-            }}>
-        {  TFAContinue?"Verify & Enable"  : " Continue"}
+                  setTFAContinue(!TFAContinue)
+                  handleClose();
+                }
+                else {
+                  setTFAContinue(!TFAContinue)
+
+                }
+
+              }}>
+              {TFAContinue ? "Verify & Enable" : " Continue"}
             </button>
           </div>
         </div>

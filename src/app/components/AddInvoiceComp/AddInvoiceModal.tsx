@@ -80,9 +80,30 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
     }
   }, [isOpen, initialData]);
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
   const handleInputChange = (field: keyof AddItemData, value: string | File) => {
+    let filteredValue = value;
+
+    // Numeric filtering for financial fields
+    if (['price', 'quantity', 'discount', 'tax'].includes(field) && typeof value === 'string') {
+      if (/[^0-9.]/.test(value)) {
+        setErrors((prev) => ({ ...prev, [field]: 'Only numbers and a decimal point are allowed' }));
+        setTimeout(() => setErrors((prev) => ({ ...prev, [field]: '' })), 3000);
+      }
+      // Allow only numbers and a single decimal point
+      filteredValue = value.replace(/[^0-9.]/g, '');
+      const parts = filteredValue.split('.');
+      if (parts.length > 2) {
+        filteredValue = parts[0] + '.' + parts.slice(1).join('');
+      }
+    } else if (field === 'name' && typeof value === 'string') {
+      // Optional: basic filtering for product names if relevant
+      filteredValue = value;
+    }
+
     setFormData(prev => {
-      const newFormData = { ...prev, [field]: value };
+      const newFormData = { ...prev, [field]: filteredValue };
 
       // If price, quantity, discount, or tax changes, update the totalAmount
       if (['price', 'quantity', 'discount', 'tax'].includes(field)) {
@@ -286,6 +307,7 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
                 onChange={(e) => handleInputChange('price', e.target.value)}
                 className=" w-full sm:w-40 border border-gray-400 p-1 rounded-md"
               />
+              {errors.price && <p className='text-[10px] text-red-500 mt-1 max-w-[160px] leading-tight'>{errors.price}</p>}
             </div>
             <div className="flex flex-col">
               <label htmlFor="quantity">Quantity</label>
@@ -296,6 +318,7 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
                 onChange={(e) => handleInputChange('quantity', e.target.value)}
                 className=" w-full sm:w-40  border border-gray-400 p-1 rounded-md"
               />
+              {errors.quantity && <p className='text-[10px] text-red-500 mt-1 max-w-[160px] leading-tight'>{errors.quantity}</p>}
             </div>
             <div className="flex flex-col">
               <label htmlFor="discount">Discount (%)</label>
@@ -308,6 +331,7 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
                 step={0.01}
                 className=" w-full sm:w-40  border border-gray-400 p-1 rounded-md"
               />
+              {errors.discount && <p className='text-[10px] text-red-500 mt-1 max-w-[160px] leading-tight'>{errors.discount}</p>}
             </div>
           </div>
 

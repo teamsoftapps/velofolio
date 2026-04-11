@@ -84,7 +84,7 @@ export default function Page() {
         onApply={(newFilters) => setFilters(newFilters)}
       />
       <div className="min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] pb-24">
-        <div className="w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <div className="w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8 pt-9">
           <OverviewHeader
             title={'Teams'}
             setOpenForm={setOpenForm}

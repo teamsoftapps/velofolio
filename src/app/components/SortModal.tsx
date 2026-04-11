@@ -62,7 +62,7 @@ export default function SortModal({
       <div className="fixed inset-0  bg-opacity-50 z-40" onClick={onClose} />
 
 
-      <div className={`absolute ${pathname == "/production" ? "-right-40 top-10 sm:right-2" : pathname.includes("/jobProfile") || pathname.includes("/clientProfile") ? "top-12 right-2" : "top-45 right-90"} flex items-center justify-center z-50 p-2`}>
+      <div className={`absolute top-12 left-0 z-50 p-2`}>
         <div className="bg-white rounded-xl shadow-xl w-60 max-w-md max-h-screen overflow-y-auto">
 
 

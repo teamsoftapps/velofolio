@@ -146,7 +146,7 @@ const reports = () => {
       {/* 1. SCREEN ONLY CONTENT (The interactive dashboard) */}
       <div className="screen-only-content">
         <Navbar />
-        <div className='container mx-auto w-[100%] h-full px-2 lg:px-6'>
+        <div className='container mx-auto w-[100%] h-full px-2 lg:px-6 -mt-2'>
           <ReportHeader
             timeRange={timeRange}
             setTimeRange={setTimeRange}

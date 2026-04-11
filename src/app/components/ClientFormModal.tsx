@@ -61,13 +61,33 @@ const ClientForm: React.FC<ClientFormProps> = ({
 
   const [activeTab, setActiveTab] = useState<'Client' | 'Company'>('Client');
 const [createClient] = useCreateClientMutation();
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Data limitation logic
+    if (name === 'phone' || name === 'companyPhone') {
+      if (/[^0-9+\s\-()]/.test(value)) {
+        setErrors((prev) => ({ ...prev, [name]: 'Only numbers and +, -, ( ), spaces are allowed' }));
+        setTimeout(() => setErrors((prev) => ({ ...prev, [name]: '' })), 3000);
+      }
+      const filteredValue = value.replace(/[^0-9+\s\-()]/g, '');
+      setFormData((prev) => ({ ...prev, [name]: filteredValue }));
+    } else if (['firstName', 'lastName', 'city', 'country', 'personName'].includes(name)) {
+      if (/[0-9]/.test(value)) {
+        setErrors((prev) => ({ ...prev, [name]: 'Numbers are not allowed here' }));
+        setTimeout(() => setErrors((prev) => ({ ...prev, [name]: '' })), 3000);
+      }
+      const filteredValue = value.replace(/[0-9]/g, '');
+      setFormData((prev) => ({ ...prev, [name]: filteredValue }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -233,6 +253,7 @@ const [createClient] = useCreateClientMutation();
                 }
                 className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
               />
+              {errors.firstName && <p className='text-xs text-red-500 mt-1'>{errors.firstName}</p>}
             </div>
 
             {activeTab === 'Client' && (
@@ -250,6 +271,7 @@ const [createClient] = useCreateClientMutation();
                   placeholder='Enter last name'
                   className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
                 />
+                {errors.lastName && <p className='text-xs text-red-500 mt-1'>{errors.lastName}</p>}
               </div>
             )}
 
@@ -268,6 +290,7 @@ const [createClient] = useCreateClientMutation();
                   placeholder='Enter person name'
                   className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
                 />
+                {errors.personName && <p className='text-xs text-red-500 mt-1'>{errors.personName}</p>}
               </div>
             )}
           </div>
@@ -316,6 +339,7 @@ const [createClient] = useCreateClientMutation();
               }
               className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
             />
+            {errors.phone && <p className='text-xs text-red-500 mt-1'>{errors.phone}</p>}
           </div>
 </div>
           {/* Lead Source */}
@@ -395,6 +419,7 @@ const [createClient] = useCreateClientMutation();
                 placeholder='Enter country'
                 className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
               />
+              {errors.country && <p className='text-xs text-red-500 mt-1'>{errors.country}</p>}
             </div>
 
             <div className='flex-1'>
@@ -411,6 +436,7 @@ const [createClient] = useCreateClientMutation();
                 placeholder='Enter city'
                 className='mt-1 p-2 w-full border rounded-md border-gray-400 text-gray-800'
               />
+              {errors.city && <p className='text-xs text-red-500 mt-1'>{errors.city}</p>}
             </div>
           </div>
 

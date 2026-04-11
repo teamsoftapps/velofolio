@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from 'react'
+import Link from 'next/link'
 import { colors } from '@/utils/colors'
 import Navbar from '../components/Navbar'
 import SettingTab from '../components/settingComp/SettingTab'
@@ -20,44 +21,48 @@ const page = () => {
   const [activeTab, setActiveTab] = useState('Company Info');
   return (
     <div className='h-full pb-8 transition-colors duration-300' style={{ backgroundColor: colors.bgLight }}>
-<Navbar />
-<div className='container mx-auto w-[100%] min-h-[90vh] h-full px-2' style={{ backgroundColor: colors.bgLight }}>
-  <div className='w-full  mt-16 mb-7'>
-   <h1 className={`text-2xl mb-3 font-semibold text-black inter`}>Settings</h1>
-<h3 className='text-md text-[#71717A]'>Dashboard | Settings</h3>
-  </div>
+      <Navbar />
+      <div className='container mx-auto w-[100%] min-h-[90vh] h-full px-10' style={{ backgroundColor: colors.bgLight }}>
+        <div className='w-full mt-12 mb-10'>
+          <h1 className="text-[24px] font-semibold text-gray-950 mb-2">Settings</h1>
+          <div className="flex items-center gap-4 text-[14px] text-gray-500 font-medium">
+            <Link href="/dashboard" className="hover:text-gray-950 transition-colors cursor-pointer">Dashboard</Link>
+            <span className="text-gray-300">|</span>
+            <span className="text-gray-700 font-semibold ">Settings</span>
+          </div>
+        </div>
 
-  <SettingTab activeTab={activeTab} onTabChange={setActiveTab} />
-{
-  activeTab === 'Company Info' && <CompanyInfo />
+        <SettingTab activeTab={activeTab} onTabChange={setActiveTab} />
+        {
+          activeTab === 'Company Info' && <CompanyInfo />
 
-}
+        }
 
-{
-  activeTab === 'Team & Permissions' && <TeamnPermission />
-}
-{
-  activeTab === 'Payments & Billing' && <PaymentnBilling />
-}
-{
-  activeTab === 'Email & Notifications' && <EmailnNotification />
-}
-{
-  activeTab === 'Goals & Reports' && <GoalsnReport />
-}
-{
-  activeTab === 'Branding & Customization' && <BrandingnCustomization />
-}
-{
-  activeTab === 'Security & Password' && <SecuritynPassword />
-}
-{
-  activeTab === 'System Preferences' && <SystemPrefrences />
-}
+        {
+          activeTab === 'Team & Permissions' && <TeamnPermission />
+        }
+        {
+          activeTab === 'Payments & Billing' && <PaymentnBilling />
+        }
+        {
+          activeTab === 'Email & Notifications' && <EmailnNotification />
+        }
+        {
+          activeTab === 'Goals & Reports' && <GoalsnReport />
+        }
+        {
+          activeTab === 'Branding & Customization' && <BrandingnCustomization />
+        }
+        {
+          activeTab === 'Security & Password' && <SecuritynPassword />
+        }
+        {
+          activeTab === 'System Preferences' && <SystemPrefrences />
+        }
 
 
 
-</div>
+      </div>
 
 
 

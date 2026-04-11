@@ -189,7 +189,7 @@ export default function ClientsPage() {
         />
 
         <div className='min-h-screen w-full flex flex-col items-start pb-24' style={{ backgroundColor: colors.bgLight }}>
-          <div className='w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8 pt-6 flex flex-col gap-6'>
+          <div className='w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8 pt-9 flex flex-col gap-6'>
             <OverviewHeader
               title="Clients"
               setOpenForm={setIsFormOpen}

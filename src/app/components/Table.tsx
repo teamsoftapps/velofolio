@@ -49,13 +49,13 @@ const Table = ({
     Proposal: 'bg-[#E0F2FE] text-[#0EA5E9]',
     Booked: 'bg-[#DFF6EA] text-[#10B981]',
     Done: 'bg-[#DFF6EA] text-[#10B981]',
-    Paid: 'bg-[#E0F2FE] text-[#0EA5E9]',
+    Paid: 'bg-[#01B0E9] text-white',
     Active: 'bg-[#FFF4E5] text-[#F59E0B]',
     'On Leave': 'bg-[#E0F2FE] text-[#0EA5E9]',
     Completed: 'bg-[#DFF6EA] text-[#10B981]',
     New: 'bg-[#E0F2FE] text-[#0EA5E9]',
-    Pending: 'bg-[#F3F4F6] text-[#9CA3AF]',
-    pending: 'bg-[#F3F4F6] text-[#9CA3AF]',
+    Pending: 'bg-[#FFC700] text-black',
+    pending: 'bg-[#FFC700] text-black',
     'In Progress': 'bg-[#FFF4E5] text-[#F59E0B]',
     Overdue: 'bg-[#FEF2F2] text-[#EF4444]',
     Inactive: 'bg-[#F3F4F6] text-[#9CA3AF]',
@@ -73,6 +73,7 @@ const Table = ({
     Active: <div className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />,
     Inactive: <div className="w-1.5 h-1.5 rounded-full bg-[#9CA3AF]" />,
     'New Lead': <div className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />,
+    Overdue: <div className="w-1.5 h-1.5 rounded-full bg-[#EF4444]" />,
   };
 
   const priorityStyles: any = {
@@ -263,75 +264,80 @@ const Table = ({
         </div>
 
         {!(pasthname === '/reports' || pasthname === '/clientProfile') && (
-          <div className="mt-4 flex flex-col md:flex-row justify-between items-center bg-white py-4 border-t border-gray-100 px-6 gap-4">
-            <div className="relative flex-shrink-0">
-              <select
-                value={itemsPerPage}
-                onChange={(e) => {
-                  setItemsPerPage(Number(e.target.value));
-                  setCurrentPage(1);
-                }}
-                className="appearance-none bg-[#F3F4F6] border-none rounded-lg py-2.5 px-4 pr-10 text-[14px] font-medium text-gray-800 focus:outline-none cursor-pointer w-full"
-              >
-                <option value={8}>8 {unit}</option>
-                <option value={15}>15 {unit}</option>
-                <option value={20}>20 {unit}</option>
-                <option value={50}>50 {unit}</option>
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
-                <FiChevronDown className="w-4 h-4" />
+          <div className="mt-4 flex flex-col sm:flex-row justify-between items-center bg-white py-4 border-t border-gray-100 px-6 gap-4">
+            <div className="flex-1 flex justify-center sm:justify-start w-full sm:w-auto">
+              <div className="relative flex-shrink-0">
+                <select
+                  value={itemsPerPage}
+                  onChange={(e) => {
+                    setItemsPerPage(Number(e.target.value));
+                    setCurrentPage(1);
+                  }}
+                  className="appearance-none bg-[#F3F4F6] border-none rounded-lg py-2.5 px-4 pr-10 text-[14px] font-medium text-gray-800 focus:outline-none cursor-pointer w-full"
+                >
+                  <option value={8}>8 {unit}</option>
+                  <option value={15}>15 {unit}</option>
+                  <option value={20}>20 {unit}</option>
+                  <option value={50}>50 {unit}</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                  <FiChevronDown className="w-4 h-4" />
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-black'}`}
-              >
-                <HiArrowLongLeft className="w-5 h-5" />
-                Previous
-              </button>
+            <div className="flex justify-center w-full sm:w-auto">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-black'}`}
+                >
+                  <HiArrowLongLeft className="w-5 h-5" />
+                  Previous
+                </button>
 
-              <div className="flex items-center gap-1 mx-2">
-                {[...Array(totalPages)].map((_, i) => {
-                  const pageNum = i + 1;
-                  // Simple pagination logic for brevity: show first 3, last 2, and current around dots
-                  if (
-                    totalPages <= 7 ||
-                    pageNum === 1 ||
-                    pageNum === totalPages ||
-                    (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
-                  ) {
-                    return (
-                      <button
-                        key={pageNum}
-                        onClick={() => handlePageChange(pageNum)}
-                        className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${currentPage === pageNum ? 'bg-black text-white shadow-md shadow-gray-200' : 'text-gray-500 hover:bg-gray-50'}`}
-                      >
-                        {pageNum}
-                      </button>
-                    );
-                  }
-                  if (
-                    (pageNum === 2 && currentPage > 4) ||
-                    (pageNum === totalPages - 1 && currentPage < totalPages - 3)
-                  ) {
-                    return <span key={pageNum} className="px-2 text-gray-400">...</span>;
-                  }
-                  return null;
-                })}
+                <div className="flex items-center gap-1 mx-2">
+                  {[...Array(totalPages)].map((_, i) => {
+                    const pageNum = i + 1;
+                    if (
+                      totalPages <= 7 ||
+                      pageNum === 1 ||
+                      pageNum === totalPages ||
+                      (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+                    ) {
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => handlePageChange(pageNum)}
+                          className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${currentPage === pageNum ? 'bg-black text-white shadow-md shadow-gray-200' : 'text-gray-500 hover:bg-gray-50'}`}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    }
+                    if (
+                      (pageNum === 2 && currentPage > 4) ||
+                      (pageNum === totalPages - 1 && currentPage < totalPages - 3)
+                    ) {
+                      return <span key={pageNum} className="px-2 text-gray-400">...</span>;
+                    }
+                    return null;
+                  })}
+                </div>
+
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === totalPages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-black'}`}
+                >
+                  Next
+                  <HiArrowLongRight className="w-5 h-5" />
+                </button>
               </div>
-
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === totalPages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-black'}`}
-              >
-                Next
-                <HiArrowLongRight className="w-5 h-5" />
-              </button>
             </div>
+
+            <div className="flex-1 hidden sm:flex justify-end"></div>
           </div>
         )}
       </div>

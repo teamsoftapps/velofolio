@@ -1,18 +1,35 @@
 
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ChangePasswordForm from './ChangePasswordForm';
 import AccountRecoveryForm from './AccountRecoveryForm';
 import TwoFactorAuthCard from './TwoFactorAuthCard';
 import ActiveSessionsCard from './ActiveSessionsCard';
 import TwoFactorSetupModal from './TwoFactorSetupModal';
 import Disable2FAModal from './Disable2FAModal';
+import DeleteAccountModal from './DeleteAccountModal';
+import { auth } from '@/config/firebase';
+import { getUserProfile } from '@/firebase_Routes/routes';
 
 const SecuritynPassword = () => {
   const [openTwoFactorModal, setOpenTwoFactorModal] = useState(false);
   const [openDisable2FAModal, setDisable2FAModal] = useState(false);
-  const [is2FAEnabled, setIs2FAEnabled] = useState(false); 
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [is2FAEnabled, setIs2FAEnabled] = useState(false);
+
+  useEffect(() => {
+    const fetch2FAStatus = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const { profile } = await getUserProfile(user.uid);
+        if (profile) {
+          setIs2FAEnabled(!!profile.twoFactorEnabled);
+        }
+      }
+    };
+    fetch2FAStatus();
+  }, []);
 
   return (
     <div className='w-full h-full text-black pb-16'>
@@ -33,6 +50,7 @@ const SecuritynPassword = () => {
           openDisable2FAModal={openDisable2FAModal}
           is2FAEnabled={is2FAEnabled}
           setIs2FAEnabled={setIs2FAEnabled}
+          setOpenDeleteModal={setOpenDeleteModal}
         />
         <ActiveSessionsCard />
       </div>
@@ -51,6 +69,11 @@ const SecuritynPassword = () => {
           onConfirm={() => setIs2FAEnabled(false)}
         />
       )}
+
+      <DeleteAccountModal 
+        isOpen={openDeleteModal}
+        setIsOpen={setOpenDeleteModal}
+      />
     </div>
   );
 };

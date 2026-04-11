@@ -133,7 +133,7 @@ const LeadCard = ({
         </div>
 
         <div className="flex-shrink-0 ml-2">
-          <Image src={diagramSrc} alt="diagram" width={100} height={100} className="w-20 md:w-28 lg:w-40" />
+          <Image src={diagramSrc} alt="diagram" width={100} height={100} className="w-32 md:w-40 lg:w-40" />
         </div>
       </div>
     </div>
@@ -156,6 +156,7 @@ interface LeadDashboardProps {
 const OverviewChart = ({ chartData, variant = 'default' }: LeadDashboardProps) => {
   const getTheme = (title: string): 'blue' | 'yellow' | 'green' | 'gray' => {
     const t = title.toLowerCase();
+    if (t.includes('inactive')) return 'green';
     if (t.includes('new') || t.includes('total') || t.includes('paid') || t.includes('total jobs')) return 'blue';
     if (t.includes('active') || t.includes('pending') || t.includes('unpaid') || t.includes('active jobs')) return 'yellow';
     if (t.includes('converted') || t.includes('overdue') || t.includes('completed')) return 'green';
@@ -191,3 +192,4 @@ const OverviewChart = ({ chartData, variant = 'default' }: LeadDashboardProps) =
 };
 
 export default OverviewChart;
+

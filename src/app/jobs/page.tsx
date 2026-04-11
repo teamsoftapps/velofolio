@@ -92,7 +92,7 @@ export default function Page() {
     <RouteGuard allowedRoles={['superadmin']}>
       <Navbar />
 
-      <div className='min-h-screen w-full flex flex-col items-start overflow-x-hidden pt-6 pb-24' style={{ backgroundColor: colors.bgLight }}>
+      <div className='min-h-screen w-full flex flex-col items-start overflow-x-hidden pt-9 pb-24' style={{ backgroundColor: colors.bgLight }}>
         {isDeleteModalOpen && (
           <DeleteModal
             isOpen={isDeleteModalOpen}

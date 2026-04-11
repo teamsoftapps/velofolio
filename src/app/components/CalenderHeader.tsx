@@ -26,9 +26,9 @@ const OverviewHeader = () => {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [currentSort, setCurrentSort] = useState('added-newest');
   return (
-    <div className='flex-col sm:flex-row  lg:w-full Header mt-10 flex  md:flex-row items-start md:items-center justify-between p-2 text-black'>
+    <div className='flex-col sm:flex-row  lg:w-full Header mt-10 flex  md:flex-row items-start md:items-center justify-between text-black'>
 
-      <div className='w-full sm:w-6/20 md:w-6/20 lg:block md:block lg:w-6/18 left p-2'>
+      <div className='w-full sm:w-6/20 md:w-6/20 lg:block md:block lg:w-6/18 left  pt-2'>
         <h1 className='text-2xl mb-3 font-semibold'>Calendar Overview</h1>
         <h3 className='text-gray-600 text-sm flex gap-2'>
           <Link href="/dashboard" className="hover:text-black">

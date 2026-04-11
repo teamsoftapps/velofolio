@@ -1,17 +1,15 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { FiChevronDown } from "react-icons/fi";
 import { HiDotsVertical } from "react-icons/hi";
 import { HiArrowLongLeft, HiArrowLongRight } from "react-icons/hi2";
-import { IoCheckmarkCircleSharp } from "react-icons/io5";
-import { RiLoopRightLine } from "react-icons/ri";
-import { useRouter } from "next/navigation";
 
-const TeamsTable = ({
+const PaymentsTable = ({
   headers,
   data,
-  unit = "Team Members",
+  unit = "Payments",
   initialItemsPerPage = 8,
 }: any) => {
   const router = useRouter();
@@ -28,8 +26,15 @@ const TeamsTable = ({
     setCurrentPage(newPage);
   };
 
+  const statusStyles: any = {
+    paid: "bg-[#01B0E9] text-white",
+    pending: "bg-[#FFC700] text-black",
+    overdue: "bg-[#4B5563] text-white", // Solid gray for payment overdue as per earlier requests
+    unpaid: "bg-[#FEF2F2] text-[#EF4444]",
+  };
+
   return (
-    <div className="w-full mt-4 bg-white border border-gray-200 rounded-lg mt-8 p-6 shadow-sm mb-10">
+    <div className="w-full mt-4 bg-white border border-gray-200 rounded-lg p-6 mb-10 shadow-sm">
       <div className="overflow-x-auto no-scrollbar">
         <table className="w-full border-separate border-spacing-y-0">
           <thead>
@@ -61,97 +66,65 @@ const TeamsTable = ({
                   colSpan={headers.length}
                   className="py-20 text-center text-gray-500 italic font-medium"
                 >
-                  No team members found.
+                  No payments found.
                 </td>
               </tr>
             ) : (
               paginatedData.map((row: any, rowIndex: number) => (
                 <tr
                   key={rowIndex}
-                  onClick={() => router.push(`/teamProfile?id=${row.id || rowIndex + 1}`)}
+                  onClick={() => router.push(`/viewInvoice?InvoiceId=${row.invoiceNumber}`)}
                   className="hover:bg-[#F9FAFB] transition-colors cursor-pointer group"
                 >
                   {headers.map((header: any, cellIndex: number) => {
                     const key = header.key;
 
-                    if (key === "Name") {
+                    if (key === "client") {
                       return (
                         <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full overflow-hidden relative shadow-sm border-2 border-white">
-                              <Image
-                                src={`https://i.pravatar.cc/150?u=${row.Name}`}
-                                alt={row.Name}
-                                fill
-                                className="object-cover"
-                              />
+                            <div className="w-10 h-10 rounded-full bg-[#f0f2f5] overflow-hidden flex-shrink-0 flex items-center justify-center text-[#6B7280] font-bold text-sm border border-gray-100">
+                              {row.avatar ? (
+                                <Image
+                                  src={row.avatar}
+                                  alt={String(row.client).charAt(0)}
+                                  width={40}
+                                  height={40}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <span>{String(row.client).charAt(0).toUpperCase()}</span>
+                              )}
                             </div>
-                            <span className="text-[15px] font-medium text-black whitespace-nowrap">
-                              {row.Name}
+                            <span className="text-[15px] font-medium text-black truncate max-w-[160px]">
+                              {row.client}
                             </span>
                           </div>
                         </td>
                       );
                     }
 
-                    if (key === "Email") {
-                      return (
-                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 lowercase">
-                          <a href={`mailto:${row.Email}`} className="text-[14px] font-medium text-gray-800 whitespace-nowrap hover:text-black transition-colors" onClick={(e) => e.stopPropagation()}>
-                            {row.Email}
-                          </a>
-                        </td>
-                      );
-                    }
-
-                    if (key === "Status") {
-                      const statusVal = row.Status?.toUpperCase();
+                    if (key === "paymentStatus") {
+                      const statusVal = String(row.paymentStatus || "").toLowerCase();
                       return (
                         <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
-                          {statusVal === "ACTIVE" && (
-                            <span className="px-3 py-1 bg-[#FFF4E5] text-[#F59E0B] rounded-full text-[12px] font-bold tracking-wide uppercase inline-flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]"></span> ACTIVE
-                            </span>
-                          )}
-                          {statusVal === "ON LEAVE" && (
-                            <span className="px-3 py-1 bg-[#E0F2FE] text-[#0EA5E9] rounded-full text-[12px] font-bold tracking-wide uppercase">
-                              ON LEAVE
-                            </span>
-                          )}
-                          {statusVal === "INACTIVE" && (
-                            <span className="px-3 py-1 bg-[#F3F4F6] text-[#9CA3AF] rounded-full text-[12px] font-bold tracking-wide uppercase">
-                              INACTIVE
-                            </span>
-                          )}
+                          <span
+                            className={`px-4 py-1.5 rounded-full text-[12px] font-bold uppercase tracking-wide inline-flex items-center justify-center w-fit whitespace-nowrap ${
+                              statusStyles[statusVal] || "bg-gray-100 text-gray-600"
+                            }`}
+                          >
+                            {statusVal.toUpperCase()}
+                          </span>
                         </td>
                       );
                     }
 
-                    if (key === "Availability") {
-                      const avail = row.Availability;
+                    if (key === "amount" || key === "paid" || key === "balance") {
+                      const val = row[key];
+                      const displayVal = typeof val === 'number' ? `$${val.toLocaleString()}` : (String(val).startsWith('$') ? val : `$${val}`);
                       return (
-                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
-                          {avail === "Free" ? (
-                            <span className="text-[14px] font-medium text-[#10B981] flex items-center gap-1.5">
-                              <IoCheckmarkCircleSharp className="w-4 h-4" /> Free
-                            </span>
-                          ) : avail === "Busy" ? (
-                            <span className="text-[14px] font-medium text-[#0EA5E9] flex items-center gap-1.5">
-                              <RiLoopRightLine className="w-4 h-4" /> Busy
-                            </span>
-                          ) : (
-                            <span className="text-[14px] font-medium text-gray-700">N/A</span>
-                          )}
-                        </td>
-                      );
-                    }
-
-                    if (key === "Action") {
-                      return (
-                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 text-center">
-                          <div className="flex justify-center">
-                            <HiDotsVertical className="w-5 h-5 text-gray-700 font-bold group-hover:text-black transition-colors" />
-                          </div>
+                        <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 text-[14px] font-semibold text-gray-900">
+                          {displayVal}
                         </td>
                       );
                     }
@@ -172,6 +145,7 @@ const TeamsTable = ({
         </table>
       </div>
 
+      {/* Standardized Centered Footer */}
       <div className="mt-8 flex flex-col sm:flex-row justify-between items-center bg-white py-4 border-t border-gray-100 px-6 gap-4">
         <div className="flex-1 flex justify-center sm:justify-start w-full sm:w-auto">
           <div className="relative flex-shrink-0">
@@ -199,10 +173,9 @@ const TeamsTable = ({
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === 1
-                ? "text-gray-300 cursor-not-allowed"
-                : "text-gray-500 hover:text-black"
-                }`}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${
+                currentPage === 1 ? "text-gray-300 cursor-not-allowed" : "text-gray-500 hover:text-black"
+              }`}
             >
               <HiArrowLongLeft className="w-5 h-5" />
               Previous
@@ -221,10 +194,11 @@ const TeamsTable = ({
                     <button
                       key={pageNum}
                       onClick={() => handlePageChange(pageNum)}
-                      className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${currentPage === pageNum
-                        ? "bg-black text-white shadow-md shadow-gray-200"
-                        : "text-gray-500 hover:bg-gray-50"
-                        }`}
+                      className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${
+                        currentPage === pageNum
+                          ? "bg-black text-white shadow-md shadow-gray-200"
+                          : "text-gray-500 hover:bg-gray-50"
+                      }`}
                     >
                       {pageNum}
                     </button>
@@ -247,10 +221,9 @@ const TeamsTable = ({
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === totalPages
-                ? "text-gray-300 cursor-not-allowed"
-                : "text-gray-500 hover:text-black"
-                }`}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${
+                currentPage === totalPages ? "text-gray-300 cursor-not-allowed" : "text-gray-500 hover:text-black"
+              }`}
             >
               Next
               <HiArrowLongRight className="w-5 h-5" />
@@ -264,4 +237,4 @@ const TeamsTable = ({
   );
 };
 
-export default TeamsTable;
+export default PaymentsTable;

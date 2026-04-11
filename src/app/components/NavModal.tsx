@@ -11,30 +11,24 @@ import { FaCamera, FaQuestionCircle, FaShieldAlt, FaSignOutAlt } from 'react-ico
 import { useDispatch, useSelector } from 'react-redux';
 import CreateWorkspaceModal from './CreateWorkspace';
 import Companies from './Companies';
-import { logOut, getUserProfile } from '@/firebase_Routes/routes';
+import { logOut } from '@/firebase_Routes/routes';
 import { auth } from '@/config/firebase';
 import { toast } from 'react-toastify';
 
 
 interface ProfileModalProps {
   setProfileOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  companies: any
+  companies: any;
+  isProfileOpen: boolean;
+  firestoreUser: any;
 }
 
 
-export default function ProfileModal({ setProfileOpen, companies }: ProfileModalProps) {
+export default function ProfileModal({ setProfileOpen, companies, isProfileOpen, firestoreUser }: ProfileModalProps) {
   const dispatch = useDispatch();
   const [workspace, setWorkspaceOpen] = useState(false);
   const router = useRouter();
   const firebaseUser = auth.currentUser;
-  const [firestoreUser, setFirestoreUser] = useState<any>(null);
-
-  useEffect(() => {
-    if (!firebaseUser?.uid) return;
-    getUserProfile(firebaseUser.uid).then(({ profile }) => {
-      if (profile) setFirestoreUser(profile);
-    });
-  }, [firebaseUser?.uid]);
 
   const displayName = firestoreUser?.displayName || firebaseUser?.displayName || "User";
   const email = firestoreUser?.email || firebaseUser?.email || "";
@@ -66,7 +60,7 @@ export default function ProfileModal({ setProfileOpen, companies }: ProfileModal
           {/* Profile Section */}
           <div className="flex flex-col sm:flex-row gap-2 items-center space-y-3">
             <div className="relative rounded-full group w-16 h-16 b cursor-pointer">
-              <Image alt='0' src="/images/userprofile.png" width={100} height={100} className="w-16 h-16 rounded-full   " />
+              <Image alt='0' src={isProfileOpen ? "/user1.png" : "/images/userprofile.png"} width={100} height={100} className="w-16 h-16 rounded-full   " />
               <span className='text-xs text-center text-white hidden  group-hover:block w-16 h-16 bg-black/60 pt-2 top-0 rounded-full absolute'>Upload Photo Max 5mb</span>
               <div className="absolute bottom-0 right-0 bg-black rounded-full p-1 shadow-md border border-gray-200">
                 <FaCamera className="w-3 h-3 text-white" />

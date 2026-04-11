@@ -22,6 +22,17 @@ interface SortState {
   direction: 'asc' | 'desc';
 }
 
+const TEAM_SORT_OPTIONS: SortOption[] = [
+  { id: 'name-asc', label: 'Member Name (A-Z)', value: 'Name', direction: 'asc' },
+  { id: 'name-desc', label: 'Member Name (Z-A)', value: 'Name', direction: 'desc' },
+  { id: 'role-asc', label: 'Role (A-Z)', value: 'Role', direction: 'asc' },
+  { id: 'role-desc', label: 'Role (Z-A)', value: 'Role', direction: 'desc' },
+  { id: 'status-asc', label: 'Status (A-Z)', value: 'Status', direction: 'asc' },
+  { id: 'status-desc', label: 'Status (Z-A)', value: 'Status', direction: 'desc' },
+  { id: 'jobs-desc', label: 'Assigned Jobs (High-Low)', value: 'Assigned Jobs', direction: 'desc' },
+  { id: 'jobs-asc', label: 'Assigned Jobs (Low-High)', value: 'Assigned Jobs', direction: 'asc' },
+];
+
 interface OverviewHeaderProps {
   title: string;
   // setSearchedData: (data: []) => void;
@@ -105,7 +116,7 @@ const OverviewHeader = ({
           <div className='relative flex-1 min-w-[280px] md:max-w-xs bg-white border border-[#E5E7EB] rounded-lg h-11 flex items-center px-4'>
             <input
               type='text'
-              placeholder='Search by name, event, email'
+              placeholder={currentPath === '/team' ? 'Search by name, role, email' : 'Search by name, event, email'}
               value={searchedValue}
               className='w-full outline-none text-sm text-gray-900 placeholder:text-[#9CA3AF]'
               onChange={(e) => setSearchedValue(e.target.value)}
@@ -132,24 +143,27 @@ const OverviewHeader = ({
 
           {/* Action Buttons: Sort, Filter, Add */}
           <div className='flex items-center gap-2 flex-wrap lg:flex-nowrap'>
-            <button
-              className='flex items-center justify-center gap-2 h-11 px-4 bg-white border border-[#E5E7EB] rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer'
-              onClick={() => setIsSortOpen(true)}
-            >
-              <FaSort className='text-gray-400' />
-              <span>Sort</span>
-            </button>
-            <SortModal
-              isOpen={isSortOpen}
-              onClose={() => setIsSortOpen(false)}
-              sortBy={sortBy}
-              setSortBy={setSortBy}
-              currentSort={currentSort}
-              onSortChange={(option) => {
-                setCurrentSort(option.id);
-                setSortBy({ value: option.value, direction: option.direction });
-              }}
-            />
+            <div className="relative">
+              <button
+                className='flex items-center justify-center gap-2 h-11 px-4 bg-white border border-[#E5E7EB] rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer'
+                onClick={() => setIsSortOpen(true)}
+              >
+                <FaSort className='text-gray-400' />
+                <span>Sort</span>
+              </button>
+              <SortModal
+                isOpen={isSortOpen}
+                onClose={() => setIsSortOpen(false)}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                currentSort={currentSort}
+                options={currentPath === '/team' ? TEAM_SORT_OPTIONS : undefined}
+                onSortChange={(option) => {
+                  setCurrentSort(option.id);
+                  setSortBy({ value: option.value, direction: option.direction });
+                }}
+              />
+            </div>
 
             <button
               className='flex items-center justify-center gap-2 h-11 px-4 bg-white border border-[#E5E7EB] rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer'

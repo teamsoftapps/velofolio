@@ -73,6 +73,7 @@ export default function TwoFactorAuthCard({
   openDisable2FAModal,
   is2FAEnabled,
   setIs2FAEnabled,
+  setOpenDeleteModal,
 }: any) {
   return (
     <div className="w-full lg:w-1/2 shrink-0">
@@ -115,7 +116,10 @@ export default function TwoFactorAuthCard({
         </div>
       </div>
        <div className="flex flex-col sm:flex-row gap-4 mt-8 sm:mt-12 justify-center w-full">
-        <button className="w-full sm:w-auto px-5 py-3 bg-red-600 text-white rounded-full font-medium hover:bg-red-700 transition">
+        <button 
+          onClick={() => setOpenDeleteModal(true)}
+          className="w-full sm:w-auto px-5 py-3 bg-red-600 text-white rounded-full font-medium hover:bg-red-700 transition cursor-pointer"
+        >
           Delete My Account
         </button>
 

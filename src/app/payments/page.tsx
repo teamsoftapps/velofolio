@@ -10,7 +10,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { colors } from '../../utils/colors';
 import Navbar from '../components/Navbar';
 
-import Table from '../components/Table';
+import PaymentsTable from '../components/PaymentsTable';
 import OverviewHeader from '../components/OverviewHeader';
 import OverviewChart from '../components/OverviewChart';
 import PayementChartData from '../../utils/PaymentChartData.json';
@@ -160,7 +160,7 @@ export default function Page() {
     <>
       <Navbar />
 
-      <div className='min-h-screen w-full flex flex-col items-start overflow-x-hidden pt-6 pb-24' style={{ backgroundColor: colors.bgLight }}>
+      <div className='min-h-screen w-full flex flex-col items-start overflow-x-hidden pt-9 pb-24' style={{ backgroundColor: colors.bgLight }}>
         {/* <Pagination /> */}
         {isDeleteModalOpen && (
           <DeleteModal
@@ -194,7 +194,7 @@ export default function Page() {
           />
           <OverviewChart chartData={dynamicPaymentChartData} variant="sparkline" />
 
-          <Table
+          <PaymentsTable
             headers={tableHeaders}
             data={advancedfilteredData}
             setOpenForm={setOpenForm}

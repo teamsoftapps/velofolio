@@ -9,7 +9,7 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 import ProfileModal from './NavModal';
 import { useDispatch } from 'react-redux';
 import { clearCredientials } from '@/store/slices/authSlice';
-import { logOut } from '@/firebase_Routes/routes';
+import { logOut, getUserProfile } from '@/firebase_Routes/routes';
 import { auth } from '@/config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useGetOrganizationsQuery } from '@/store/apis/Common';
@@ -29,15 +29,24 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
   const { data: companies } = useGetOrganizationsQuery({});
 
   const [firebaseUser, setFirebaseUser] = useState<any>(undefined);
+  const [firestoreUser, setFirestoreUser] = useState<any>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setFirebaseUser(user);
+      if (user?.uid) {
+        getUserProfile(user.uid).then(({ profile }) => {
+          if (profile) setFirestoreUser(profile);
+        });
+      } else {
+        setFirestoreUser(null);
+      }
     });
     return () => unsubscribe();
   }, []);
 
   const isLoggedIn = !!firebaseUser;
+  const displayName = firestoreUser?.displayName || firebaseUser?.displayName || "User";
 
   const tabs = [
     { name: 'Dashboard', icon: '/images/home.png', href: '/dashboard' },
@@ -76,7 +85,8 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
               {tabs.map((tab) => {
                 const isClientProfile = tab.name === 'Clients' && (pathname.startsWith('/clientProfile') || pathname.startsWith('/clientprofile'));
                 const isJobProfile = tab.name === 'Jobs' && (pathname.startsWith('/jobProfile') || pathname.startsWith('/jobprofile'));
-                const isActive = pathname === tab.href || pathname.startsWith(tab.href + '/') || isClientProfile || isJobProfile;
+                const isTeamProfile = tab.name === 'Team' && (pathname.startsWith('/teamProfile') || pathname.startsWith('/teamprofile'));
+                const isActive = pathname === tab.href || pathname.startsWith(tab.href + '/') || isClientProfile || isJobProfile || isTeamProfile;
                 return (
                   <Link
                     key={tab.name}
@@ -132,7 +142,7 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
                     />
                   </div>
                   <span className='ml-2 text-sm font-medium hidden xl:inline'>
-                    Velofolio
+                    {displayName}
                   </span>
                   <Image
                     src='/images/chevron-down.svg'
@@ -144,7 +154,7 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
                 </button>
                 {isProfileOpen && (
                   <div className='absolute right-0 top-16'>
-                    <ProfileModal setProfileOpen={setIsProfileOpen} companies={companies} />
+                    <ProfileModal setProfileOpen={setIsProfileOpen} companies={companies} isProfileOpen={isProfileOpen} firestoreUser={firestoreUser} />
                   </div>
                 )}
               </div>
@@ -196,7 +206,8 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
                 {tabs.map((tab) => {
                   const isClientProfile = tab.name === 'Clients' && (pathname.startsWith('/clientProfile') || pathname.startsWith('/clientprofile'));
                   const isJobProfile = tab.name === 'Jobs' && (pathname.startsWith('/jobProfile') || pathname.startsWith('/jobprofile'));
-                  const isActive = pathname === tab.href || pathname.startsWith(tab.href + '/') || isClientProfile || isJobProfile;
+                  const isTeamProfile = tab.name === 'Team' && (pathname.startsWith('/teamProfile') || pathname.startsWith('/teamprofile'));
+                  const isActive = pathname === tab.href || pathname.startsWith(tab.href + '/') || isClientProfile || isJobProfile || isTeamProfile;
                   return (
                     <Link
                       key={tab.name}

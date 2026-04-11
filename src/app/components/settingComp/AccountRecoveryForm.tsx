@@ -1,15 +1,47 @@
-"use client";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { auth } from "@/config/firebase";
+import { updateAccountRecovery, getUserProfile } from "@/firebase_Routes/routes";
+import { toast } from "react-toastify";
 
 export default function AccountRecoveryForm() {
   const [recoveryEmail, setRecoveryEmail] = useState("");
   const [backupPhone, setBackupPhone] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    const fetchRecoveryInfo = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const { profile } = await getUserProfile(user.uid);
+        if (profile) {
+          setRecoveryEmail(profile.recoveryEmail || "");
+          setBackupPhone(profile.backupPhone || "");
+        }
+      }
+    };
+    fetchRecoveryInfo();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Add your account recovery update logic here
-    console.log("Updating recovery info:", { recoveryEmail, backupPhone });
+    const user = auth.currentUser;
+    if (!user) {
+      toast.error("You must be logged in");
+      return;
+    }
+
+    setIsLoading(true);
+    const response = await updateAccountRecovery(user.uid, {
+      recoveryEmail,
+      backupPhone,
+    });
+
+    if (response.success) {
+      toast.success("Account recovery info updated");
+    } else {
+      toast.error(response.error || "Failed to update info");
+    }
+    setIsLoading(false);
   };
 
   return (  <div className="w-full lg:w-1/2 shrink-0">
@@ -46,9 +78,10 @@ export default function AccountRecoveryForm() {
         <div className="pt-4">
           <button
             type="submit"
-            className="px-6 py-3 bg-[#01B0E9] text-white rounded-full font-medium cursor-pointer hover:bg-[#019dcf] transition"
+            disabled={isLoading}
+            className={`px-6 py-3 text-white rounded-full font-medium cursor-pointer transition ${isLoading ? 'bg-gray-400' : 'bg-[#01B0E9] hover:bg-[#019dcf]'}`}
           >
-            Update
+            {isLoading ? "Updating..." : "Update"}
           </button>
         </div>
       </form>

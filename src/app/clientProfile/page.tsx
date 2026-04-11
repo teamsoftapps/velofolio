@@ -12,11 +12,14 @@ import { ImMagnet } from "react-icons/im";
 
 import ClientProfileCard from '../components/ClientProfileCard';
 import ProfileAccordionItem from '../components/ProfileAccordionItem';
+import AddButton from '../components/AddButton';
 import Link from 'next/link';
 import LeadForm from '../components/LeadFormModel';
 import AddJobModal from '../components/AddJobModal';
 import ClientForm from '../components/ClientFormModal';
 import DeleteModal from '../components/DeleteModal';
+import ExpandableSection from '../components/ExpandableSection';
+import JobCard from '../components/JobCard';
 import { toast } from 'react-toastify';
 
 import { useSearchParams } from 'next/navigation';
@@ -104,30 +107,52 @@ const ClientProfilePage = () => {
 
           {/* Accordion Area */}
           <div className='lg:col-span-8 xl:col-span-7 flex flex-col gap-6 animate-in fade-in slide-in-from-right-4 duration-700'>
-            <ProfileAccordionItem
+            <ExpandableSection
               title="Leads"
               icon={ImMagnet}
-              buttonLabel="Add Lead"
-              onAddClick={() => setIsLeadModalOpen(true)}
-            />
-            <ProfileAccordionItem
+              action={<AddButton title="Add Lead" setOpenForm={() => setIsLeadModalOpen(true)} />}
+              showToggle={false}
+            >
+              <div className='py-4'>
+                <p className='text-gray-500 text-[14px] italic'>No leads currently available for this client.</p>
+              </div>
+            </ExpandableSection>
+
+            <ExpandableSection
               title="Invoices & Payments"
               icon={FileText}
-              buttonLabel="Add Invoice"
-              onAddClick={() => router.push(`/addInvoice?clientId=${client.id}`)}
-            />
-            <ProfileAccordionItem
-              title="Jobs"
-              icon={Briefcase}
-              buttonLabel="Add Jobs"
-              onAddClick={() => setIsJobModalOpen(true)}
-            />
-            <ProfileAccordionItem
+              action={<AddButton title="Add Invoice" setOpenForm={() => router.push(`/addInvoice?clientId=${client.id}`)} />}
+              showToggle={false}
+            >
+              <div className='py-4'>
+                <p className='text-gray-500 text-[14px] italic'>No invoices or payment history found.</p>
+              </div>
+            </ExpandableSection>
+
+            <ExpandableSection 
+              title="Jobs" 
+              icon={Briefcase} 
+              defaultOpen={true} 
+              badgeCount={2}
+              action={<AddButton title="Add Job" setOpenForm={() => setIsJobModalOpen(true)} />}
+              showToggle={false}
+            >
+              <div className='flex gap-4 overflow-x-auto pb-4 pt-4'>
+                <JobCard />
+                <JobCard />
+              </div>
+            </ExpandableSection>
+
+            <ExpandableSection
               title="Mail"
               icon={Mail}
-              buttonLabel="Add Mail"
-              onAddClick={() => { }}
-            />
+              action={<AddButton title="Add Mail" setOpenForm={() => { }} />}
+              showToggle={false}
+            >
+              <div className='py-4'>
+                <p className='text-gray-500 text-[14px] italic'>Communication history will appear here.</p>
+              </div>
+            </ExpandableSection>
           </div>
         </div>
       </div>

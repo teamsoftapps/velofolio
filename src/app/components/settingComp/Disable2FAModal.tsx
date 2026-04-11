@@ -10,12 +10,12 @@ interface Disable2FAModalProps {
 
 }
 
-export default function Disable2FAModal({ isOpen, setIsOpen, onConfirm }: any){
+export default function Disable2FAModal({ isOpen, setIsOpen, onConfirm }: any) {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
- const handleConfirm = () => {
-    onConfirm && onConfirm(); 
+  const handleConfirm = () => {
+    onConfirm && onConfirm();
     setIsOpen(false);
   };
   if (!isOpen) return null;

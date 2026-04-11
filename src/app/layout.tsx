@@ -32,14 +32,14 @@ export default function RootLayout({
     <html lang='en'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ToastContainer />
-        <StoreProvider>
-          <HeroUIProvider>
-            <RouteGuard>
+        <HeroUIProvider>
+          <ToastContainer />
+          <RouteGuard>
+            <StoreProvider>
               {children}
-            </RouteGuard>
-          </HeroUIProvider>
-        </StoreProvider>
+            </StoreProvider>
+          </RouteGuard>
+        </HeroUIProvider>
       </body>
     </html>
   );

@@ -38,13 +38,33 @@ const LeadForm: React.FC<LeadFormProps> = ({
     notes: initialData.notes || '',
   });
 
+  const [errors, setErrors] = React.useState<Record<string, string>>({});
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Data limitation logic
+    if (name === 'phone') {
+      if (/[^0-9+\s\-()]/.test(value)) {
+        setErrors((prev) => ({ ...prev, phone: 'Only numbers and +, -, ( ), spaces are allowed' }));
+        setTimeout(() => setErrors((prev) => ({ ...prev, phone: '' })), 3000);
+      }
+      const filteredValue = value.replace(/[^0-9+\s\-()]/g, '');
+      setFormData((prev) => ({ ...prev, [name]: filteredValue }));
+    } else if (name === 'leadName') {
+      if (/[0-9]/.test(value)) {
+        setErrors((prev) => ({ ...prev, leadName: 'Numbers are not allowed in names' }));
+        setTimeout(() => setErrors((prev) => ({ ...prev, leadName: '' })), 3000);
+      }
+      const filteredValue = value.replace(/[0-9]/g, '');
+      setFormData((prev) => ({ ...prev, [name]: filteredValue }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -60,6 +80,7 @@ const LeadForm: React.FC<LeadFormProps> = ({
       status: '',
       notes: '',
     });
+    setErrors({});
     // setOpenForm(false);
   };
 
@@ -95,6 +116,7 @@ const LeadForm: React.FC<LeadFormProps> = ({
               placeholder='Enter lead name'
               className='mt-1 p-2 w-full border rounded-md' style={{ borderColor: colors.gray400, color: colors.gray800 }}
             />
+            {errors.leadName && <p className='text-xs text-red-500 mt-1'>{errors.leadName}</p>}
           </div>
 
           {/* Email */}
@@ -131,6 +153,7 @@ const LeadForm: React.FC<LeadFormProps> = ({
               placeholder='Enter contact number e.g. +123 456 7890'
               className='mt-1 p-2 w-full border rounded-md' style={{ borderColor: colors.gray400, color: colors.gray800 }}
             />
+            {errors.phone && <p className='text-xs text-red-500 mt-1'>{errors.phone} </p>}
           </div>
 
           {/* Lead Source & Priority */}
