@@ -12,12 +12,24 @@ import AddTeamMembersModal from './AddTeamMemberModal';
 const ProductionHeader = ({ 
   setOpenFilter, 
   searchQuery, 
-  setSearchQuery 
+  setSearchQuery,
+  sortBy,
+  setSortBy,
 }: { 
   setOpenFilter: (open: boolean) => void;
   searchQuery: string;
   setSearchQuery: (val: string) => void;
+  sortBy: any;
+  setSortBy: any;
 }) => {
+  const sortOptions = [
+    { id: 'event-asc', label: 'Event Name (A-Z)', value: 'title', direction: 'asc' },
+    { id: 'event-desc', label: 'Event Name (Z-A)', value: 'title', direction: 'desc' },
+    { id: 'date-asc', label: 'Event Date (Oldest)', value: 'date', direction: 'asc' },
+    { id: 'date-desc', label: 'Event Date (Newest)', value: 'date', direction: 'desc' },
+    { id: 'label-asc', label: 'Client Name (A-Z)', value: 'label', direction: 'asc' },
+    { id: 'label-desc', label: 'Client Name (Z-A)', value: 'label', direction: 'desc' },
+  ];
   const [isOpen, setIsOpen] = useState(false);
   const [boardMembers, setBoardMembers] = useState<any[]>([]);
 
@@ -43,7 +55,7 @@ const ProductionHeader = ({
         <div className="w-full sm:w-1/3 flex flex-row justify-between sm:justify-end items-center gap-2">
 
   
-          <SortButton />
+          <SortButton sortBy={sortBy} setSortBy={setSortBy} options={sortOptions} />
         
 
           <FilterButton setOpenFilter={setOpenFilter} />

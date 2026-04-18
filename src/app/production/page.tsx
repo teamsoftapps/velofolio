@@ -27,6 +27,8 @@ import { colors } from '@/utils/colors';
 import {
   SortableContext,
   verticalListSortingStrategy,
+  horizontalListSortingStrategy,
+  rectSortingStrategy,
   sortableKeyboardCoordinates,
   useSortable,
   arrayMove,
@@ -40,9 +42,11 @@ import { LiaComment } from 'react-icons/lia';
 import Image from 'next/image';
 import { FaPenClip } from 'react-icons/fa6';
 import EditTeamModal from '../components/EditTeam';
-import { AiOutlineSearch as Search, AiOutlineClose as X } from 'react-icons/ai';
+import { AiOutlineSearch as Search, AiOutlineClose as X, AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
+import { TbZoomReset } from 'react-icons/tb';
 import FilterModal from '../components/FilterModal';
 import { getItemDate } from '@/utils/TableUtils';
+import { Layout, MousePointer2, Plus, ListPlus, Kanban, TextSelect, ClipboardList } from 'lucide-react';
 
 // --- Types ---
 interface Card {
@@ -61,6 +65,7 @@ interface List {
   id: string;
   title: string;
   cards: Card[];
+  color?: string;
 }
 
 interface InitialData {
@@ -74,6 +79,7 @@ const initialData: InitialData = {
     pending: {
       id: 'pending',
       title: 'Pending',
+      color: '#00A4DD',
       cards: [
         {
           id: 'card-1',
@@ -92,6 +98,7 @@ const initialData: InitialData = {
     'in-progress': {
       id: 'in-progress',
       title: 'In Progress',
+      color: '#FFC700',
       cards: [
         {
           id: 'card-2',
@@ -151,26 +158,43 @@ const SortableCard = memo(
     menuCardId,
     setMenuCardId,
     onUpdateCard,
+    columnColor,
   }: {
     card: Card;
     onClick?: () => void;
     menuCardId: string | null;
     setMenuCardId: React.Dispatch<React.SetStateAction<string | null>>;
     onUpdateCard?: (updated: Card) => void;
+    columnColor?: string;
   }) => {
-    const { attributes, listeners, setNodeRef, transform, transition } =
-      useSortable({ id: card.id });
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+      useSortable({
+        id: card.id,
+        disabled: !!menuCardId && menuCardId === card.id,
+        data: {
+          type: 'Card',
+          card,
+          columnColor
+        }
+      });
 
     const style: any = {
       transform: transform
         ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
         : undefined,
       transition,
-      zIndex: menuCardId === card.id ? 1000 : 1, // Elevate active card above overlay
-      position: menuCardId === card.id ? 'relative' : 'static', // Isolate active card
+      zIndex: menuCardId === card.id ? 2000 : (isDragging ? 1000 : 1),
+      position: menuCardId === card.id ? 'relative' : 'static',
     };
     const [activeButton, setActiveButton] = useState<string | null>(null);
     const [teamModal, setTeamModal] = useState(false);
+
+    useEffect(() => {
+      if (menuCardId !== card.id) {
+        setTeamModal(false);
+        setActiveButton(null);
+      }
+    }, [menuCardId, card.id]);
 
     const handleClick = (buttonName: any) => {
       setActiveButton(buttonName);
@@ -179,61 +203,34 @@ const SortableCard = memo(
     return (
       <div>
         <div
-          style={style}
           ref={setNodeRef}
           {...attributes}
           {...listeners}
           onClick={onClick}
-          className={`group bg-white rounded-lg shadow-md p-3 overflow-visible hover:outline-1 hover:outline-[#01B0E9]/70 cursor-grab active:cursor-grabbing hover:shadow-lg transition-all duration-200 border border-gray-200 ${menuCardId === card.id ? 'z-[1000]' : ''
-            }`}>
+          className={`group bg-white rounded-lg shadow-md p-3 overflow-visible transition-all duration-200 border cursor-grab active:cursor-grabbing ${isDragging
+            ? 'opacity-40'
+            : 'border-gray-200 hover:shadow-lg'
+            } ${menuCardId === card.id ? 'ring-2 ring-[#01B0E9] ring-offset-2 !z-[2000]' : ''
+            }`}
+          style={{
+            ...style,
+            borderColor: isDragging ? columnColor : undefined,
+            backgroundColor: isDragging ? `${columnColor}0D` : undefined,
+            outlineColor: !isDragging ? `${columnColor}66` : undefined,
+          }}
+        >
           {/* Menu Content */}
+          {/* Quick Edit Side Menu */}
           {menuCardId === card.id && (
             <div
-              className='flex gap-1 text-left flex-col z-100000 mb-3   fixed sm:absolute   right-10 w-[200px] h-[190px] top-36 bg-white sm:bg-transparent sm:-right-[250px] sm:top-20 sm:w-[250px]  rounded-md p-2  '
+              className='flex gap-2 text-left flex-col absolute left-[calc(100%+12px)] top-0 w-max z-[3000]'
               onClick={(e) => e.stopPropagation()}>
-              <button
-                className={`p-2 rounded-md cursor-pointer w-28 text-left ${activeButton === 'Open Card'
-                  ? 'text-white'
-                  : 'bg-white text-black hover:bg-gray-100'
-                  }`}
-                style={activeButton === 'Open Card' ? { backgroundColor: colors.primaryHover } : {}}
-                onClick={onClick}>
-                Open Card
-              </button>
-
-              <button
-                className={`p-2 rounded-md cursor-pointer w-full text-left relative ${activeButton === 'Change Members'
-                  ? 'text-white'
-                  : 'bg-white text-black hover:bg-gray-100'
-                  }`}
-                style={activeButton === 'Change Members' ? { backgroundColor: colors.primaryHover } : {}}
-                onClick={() => {
-                  setActiveButton('Change Members')
-                  setTeamModal(true)
-                }}>
-                Change Members
-              </button>
-              {teamModal && (
-                <div
-                  className="absolute top-24 sm:top-24 -left-2 sm:-left-40 ml-2 z-[2000] h-[400px] w-54 sm:w-80"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <EditTeamModal
-                    setTeamModal={setTeamModal}
-                    currentMembers={card.members}
-                    onUpdateMembers={(newMembers: string[]) => onUpdateCard && onUpdateCard({ ...card, members: newMembers })}
-                  />
-                </div>
-              )}
-
-              <div className="relative">
-                <button
-                  className={`p-2 rounded-md cursor-pointer w-32 text-left ${activeButton === 'Change Cover'
-                    ? 'text-white'
-                    : 'bg-white text-black hover:bg-gray-100'
-                    }`}
-                  style={activeButton === 'Change Cover' ? { backgroundColor: colors.primaryHover } : {}}
-                  onClick={() => {
+              {[
+                { label: 'Open Card', action: onClick },
+                { label: 'Change Members', action: () => { setActiveButton('Change Members'); setTeamModal(true); } },
+                {
+                  label: 'Change Cover',
+                  action: () => {
                     const input = document.createElement('input');
                     input.type = 'file';
                     input.accept = 'image/*';
@@ -245,37 +242,53 @@ const SortableCard = memo(
                       }
                     };
                     input.click();
-                  }}>
-                  Change Cover
-                </button>
-              </div>
-
-              <div className="relative">
-                <button
-                  className={`p-2 rounded-md cursor-pointer w-24 text-left ${activeButton === 'Edit Dates'
-                    ? 'text-white'
-                    : 'bg-white text-black hover:bg-gray-100'
-                    }`}
-                  style={activeButton === 'Edit Dates' ? { backgroundColor: colors.primaryHover } : {}}
-                  onClick={() => setActiveButton(activeButton === 'Edit Dates' ? null : 'Edit Dates')}>
-                  Edit Dates
-                </button>
-                {activeButton === 'Edit Dates' && (
-                  <div className="absolute top-10 left-0 bg-white p-2 border border-gray-200 rounded shadow-md z-[2000]" onClick={e => e.stopPropagation()}>
-                    <input
-                      type="date"
-                      className="border rounded p-1 text-sm bg-white"
-                      onChange={(e) => {
-                        if (onUpdateCard && e.target.value) {
-                          const formatted = new Date(e.target.value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
-                          onUpdateCard({ ...card, date: formatted });
-                          setMenuCardId(null);
-                        }
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
+                  }
+                },
+                { label: 'Edit Dates', action: () => setActiveButton(activeButton === 'Edit Dates' ? null : 'Edit Dates') }
+              ].map((btn, idx) => (
+                <div key={idx} className="relative group/btn">
+                  <button
+                    className={`p-2 px-4 rounded-xl cursor-pointer w-max text-left text-[14px] font-semibold shadow-lg transition-all duration-200 bg-white border-2 ${activeButton === btn.label
+                      ? 'text-[#01B0E9] border-[#01B0E9]'
+                      : 'text-gray-800 border-transparent hover:border-gray-100'
+                      }`}
+                    onClick={() => {
+                      btn.action?.();
+                    }}>
+                    {btn.label}
+                  </button>
+                  {btn.label === 'Edit Dates' && activeButton === 'Edit Dates' && (
+                    <div className="absolute top-11 right-0 bg-white p-3 border border-gray-200 rounded-xl shadow-xl z-[4000] w-full" onClick={e => e.stopPropagation()}>
+                      <p className="text-[10px] uppercase font-bold text-gray-400 mb-2">Select Date</p>
+                      <input
+                        type="date"
+                        className="w-full border rounded-lg p-2 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#01B0E9]/20"
+                        onChange={(e) => {
+                          if (onUpdateCard && e.target.value) {
+                            const formatted = new Date(e.target.value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+                            onUpdateCard({ ...card, date: formatted });
+                            setMenuCardId(null);
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
+                  {btn.label === 'Change Members' && teamModal && (
+                    <div
+                      className="absolute top-11 right-0 z-[4000] h-[400px] w-80 "
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <EditTeamModal
+                        setTeamModal={setTeamModal}
+                        currentMembers={card.members}
+                        onUpdateMembers={(newMembers: string[]) => {
+                          onUpdateCard && onUpdateCard({ ...card, members: newMembers });
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           )}
 
@@ -314,38 +327,38 @@ const SortableCard = memo(
           <p className='text-sm text-gray-600 mb-2 line-clamp-2'>
             {card.description}
           </p>
-          <div className='w-full flex items-center justify-between px-2'>
-            <div className='icons w-full flex items-center gap-2'>
-              <h3 className='flex items-center gap-2 text-gray-500'>
-                <GrAttachment className='w-6 h-6 text-gray-500' />
-                {card.attachments}
-              </h3>
-              <h3 className='flex items-center gap-2 text-gray-500'>
-                <LiaComment className='w-6 h-6 text-gray-500' />
-                {card.comments}
-              </h3>
+          <div className='w-full flex items-center justify-between px-2 pb-1'>
+            <div className='icons flex items-center gap-3'>
+              <div className='flex items-center gap-1.5 text-gray-400'>
+                <GrAttachment className='w-4 h-4' />
+                <span className="text-xs font-medium">{card.attachments}</span>
+              </div>
+              <div className='flex items-center gap-1.5 text-gray-400'>
+                <LiaComment className='w-5 h-5' />
+                <span className="text-xs font-medium">{card.comments}</span>
+              </div>
             </div>
-            <div className='images flex items-center relative'>
+            <div className='images flex items-center -space-x-2'>
               <Image
                 src='/teampic1.png'
                 alt='Team member 1'
-                width={30}
-                height={30}
-                className='w-8 h-8 rounded-full absolute right-5'
+                width={24}
+                height={24}
+                className='w-7 h-7 rounded-full border-2 border-white ring-1 ring-gray-100'
               />
               <Image
                 src='/teampic2.png'
                 alt='Team member 2'
-                width={30}
-                height={30}
-                className='w-8 h-8 rounded-full right-0'
+                width={24}
+                height={24}
+                className='w-7 h-7 rounded-full border-2 border-white ring-1 ring-gray-100'
               />
             </div>
           </div>
           {menuCardId === card.id && (
             <button
-              className='p-2 rounded-md text-white w-36 absolute -bottom-14 left-0'
-              style={{ backgroundColor: colors.primary }}
+              className='py-2.5 px-8 rounded-lg text-white font-bold text-sm shadow-xl absolute -bottom-[70px] left-0 hover:scale-105 active:scale-95 transition-all duration-200 z-[3000]'
+              style={{ backgroundColor: '#01B0E9' }}
               onClick={(e) => { e.stopPropagation(); setMenuCardId(null); }}
             >
               Save
@@ -365,6 +378,8 @@ const SortableList = memo(
     setMenuCardId,
     onAddCard,
     onUpdateCard,
+    onDeleteList,
+    onUpdateColor,
   }: {
     list: List;
     onCardClick: (card: Card) => void;
@@ -372,27 +387,41 @@ const SortableList = memo(
     setMenuCardId: React.Dispatch<React.SetStateAction<string | null>>;
     onAddCard: (listId: string, card: Card) => void;
     onUpdateCard?: (listId: string, card: Card) => void;
+    onDeleteList?: (listId: string) => void;
+    onUpdateColor?: (listId: string, color: string) => void;
   }) => {
-    const { setNodeRef, isOver } = useDroppable({ id: list.id });
+    const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
+      id: list.id,
+      data: {
+        type: 'Column',
+        list,
+      },
+    });
+
+    const style = {
+      transition,
+      transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
+    };
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(list.title);
     const [originalTitle, setOriginalTitle] = useState(list.title);
     const [titleError, setTitleError] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState(false);
     const inputRef = React.useRef<HTMLInputElement>(null);
     const cards = Array.isArray(list?.cards) ? list.cards : [];
 
     // Color picker state
-    const beautifulColors = [
-      colors.primaryHover, // Blue '#00A4DD'
-      colors.warningBright, // Yellow '#FFC700'
-      colors.kanbanGreen, // Green '#13CC95'
-      colors.kanbanRed, // Red/Orange '#FF5733'
-      colors.kanbanPurple, // Purple '#9B59B6'
-      colors.kanbanPink, // Pink '#E84393'
-    ];
-    const defaultColor = list.title === 'Pending' ? beautifulColors[0] : list.title === 'In Progress' ? beautifulColors[1] : beautifulColors[2];
-    const [color, setColor] = useState(defaultColor);
+    const color = list.color || '#13CC95';
     const [showColorPicker, setShowColorPicker] = useState(false);
+
+    const beautifulColors = [
+      '#00A4DD', // Blue
+      '#FFC700', // Yellow
+      '#13CC95', // Green
+      '#FF5733', // Red
+      '#9B59B6', // Purple
+      '#E84393', // Pink
+    ];
 
     // Add-card form state
     const [isAddingCard, setIsAddingCard] = useState(false);
@@ -455,9 +484,19 @@ const SortableList = memo(
     return (
       <div
         ref={setNodeRef}
-        className={`rounded-lg p-3  w-[90vw] sm:w-[300px] md:w-[370px] flex-shrink-0 relative flex flex-col shadow-sm border ${isOver ? 'border-blue-300 bg-blue-50' : 'border-gray-200'
-          }`}>
-        <div className='flex justify-between items-center mb-3'>
+        className={`group/list rounded-lg p-3 w-[90vw] sm:w-[300px] md:w-[370px] flex-shrink-0 relative flex flex-col shadow-sm border ${isDragging ? 'opacity-50' : 'border-gray-200 bg-gray-50'
+          }`}
+        style={{
+          ...style,
+          borderColor: isDragging ? color : undefined,
+          backgroundColor: isDragging ? `${color}0D` : undefined,
+        }}
+      >
+        <div
+          className='flex justify-between items-center mb-3 cursor-grab hover:bg-gray-200/50 rounded-md p-1 -m-1'
+          {...attributes}
+          {...listeners}
+        >
           <h3 className='font-semibold text-lg text-black flex items-center gap-6'>
             <div className="relative">
               <BiPlus
@@ -476,7 +515,7 @@ const SortableList = memo(
                       key={c}
                       className="w-5 h-5 rounded-full cursor-pointer hover:scale-125 transition-transform"
                       style={{ backgroundColor: c }}
-                      onClick={() => { setColor(c); setShowColorPicker(false); }}
+                      onClick={() => { onUpdateColor?.(list.id, c); setShowColorPicker(false); }}
                     />
                   ))}
                 </div>
@@ -544,15 +583,44 @@ const SortableList = memo(
               </span>
             )}
           </h3>
-          <span className='text-gray-500 text-sm'>{cards.length}</span>
+          <div className='flex items-center gap-2'>
+            <span className='text-gray-500 text-sm pointer-events-none'>{cards.length}</span>
+            {confirmDelete ? (
+              <div
+                className="flex items-center gap-1 bg-red-50 border border-red-200 rounded-md px-2 py-0.5"
+                onClick={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
+              >
+                <span className="text-xs text-red-600 font-medium">Delete?</span>
+                <button
+                  className="text-xs text-white bg-red-500 hover:bg-red-600 px-1.5 py-0.5 rounded cursor-pointer"
+                  onClick={(e) => { e.stopPropagation(); onDeleteList?.(list.id); }}
+                >Yes</button>
+                <button
+                  className="text-xs text-gray-600 hover:bg-gray-100 px-1.5 py-0.5 rounded cursor-pointer"
+                  onClick={(e) => { e.stopPropagation(); setConfirmDelete(false); }}
+                >No</button>
+              </div>
+            ) : (
+              <button
+                className="opacity-0 group-hover/list:opacity-100 transition-opacity p-1 rounded hover:bg-red-50 text-gray-400 hover:text-red-500 cursor-pointer"
+                title="Delete list"
+                onClick={(e) => { e.stopPropagation(); setConfirmDelete(true); }}
+                onPointerDown={(e) => e.stopPropagation()}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            )}
+          </div>
         </div>
 
         <SortableContext
           items={cards.map((c) => c?.id).filter(Boolean)}
           strategy={verticalListSortingStrategy}>
           <div
-            className={`flex-grow space-y-3 min-h-[200px] rounded-md p-2 ${isOver ? 'bg-blue-100' : 'bg-gray-50'
-              }`}>
+            className={`flex-grow space-y-3 min-h-[200px] rounded-md p-2 bg-transparent`}>
             {cards.map(
               (card) =>
                 card && (
@@ -567,8 +635,14 @@ const SortableList = memo(
                 )
             )}
             {cards.length === 0 && (
-              <div className="flex items-center justify-center p-4 text-gray-400 italic text-sm border-2 border-dashed border-gray-100 rounded-lg">
-                Empty Column
+              <div className="flex flex-col items-center justify-center p-8 bg-white/40 border-2 border-dashed border-gray-200 rounded-xl space-y-3 transition-all duration-300 hover:border-[#01B0E9]/30 hover:bg-white/60 group/empty">
+                <div className="p-3 bg-gray-50 rounded-full text-gray-400 group-hover/empty:text-[#01B0E9] group-hover/empty:bg-[#01B0E9]/5 transition-colors">
+                  <ClipboardList size={24} strokeWidth={1.5} />
+                </div>
+                <div className="text-center">
+                  <p className="text-sm font-medium text-gray-500">No cards yet</p>
+                  <p className="text-xs text-gray-400 mt-1">Drag cards here or add new ones</p>
+                </div>
               </div>
             )}
           </div>
@@ -715,7 +789,14 @@ const SortableList = memo(
 const ProductionPage: React.FC = () => {
   const [data, setData] = useState<InitialData>(initialData);
   const [activeCard, setActiveCard] = useState<Card | null>(null);
+  const [activeColumnColor, setActiveColumnColor] = useState<string | null>(null);
   const [modal, setModal] = useState<boolean | any>(false);
+
+  // --- Multi-touch (Pinch Zoom) State ---
+  const activePointersRef = useRef<Map<number, { x: number; y: number }>>(new Map());
+  const pinchStartDistRef = useRef<number>(0);
+  const pinchStartScaleRef = useRef<number>(1);
+  const pinchMidpointRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const scrollPosRef = useRef(0);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -731,6 +812,212 @@ const ProductionPage: React.FC = () => {
     fromDate: "",
     toDate: "",
   });
+
+  const [sortBy, setSortBy] = useState({ value: 'date', direction: 'asc' as 'asc' | 'desc' });
+
+  // --- Canvas Zoom & Pan State ---
+  const [targetScale, setTargetScale] = useState(1);
+  const [scale, setScale] = useState(1);
+  const [isPanning, setIsPanning] = useState(false);
+  const [panX, setPanX] = useState(0);
+  const [panY, setPanY] = useState(0);
+  const panXRef = useRef(0);
+  const panYRef = useRef(0);
+  const zoomContainerRef = useRef<HTMLDivElement | null>(null);
+  const panStartRef = useRef({ x: 0, y: 0, startPanX: 0, startPanY: 0 });
+  const targetScaleRef = useRef(1);
+  const isSpaceDownRef = useRef(false);
+  const [isSpaceDown, setIsSpaceDown] = useState(false);
+
+  // Sync targetScaleRef with state
+  useEffect(() => { targetScaleRef.current = targetScale; }, [targetScale]);
+
+  // Smooth inertia: animate scale toward targetScale
+  useEffect(() => {
+    let frame: number;
+    const animate = () => {
+      setScale((prev) => {
+        const diff = targetScaleRef.current - prev;
+        if (Math.abs(diff) < 0.001) return targetScaleRef.current;
+        return prev + diff * 0.12;
+      });
+      frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  // Block browser zoom + handle Ctrl+Wheel canvas zoom (cursor-focused)
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      if (!e.ctrlKey && !e.metaKey) return;
+      e.preventDefault();
+
+      const container = zoomContainerRef.current;
+      if (!container) return;
+
+      const zoomIntensity = 0.0005;
+      const delta = -e.deltaY * zoomIntensity;
+      const prevTarget = targetScaleRef.current;
+      const newScale = Math.min(Math.max(0.2, prevTarget + delta), 2.5);
+      if (Math.abs(newScale - prevTarget) < 0.0005) return;
+
+      // Adjust pan so zoom stays focused on cursor position
+      const rect = container.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      const cx = (mouseX - panXRef.current) / prevTarget;
+      const cy = (mouseY - panYRef.current) / prevTarget;
+      const newPanX = mouseX - cx * newScale;
+      const newPanY = mouseY - cy * newScale;
+
+      panXRef.current = newPanX;
+      panYRef.current = newPanY;
+      setPanX(newPanX);
+      setPanY(newPanY);
+      targetScaleRef.current = newScale;
+      setTargetScale(newScale);
+    };
+
+    const preventGesture = (e: Event) => e.preventDefault();
+    const preventKeyZoom = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && ['=', '-', '+'].includes(e.key)) e.preventDefault();
+    };
+
+    document.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+    document.addEventListener('gesturestart', preventGesture, { passive: false, capture: true });
+    document.addEventListener('gesturechange', preventGesture, { passive: false, capture: true });
+    document.addEventListener('keydown', preventKeyZoom, { passive: false, capture: true });
+    return () => {
+      document.removeEventListener('wheel', handleWheel, { capture: true } as EventListenerOptions);
+      document.removeEventListener('gesturestart', preventGesture, { capture: true } as EventListenerOptions);
+      document.removeEventListener('gesturechange', preventGesture, { capture: true } as EventListenerOptions);
+      document.removeEventListener('keydown', preventKeyZoom, { capture: true } as EventListenerOptions);
+    };
+  }, []);
+
+  // Spacebar hand tool (Figma-style)
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space' && !e.repeat) {
+        e.preventDefault();
+        isSpaceDownRef.current = true;
+        setIsSpaceDown(true);
+      }
+    };
+    const onKeyUp = (e: KeyboardEvent) => {
+      if (e.code === 'Space') {
+        isSpaceDownRef.current = false;
+        setIsSpaceDown(false);
+        setIsPanning(false);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown, { capture: true });
+    window.addEventListener('keyup', onKeyUp);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown, { capture: true });
+      window.removeEventListener('keyup', onKeyUp);
+    };
+  }, []);
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    activePointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    // Pinch detection
+    if (activePointersRef.current.size === 2) {
+      const pts = Array.from(activePointersRef.current.values());
+      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      pinchStartDistRef.current = dist;
+      pinchStartScaleRef.current = targetScaleRef.current;
+
+      const container = zoomContainerRef.current;
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        pinchMidpointRef.current = {
+          x: (pts[0].x + pts[1].x) / 2 - rect.left,
+          y: (pts[0].y + pts[1].y) / 2 - rect.top,
+        };
+      }
+      setIsPanning(false); // Stop panning when pinching
+    } else if ((isSpaceDownRef.current && e.button === 0) || e.button === 1 || (isTouchDevice && activePointersRef.current.size === 1)) {
+      // Allow pan on touch devices even without space if it's the only pointer
+      // However, we must be careful not to trigger pan when trying to drag a card.
+      // For now, let's keep it restricted to space/middle-click OR single touch if we want.
+      // Let's stick to the user's specific request for pinch-to-zoom.
+
+      const isPanningButton = (isSpaceDownRef.current && e.button === 0) || e.button === 1;
+
+      if (isPanningButton) {
+        e.preventDefault();
+        setIsPanning(true);
+        panStartRef.current = {
+          x: e.clientX,
+          y: e.clientY,
+          startPanX: panXRef.current,
+          startPanY: panYRef.current,
+        };
+        (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+      }
+    }
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    activePointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (activePointersRef.current.size === 2) {
+      // Pinch to Zoom logic
+      const pts = Array.from(activePointersRef.current.values());
+      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+
+      if (pinchStartDistRef.current > 10) {
+        const zoomRatio = dist / pinchStartDistRef.current;
+        const newScale = Math.min(Math.max(0.2, pinchStartScaleRef.current * zoomRatio), 2.5);
+
+        // Use midpoint to keep zoom centered between fingers
+        const midX = pinchMidpointRef.current.x;
+        const midY = pinchMidpointRef.current.y;
+
+        const prevScale = targetScaleRef.current;
+        const cx = (midX - panXRef.current) / prevScale;
+        const cy = (midY - panYRef.current) / prevScale;
+
+        const newPanX = midX - cx * newScale;
+        const newPanY = midY - cy * newScale;
+
+        panXRef.current = newPanX;
+        panYRef.current = newPanY;
+        setPanX(newPanX);
+        setPanY(newPanY);
+        targetScaleRef.current = newScale;
+        setTargetScale(newScale);
+      }
+      return;
+    }
+
+    if (!isPanning) return;
+    e.preventDefault();
+    const newPanX = panStartRef.current.startPanX + (e.clientX - panStartRef.current.x);
+    const newPanY = panStartRef.current.startPanY + (e.clientY - panStartRef.current.y);
+    panXRef.current = newPanX;
+    panYRef.current = newPanY;
+    setPanX(newPanX);
+    setPanY(newPanY);
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    activePointersRef.current.delete(e.pointerId);
+
+    if (activePointersRef.current.size < 2) {
+      pinchStartDistRef.current = 0;
+    }
+
+    if (isPanning) {
+      setIsPanning(false);
+      try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch { }
+    }
+  };
+
+  // -------------------------
 
   useLayoutEffect(() => {
     if (scrollContainerRef.current) {
@@ -807,6 +1094,22 @@ const ProductionPage: React.FC = () => {
         return true;
       });
 
+      // --- Add Sorting Logic ---
+      filteredCards.sort((a, b) => {
+        const { value, direction } = sortBy;
+        let comparison = 0;
+
+        if (value === 'date') {
+          const dateA = new Date(a.date).getTime();
+          const dateB = new Date(b.date).getTime();
+          comparison = dateA - dateB;
+        } else if (value === 'title' || value === 'label') {
+          comparison = (a[value as 'title' | 'label'] || '').localeCompare(b[value as 'title' | 'label'] || '');
+        }
+
+        return direction === 'asc' ? comparison : -comparison;
+      });
+
       result.lists[listId] = { ...list, cards: filteredCards };
     });
 
@@ -829,8 +1132,26 @@ const ProductionPage: React.FC = () => {
     }));
   };
 
+  const deleteList = (listId: string) => {
+    setData((prevData) => {
+      const newLists = { ...prevData.lists };
+      delete newLists[listId];
+      return {
+        ...prevData,
+        lists: newLists,
+        listOrder: prevData.listOrder.filter((id) => id !== listId),
+      };
+    });
+  };
+
   const handleDragStart = (event: DragEndEvent) => {
-    const { active } = event;
+    const { active }: any = event;
+
+    // Check if a list is being dragged
+    if (data.listOrder.includes(active.id)) {
+      return;
+    }
+
     const sourceListId = Object.keys(data.lists).find((listId) =>
       data.lists[listId].cards.some((c) => c.id === active.id)
     );
@@ -838,15 +1159,32 @@ const ProductionPage: React.FC = () => {
       const card = data.lists[sourceListId].cards.find(
         (c) => c.id === active.id
       );
-      if (card) setActiveCard(card);
+      if (card) {
+        setActiveCard(card);
+        setActiveColumnColor(data.lists[sourceListId].color || '#13CC95');
+      }
     }
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over }: any = event;
-    if (active?.id === over?.id) return;
     setActiveCard(null);
     if (!over) return;
+    if (active.id === over.id) return;
+
+    // Handle column sort
+    if (data.listOrder.includes(active.id)) {
+      setData((prevData) => {
+        const oldIndex = prevData.listOrder.indexOf(active.id);
+        const newIndex = prevData.listOrder.indexOf(over.id);
+        if (oldIndex === -1 || newIndex === -1) return prevData;
+        return {
+          ...prevData,
+          listOrder: arrayMove(prevData.listOrder, oldIndex, newIndex)
+        };
+      });
+      return;
+    }
 
     let sourceListId: string | null = null;
     let destinationListId: string | null = null;
@@ -953,66 +1291,174 @@ const ProductionPage: React.FC = () => {
     }));
   };
 
+  const updateListColor = (listId: string, color: string) => {
+    setData((prev) => ({
+      ...prev,
+      lists: {
+        ...prev.lists,
+        [listId]: {
+          ...prev.lists[listId],
+          color,
+        },
+      },
+    }));
+  };
+
   return (
-    <div className='min-h-screen w-full flex flex-col bg-gray-100 overflow-hidden relative'>
+    <div className='h-screen w-full flex flex-col bg-gray-100 overflow-hidden relative' style={{ touchAction: 'none', overscrollBehavior: 'none' }}>
       <Navbar />
       <div
-        className={`w-full max-w-[1600px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 pt-6 sm:px-17 ${modal ? 'blur-sm' : ''
-          }`}>
+        className={`w-full max-w-[1800px] mx-auto mt-2 sm:mt-4 md:mt-6 px-4 pt-2 sm:px-17 flex flex-col flex-1 h-full overflow-hidden ${modal ? 'blur-sm' : ''
+          }`}
+        style={{ touchAction: 'none', overscrollBehavior: 'none' }}>
         <ProductionHeader
           setOpenFilter={setOpenFilter}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
         />
         <ClientOnly>
+          {/* Zoom Controls Overlay */}
+          <div className="absolute bottom-6 right-6 flex items-center gap-2 bg-white p-2 rounded-full shadow-lg z-[2000] border border-gray-200">
+            <button onClick={() => setTargetScale(s => Math.max(0.2, parseFloat((s - 0.1).toFixed(3))))} className="p-2 hover:bg-gray-100 rounded-full transition-colors" title="Zoom Out">
+              <AiOutlineZoomOut size={20} className="text-gray-600" />
+            </button>
+            <span className="text-sm font-medium text-gray-700 min-w-[3rem] text-center">
+              {Math.round(targetScale * 100)}%
+            </span>
+            <button onClick={() => setTargetScale(s => Math.min(2.5, parseFloat((s + 0.1).toFixed(3))))} className="p-2 hover:bg-gray-100 rounded-full transition-colors" title="Zoom In">
+              <AiOutlineZoomIn size={20} className="text-gray-600" />
+            </button>
+            <div className="w-px h-6 bg-gray-300 mx-1"></div>
+            <button onClick={() => {
+              setTargetScale(1);
+              targetScaleRef.current = 1;
+              setPanX(0);
+              setPanY(0);
+              panXRef.current = 0;
+              panYRef.current = 0;
+            }} className="p-2 hover:bg-gray-100 rounded-full transition-colors" title="Reset Zoom & Position">
+              <TbZoomReset size={20} className="text-gray-600" />
+            </button>
+          </div>
+
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}>
-            <div
-              ref={scrollContainerRef}
-              className={`flex sm:flex-row gap-5 lg:gap-7 lg:mx-0.5 py-6 overflow-x-auto overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent ${menuCardId ? 'min-h-[650px]' : ''}`}
-              style={{
-                WebkitOverflowScrolling: 'touch',
-                scrollBehavior: 'auto',
-                overscrollBehaviorX: 'contain',
-                touchAction: 'pan-x pan-y',
-              }}>
-              <SortableContext
-                items={filteredData.listOrder.filter((listId) => filteredData.lists[listId])}
-                strategy={verticalListSortingStrategy}>
-                {filteredData.listOrder
-                  .filter((listId) => filteredData.lists[listId])
-                  .map((listId) => (
-                    <SortableList
-                      key={listId}
-                      list={filteredData.lists[listId]}
-                      onCardClick={handleCardClick}
-                      menuCardId={menuCardId}
-                      setMenuCardId={setMenuCardId}
-                      onAddCard={addCard}
-                      onUpdateCard={updateCard}
-                    />
-                  ))}
-              </SortableContext>
 
+            <div
+              className={`w-full flex-1 overflow-hidden relative rounded-lg bg-gray-100/50`}
+            >
+              {/* Board Empty State - Moved outside panning container for true centering */}
+              {filteredData.listOrder.length === 0 && (
+                <div className="absolute inset-0 z-[1500] flex items-center justify-center pointer-events-none">
+                  <div className="flex flex-col items-center max-w-sm text-center p-8 animate-in fade-in zoom-in duration-500">
+                    <div className="relative mb-8">
+                      <div className="absolute inset-0 bg-[#01B0E9]/10 blur-3xl rounded-full scale-150" />
+                      <div className="relative bg-white p-6 rounded-3xl shadow-xl border border-gray-100">
+                        <Kanban size={64} strokeWidth={1} className="text-[#01B0E9]" />
+                      </div>
+                      <div className="absolute -bottom-2 -right-2 bg-white p-2 rounded-xl shadow-lg border border-gray-50">
+                        <Plus size={20} strokeWidth={2.5} className="text-[#13CC95]" />
+                      </div>
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-3 inter">Create your board</h2>
+                    <p className="text-gray-500 mb-8 leading-relaxed">
+                      Organize your production workflow by adding lists and cards. A fresh start for your next big project!
+                    </p>
+                    <button
+                      onClick={addList}
+                      className="pointer-events-auto flex items-center gap-2 px-6 py-3 bg-[#01B0E9] text-white rounded-full font-semibold shadow-lg shadow-[#01B0E9]/20 hover:bg-[#019cc7] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+                    >
+                      <ListPlus size={20} />
+                      Add your first list
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Outer Viewport – no scrollbars, Figma-style */}
               <div
-                className='flex-shrink-0 bg-white rounded-lg p-4 w-[90vw] sm:w-[300px] md:w-[370px] flex flex-col max-h-20 items-center justify-center text-gray-500 font-medium hover:bg-gray-50 cursor-pointer border-2 border-dashed border-gray-200'
-                onClick={addList}>
-                <h3 className='w-full flex items-center gap-5 text-black'>
-                  <BiPlus
-                    size={20}
-                    className='text-[#13CC95] bg-[#13CC95]/5 p-2 rounded-full w-9 text-2xl h-9'
-                  />
-                  Add another list
-                </h3>
+                ref={zoomContainerRef}
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerUp}
+                onPointerLeave={handlePointerUp}
+                className="flex-grow w-full overflow-hidden relative"
+                style={{
+                  touchAction: 'none',
+                  userSelect: isPanning ? 'none' : 'auto',
+                  cursor: isPanning ? 'grabbing' : isSpaceDown ? 'grab' : 'default',
+                }}
+              >
+                {/* Inner canvas: translate for pan + scale for zoom */}
+                <div
+                  ref={scrollContainerRef}
+                  className={`flex flex-nowrap items-start gap-5 lg:gap-7 lg:mx-0.5 py-6 origin-top-left${isPanning ? ' pointer-events-none' : ''}`}
+                  style={{
+                    transform: `translate(${panX}px, ${panY}px) scale(${scale})`,
+                    transformOrigin: '0 0',
+                    width: 'max-content',
+                    minWidth: '100vw',
+                    minHeight: '100vh',
+                    willChange: 'transform',
+                    paddingRight: '600px',
+                    paddingBottom: '800px',
+                  }}>
+                  <SortableContext
+                    items={filteredData.listOrder.filter((listId) => filteredData.lists[listId])}
+                    strategy={rectSortingStrategy}>
+                    {filteredData.listOrder
+                      .filter((listId) => filteredData.lists[listId])
+                      .map((listId) => (
+                        <SortableList
+                          key={listId}
+                          list={filteredData.lists[listId]}
+                          onCardClick={handleCardClick}
+                          menuCardId={menuCardId}
+                          setMenuCardId={setMenuCardId}
+                          onAddCard={addCard}
+                          onUpdateCard={updateCard}
+                          onDeleteList={deleteList}
+                          onUpdateColor={updateListColor}
+                        />
+                      ))}
+                  </SortableContext>
+                  {/* dimming overlay */}
+                  {menuCardId && (
+                    <div
+                      className='absolute inset-[-50000px] bg-black/40 z-[1500]'
+                      style={{ pointerEvents: 'auto' }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setMenuCardId(null);
+                      }}
+                    />
+                  )}
+
+                  <div
+                    className={`${filteredData.listOrder.length === 0 ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100'
+                      } flex-shrink-0 bg-white rounded-lg p-4 w-[90vw] sm:w-[300px] md:w-[370px] flex flex-col max-h-20 items-center justify-center text-gray-500 font-medium hover:bg-gray-50 cursor-pointer border-2 border-dashed border-gray-200 transition-all duration-500`}
+                    onClick={addList}>
+                    <h3 className='w-full flex items-center gap-5 text-black pointer-events-none'>
+                      <div className="p-2 rounded-full bg-[#13CC95]/10 text-[#13CC95]">
+                        <Plus size={20} strokeWidth={2.5} />
+                      </div>
+                      Add another list
+                    </h3>
+                  </div>
+                </div>
               </div>
             </div>
 
             <DragOverlay>
               {activeCard && (
-                <div className='bg-white rounded-lg shadow-md p-3 cursor-grabbing border border-gray-200 opacity-90'>
+                <div
+                  className='bg-white rounded-lg shadow-2xl p-3 cursor-grabbing scale-105 transition-transform duration-200'
+                >
                   {activeCard.image && (
                     <img
                       src={activeCard.image}
@@ -1041,14 +1487,7 @@ const ProductionPage: React.FC = () => {
         onApply={(newFilters) => setFilters(newFilters)}
       />
 
-      {menuCardId && (
-        <div
-          className='fixed inset-0 bg-black/30  bg-opacity-30 z-1'
-          onClick={() => {
-            setMenuCardId(null);
-          }}
-        />
-      )}
+      {/* Remove previous global overlay from here */}
 
       {modal && (
         <div className='fixed inset-0 z-50 flex items-center justify-center'>
@@ -1062,7 +1501,11 @@ const ProductionPage: React.FC = () => {
           />
         </div>
       )}
-      <h1 className='text-center mt-10 text-[#919191]'>Double Click the Card Title to Edit </h1>
+      <div className='pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 opacity-60'>
+        <h1 className='text-sm text-[#919191] font-medium inter bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full border border-gray-100 shadow-sm'>
+          Double Click the Card Title to Edit
+        </h1>
+      </div>
     </div>
   );
 };
