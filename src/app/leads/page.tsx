@@ -11,6 +11,7 @@ import OverviewChart from '../components/OverviewChart';
 import FilterModal from '../components/FilterModal';
 import LeadsDataRaw from '../../utils/Lead.json';
 import { filterData, sortData, applyAdvancedFilters, filterByTimeRange } from '../../utils/TableUtils';
+import generateChartData from '@/utils/ChartLogics';
 import RouteGuard from '../components/RouteGuard';
 import LeadForm from '../components/LeadFormModel';
 import { addLead, LeadData } from '@/firebase_Routes/routes';
@@ -81,15 +82,18 @@ export default function Page() {
   }, [tableData, searchedValue, sortBy, filters, timeRange]);
 
   const dynamicLeadsChart = useMemo(() => {
-    const subtitle = timeRange === "7 Days" ? "(This Week)" : (timeRange === "30 Days" || timeRange === "Mtd") ? "(This Month)" : "(This Year)";
+    const newLeads = advancedfilteredData.filter((lead: any) => lead.status?.toLowerCase() === 'new lead').length;
+    const activeLeads = advancedfilteredData.filter((lead: any) => lead.status?.toLowerCase() === 'active').length;
+    const convertedLeads = advancedfilteredData.filter((lead: any) => lead.status?.toLowerCase() === 'converted').length;
+    const lostLeads = advancedfilteredData.filter((lead: any) => lead.status?.toLowerCase() === 'inactive').length;
 
-    return [
-      { title: "New Leads", subtitle, count: 6, percentageChange: 15.01 },
-      { title: "Active Leads", subtitle, count: 6, percentageChange: 8.01 },
-      { title: "Converted Leads", subtitle, count: 0, percentageChange: 12.01 },
-      { title: "Lost Leads", subtitle, count: 0, percentageChange: 0.0 }
-    ];
-  }, [timeRange]);
+    return generateChartData([
+      { title: "New Leads", count: newLeads, percentageChange: 15.01, theme: "blue" },
+      { title: "Active Leads", count: activeLeads, percentageChange: 8.01, theme: "yellow" },
+      { title: "Converted Leads", count: convertedLeads, percentageChange: 12.01, theme: "green" },
+      { title: "Lost Leads", count: lostLeads, percentageChange: 0.0, theme: "gray" }
+    ], timeRange);
+  }, [advancedfilteredData]);
 
   return (
     <RouteGuard allowedRoles={['superadmin']}>

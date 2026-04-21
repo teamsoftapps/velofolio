@@ -112,7 +112,7 @@ const JobProfilePage = () => {
             href='/jobs'
             className='flex items-center mt-2 text-[#a3a3a3] hover:text-gray-900 text-sm sm:text-base md:text-base lg:text-sm font-medium mb-2 sm:mb-3 md:mb-4 transition-colors duration-200'
           >
-            Dashboard | Job Overview | {data?.jobDetails?.title} | Quotes
+            Dashboard | Job Overview | {data?.jobDetails?.title} | <span className="font-semibold text-black">Quotes</span>
           </Link>
         </div>
         {/*bottom Section 1 */}

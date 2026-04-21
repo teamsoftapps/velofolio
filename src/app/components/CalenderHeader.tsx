@@ -30,12 +30,12 @@ const OverviewHeader = () => {
 
       <div className='w-full sm:w-6/20 md:w-6/20 lg:block md:block lg:w-6/18 left  pt-2'>
         <h1 className='text-2xl mb-3 font-semibold'>Calendar Overview</h1>
-        <h3 className='text-gray-600 text-sm flex gap-2'>
+        <h3 className='text-[#8c8c8c] text-sm flex gap-2'>
           <Link href="/dashboard" className="hover:text-black">
             Dashboard
           </Link>
           <span>|</span>
-          <Link href="/calendar" className="hover:text-black">
+          <Link href="/calendar" className="font-semibold text-black">
             Calendar Overview
           </Link>
         </h3>

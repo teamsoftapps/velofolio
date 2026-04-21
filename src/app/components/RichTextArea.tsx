@@ -1,4 +1,3 @@
-// components/RichTextEditor.tsx
 'use client';
 
 import React from 'react';
@@ -8,7 +7,7 @@ import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
 import FontFamily from '@tiptap/extension-font-family';
-import {TextStyle} from '@tiptap/extension-text-style';
+import { TextStyle } from '@tiptap/extension-text-style';
 import Color from '@tiptap/extension-color';
 import FontSize from '@tiptap/extension-font-size';
 import BulletList from '@tiptap/extension-bullet-list';

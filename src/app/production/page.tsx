@@ -13,6 +13,9 @@ import React, {
 import {
   DndContext,
   closestCenter,
+  closestCorners,
+  rectIntersection,
+  pointerWithin,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -48,742 +51,21 @@ import FilterModal from '../components/FilterModal';
 import { getItemDate } from '@/utils/TableUtils';
 import { Layout, MousePointer2, Plus, ListPlus, Kanban, TextSelect, ClipboardList } from 'lucide-react';
 
-// --- Types ---
-interface Card {
-  id: string;
-  title: string;
-  label: string;
-  date: string;
-  description: string;
-  attachments: number;
-  comments: number;
-  members: string[];
-  image?: string;
-}
+import { Card, List, InitialData } from './types';
+import { initialData } from './data';
+import SortableCard from '@/app/components/productionComp/SortableCard';
+import SortableList from '@/app/components/productionComp/SortableList';
+import ClientOnly from '@/app/components/productionComp/ClientOnly';
 
-interface List {
-  id: string;
-  title: string;
-  cards: Card[];
-  color?: string;
-}
-
-interface InitialData {
-  lists: { [key: string]: List };
-  listOrder: string[];
-}
-
-// --- Initial Data ---
-const initialData: InitialData = {
-  lists: {
-    pending: {
-      id: 'pending',
-      title: 'Pending',
-      color: '#00A4DD',
-      cards: [
-        {
-          id: 'card-1',
-          title: 'Pre-Wedding Shoot - Sarah & John',
-          label: 'SARAH JOHNSON',
-          date: 'OCT 7, 2025',
-          description:
-            'Highlight Reel (3 min), Full Edited Footage (2 hours)...',
-          attachments: 2,
-          comments: 4,
-          members: ['Sarah Johnson'],
-          image: '/images/prodCardImg.png',
-        },
-      ],
-    },
-    'in-progress': {
-      id: 'in-progress',
-      title: 'In Progress',
-      color: '#FFC700',
-      cards: [
-        {
-          id: 'card-2',
-          title: 'Wedding Day - Emma & Liam',
-          label: 'PRIYA SHARMA',
-          date: 'OCT 5, 2025',
-          description:
-            'Full Edited Video (3 hours), Social Media Teasers (3 clips)',
-          attachments: 4,
-          comments: 5,
-          members: ['Mike Chen'],
-          image: '/images/prodCardImg.png',
-        },
-      ],
-    },
-    completed: {
-      id: 'completed',
-      title: 'Completed',
-      cards: [
-        {
-          id: 'card-3',
-          title: 'Proposal Shoot - Michael & Lisa',
-          label: 'MICHAEL JOHNSON',
-          date: 'OCT 1, 2025',
-          description: 'Highlight Reel (2 min), Full Edited Footage (45 min)',
-          attachments: 6,
-          comments: 10,
-          members: ['Mike Chen', 'Anna David'],
-        },
-      ],
-    },
-  },
-  listOrder: ['pending', 'in-progress', 'completed'],
+// --- Custom Modifiers ---
+const snapCenterToCursor = ({ transform, activeNodeRect, initialCursorOffset }: any) => {
+  if (!activeNodeRect || !initialCursorOffset) return transform;
+  return {
+    ...transform,
+    x: transform.x + initialCursorOffset.x - activeNodeRect.width / 2,
+    y: transform.y + initialCursorOffset.y - activeNodeRect.height / 2,
+  };
 };
-
-// --- ClientOnly Component ---
-const ClientOnly: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return <div className='w-full h-[200px] bg-gray-100 animate-pulse' />;
-  }
-
-  return <>{children}</>;
-};
-
-// --- Sortable Card ---
-
-const SortableCard = memo(
-  ({
-    card,
-    onClick,
-    menuCardId,
-    setMenuCardId,
-    onUpdateCard,
-    columnColor,
-  }: {
-    card: Card;
-    onClick?: () => void;
-    menuCardId: string | null;
-    setMenuCardId: React.Dispatch<React.SetStateAction<string | null>>;
-    onUpdateCard?: (updated: Card) => void;
-    columnColor?: string;
-  }) => {
-    const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-      useSortable({
-        id: card.id,
-        disabled: !!menuCardId && menuCardId === card.id,
-        data: {
-          type: 'Card',
-          card,
-          columnColor
-        }
-      });
-
-    const style: any = {
-      transform: transform
-        ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-        : undefined,
-      transition,
-      zIndex: menuCardId === card.id ? 2000 : (isDragging ? 1000 : 1),
-      position: menuCardId === card.id ? 'relative' : 'static',
-    };
-    const [activeButton, setActiveButton] = useState<string | null>(null);
-    const [teamModal, setTeamModal] = useState(false);
-
-    useEffect(() => {
-      if (menuCardId !== card.id) {
-        setTeamModal(false);
-        setActiveButton(null);
-      }
-    }, [menuCardId, card.id]);
-
-    const handleClick = (buttonName: any) => {
-      setActiveButton(buttonName);
-    };
-
-    return (
-      <div>
-        <div
-          ref={setNodeRef}
-          {...attributes}
-          {...listeners}
-          onClick={onClick}
-          className={`group bg-white rounded-lg shadow-md p-3 overflow-visible transition-all duration-200 border cursor-grab active:cursor-grabbing ${isDragging
-            ? 'opacity-40'
-            : 'border-gray-200 hover:shadow-lg'
-            } ${menuCardId === card.id ? 'ring-2 ring-[#01B0E9] ring-offset-2 !z-[2000]' : ''
-            }`}
-          style={{
-            ...style,
-            borderColor: isDragging ? columnColor : undefined,
-            backgroundColor: isDragging ? `${columnColor}0D` : undefined,
-            outlineColor: !isDragging ? `${columnColor}66` : undefined,
-          }}
-        >
-          {/* Menu Content */}
-          {/* Quick Edit Side Menu */}
-          {menuCardId === card.id && (
-            <div
-              className='flex gap-2 text-left flex-col absolute left-[calc(100%+12px)] top-0 w-max z-[3000]'
-              onClick={(e) => e.stopPropagation()}>
-              {[
-                { label: 'Open Card', action: onClick },
-                { label: 'Change Members', action: () => { setActiveButton('Change Members'); setTeamModal(true); } },
-                {
-                  label: 'Change Cover',
-                  action: () => {
-                    const input = document.createElement('input');
-                    input.type = 'file';
-                    input.accept = 'image/*';
-                    input.onchange = (e: any) => {
-                      const file = e.target.files[0];
-                      if (file && onUpdateCard) {
-                        onUpdateCard({ ...card, image: URL.createObjectURL(file) });
-                        setMenuCardId(null);
-                      }
-                    };
-                    input.click();
-                  }
-                },
-                { label: 'Edit Dates', action: () => setActiveButton(activeButton === 'Edit Dates' ? null : 'Edit Dates') }
-              ].map((btn, idx) => (
-                <div key={idx} className="relative group/btn">
-                  <button
-                    className={`p-2 px-4 rounded-xl cursor-pointer w-max text-left text-[14px] font-semibold shadow-lg transition-all duration-200 bg-white border-2 ${activeButton === btn.label
-                      ? 'text-[#01B0E9] border-[#01B0E9]'
-                      : 'text-gray-800 border-transparent hover:border-gray-100'
-                      }`}
-                    onClick={() => {
-                      btn.action?.();
-                    }}>
-                    {btn.label}
-                  </button>
-                  {btn.label === 'Edit Dates' && activeButton === 'Edit Dates' && (
-                    <div className="absolute top-11 right-0 bg-white p-3 border border-gray-200 rounded-xl shadow-xl z-[4000] w-full" onClick={e => e.stopPropagation()}>
-                      <p className="text-[10px] uppercase font-bold text-gray-400 mb-2">Select Date</p>
-                      <input
-                        type="date"
-                        className="w-full border rounded-lg p-2 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#01B0E9]/20"
-                        onChange={(e) => {
-                          if (onUpdateCard && e.target.value) {
-                            const formatted = new Date(e.target.value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
-                            onUpdateCard({ ...card, date: formatted });
-                            setMenuCardId(null);
-                          }
-                        }}
-                      />
-                    </div>
-                  )}
-                  {btn.label === 'Change Members' && teamModal && (
-                    <div
-                      className="absolute top-11 right-0 z-[4000] h-[400px] w-80 "
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <EditTeamModal
-                        setTeamModal={setTeamModal}
-                        currentMembers={card.members}
-                        onUpdateMembers={(newMembers: string[]) => {
-                          onUpdateCard && onUpdateCard({ ...card, members: newMembers });
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Card Content */}
-          <div className='w-full relative'>
-            {card.image && (
-              <img
-                src={card.image}
-                alt={card.title}
-                className='w-full h-32 object-cover rounded-md mb-2'
-              />
-            )}
-            <BiPencil
-              className='absolute top-1 right-2 w-7 h-7 text-black/75 rounded-full p-1 bg-white opacity-25 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200 cursor-pointer'
-              onClick={(e) => {
-                e.stopPropagation();
-                console.log('Edit pencil clicked for', card.title);
-                setTeamModal(false);
-                setMenuCardId(card.id);
-                setActiveButton(null);
-
-              }}
-            />
-          </div>
-          <h4 className='font-bold text-base mb-1 text-black truncate'>
-            {card.title}
-          </h4>
-          <div className='flex items-center justify-between my-2 w-full'>
-            <span className='text-xs sm:text-sm rounded-full px-1 py-0.5' style={{ color: colors.primary, backgroundColor: `${colors.primary}26` }}>
-              {card.label}
-            </span>
-            <span className='text-[#D66C55] text-xs sm:text-sm bg-[#D66C55]/15 rounded-full px-1  py-0.5'>
-              {card.date}
-            </span>
-          </div>
-          <p className='text-sm text-gray-600 mb-2 line-clamp-2'>
-            {card.description}
-          </p>
-          <div className='w-full flex items-center justify-between px-2 pb-1'>
-            <div className='icons flex items-center gap-3'>
-              <div className='flex items-center gap-1.5 text-gray-400'>
-                <GrAttachment className='w-4 h-4' />
-                <span className="text-xs font-medium">{card.attachments}</span>
-              </div>
-              <div className='flex items-center gap-1.5 text-gray-400'>
-                <LiaComment className='w-5 h-5' />
-                <span className="text-xs font-medium">{card.comments}</span>
-              </div>
-            </div>
-            <div className='images flex items-center -space-x-2'>
-              <Image
-                src='/teampic1.png'
-                alt='Team member 1'
-                width={24}
-                height={24}
-                className='w-7 h-7 rounded-full border-2 border-white ring-1 ring-gray-100'
-              />
-              <Image
-                src='/teampic2.png'
-                alt='Team member 2'
-                width={24}
-                height={24}
-                className='w-7 h-7 rounded-full border-2 border-white ring-1 ring-gray-100'
-              />
-            </div>
-          </div>
-          {menuCardId === card.id && (
-            <button
-              className='py-2.5 px-8 rounded-lg text-white font-bold text-sm shadow-xl absolute -bottom-[70px] left-0 hover:scale-105 active:scale-95 transition-all duration-200 z-[3000]'
-              style={{ backgroundColor: '#01B0E9' }}
-              onClick={(e) => { e.stopPropagation(); setMenuCardId(null); }}
-            >
-              Save
-            </button>
-          )}
-        </div>
-      </div>
-    );
-  }
-);
-// --- Sortable List ---
-const SortableList = memo(
-  ({
-    list,
-    onCardClick,
-    menuCardId,
-    setMenuCardId,
-    onAddCard,
-    onUpdateCard,
-    onDeleteList,
-    onUpdateColor,
-  }: {
-    list: List;
-    onCardClick: (card: Card) => void;
-    menuCardId: string | null;
-    setMenuCardId: React.Dispatch<React.SetStateAction<string | null>>;
-    onAddCard: (listId: string, card: Card) => void;
-    onUpdateCard?: (listId: string, card: Card) => void;
-    onDeleteList?: (listId: string) => void;
-    onUpdateColor?: (listId: string, color: string) => void;
-  }) => {
-    const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
-      id: list.id,
-      data: {
-        type: 'Column',
-        list,
-      },
-    });
-
-    const style = {
-      transition,
-      transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
-    };
-    const [isEditing, setIsEditing] = useState(false);
-    const [title, setTitle] = useState(list.title);
-    const [originalTitle, setOriginalTitle] = useState(list.title);
-    const [titleError, setTitleError] = useState(false);
-    const [confirmDelete, setConfirmDelete] = useState(false);
-    const inputRef = React.useRef<HTMLInputElement>(null);
-    const cards = Array.isArray(list?.cards) ? list.cards : [];
-
-    // Color picker state
-    const color = list.color || '#13CC95';
-    const [showColorPicker, setShowColorPicker] = useState(false);
-
-    const beautifulColors = [
-      '#00A4DD', // Blue
-      '#FFC700', // Yellow
-      '#13CC95', // Green
-      '#FF5733', // Red
-      '#9B59B6', // Purple
-      '#E84393', // Pink
-    ];
-
-    // Add-card form state
-    const [isAddingCard, setIsAddingCard] = useState(false);
-    const [newCardTitle, setNewCardTitle] = useState('');
-    const [newCardLabel, setNewCardLabel] = useState('');
-    const [newCardDate, setNewCardDate] = useState('');
-    const [newCardDesc, setNewCardDesc] = useState('');
-    const [newCardTitleError, setNewCardTitleError] = useState(false);
-    const [newCardImageFile, setNewCardImageFile] = useState<File | null>(null);
-    const [newCardImageUrl, setNewCardImageUrl] = useState<string | undefined>(undefined);
-    const addCardTitleRef = React.useRef<HTMLInputElement>(null);
-    const addCardImageRef = React.useRef<HTMLInputElement>(null);
-
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      // revoke old URL to avoid memory leaks
-      if (newCardImageUrl) URL.revokeObjectURL(newCardImageUrl);
-      setNewCardImageFile(file);
-      setNewCardImageUrl(URL.createObjectURL(file));
-    };
-
-    const removeImage = () => {
-      if (newCardImageUrl) URL.revokeObjectURL(newCardImageUrl);
-      setNewCardImageFile(null);
-      setNewCardImageUrl(undefined);
-      if (addCardImageRef.current) addCardImageRef.current.value = '';
-    };
-
-    const handleAddCard = () => {
-      if (!newCardTitle.trim()) {
-        setNewCardTitleError(true);
-        addCardTitleRef.current?.focus();
-        return;
-      }
-      const newCard: Card = {
-        id: `card-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-        title: newCardTitle.trim(),
-        label: newCardLabel.trim() || 'NEW CLIENT',
-        date: newCardDate
-          ? new Date(newCardDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()
-          : new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase(),
-        description: newCardDesc.trim() || 'No description provided.',
-        attachments: 0,
-        comments: 0,
-        members: [],
-        image: newCardImageUrl,
-      };
-      onAddCard(list.id, newCard);
-      setNewCardTitle('');
-      setNewCardLabel('');
-      setNewCardDate('');
-      setNewCardDesc('');
-      setNewCardImageFile(null);
-      setNewCardImageUrl(undefined);
-      setNewCardTitleError(false);
-      setIsAddingCard(false);
-    };
-
-    return (
-      <div
-        ref={setNodeRef}
-        className={`group/list rounded-lg p-3 w-[90vw] sm:w-[300px] md:w-[370px] flex-shrink-0 relative flex flex-col shadow-sm border ${isDragging ? 'opacity-50' : 'border-gray-200 bg-gray-50'
-          }`}
-        style={{
-          ...style,
-          borderColor: isDragging ? color : undefined,
-          backgroundColor: isDragging ? `${color}0D` : undefined,
-        }}
-      >
-        <div
-          className='flex justify-between items-center mb-3 cursor-grab hover:bg-gray-200/50 rounded-md p-1 -m-1'
-          {...attributes}
-          {...listeners}
-        >
-          <h3 className='font-semibold text-lg text-black flex items-center gap-6'>
-            <div className="relative">
-              <BiPlus
-                size={20}
-                className="p-2 rounded-full w-9 text-2xl h-9 cursor-pointer transition-colors duration-300"
-                style={{ color, backgroundColor: `${color}1A` }}
-                onClick={() => setShowColorPicker(!showColorPicker)}
-              />
-              {showColorPicker && (
-                <div
-                  className="absolute top-10 left-0 bg-white p-2 rounded-md shadow-lg border border-gray-100 flex gap-2 z-[3000]"
-                  onClick={e => e.stopPropagation()}
-                >
-                  {beautifulColors.map(c => (
-                    <div
-                      key={c}
-                      className="w-5 h-5 rounded-full cursor-pointer hover:scale-125 transition-transform"
-                      style={{ backgroundColor: c }}
-                      onClick={() => { onUpdateColor?.(list.id, c); setShowColorPicker(false); }}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-            {isEditing ? (
-              <div className="flex flex-col gap-1">
-                <input
-                  ref={inputRef}
-                  value={title}
-                  onChange={(e) => {
-                    setTitle(e.target.value);
-                    if (e.target.value.trim()) setTitleError(false);
-                  }}
-                  onBlur={() => {
-                    if (!title.trim()) {
-                      setTitleError(true);
-                      // Keep editing and refocus after blur
-                      setTimeout(() => inputRef.current?.focus(), 0);
-                      return;
-                    }
-                    setIsEditing(false);
-                    setTitleError(false);
-                    setOriginalTitle(title.trim());
-                    list.title = title.trim();
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      if (!title.trim()) {
-                        setTitleError(true);
-                        return;
-                      }
-                      setIsEditing(false);
-                      setTitleError(false);
-                      setOriginalTitle(title.trim());
-                      list.title = title.trim();
-                    } else if (e.key === 'Escape') {
-                      setTitle(originalTitle);
-                      setTitleError(false);
-                      setIsEditing(false);
-                    }
-                  }}
-                  autoFocus
-                  className={`border px-2 py-1 rounded text-sm w-36 focus:outline-none transition-colors ${titleError
-                    ? 'border-red-500 bg-red-50 focus:ring-1 focus:ring-red-400'
-                    : 'border-blue-400 focus:ring-1 focus:ring-blue-300'
-                    }`}
-                />
-                {titleError && (
-                  <span className="text-red-500 text-xs font-medium animate-pulse">
-                    ⚠ Title cannot be empty
-                  </span>
-                )}
-              </div>
-            ) : (
-              <span
-                onDoubleClick={() => {
-                  setOriginalTitle(title);
-                  setIsEditing(true);
-                }}
-                title="Double-click to edit"
-                className="cursor-text hover:underline hover:decoration-dashed"
-              >
-                {title}
-              </span>
-            )}
-          </h3>
-          <div className='flex items-center gap-2'>
-            <span className='text-gray-500 text-sm pointer-events-none'>{cards.length}</span>
-            {confirmDelete ? (
-              <div
-                className="flex items-center gap-1 bg-red-50 border border-red-200 rounded-md px-2 py-0.5"
-                onClick={(e) => e.stopPropagation()}
-                onPointerDown={(e) => e.stopPropagation()}
-              >
-                <span className="text-xs text-red-600 font-medium">Delete?</span>
-                <button
-                  className="text-xs text-white bg-red-500 hover:bg-red-600 px-1.5 py-0.5 rounded cursor-pointer"
-                  onClick={(e) => { e.stopPropagation(); onDeleteList?.(list.id); }}
-                >Yes</button>
-                <button
-                  className="text-xs text-gray-600 hover:bg-gray-100 px-1.5 py-0.5 rounded cursor-pointer"
-                  onClick={(e) => { e.stopPropagation(); setConfirmDelete(false); }}
-                >No</button>
-              </div>
-            ) : (
-              <button
-                className="opacity-0 group-hover/list:opacity-100 transition-opacity p-1 rounded hover:bg-red-50 text-gray-400 hover:text-red-500 cursor-pointer"
-                title="Delete list"
-                onClick={(e) => { e.stopPropagation(); setConfirmDelete(true); }}
-                onPointerDown={(e) => e.stopPropagation()}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
-            )}
-          </div>
-        </div>
-
-        <SortableContext
-          items={cards.map((c) => c?.id).filter(Boolean)}
-          strategy={verticalListSortingStrategy}>
-          <div
-            className={`flex-grow space-y-3 min-h-[200px] rounded-md p-2 bg-transparent`}>
-            {cards.map(
-              (card) =>
-                card && (
-                  <SortableCard
-                    key={card.id}
-                    card={card}
-                    onClick={() => onCardClick(card)}
-                    menuCardId={menuCardId}
-                    setMenuCardId={setMenuCardId}
-                    onUpdateCard={(updated) => onUpdateCard && onUpdateCard(list.id, updated)}
-                  />
-                )
-            )}
-            {cards.length === 0 && (
-              <div className="flex flex-col items-center justify-center p-8 bg-white/40 border-2 border-dashed border-gray-200 rounded-xl space-y-3 transition-all duration-300 hover:border-[#01B0E9]/30 hover:bg-white/60 group/empty">
-                <div className="p-3 bg-gray-50 rounded-full text-gray-400 group-hover/empty:text-[#01B0E9] group-hover/empty:bg-[#01B0E9]/5 transition-colors">
-                  <ClipboardList size={24} strokeWidth={1.5} />
-                </div>
-                <div className="text-center">
-                  <p className="text-sm font-medium text-gray-500">No cards yet</p>
-                  <p className="text-xs text-gray-400 mt-1">Drag cards here or add new ones</p>
-                </div>
-              </div>
-            )}
-          </div>
-        </SortableContext>
-
-        {isAddingCard ? (
-          <div
-            className="mt-3 bg-white rounded-lg shadow-sm border border-blue-300 p-3 flex flex-col gap-2"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Title - Required */}
-            <div>
-              <input
-                ref={addCardTitleRef}
-                type="text"
-                value={newCardTitle}
-                onChange={(e) => {
-                  setNewCardTitle(e.target.value);
-                  if (e.target.value.trim()) setNewCardTitleError(false);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') handleAddCard();
-                  if (e.key === 'Escape') {
-                    setIsAddingCard(false);
-                    setNewCardTitle('');
-                    setNewCardTitleError(false);
-                  }
-                }}
-                autoFocus
-                placeholder="Card title (required)"
-                className={`w-full border rounded-md px-2 py-1.5 text-sm font-semibold focus:outline-none transition-colors ${newCardTitleError
-                  ? 'border-red-500 bg-red-50 focus:ring-1 focus:ring-red-400'
-                  : 'border-gray-300 focus:border-blue-400 focus:ring-1 focus:ring-blue-200'
-                  }`}
-              />
-              {newCardTitleError && (
-                <p className="text-red-500 text-xs mt-0.5">⚠ Title is required</p>
-              )}
-            </div>
-
-            {/* Label / Client Name */}
-            <input
-              type="text"
-              value={newCardLabel}
-              onChange={(e) => setNewCardLabel(e.target.value)}
-              placeholder="Client name (e.g. SARAH JOHNSON)"
-              className="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200 transition-colors"
-            />
-
-            {/* Date */}
-            <input
-              type="date"
-              value={newCardDate}
-              onChange={(e) => setNewCardDate(e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm text-gray-600 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200 transition-colors"
-            />
-
-            {/* Description */}
-            <textarea
-              value={newCardDesc}
-              onChange={(e) => setNewCardDesc(e.target.value)}
-              placeholder="Description (optional)"
-              rows={2}
-              className="w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm resize-none focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200 transition-colors"
-            />
-            {/* Image Upload */}
-            <div>
-              <p className="text-xs text-gray-500 mb-1 font-medium">Cover Image (optional)</p>
-              {newCardImageUrl ? (
-                <div className="relative rounded-md overflow-hidden">
-                  <img
-                    src={newCardImageUrl}
-                    alt="Card cover preview"
-                    className="w-full h-28 object-cover rounded-md"
-                  />
-                  <button
-                    type="button"
-                    onClick={removeImage}
-                    className="absolute top-1 right-1 bg-black/60 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-black/80 transition-colors cursor-pointer"
-                    title="Remove image"
-                  >
-                    ✕
-                  </button>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => addCardImageRef.current?.click()}
-                  className="w-full h-20 border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center gap-1 text-gray-400 hover:border-blue-400 hover:text-blue-400 transition-colors cursor-pointer text-sm"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span>Upload cover image</span>
-                </button>
-              )}
-              <input
-                ref={addCardImageRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageUpload}
-              />
-            </div>
-
-            <div className="flex items-center gap-2 mt-1">
-              <button
-                onClick={handleAddCard}
-                className="px-3 py-1.5 text-white text-sm font-medium rounded-md transition-colors cursor-pointer"
-                style={{ backgroundColor: colors.primary }}
-              >
-                Add Card
-              </button>
-              <button
-                onClick={() => {
-                  setIsAddingCard(false);
-                  setNewCardTitle('');
-                  setNewCardLabel('');
-                  setNewCardDate('');
-                  setNewCardDesc('');
-                  removeImage();
-                  setNewCardTitleError(false);
-                }}
-                className="px-3 py-1.5 text-gray-500 text-sm font-medium rounded-md hover:bg-gray-100 transition-colors cursor-pointer"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        ) : (
-          <button
-            onClick={() => setIsAddingCard(true)}
-            className='w-full mt-3 text-center text-gray-500 py-2 border-t border-gray-200 hover:bg-gray-50 rounded-b-lg transition-colors'
-          >
-            + Add a card
-          </button>
-        )}
-      </div>
-    );
-  }
-);
 
 // --- Main Page ---
 const ProductionPage: React.FC = () => {
@@ -814,6 +96,7 @@ const ProductionPage: React.FC = () => {
   });
 
   const [sortBy, setSortBy] = useState({ value: 'date', direction: 'asc' as 'asc' | 'desc' });
+  const [sortActive, setSortActive] = useState(false);
 
   // --- Canvas Zoom & Pan State ---
   const [targetScale, setTargetScale] = useState(1);
@@ -896,7 +179,7 @@ const ProductionPage: React.FC = () => {
     };
   }, []);
 
-  // Spacebar hand tool (Figma-style)
+
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.code === 'Space' && !e.repeat) {
@@ -923,8 +206,10 @@ const ProductionPage: React.FC = () => {
   const handlePointerDown = (e: React.PointerEvent) => {
     activePointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
-    // Pinch detection
+
     if (activePointersRef.current.size === 2) {
+
+      setMenuCardId(null);
       const pts = Array.from(activePointersRef.current.values());
       const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
       pinchStartDistRef.current = dist;
@@ -940,15 +225,12 @@ const ProductionPage: React.FC = () => {
       }
       setIsPanning(false); // Stop panning when pinching
     } else if ((isSpaceDownRef.current && e.button === 0) || e.button === 1 || (isTouchDevice && activePointersRef.current.size === 1)) {
-      // Allow pan on touch devices even without space if it's the only pointer
-      // However, we must be careful not to trigger pan when trying to drag a card.
-      // For now, let's keep it restricted to space/middle-click OR single touch if we want.
-      // Let's stick to the user's specific request for pinch-to-zoom.
 
       const isPanningButton = (isSpaceDownRef.current && e.button === 0) || e.button === 1;
 
       if (isPanningButton) {
         e.preventDefault();
+        setMenuCardId(null);
         setIsPanning(true);
         panStartRef.current = {
           x: e.clientX,
@@ -973,7 +255,6 @@ const ProductionPage: React.FC = () => {
         const zoomRatio = dist / pinchStartDistRef.current;
         const newScale = Math.min(Math.max(0.2, pinchStartScaleRef.current * zoomRatio), 2.5);
 
-        // Use midpoint to keep zoom centered between fingers
         const midX = pinchMidpointRef.current.x;
         const midY = pinchMidpointRef.current.y;
 
@@ -1017,7 +298,6 @@ const ProductionPage: React.FC = () => {
     }
   };
 
-  // -------------------------
 
   useLayoutEffect(() => {
     if (scrollContainerRef.current) {
@@ -1069,16 +349,14 @@ const ProductionPage: React.FC = () => {
           if (!card.members.some(m => names.includes(m))) return false;
         }
 
-        // 4. Event Type filtering
         if (filters.eventType.length > 0) {
           if (!filters.eventType.some(t => card.title.toLowerCase().includes(t.toLowerCase()))) return false;
         }
 
-        // 5. Date Range Filtering
+
         if (filters.fromDate || filters.toDate) {
           const cardDate = new Date(card.date);
-          if (isNaN(cardDate.getTime())) return true; // Keep if date is unparsable
-
+          if (isNaN(cardDate.getTime())) return true;
           if (filters.fromDate) {
             const from = new Date(filters.fromDate);
             from.setHours(0, 0, 0, 0);
@@ -1094,21 +372,28 @@ const ProductionPage: React.FC = () => {
         return true;
       });
 
-      // --- Add Sorting Logic ---
-      filteredCards.sort((a, b) => {
-        const { value, direction } = sortBy;
-        let comparison = 0;
 
-        if (value === 'date') {
-          const dateA = new Date(a.date).getTime();
-          const dateB = new Date(b.date).getTime();
-          comparison = dateA - dateB;
-        } else if (value === 'title' || value === 'label') {
-          comparison = (a[value as 'title' | 'label'] || '').localeCompare(b[value as 'title' | 'label'] || '');
-        }
+      if (sortActive) {
+        filteredCards.sort((a, b) => {
+          const { value, direction } = sortBy;
+          let comparison = 0;
 
-        return direction === 'asc' ? comparison : -comparison;
-      });
+          if (value === 'date') {
+            const dateA = new Date(a.date).getTime();
+            const dateB = new Date(b.date).getTime();
+            const aValid = !isNaN(dateA);
+            const bValid = !isNaN(dateB);
+            if (!aValid && !bValid) comparison = 0;
+            else if (!aValid) comparison = 1;
+            else if (!bValid) comparison = -1;
+            else comparison = dateA - dateB;
+          } else if (value === 'title' || value === 'label') {
+            comparison = (a[value as 'title' | 'label'] || '').localeCompare(b[value as 'title' | 'label'] || '');
+          }
+
+          return direction === 'asc' ? comparison : -comparison;
+        });
+      }
 
       result.lists[listId] = { ...list, cards: filteredCards };
     });
@@ -1146,6 +431,7 @@ const ProductionPage: React.FC = () => {
 
   const handleDragStart = (event: DragEndEvent) => {
     const { active }: any = event;
+    setMenuCardId(null); // Clear any active quick-edit menu when dragging starts
 
     // Check if a list is being dragged
     if (data.listOrder.includes(active.id)) {
@@ -1171,6 +457,9 @@ const ProductionPage: React.FC = () => {
     setActiveCard(null);
     if (!over) return;
     if (active.id === over.id) return;
+
+    // Reset sort when user manually reorders
+    setSortActive(false);
 
     // Handle column sort
     if (data.listOrder.includes(active.id)) {
@@ -1317,6 +606,7 @@ const ProductionPage: React.FC = () => {
           setSearchQuery={setSearchQuery}
           sortBy={sortBy}
           setSortBy={setSortBy}
+          setSortActive={setSortActive}
         />
         <ClientOnly>
           {/* Zoom Controls Overlay */}
@@ -1345,7 +635,12 @@ const ProductionPage: React.FC = () => {
 
           <DndContext
             sensors={sensors}
-            collisionDetection={closestCenter}
+            collisionDetection={pointerWithin}
+            measuring={{
+              droppable: {
+                strategy: 1, // MeasuringStrategy.Always
+              },
+            }}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}>
 
@@ -1365,13 +660,13 @@ const ProductionPage: React.FC = () => {
                         <Plus size={20} strokeWidth={2.5} className="text-[#13CC95]" />
                       </div>
                     </div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-3 inter">Create your board</h2>
+                    <h2 className="text-2xl font-medium text-gray-900 mb-3 inter">Create your board</h2>
                     <p className="text-gray-500 mb-8 leading-relaxed">
                       Organize your production workflow by adding lists and cards. A fresh start for your next big project!
                     </p>
                     <button
                       onClick={addList}
-                      className="pointer-events-auto flex items-center gap-2 px-6 py-3 bg-[#01B0E9] text-white rounded-full font-semibold shadow-lg shadow-[#01B0E9]/20 hover:bg-[#019cc7] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+                      className="pointer-events-auto flex items-center gap-2 px-6 py-3 bg-[#01B0E9] text-white rounded-full font-medium shadow-lg shadow-[#01B0E9]/20 hover:bg-[#019cc7] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
                     >
                       <ListPlus size={20} />
                       Add your first list
@@ -1454,10 +749,18 @@ const ProductionPage: React.FC = () => {
               </div>
             </div>
 
-            <DragOverlay>
+            <DragOverlay dropAnimation={null} modifiers={[snapCenterToCursor]}>
               {activeCard && (
                 <div
-                  className='bg-white rounded-lg shadow-2xl p-3 cursor-grabbing scale-105 transition-transform duration-200'
+                  className='bg-white rounded-lg shadow-2xl p-3 cursor-grabbing transition-transform duration-200 overflow-visible'
+                  style={{
+                    transform: `scale(${Math.max(scale, 0.6) * 1.05})`,
+                    transformOrigin: 'center center',
+                    width: typeof window !== 'undefined' && window.innerWidth < 640 ? 'calc(90vw - 24px)' : (window.innerWidth < 768 ? '276px' : '346px'),
+                    borderColor: activeColumnColor ? activeColumnColor : undefined,
+                    borderWidth: '1px',
+                    boxSizing: 'border-box'
+                  }}
                 >
                   {activeCard.image && (
                     <img
@@ -1466,12 +769,48 @@ const ProductionPage: React.FC = () => {
                       className='w-full h-32 object-cover rounded-md mb-2'
                     />
                   )}
-                  <h4 className='font-bold text-base mb-1 text-black truncate'>
+                  <h4 className='font-medium text-base mb-1 text-black truncate'>
                     {activeCard.title}
                   </h4>
+                  <div className='flex items-center justify-between my-2 w-full'>
+                    <span className='text-xs sm:text-sm rounded-full px-1 py-0.5' style={{ color: colors.primary, backgroundColor: `${colors.primary}26` }}>
+                      {activeCard.label}
+                    </span>
+                    <span className='text-[#D66C55] text-xs sm:text-sm bg-[#D66C55]/15 rounded-full px-1  py-0.5'>
+                      {activeCard.date}
+                    </span>
+                  </div>
                   <p className='text-sm text-gray-600 mb-2 line-clamp-2'>
                     {activeCard.description}
                   </p>
+                  <div className='w-full flex items-center justify-between px-2 pb-1'>
+                    <div className='icons flex items-center gap-3'>
+                      <div className='flex items-center gap-1.5 text-gray-400'>
+                        <GrAttachment className='w-4 h-4' />
+                        <span className="text-xs font-medium">{activeCard.attachments}</span>
+                      </div>
+                      <div className='flex items-center gap-1.5 text-gray-400'>
+                        <LiaComment className='w-5 h-5' />
+                        <span className="text-xs font-medium">{activeCard.comments}</span>
+                      </div>
+                    </div>
+                    <div className='images flex items-center -space-x-2'>
+                      <Image
+                        src='/teampic1.png'
+                        alt='Team member 1'
+                        width={24}
+                        height={24}
+                        className='w-7 h-7 rounded-full border-2 border-white ring-1 ring-gray-100'
+                      />
+                      <Image
+                        src='/teampic2.png'
+                        alt='Team member 2'
+                        width={24}
+                        height={24}
+                        className='w-7 h-7 rounded-full border-2 border-white ring-1 ring-gray-100'
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
             </DragOverlay>

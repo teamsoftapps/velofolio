@@ -48,7 +48,7 @@ export default function SortModal({
 
   const handleApply = (option: SortOption) => {
     setSelected(option.id);
-    onSortChange(option); // pass the full object
+    onSortChange(option);
     setSortBy({ value: option.value, direction: option.direction });
     onClose();
   };
@@ -67,7 +67,6 @@ export default function SortModal({
 
 
 
-          {/* Options List */}
           <div className="p-6">
             <div className="space-y-1">
               {displayOptions.map((option) => (

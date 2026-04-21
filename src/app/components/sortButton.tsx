@@ -35,7 +35,7 @@ import React, { useState } from 'react';
 import SortModal from './SortModal';
 import { FaSort } from 'react-icons/fa';
 
-const SortButton = ({ sortBy, setSortBy, options }: any) => {
+const SortButton = ({ sortBy, setSortBy, options, setSortActive }: any) => {
   const [currentSort, setCurrentSort] = useState('added-oldest');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -47,13 +47,14 @@ const SortButton = ({ sortBy, setSortBy, options }: any) => {
   const handleSortChange = (option: any) => {
     setCurrentSort(option.id);
     setSortBy({ value: option.value, direction: option.direction });
+    if (setSortActive) setSortActive(true);
     setIsOpen(false);
   };
 
   return (
     <div className="relative">
       <button
-        className="flex items-center gap-1 h-10 px-3 bg-[#F4F4F5] w-24 rounded-md border"
+        className="flex items-center gap-1 h-10 px-3 bg-[#F4F4F5] w-24 rounded-md border border-gray-300"
         onClick={handleOpen}
       >
         <FaSort className="w-5 h-5 text-gray-700" />

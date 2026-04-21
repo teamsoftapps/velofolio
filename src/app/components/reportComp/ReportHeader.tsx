@@ -40,19 +40,16 @@ const ReportHeader = ({
 
   return (
     <div className="mb-6 px-2 lg:px-3 mt-15 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-      {/* Left: Title */}
       <div className="flex-1 sm:flex-initial md:text-left justify-start items-start">
         <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl">
           Reports Overview
         </h1>
-        <p className="mt-1 text-sm text-gray-600">
-          Dashboard | Reports Overview
+        <p className="mt-1 text-sm text-[#8c8c8c]">
+          Dashboard | <span className="font-semibold text-black">Reports Overview</span>
         </p>
       </div>
 
-      {/* Right: Controls */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 lg:w-auto md:justify-between flex-wrap">
-        {/* Time Range Buttons */}
         <div className="flex w-full overflow-x-auto sm:w-auto">
           {['7 Days', '30 Days', 'Mtd', 'Ytd'].map((range, index) => (
             <button
@@ -69,7 +66,6 @@ const ReportHeader = ({
           ))}
         </div>
 
-        {/* Date Range Select */}
         <div className="relative w-full sm:w-60">
           <button
             onClick={() => setOpenCalender(!openCalender)}
@@ -89,7 +85,6 @@ const ReportHeader = ({
           </div>
         </div>
 
-        {/* Export Button */}
         <div className="w-full sm:w-auto">
           <ReportButton
             title="Export Report"

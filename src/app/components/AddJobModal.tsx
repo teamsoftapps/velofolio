@@ -66,6 +66,23 @@ export default function AddJobModal({
 
     const [customDeliverable, setCustomDeliverable] = useState('');
     const [showTeamDropdown, setShowTeamDropdown] = useState(false);
+    const [errors, setErrors] = useState<Record<string, string>>({});
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+
+        if (name === 'jobName' || name === 'clientName') {
+            if (/[0-9]/.test(value)) {
+                const label = name === 'jobName' ? 'Job name' : 'Client name';
+                setErrors(prev => ({ ...prev, [name]: `${label} should not contain numbers` }));
+                setTimeout(() => setErrors(prev => ({ ...prev, [name]: '' })), 3000);
+            }
+            const filteredValue = value.replace(/[0-9]/g, '');
+            setFormData(prev => ({ ...prev, [name]: filteredValue }));
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        }
+    };
 
     const handleDeliverableToggle = (item: string) => {
         setFormData(prev => ({
@@ -137,13 +154,15 @@ export default function AddJobModal({
                                 </label>
                                 <input
                                     type="text"
+                                    name="jobName"
                                     required
                                     maxLength={100}
                                     placeholder="e.g., Wedding Ceremony"
                                     value={formData.jobName}
-                                    onChange={(e) => setFormData({ ...formData, jobName: e.target.value })}
+                                    onChange={handleChange}
                                     className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
                                 />
+                                {errors.jobName && <p className="text-xs text-red-500 mt-1">{errors.jobName}</p>}
                             </div>
                             <div>
                                 <label className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 block">
@@ -151,13 +170,15 @@ export default function AddJobModal({
                                 </label>
                                 <input
                                     type="text"
+                                    name="clientName"
                                     required
                                     maxLength={100}
                                     placeholder="e.g., Sarah & John"
                                     value={formData.clientName}
-                                    onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
+                                    onChange={handleChange}
                                     className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
                                 />
+                                {errors.clientName && <p className="text-xs text-red-500 mt-1">{errors.clientName}</p>}
                             </div>
                         </div>
 

@@ -1,4 +1,4 @@
-'use client'; // this must be at the top
+'use client';
 
 import React from 'react';
 import { Provider } from 'react-redux';

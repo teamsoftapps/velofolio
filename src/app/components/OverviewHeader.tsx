@@ -35,7 +35,6 @@ const TEAM_SORT_OPTIONS: SortOption[] = [
 
 interface OverviewHeaderProps {
   title: string;
-  // setSearchedData: (data: []) => void;
   searchedValue: string;
   setSearchedValue: React.Dispatch<React.SetStateAction<string>>;
   setOpenForm: (isOpen: boolean) => void;
@@ -47,6 +46,7 @@ interface OverviewHeaderProps {
   setTimeRange?: (range: string) => void;
   value?: DateValue;
   setValue?: (value: DateValue) => void;
+  onInviteClick?: () => void;
 }
 
 const OverviewHeader = ({
@@ -61,7 +61,8 @@ const OverviewHeader = ({
   timeRange,
   setTimeRange,
   value,
-  setValue
+  setValue,
+  onInviteClick,
 }: OverviewHeaderProps) => {
   const currentPath = usePathname();
   const [isSortOpen, setIsSortOpen] = useState(false);
@@ -97,11 +98,16 @@ const OverviewHeader = ({
 
             {pathSegments.map((segment, index) => {
               const href = "/" + pathSegments.slice(0, index + 1).join("/");
+              const isLast = index === pathSegments.length - 1;
 
               return (
                 <React.Fragment key={href}>
-                  <span>|</span>
-                  <Link href={href} className="hover:text-black">
+                  <span className="text-[#8c8c8c]">|</span>
+                  <Link
+                    href={href}
+                    className={`transition-colors ${isLast ? "font-semibold text-black" : "hover:text-black text-[#8c8c8c]"
+                      }`}
+                  >
                     {segment.charAt(0).toUpperCase() + segment.slice(1)} Overview
                   </Link>
                 </React.Fragment>
@@ -110,9 +116,8 @@ const OverviewHeader = ({
           </nav>
         </div>
 
-        {/* Right: Controls Bar */}
+
         <div className='flex flex-wrap items-center gap-3 lg:justify-end flex-1'>
-          {/* Search Bar */}
           <div className='relative flex-1 min-w-[280px] md:max-w-xs bg-white border border-[#E5E7EB] rounded-lg h-11 flex items-center px-4'>
             <input
               type='text'
@@ -124,7 +129,6 @@ const OverviewHeader = ({
             <GoSearch className='text-[#9CA3AF] text-lg ml-2' />
           </div>
 
-          {/* Time Filter Buttons */}
           {setTimeRange && (
             <div className='flex border border-[#E5E7EB] rounded-lg overflow-hidden bg-white h-11 flex-shrink-0'>
               {["7 Days", "30 Days", "Mtd", "Ytd", "All Data"].map((range, index) => (
@@ -141,7 +145,6 @@ const OverviewHeader = ({
             </div>
           )}
 
-          {/* Action Buttons: Sort, Filter, Add */}
           <div className='flex items-center gap-2 flex-wrap lg:flex-nowrap'>
             <div className="relative">
               <button
@@ -191,7 +194,7 @@ const OverviewHeader = ({
             )}
             {
               currentPath === '/team' && (
-                <InviteEmailButton onClick={() => setOpenForm(true)} />
+                <InviteEmailButton onClick={onInviteClick ?? (() => setOpenForm(true))} />
               )
             }
             {currentPath !== '/payments' && (

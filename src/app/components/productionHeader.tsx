@@ -15,12 +15,14 @@ const ProductionHeader = ({
   setSearchQuery,
   sortBy,
   setSortBy,
+  setSortActive,
 }: { 
   setOpenFilter: (open: boolean) => void;
   searchQuery: string;
   setSearchQuery: (val: string) => void;
   sortBy: any;
   setSortBy: any;
+  setSortActive: (active: boolean) => void;
 }) => {
   const sortOptions = [
     { id: 'event-asc', label: 'Event Name (A-Z)', value: 'title', direction: 'asc' },
@@ -55,7 +57,7 @@ const ProductionHeader = ({
         <div className="w-full sm:w-1/3 flex flex-row justify-between sm:justify-end items-center gap-2">
 
   
-          <SortButton sortBy={sortBy} setSortBy={setSortBy} options={sortOptions} />
+          <SortButton sortBy={sortBy} setSortBy={setSortBy} options={sortOptions} setSortActive={setSortActive} />
         
 
           <FilterButton setOpenFilter={setOpenFilter} />

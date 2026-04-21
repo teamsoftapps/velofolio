@@ -78,6 +78,22 @@ export default function AddShootModal({
     });
 
     const [showPersonDropdown, setShowPersonDropdown] = useState(false);
+    const [errors, setErrors] = useState<Record<string, string>>({});
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+
+        if (name === 'title') {
+            if (/[0-9]/.test(value)) {
+                setErrors(prev => ({ ...prev, [name]: `Title should not contain numbers` }));
+                setTimeout(() => setErrors(prev => ({ ...prev, [name]: '' })), 3000);
+            }
+            const filteredValue = value.replace(/[0-9]/g, '');
+            setFormData(prev => ({ ...prev, [name]: filteredValue }));
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        }
+    };
 
     const handlePersonSelect = (person: Person) => {
         setFormData({
@@ -133,12 +149,15 @@ export default function AddShootModal({
                                 </label>
                                 <input
                                     type="text"
+                                    name="title"
                                     required
+                                    maxLength={100}
                                     placeholder="e.g., Pre-Wedding Shoot"
                                     value={formData.title}
-                                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                    onChange={handleChange}
                                     className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
                                 />
+                                {errors.title && <p className="text-xs text-red-500 mt-1">{errors.title}</p>}
                             </div>
                             <div>
                                 <label className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 block">
@@ -345,6 +364,7 @@ export default function AddShootModal({
                             </label>
                             <textarea
                                 rows={2}
+                                maxLength={2000}
                                 value={formData.notes}
                                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                 placeholder="Add any additional details..."

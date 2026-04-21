@@ -73,7 +73,7 @@ class: 'prose max-w-full focus:outline-none min-h-40 p-4 border border-gray-300 
           <label className="block text-sm font-medium mb-2">Sender Name (From)</label>
           <input
             type="text"
-            value={"Velofolio"}
+            defaultValue={"Velofolio"}
             className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
           />
         </div>

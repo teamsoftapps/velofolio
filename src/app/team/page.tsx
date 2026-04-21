@@ -8,6 +8,7 @@ import TeamData from '../../utils/team.json';
 import FormModal from '../components/FormModal';
 import DeleteModal from '../components/DeleteModal';
 import FilterModal from '../components/FilterModal';
+import InviteMemberModal from '../components/InviteMember';
 import { applyAdvancedFilters, filterData, sortData } from '@/utils/TableUtils';
 
 const tableData = TeamData;
@@ -25,8 +26,10 @@ const tableHeaders = [
 export default function Page() {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const [OpenForm, setOpenForm] = useState(false);
+  const [openInviteModal, setOpenInviteModal] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [searchedValue, setSearchedValue] = useState('');
+  const [workspaceMembers, setWorkspaceMembers] = useState<any[]>([]);
 
   interface SortState {
     value: string;
@@ -76,6 +79,11 @@ export default function Page() {
           setOpenForm={setOpenForm}
         />
       )}
+      {/* <InviteMemberModal
+        isOpen={openInviteModal}
+        onClose={() => setOpenInviteModal(false)}
+        setWorkspaceMembers={setWorkspaceMembers}
+      /> */}
       <FilterModal
         isOpen={openFilter}
         onClose={() => setOpenFilter(false)}
@@ -93,6 +101,7 @@ export default function Page() {
             setOpenFilter={setOpenFilter}
             sortBy={sortBy}
             setSortBy={setSortBy}
+            onInviteClick={() => setOpenInviteModal(true)}
           />
 
           <TeamsTable
