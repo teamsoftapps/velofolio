@@ -94,9 +94,6 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
             [&_ol]:list-decimal [&_ol]:pl-5
             ${disabled ? 'bg-gray-100 cursor-not-allowed' : ''}
           `}
-        // w-full border border-gray-300 rounded-b-lg p-4
-        // [&_ul]:list-disc [&_ul]:pl-5 [&_li]:my-1
-        // [&_ol]:list-decimal [&_ol]:pl-5
         />
       </div>
     </div>
