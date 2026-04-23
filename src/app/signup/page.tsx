@@ -15,6 +15,7 @@ import { setCredientials } from "@/store/slices/authSlice";
 import { useValidateInviteQuery } from "@/store/apis/Common";
 import { Base_url } from "@/utils/Url";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { getFriendlyErrorMessage } from "@/utils/firebaseErrors";
 // Validation schema
 const SignupSchema = Yup.object({
   full_name: Yup.string().min(2, "Too short!").required("Full name is required"),
@@ -79,7 +80,7 @@ const Signup: React.FC = () => {
   const handleGoogleLogin = async () => {
     const response = await continueWithGoogle();
     if (response.error) {
-      toast.error(response.error);
+      toast.error(getFriendlyErrorMessage(response.error));
     } else {
       toast.success("Google Signup Successful");
       router.push("/dashboard");
@@ -155,7 +156,7 @@ const Signup: React.FC = () => {
               try {
                 const response = await signUpWithEmail(values.email, values.password, values.full_name);
                 if (response.error) {
-                  toast.error(response.error);
+                  toast.error(getFriendlyErrorMessage(response.error));
                   return;
                 }
 

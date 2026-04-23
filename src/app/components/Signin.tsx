@@ -13,6 +13,7 @@ import { toast } from "react-toastify"
 import { setCredientials } from "@/store/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { Base_url } from "@/utils/Url";
+import { getFriendlyErrorMessage } from "@/utils/firebaseErrors";
 // import { u } from "@/store/apis/Auth";
 const SignIn: React.FC = () => {
   // ✅ Validation Schema
@@ -28,7 +29,7 @@ const SignIn: React.FC = () => {
 const handleGoogleLogin = async () => {
     const response = await continueWithGoogle();
     if (response.error) {
-      toast.error(response.error);
+      toast.error(getFriendlyErrorMessage(response.error));
     } else {
       toast.success("Google Login Successful");
       router.push(redirectPath);
@@ -86,7 +87,7 @@ onSubmit={async (values, { setSubmitting }) => {
     const response = await logInWithEmail(values.email, values.password);
     
     if (response.error) {
-      toast.error(response.error);
+      toast.error(getFriendlyErrorMessage(response.error));
     } else {
       toast.success("Login Successful");
       // Optional: dispatch Redux state here if needed
