@@ -22,45 +22,29 @@ const ResetPassword: React.FC = () => {
       .required("Confirm your password"),
   });
 
-//   const handleSubmit = async (values: { password: string; confirmPassword: string }, { setSubmitting }: any) => {
-//     if (!token) {
-//       toast.error("Invalid reset link");
-//       setSubmitting(false);
-//       return;
-//     }
 
-//     try {
-//       await resetPassword({ token, password: values.password }).unwrap();
-//       toast.success("Password reset successful!");
-//       router.push("/signin");
-//     } catch (err: any) {
-//       toast.error(err.message || "Something went wrong!");
-//     } finally {
-//       setSubmitting(false);
-//     }
-//   };
-const handleSubmit = async (values: { password: string; confirmPassword: string }, { setSubmitting }: any) => {
-  if (!token) {
-    toast.error("Invalid reset link");
-    setSubmitting(false);
-    return;
-  }
-
-  try {
-    await resetPassword({ token, password: values.password }).unwrap();
-    toast.success("Password reset successful!");
-    router.push("/signin"); // go to login page
-  } catch (err: any) {
-    // Correctly display backend message
-    if ("data" in err && err.data?.msg) {
-      toast.error(err.data.msg);
-    } else {
-      toast.error("Something went wrong!");
+  const handleSubmit = async (values: { password: string; confirmPassword: string }, { setSubmitting }: any) => {
+    if (!token) {
+      toast.error("Invalid reset link");
+      setSubmitting(false);
+      return;
     }
-  } finally {
-    setSubmitting(false);
-  }
-};
+
+    try {
+      await resetPassword({ token, password: values.password }).unwrap();
+      toast.success("Password reset successful!");
+      router.push("/signin"); // go to login page
+    } catch (err: any) {
+      // Correctly display backend message
+      if ("data" in err && err.data?.msg) {
+        toast.error(err.data.msg);
+      } else {
+        toast.error("Something went wrong!");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#fafafa] p-4">
