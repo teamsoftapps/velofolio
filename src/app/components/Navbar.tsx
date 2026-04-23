@@ -62,7 +62,7 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
   ];
 
   return (
-    <nav className='bg-white shadow-md sticky top-0 z-50 w-full'>
+    <nav className='bg-white shadow-md sticky top-0 z-1000 w-full'>
       <div className='w-full px-4 sm:px-6 lg:px-8'>
         <div className='flex items-center justify-between h-20 sm:h-24'>
           {/* Logo */}

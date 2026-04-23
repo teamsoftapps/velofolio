@@ -14,6 +14,7 @@ import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import WorkflowSteps from '../components/JobProfileComp/WorkflowSteps';
 import InvoiceCard from '../components/JobProfileComp/InvoiceCard';
 import EmptyInvoicnQuoteState from '../components/EmptyInvoicnQuoteState';
+import AddActionsModal from '../components/JobProfileComp/AddActionsModal';
 import { useSelector } from 'react-redux';
 
 const JobProfilePage = () => {
@@ -277,16 +278,20 @@ const JobProfilePage = () => {
 
             </div>
           </div>
-          <div className='w-full flex justify-end'>
+          <div className='w-full flex justify-end relative z-[110]'>
             <div className='w-40 '>
               <AddButton title='Add New' setOpenForm={setOpenForm} />
             </div>
+            <AddActionsModal
+              isOpen={openForm}
+              onClose={() => setOpenForm(false)}
+              clientId={id}
+            />
           </div>
         </div>
 
       </div>
     </div>
-
   );
 };
 
