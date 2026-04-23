@@ -29,6 +29,30 @@ interface AddItemData {
   totalAmount: string; 
 }
 
+const packagesData = [
+  {
+    id: 1,
+    title: "Premium Portrait Package",
+    price: "1999",
+    description: "<p>A deluxe package created for families wanting timeless wall art and keepsake prints.</p>",
+    tax: "0",
+  },
+  {
+    id: 2,
+    title: "Family Golden Package",
+    price: "1299",
+    description: "<p>Perfect for small families wanting beautifully curated images for albums and frames.</p>",
+    tax: "0",
+  },
+  {
+    id: 3,
+    title: "Essential Portrait Package",
+    price: "799",
+    description: "<p>A simple and affordable package for individuals or couples wanting memorable photos.</p>",
+    tax: "0",
+  },
+];
+
 const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSubmit, initialData }) => {
   const dispatch = useDispatch();
   const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.invoices);
@@ -45,6 +69,21 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
     tax: '',
     totalAmount: '0.00',
   });
+
+  // Helper function to calculate total amount
+  const calculateTotalAmount = (data: AddItemData): string => {
+    const price = parseFloat(data.price) || 0;
+    const quantity = parseFloat(data.quantity) || 0;
+    const discountPercent = parseFloat(data.discount) || 0;
+    const taxPercent = parseFloat(data.tax) || 0;
+
+    const subtotal = price * quantity;
+    const discountAmount = subtotal * (discountPercent / 100);
+    const subtotalAfterDiscount = subtotal - discountAmount;
+    const total = subtotalAfterDiscount + (subtotalAfterDiscount * (taxPercent / 100));
+
+    return total.toFixed(2);
+  };
 
   const getImageUrl = (image: any): string => {
     if (!image) return '';
@@ -114,6 +153,29 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
     });
   };
 
+  const handleExistingPackageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const pkgId = e.target.value;
+    if (!pkgId) {
+      return;
+    }
+    const pkg = packagesData.find(p => p.id.toString() === pkgId);
+    if (pkg) {
+      setFormData(prev => {
+        const newFormData = {
+          ...prev,
+          name: pkg.title,
+          price: pkg.price,
+          description: pkg.description,
+          tax: pkg.tax,
+          quantity: '1',
+          discount: '0',
+        };
+        newFormData.totalAmount = calculateTotalAmount(newFormData);
+        return newFormData;
+      });
+    }
+  };
+
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
@@ -173,21 +235,6 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
 
   if (!isOpen) return null;
 
-  // Helper function to calculate total amount
-  const calculateTotalAmount = (data: AddItemData): string => {
-    const price = parseFloat(data.price) || 0;
-    const quantity = parseFloat(data.quantity) || 0;
-    const discountPercent = parseFloat(data.discount) || 0;
-    const taxPercent = parseFloat(data.tax) || 0;
-
-    const subtotal = price * quantity;
-    const discountAmount = subtotal * (discountPercent / 100);
-    const subtotalAfterDiscount = subtotal - discountAmount;
-    const total = subtotalAfterDiscount + (subtotalAfterDiscount * (taxPercent / 100));
-
-    return total.toFixed(2);
-  };
-
   return (
     <div className="fixed inset-0 bg-black/25 text-black text-md bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={onClose}>
       <div className="bg-white rounded-2xl w-full max-w-2xl mx-auto max-h-[80vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
@@ -213,9 +260,12 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
             <select
               className="w-full px-3 py-2 border text-[#978F8F] border-[#978F8F] rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               defaultValue=""
+              onChange={handleExistingPackageChange}
             >
               <option value="">No existing product/package</option>
-              {/* You can add more options here based on the products you have */}
+              {packagesData.map(pkg => (
+                <option key={pkg.id} value={pkg.id}>{pkg.title}</option>
+              ))}
             </select>
           </div>
 

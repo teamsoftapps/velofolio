@@ -109,9 +109,8 @@ const PaymentsTable = ({
                       return (
                         <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
                           <span
-                            className={`px-4 py-1.5 rounded-full text-[12px] font-bold uppercase tracking-wide inline-flex items-center justify-center w-fit whitespace-nowrap ${
-                              statusStyles[statusVal] || "bg-gray-100 text-gray-600"
-                            }`}
+                            className={`px-4 py-1.5 rounded-full text-[12px] font-bold uppercase tracking-wide inline-flex items-center justify-center w-fit whitespace-nowrap ${statusStyles[statusVal] || "bg-gray-100 text-gray-600"
+                              }`}
                           >
                             {statusVal.toUpperCase()}
                           </span>
@@ -134,7 +133,9 @@ const PaymentsTable = ({
                         key={cellIndex}
                         className="py-5 px-4 border-b border-gray-200 text-[14px] font-medium text-gray-800 whitespace-nowrap"
                       >
-                        {row[key]}
+                        {typeof row[key] === "object" && row[key] !== null 
+                          ? (row[key] instanceof Date ? row[key].toLocaleDateString() : JSON.stringify(row[key]))
+                          : row[key] || "N/A"}
                       </td>
                     );
                   })}
@@ -173,9 +174,8 @@ const PaymentsTable = ({
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${
-                currentPage === 1 ? "text-gray-300 cursor-not-allowed" : "text-gray-500 hover:text-black"
-              }`}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === 1 ? "text-gray-300 cursor-not-allowed" : "text-gray-500 hover:text-black"
+                }`}
             >
               <HiArrowLongLeft className="w-5 h-5" />
               Previous
@@ -194,11 +194,10 @@ const PaymentsTable = ({
                     <button
                       key={pageNum}
                       onClick={() => handlePageChange(pageNum)}
-                      className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${
-                        currentPage === pageNum
+                      className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${currentPage === pageNum
                           ? "bg-black text-white shadow-md shadow-gray-200"
                           : "text-gray-500 hover:bg-gray-50"
-                      }`}
+                        }`}
                     >
                       {pageNum}
                     </button>
@@ -221,9 +220,8 @@ const PaymentsTable = ({
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${
-                currentPage === totalPages ? "text-gray-300 cursor-not-allowed" : "text-gray-500 hover:text-black"
-              }`}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === totalPages ? "text-gray-300 cursor-not-allowed" : "text-gray-500 hover:text-black"
+                }`}
             >
               Next
               <HiArrowLongRight className="w-5 h-5" />

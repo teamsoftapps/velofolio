@@ -7,6 +7,8 @@ const rootReducer = combineReducers({
   auth: authReducer,
   invoiceandQuote: invoiceandQuoteReducer,
   ui: uiReducer,
+  // Silence "Unexpected key" warning for stale persisted data
+  data: (state: any = null) => state,
 });
 
 export default rootReducer;

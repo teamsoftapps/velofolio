@@ -34,10 +34,11 @@ const ImportClientsModal = ({ isOpen, onClose, onImportSuccess }: ImportClientsM
 
   const parseCSV = (csvText: string): any[] => {
     const lines = csvText.trim().split('\n');
-    const headers = lines[0].split(',').map(h => h.trim());
+    const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
 
     return lines.slice(1).map(line => {
-      const values = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+      // Split by comma, but ignore commas inside double quotes
+      const values = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.trim().replace(/^"|"$/g, ''));
       const client: any = {};
 
       headers.forEach((header, i) => {
@@ -46,8 +47,11 @@ const ImportClientsModal = ({ isOpen, onClose, onImportSuccess }: ImportClientsM
       });
 
       return {
+        name: client.name || `${client.firstname || ''} ${client.lastname || ''}`.trim() || 'Unknown',
         firstName: client.firstname || '',
         lastName: client.lastname || '',
+        company: client.company || '',
+        jobs: client.jobs || '',
         email: client.email || '',
         phone: client.phone || '',
         event: client.event || '',

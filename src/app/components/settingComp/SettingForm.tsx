@@ -245,6 +245,12 @@ const SettingForm = () => {
   const [website, setWebsite] = useState('https://velofolio.com');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/\D/g, '');
+    setPhone(val);
+  };
+
   const [email, setEmail] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
@@ -288,6 +294,11 @@ const SettingForm = () => {
 
   };
 
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/[0-9]/g, '');
+    setCompanyName(val);
+  };
+
   return (
     <div className="w-full mt-12 pb-5 px-2">
       <form onSubmit={handleSubmit}>
@@ -305,8 +316,9 @@ const SettingForm = () => {
                 type="text"
                 placeholder="Enter your company or studio name"
                 value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
+                maxLength={40}
+                onChange={handleNameChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
               />
             </div>
             <div className="flex-1">
@@ -317,8 +329,9 @@ const SettingForm = () => {
                 type="url"
                 placeholder="Enter your company or studio website"
                 value={website}
+                maxLength={100}
                 onChange={(e) => setWebsite(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
               />
             </div>
           </div>
@@ -332,9 +345,10 @@ const SettingForm = () => {
               <input
                 type="email"
                 value={email}
+                maxLength={60}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your business email address"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
               />
             </div>
             <div className="flex-1">
@@ -344,9 +358,10 @@ const SettingForm = () => {
               <input
                 type="tel"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                maxLength={15}
+                onChange={handlePhoneChange}
                 placeholder="Enter your company phone number"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
               />
             </div>
           </div>
@@ -360,9 +375,10 @@ const SettingForm = () => {
               <input
                 type="text"
                 value={address}
+                maxLength={100}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Enter your street address"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
               />
             </div>
             <div className="flex-1">
@@ -372,9 +388,10 @@ const SettingForm = () => {
               <input
                 type="text"
                 value={city}
+                maxLength={40}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Enter your city or suburb"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
               />
             </div>
           </div>
@@ -388,9 +405,10 @@ const SettingForm = () => {
               <input
                 type="text"
                 value={state}
+                maxLength={40}
                 onChange={(e) => setState(e.target.value)}
                 placeholder="Enter your state or county"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
               />
             </div>
             <div className="flex-1">
@@ -400,9 +418,10 @@ const SettingForm = () => {
               <input
                 type="text"
                 value={zip}
+                maxLength={15}
                 onChange={(e) => setZip(e.target.value)}
                 placeholder="Enter your postcode or zip code"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
               />
             </div>
           </div>
@@ -416,7 +435,7 @@ const SettingForm = () => {
               <select
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
               >
                 {countries.map((item, i) => (
                   <option key={i} value={item.value}>
@@ -432,7 +451,7 @@ const SettingForm = () => {
               <select
                 value={timezone}
                 onChange={(e) => setTimezone(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
               >
                 {timezones.map((item, i) => (
                   <option key={i} value={item.value}>

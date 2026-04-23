@@ -7,15 +7,15 @@ const Brandidentity = () => {
         <div className='py-6 space-y-3'>
     <div className='lg:flex-nowrap flex-wrap w-full flex items-center justify-between'>
         <h3 className='text-lg'>Primary Color</h3>
-        <input type="text" value={"#657BBC"}  className='w-40 px-2 py-1.5 bg-[#F4F4F5] border-[#D4D4D8]  rounded-sm border-1 '/>
+        <input type="text" value={"#657BBC"} readOnly  className='w-40 px-2 py-1.5 bg-[#F4F4F5] border-[#D4D4D8]  rounded-sm border-1 '/>
     </div>
         <div className='lg:flex-nowrap flex-wrap w-full flex items-center justify-between'>
         <h3 className='text-lg'>Secondary Color</h3>
-        <input type="text" value={"#9BD1A4"}  className='w-40 px-2 py-1.5 bg-[#F4F4F5] border-[#D4D4D8]  rounded-sm border-1 '/>
+        <input type="text" value={"#9BD1A4"} readOnly  className='w-40 px-2 py-1.5 bg-[#F4F4F5] border-[#D4D4D8]  rounded-sm border-1 '/>
     </div>
         <div className='lg:flex-nowrap flex-wrap w-full flex items-center justify-between'>
         <h3 className='text-lg'>Accent Color</h3>
-        <input type="text" value={"#F0666F"}  className='w-40 px-2 py-1.5 bg-[#F4F4F5] border-[#D4D4D8]  rounded-sm border-1 '/>
+        <input type="text" value={"#F0666F"} readOnly  className='w-40 px-2 py-1.5 bg-[#F4F4F5] border-[#D4D4D8]  rounded-sm border-1 '/>
     </div>
 
 
