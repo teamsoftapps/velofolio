@@ -107,8 +107,8 @@ const ImportClientsModal = ({ isOpen, onClose, onImportSuccess }: ImportClientsM
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
+    <div className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+      <div className="relative mt-20 bg-white rounded-3xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-8 py-5 border-b">
           <div className="flex items-center gap-3">

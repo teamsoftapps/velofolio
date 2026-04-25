@@ -67,11 +67,11 @@ export default function ExportModal({
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4"
+        className="fixed inset-0 bg-black/40 z-[1100] flex items-center justify-center p-4"
         onClick={stage !== 'exporting' ? handleClose : undefined}
       >
         <div
-          className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 relative"
+          className="relative mt-20 bg-white rounded-2xl shadow-2xl w-full max-w-md p-8"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close Button */}

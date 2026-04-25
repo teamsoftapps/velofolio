@@ -236,8 +236,8 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/25 text-black text-md bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={onClose}>
-      <div className="bg-white rounded-2xl w-full max-w-2xl mx-auto max-h-[80vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 bg-black/25 text-black text-md bg-opacity-50 flex items-center justify-center z-[1100] p-4" onClick={onClose}>
+      <div className="bg-white mt-20 rounded-2xl w-full max-w-2xl mx-auto max-h-[80vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="flex justify-between items-center py-3 px-4 border-gray-200 ">
           <h2 className="text-2xl font-semibold text-gray-900">Add Item</h2>

@@ -122,7 +122,7 @@ const JobsTable = ({
                         <td key={cellIndex} className="py-5 px-4 border-b border-gray-200">
                           <div className="flex items-center -space-x-2">
                             {members.map((m: string, i: number) => (
-                              <div key={i} className="group/avatar relative transition-all hover:scale-110 hover:z-40 cursor-pointer">
+                              <div key={i} className="group/avatar relative transition-all hover:scale-110 hover:z-40 cursor-pointer" onClick={(e) => e.stopPropagation()}>
                                 <div className="w-10 h-10 rounded-full border-2 border-white bg-gray-100 overflow-hidden relative">
                                   <Image
                                     src={memberAvatars[m] || `https://ui-avatars.com/api/?name=${m}&background=random&color=fff`}
@@ -140,7 +140,7 @@ const JobsTable = ({
                                 </div>
                               </div>
                             ))}
-                            <div className="w-8 h-8 rounded-full border-2 border-gray-100  flex items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-100 transition-colors ml-1 border-dashed border-gray-300">
+                            <div className="w-8 h-8 rounded-full border-2 border-gray-100  flex items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-100 transition-colors ml-1 border-dashed border-gray-300" onClick={(e) => e.stopPropagation()}>
                               <span className="text-sm font-bold">+</span>
                             </div>
                           </div>
@@ -187,8 +187,8 @@ const JobsTable = ({
                     if (key === "action") {
                       return (
                         <td key={cellIndex} className="py-5 px-6 border-b border-gray-200 text-center">
-                          <div className="flex justify-center">
-                            <HiDotsVertical className="w-5 h-5 text-gray-700 font-bold group-hover:text-black transition-colors" />
+                          <div className="flex justify-center" onClick={(e) => e.stopPropagation()}>
+                            <HiDotsVertical className="w-5 h-5 text-gray-700 font-bold group-hover:text-black transition-colors cursor-pointer" />
                           </div>
                         </td>
                       );

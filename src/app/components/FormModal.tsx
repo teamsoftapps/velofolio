@@ -109,8 +109,8 @@ const MemberForm: React.FC<MemberFormProps> = ({
   };
 
   return (
-    <div className='fixed inset-0 flex items-center justify-center bg-black/50 z-50 px-4' onClick={() => setOpenForm(false)}>
-      <div className='relative bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl overflow-y-auto max-h-[90vh] scroller' onClick={(e) => e.stopPropagation()}>
+    <div className='fixed inset-0 flex items-center justify-center bg-black/50 z-[1100] px-4' onClick={() => setOpenForm(false)}>
+      <div className='relative mt-20 bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl overflow-y-auto max-h-[90vh] scroller' onClick={(e) => e.stopPropagation()}>
         <div className='absolute right-2'>
           <IoMdClose
             className='absolute top-4 right-4 text-4xl cursor-pointer text-gray-700'

@@ -79,11 +79,11 @@ export default function Page() {
           setOpenForm={setOpenForm}
         />
       )}
-      {/* <InviteMemberModal
+      <InviteMemberModal
         isOpen={openInviteModal}
         onClose={() => setOpenInviteModal(false)}
         setWorkspaceMembers={setWorkspaceMembers}
-      /> */}
+      />
       <FilterModal
         isOpen={openFilter}
         onClose={() => setOpenFilter(false)}

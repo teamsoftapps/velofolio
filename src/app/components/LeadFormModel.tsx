@@ -85,8 +85,8 @@ const LeadForm: React.FC<LeadFormProps> = ({
   };
 
   return (
-    <div className='fixed inset-0 flex items-center justify-center z-50 px-4' style={{ backgroundColor: 'rgba(0,0,0,0.4)' }} onClick={() => setOpenForm(false)}>
-      <div className='relative p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-3xl overflow-y-auto max-h-[90vh] scroller' style={{ backgroundColor: colors.white }} onClick={(e) => e.stopPropagation()}>
+    <div className='fixed inset-0 flex items-center justify-center z-[1100] px-4' style={{ backgroundColor: 'rgba(0,0,0,0.4)' }} onClick={() => setOpenForm(false)}>
+      <div className='relative mt-20 p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-3xl overflow-y-auto max-h-[90vh] scroller' style={{ backgroundColor: colors.white }} onClick={(e) => e.stopPropagation()}>
         {/* Close Button */}
         <IoMdClose
           className='absolute top-4 right-4 text-2xl sm:text-3xl cursor-pointer'

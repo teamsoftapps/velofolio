@@ -2,8 +2,10 @@
 
 import { useInviteMemberMutation } from '@/store/apis/Common';
 import React, { useState } from 'react';
-import { MdClose } from 'react-icons/md';
+import { MdClose, MdContentCopy, MdCheckCircle } from 'react-icons/md';
+import { Mail, Shield, Send } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { colors } from '@/utils/colors';
 
 interface InviteMemberModalProps {
   isOpen: boolean;
@@ -11,34 +13,38 @@ interface InviteMemberModalProps {
   setWorkspaceMembers: (members: any) => void;
 }
 
-const roles = ['editor', 'admin'];
-
 export default function InviteMemberModal({ isOpen, onClose, setWorkspaceMembers }: InviteMemberModalProps) {
   const [email, setEmail] = useState('');
-  const [role, setRole] = useState('editor'); // default lowercase
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
   const [inviteMember] = useInviteMemberMutation();
 
-  const handleSubmit = async () => {
-    if (!email || !role) return;
+  const inviteLink = "https://velofolio.app/invite/team-x-12345";
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(inviteLink);
+    setIsCopied(true);
+    toast.success('Link copied!');
+    setTimeout(() => setIsCopied(false), 2000);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
 
     setIsSubmitting(true);
     try {
-      const res = await inviteMember({ email, role }).unwrap();
-      console.log('Invite response:', res);
-
-   setWorkspaceMembers((prev: { id: string; name: string; role: string; status: 'pending' }[]) => [
-  ...prev,
-  { id: Date.now().toString(), name: email, role: role.toLowerCase(), status: 'pending' }
-]);
-
-
-      toast.success('Member invited successfully!');
+      // Defaulting role to 'editor' as UI selection is removed
+      await inviteMember({ email, role: 'editor' }).unwrap();
+      setWorkspaceMembers((prev: any[]) => [
+        ...prev,
+        { id: Date.now().toString(), name: email, role: 'editor', status: 'pending' }
+      ]);
+      toast.success('Member invited!');
       setEmail('');
       onClose();
     } catch (err: any) {
-      console.error('Invite failed:', err);
-      toast.error(err?.data?.msg || 'Failed to invite member');
+      toast.error(err?.data?.msg || 'Failed to invite');
     } finally {
       setIsSubmitting(false);
     }
@@ -48,91 +54,77 @@ export default function InviteMemberModal({ isOpen, onClose, setWorkspaceMembers
 
   return (
     <>
-      {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose} />
-
-      {/* Modal */}
-      <div
-        className="absolute -bottom-64 sm:bottom-0 left-0 sm:-left-80 z-50 flex items-center justify-center p-3 py-4"
-        onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
-      >
-        <div className="bg-white rounded-md shadow-2xl w-72 sm:w-80 max-w-md transform transition-all animate-in fade-in zoom-in duration-200">
-          {/* Header */}
-          <div className="flex items-center justify-between p-4 pb-0">
-            <h2 className="text-lg font-semibold text-gray-900">Invite Member</h2>
-            <button
-              onClick={onClose}
-              className="text-gray-900 hover:text-gray-700 transition-colors"
-              aria-label="Close"
-            >
-              <MdClose className="w-6 h-6" />
+      <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[1050]" onClick={onClose} />
+      <div className="fixed inset-0 flex items-center justify-center z-[1100] p-4" onClick={onClose}>
+        <div
+          className="relative mt-20 bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all animate-in fade-in zoom-in duration-200"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Clean Header */}
+          <div className="h-16 flex items-center justify-between px-6">
+            <div className="flex items-center gap-2">
+              <Mail className="w-5 h-5 text-gray-900" />
+              <h2 className="text-xl font-medium text-gray-900 tracking-tight">Invite Member</h2>
+            </div>
+            <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded-full transition-colors cursor-pointer">
+              <MdClose className="w-6 h-6 text-gray-500" />
             </button>
           </div>
 
           {/* Body */}
-          <div className="p-4 space-y-2">
-            {/* Email Input */}
-            <div>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="member@example.com"
-                className="w-full pl-2 pr-4 py-2 border text-black border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              />
-            </div>
+          <div className="p-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-bold text-gray-500 uppercase tracking-wide mb-2 ml-1">Email Address</label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="name@example.com"
+                    className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl text-black text-base focus:ring-2 focus:border-transparent outline-none transition-all"
+                    style={{ '--tw-ring-color': '#14CB95' } as React.CSSProperties}
+                  />
+                </div>
+              </div>
 
-            {/* Role Select */}
-            <div>
-              <select
-                id="role"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="w-full pl-2 pr-10 py-2 text-black border border-gray-300 rounded-md text-sm appearance-none bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-pointer"
+              <button
+                type="submit"
+                disabled={!email || isSubmitting}
+                className="w-full py-3.5 text-white text-lg font-bold rounded-xl transition-all disabled:opacity-50 shadow-lg flex items-center justify-center gap-3 cursor-pointer"
+                style={{ backgroundColor: '#14CB95' }}
               >
-                {roles.map((r) => (
-                  <option key={r} value={r}>
-                    {r.charAt(0).toUpperCase() + r.slice(1)}
-                  </option>
-                ))}
-              </select>
-              {/* <div className="absolute right-3 top-3.5 pointer-events-none">
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div> */}
+                {isSubmitting ? (
+                  <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    <span>Send Invite</span>
+                  </>
+                )}
+              </button>
+            </form>
+
+            <div className="relative my-7">
+              <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-100"></div></div>
+              <div className="relative flex justify-center text-xs uppercase font-bold tracking-widest"><span className="bg-white px-3 text-gray-400">Or copy link</span></div>
             </div>
-          </div>
 
-          {/* Footer */}
-          <div className="flex flex-col gap-2 p-2 px-5 bg-gray-50 rounded-b-2xl w-full">
-            <button
-              onClick={handleSubmit}
-              disabled={!email || isSubmitting}
-              className={`flex-1 py-1 text-white font-medium rounded-md transition-all flex items-center justify-center gap-2 bg-[#01B0E9] ${
-                email && !isSubmitting ? 'cursor-pointer' : 'cursor-not-allowed'
-              }`}
-            >
-              {isSubmitting ? (
-                <>
-                  <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" opacity="0.3" />
-                    <path fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                  </svg>
-                  Sending...
-                </>
-              ) : (
-                'Send Invite'
-              )}
-            </button>
-
-            <button
-              onClick={onClose}
-              className="flex-1 py-1 border border-gray-300 text-gray-700 font-medium rounded-md hover:bg-gray-100 transition-colors"
-            >
-              Cancel
-            </button>
+            <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 flex items-center gap-3">
+              <div className="flex-1 truncate text-sm text-gray-400 font-medium">{inviteLink}</div>
+              <button
+                onClick={handleCopyLink}
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-bold transition-all cursor-pointer whitespace-nowrap ${isCopied
+                  ? 'bg-green-100 text-green-700'
+                  : 'bg-white text-gray-700 border border-gray-200 hover:border-[#14CB95] hover:text-[#14CB95]'
+                  }`}
+              >
+                {isCopied ? <MdCheckCircle className="w-4 h-4" /> : <MdContentCopy className="w-4 h-4" />}
+                {isCopied ? 'Copied' : 'Copy'}
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -153,8 +153,8 @@ const Table = ({
                       if (key === 'action' || key === 'Action') {
                         return (
                           <td key={cellIndex} className="py-5 px-4 border-b border-gray-200 text-center">
-                            <div className="flex justify-center">
-                              <HiDotsVertical className="w-5 h-5 text-gray-700 font-bold group-hover:text-black" />
+                            <div className="flex justify-center" onClick={(e) => e.stopPropagation()}>
+                              <HiDotsVertical className="w-5 h-5 text-gray-700 font-bold group-hover:text-black cursor-pointer" />
                             </div>
                           </td>
                         );
