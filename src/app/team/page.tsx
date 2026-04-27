@@ -1,14 +1,14 @@
 'use client';
 import React, { useMemo, useState } from 'react';
 
-import Navbar from '../components/Navbar';
-import TeamsTable from '../components/TeamsTable';
-import OverviewHeader from '../components/OverviewHeader';
-import TeamData from '../../utils/team.json';
-import FormModal from '../components/FormModal';
-import DeleteModal from '../components/DeleteModal';
-import FilterModal from '../components/FilterModal';
-import InviteMemberModal from '../components/InviteMember';
+import Navbar from '@/app/components/layouts/Navbar';
+import TeamsTable from '@/app/components/ui/TeamsTable';
+import OverviewHeader from '@/app/components/layouts/OverviewHeader';
+import TeamData from '@/utils/team.json';
+import FormModal from '@/app/components/forms/FormModal';
+import DeleteModal from '@/app/components/forms/DeleteModal';
+import FilterModal from '@/app/components/forms/FilterModal';
+import InviteMemberModal from '@/app/components/forms/InviteMember';
 import { applyAdvancedFilters, filterData, sortData } from '@/utils/TableUtils';
 
 const tableData = TeamData;
@@ -113,3 +113,8 @@ export default function Page() {
     </>
   );
 }
+
+
+
+
+

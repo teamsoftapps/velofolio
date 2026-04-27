@@ -7,20 +7,20 @@
 // };
 'use client';
 import React, { useEffect, useMemo, useState } from 'react';
-import { colors } from '../../utils/colors';
-import Navbar from '../components/Navbar';
+import { colors } from '@/utils/colors';
+import Navbar from '@/app/components/layouts/Navbar';
 
-import PaymentsTable from '../components/PaymentsTable';
-import OverviewHeader from '../components/OverviewHeader';
-import OverviewChart from '../components/OverviewChart';
-import PayementChartData from '../../utils/PaymentChartData.json';
-import DeleteModal from '../components/DeleteModal';
-import PayementData from '../../utils/Payements.json';
-import FilterModal from '../components/FilterModal';
+import PaymentsTable from '@/app/components/ui/PaymentsTable';
+import OverviewHeader from '@/app/components/layouts/OverviewHeader';
+import OverviewChart from '@/app/components/ui/OverviewChart';
+import PayementChartData from '@/utils/PaymentChartData.json';
+import DeleteModal from '@/app/components/forms/DeleteModal';
+import PayementData from '@/utils/Payements.json';
+import FilterModal from '@/app/components/forms/FilterModal';
 import { DateValue, parseDate } from "@internationalized/date";
-import { filterData, sortData, handleDelete, applyAdvancedFilters, filterByTimeRange } from '../../utils/TableUtils';
+import { filterData, sortData, handleDelete, applyAdvancedFilters, filterByTimeRange } from '@/utils/TableUtils';
 import { useSelector } from 'react-redux';
-import JobDetail from '../../utils/JobDetail.json';
+import JobDetail from '@/utils/JobDetail.json';
 import generateChartData from '@/utils/ChartLogics';
 const tableData = PayementData;
 
@@ -206,3 +206,8 @@ export default function Page() {
     </>
   );
 }
+
+
+
+
+

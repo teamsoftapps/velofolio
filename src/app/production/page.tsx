@@ -36,18 +36,18 @@ import {
   useSortable,
   arrayMove,
 } from '@dnd-kit/sortable';
-import Navbar from '@/app/components/Navbar';
-import ProductionHeader from '@/app/components/productionHeader';
-import PreWeddingModal from '../components/WeddingModal';
+import Navbar from '@/app/components/layouts/Navbar';
+import ProductionHeader from '@/app/components/layouts/productionHeader';
+import PreWeddingModal from '@/app/components/forms/WeddingModal';
 import { BiPencil, BiPlus } from 'react-icons/bi';
 import { GrAttachment } from 'react-icons/gr';
 import { LiaComment } from 'react-icons/lia';
 import Image from 'next/image';
 import { FaPenClip } from 'react-icons/fa6';
-import EditTeamModal from '../components/EditTeam';
+import EditTeamModal from '@/app/components/ui/EditTeam';
 import { AiOutlineSearch as Search, AiOutlineClose as X, AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
 import { TbZoomReset } from 'react-icons/tb';
-import FilterModal from '../components/FilterModal';
+import FilterModal from '@/app/components/forms/FilterModal';
 import { getItemDate } from '@/utils/TableUtils';
 import { Layout, MousePointer2, Plus, ListPlus, Kanban, TextSelect, ClipboardList } from 'lucide-react';
 
@@ -850,3 +850,7 @@ const ProductionPage: React.FC = () => {
 };
 
 export default ProductionPage;
+
+
+
+

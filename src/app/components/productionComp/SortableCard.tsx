@@ -9,8 +9,8 @@ import { GrAttachment } from 'react-icons/gr';
 import { LiaComment } from 'react-icons/lia';
 import Image from 'next/image';
 import { colors } from '@/utils/colors';
-import EditTeamModal from '../EditTeam';
-import { Card } from '../../production/types';
+import EditTeamModal from '@/app/components/ui/EditTeam';
+import { Card } from '@/app/production/types';
 
 interface SortableCardProps {
   card: Card;

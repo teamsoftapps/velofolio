@@ -13,7 +13,7 @@ import FontSize from '@tiptap/extension-font-size';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
 import ListItem from '@tiptap/extension-list-item';
-import { RichTextToolbar } from '../components/settingComp/ToolBar';
+import { RichTextToolbar } from '@/app/components/settingComp/ToolBar';
 
 interface RichTextEditorProps {
   content?: string;

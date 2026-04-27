@@ -1,6 +1,6 @@
 import React from 'react'
-import SettingForm from './settingComp/SettingForm'
-import LogoSetting from './settingComp/LogoSetting'
+import SettingForm from '@/app/components/settingComp/SettingForm'
+import LogoSetting from '@/app/components/settingComp/LogoSetting'
 
 const CompanyInfo = () => {
   return (

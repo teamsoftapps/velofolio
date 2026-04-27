@@ -1,13 +1,13 @@
 'use client';
 import React from 'react';
-import DropOption from '../DropOption';
+import DropOption from '@/app/components/ui/DropOption';
 import MiniTable from './MiniTable';
-import TopPerfoming from '../../../utils/TopPerfomming.json';
+import TopPerfoming from '@/utils/TopPerfomming.json';
 import { HiLightBulb } from "react-icons/hi";
 import { HiMiniTrophy } from "react-icons/hi2";
 import FooterUtilizPerfom from './FooterUtilizPerfom';
 
-const TeamUtilization = () => {
+const TopPerfomingProject = () => {
   const tableHeaders = [
     { key: 'job', label: 'Job' },
     { key: 'completion', label: 'Completion %' },
@@ -56,4 +56,6 @@ const TeamUtilization = () => {
   );
 };
 
-export default TeamUtilization;
+export default TopPerfomingProject;
+
+

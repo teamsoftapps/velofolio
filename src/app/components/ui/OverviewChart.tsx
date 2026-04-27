@@ -4,7 +4,7 @@
 import { FaArrowTrendUp, FaArrowTrendDown } from 'react-icons/fa6';
 import { Line } from 'react-chartjs-2';
 import Image from 'next/image';
-import { colors } from '../../utils/colors';
+import { colors } from '@/utils/colors';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -192,4 +192,6 @@ const OverviewChart = ({ chartData, variant = 'default' }: LeadDashboardProps) =
 };
 
 export default OverviewChart;
+
+
 

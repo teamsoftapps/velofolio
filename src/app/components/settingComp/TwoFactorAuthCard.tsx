@@ -74,6 +74,7 @@ export default function TwoFactorAuthCard({
   is2FAEnabled,
   setIs2FAEnabled,
   setOpenDeleteModal,
+  setOpenDownloadModal,
 }: any) {
   return (
     <div className="w-full lg:w-1/2 shrink-0">
@@ -123,7 +124,10 @@ export default function TwoFactorAuthCard({
           Delete My Account
         </button>
 
-        <button className="w-full sm:w-auto px-5 py-3 bg-gray-100 text-gray-700 rounded-full font-medium hover:bg-gray-200 transition">
+        <button 
+          onClick={() => setOpenDownloadModal(true)}
+          className="w-full sm:w-auto px-5 py-3 bg-gray-100 text-gray-700 rounded-full font-medium hover:bg-gray-200 transition cursor-pointer"
+        >
           Download My Data
         </button>
       </div>

@@ -1,7 +1,7 @@
 
 import React from 'react';
-import OverviewChart from '../OverviewChart';
-import TeamChartData from '../../../utils/TeamChart.json';
+import OverviewChart from '@/app/components/ui/OverviewChart';
+import TeamChartData from '@/utils/TeamChart.json';
 import UserTable from './UserTable';
 import Permissions from './Permissions';
 
@@ -83,3 +83,5 @@ const TeamnPermission = () => {
 };
 
 export default TeamnPermission;
+
+

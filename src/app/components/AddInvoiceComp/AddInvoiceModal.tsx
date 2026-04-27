@@ -3,9 +3,9 @@
 'use client';
 
 import React, { useState, useRef, ChangeEvent, DragEvent } from 'react';
-import ImageReplacementTab from '../ImageReplacementTab';
+import ImageReplacementTab from '@/app/components/ui/ImageReplacementTab';
 import { SlCloudUpload } from "react-icons/sl";
-import { RichTextEditor } from '../RichTextArea';
+import { RichTextEditor } from '@/app/components/ui/RichTextArea';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInvoices } from '@/store/slices/invoiceSlice';
 

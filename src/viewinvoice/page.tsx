@@ -1,15 +1,15 @@
 // "use client"
 // import Link from 'next/link'
 // import React from 'react'
-// import Navbar from '../components/Navbar'
-// import SplitInvoicePayment from '../components/AddInvoiceComp/SplitInvoicePayment'
-// import InvoiceSend from '../components/AddInvoiceComp/InvoiceSend';
-// import InvoiceTable from '../components/AddInvoiceComp/InvoiceTable'
-// import InvoicePriceData from '../components/AddInvoiceComp/InvoicePriceData'
-// import InvoiceMeta from '../components/AddInvoiceComp/InvoiceMeta'
+// import Navbar from '@/app/components/layouts/Navbar'
+// import SplitInvoicePayment from '@/app/components/AddInvoiceComp/SplitInvoicePayment'
+// import InvoiceSend from '@/app/components/AddInvoiceComp/InvoiceSend';
+// import InvoiceTable from '@/app/components/AddInvoiceComp/InvoiceTable'
+// import InvoicePriceData from '@/app/components/AddInvoiceComp/InvoicePriceData'
+// import InvoiceMeta from '@/app/components/AddInvoiceComp/InvoiceMeta'
 // import { useSearchParams } from 'next/navigation'
 // import { useSelector } from 'react-redux'
-// import ClientData from "../../utils/ClientAdvanceData.json"
+// import ClientData from "@/utils/ClientAdvanceData.json"
 
 // const examplePayments = [
 //   {
@@ -116,7 +116,7 @@
 "use client"
 import Link from 'next/link'
 import React from 'react'
-import Navbar from '../app/components/Navbar'
+import Navbar from '../app/components/layouts/Navbar'
 import SplitInvoicePayment from '../app/components/AddInvoiceComp/SplitInvoicePayment'
 import InvoiceSend from '../app/components/AddInvoiceComp/InvoiceSend';
 import InvoiceTable from '../app/components/AddInvoiceComp/InvoiceTable'
@@ -215,3 +215,6 @@ const page = () => {
 }
 
 export default page
+
+
+

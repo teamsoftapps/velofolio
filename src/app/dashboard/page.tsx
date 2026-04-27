@@ -2,13 +2,13 @@
 /** @format */
 
 'use client';
-import Navbar from '../components/Navbar';
-import DashboardGraph from '../components/DashboardGraph';
-import UpcomingShoots from '../components/UpcomingShoots';
-import RecentLeads from '../components/RecentLeads';
-import TeamUtilization from '../components/TeamUtilization';
-import RouteGuard from '../components/RouteGuard';
-import LeadForm from '../components/LeadFormModel';
+import Navbar from '@/app/components/layouts/Navbar';
+import DashboardGraph from '@/app/components/ui/DashboardGraph';
+import UpcomingShoots from '@/app/components/ui/UpcomingShoots';
+import RecentLeads from '@/app/components/ui/RecentLeads';
+import TeamUtilization from '@/app/components/ui/TeamUtilization';
+import RouteGuard from '@/app/components/layouts/RouteGuard';
+import LeadForm from '@/app/components/forms/LeadFormModel';
 import { useState } from 'react';
 import { DateValue, parseDate } from "@internationalized/date";
 
@@ -57,3 +57,5 @@ export default function Home() {
     </RouteGuard>
   );
 }
+
+

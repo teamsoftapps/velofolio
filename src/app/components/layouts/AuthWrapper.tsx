@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { RootState } from "../../store/store"; // optional: for types
+import { RootState } from "@/store/store"; // optional: for types
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -72,3 +72,4 @@ export default function AuthWrapper({
   // All good → render children
   return <>{children}</>;
 }
+

@@ -3,7 +3,7 @@ import SearchComponent from './SearchComponent'
 import SortButton from './sortButton'
 import FilterButton from './filterButton'
 import Table from './Table'
-import FilterModal from './FilterModal'
+import FilterModal from '@/app/components/forms/FilterModal'
 
 const tableHeaders = [
     { key: 'documentType', label: 'Document' },

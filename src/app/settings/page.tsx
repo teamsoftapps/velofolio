@@ -2,20 +2,20 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { colors } from '@/utils/colors'
-import Navbar from '../components/Navbar'
-import SettingTab from '../components/settingComp/SettingTab'
+import Navbar from '@/app/components/layouts/Navbar'
+import SettingTab from '@/app/components/settingComp/SettingTab'
 import Image from 'next/image'
-import LogoSetting from '../components/settingComp/LogoSetting'
-import SettingForm from '../components/settingComp/SettingForm'
-import CompanyInfo from '../components/CompanyInfo'
-import TeamnPermission from '../components/settingComp/TeamnPermission'
-import PaymentnBilling from '../components/settingComp/PaymentnBilling'
-import EmailNotificationn from '../components/settingComp/Notification'
-import EmailnNotification from '../components/settingComp/EmailnNotification'
-import GoalsnReport from '../components/settingComp/GoalsnReport'
-import BrandingnCustomization from '../components/settingComp/BrandingnCustomization'
-import SecuritynPassword from '../components/settingComp/SecuritynPassword'
-import SystemPrefrences from '../components/settingComp/SystemPrefrences/SystemPrefrences'
+import LogoSetting from '@/app/components/settingComp/LogoSetting'
+import SettingForm from '@/app/components/settingComp/SettingForm'
+import CompanyInfo from '@/app/components/ui/CompanyInfo'
+import TeamnPermission from '@/app/components/settingComp/TeamnPermission'
+import PaymentnBilling from '@/app/components/settingComp/PaymentnBilling'
+import EmailNotificationn from '@/app/components/settingComp/Notification'
+import EmailnNotification from '@/app/components/settingComp/EmailnNotification'
+import GoalsnReport from '@/app/components/settingComp/GoalsnReport'
+import BrandingnCustomization from '@/app/components/settingComp/BrandingnCustomization'
+import SecuritynPassword from '@/app/components/settingComp/SecuritynPassword'
+import SystemPrefrences from '@/app/components/settingComp/SystemPrefrences/SystemPrefrences'
 
 const page = () => {
   const [activeTab, setActiveTab] = useState('Company Info');
@@ -71,3 +71,5 @@ const page = () => {
 }
 
 export default page
+
+

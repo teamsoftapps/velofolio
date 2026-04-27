@@ -1,12 +1,12 @@
 
 /** @format */
 import React, { useState } from 'react';
-import { colors } from "../../utils/colors";
-import SearchComponent from './SearchComponent';
-import SortButton from './sortButton';
-import FilterButton from './filterButton';
+import { colors } from "@/utils/colors";
+import SearchComponent from '@/app/components/ui/SearchComponent';
+import SortButton from '@/app/components/ui/sortButton';
+import FilterButton from '@/app/components/ui/filterButton';
 import { MdModeEditOutline } from 'react-icons/md';
-import AddTeamMembersModal from './AddTeamMemberModal';
+import AddTeamMembersModal from '@/app/components/forms/AddTeamMemberModal';
 
 
 const ProductionHeader = ({ 
@@ -108,4 +108,6 @@ const ProductionHeader = ({
 };
 
 export default ProductionHeader;
+
+
 

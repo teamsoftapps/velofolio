@@ -5,12 +5,12 @@ import { persistor } from '@/store/store';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BiPlus, BiPlusCircle } from 'react-icons/bi';
 import { FaCamera, FaQuestionCircle, FaShieldAlt, FaSignOutAlt } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import CreateWorkspaceModal from './CreateWorkspace';
-import Companies from './Companies';
+import CreateWorkspaceModal from '@/app/components/forms/CreateWorkspace';
+import Companies from '@/app/components/ui/Companies';
 import { logOut } from '@/firebase_Routes/routes';
 import { auth } from '@/config/firebase';
 import { toast } from 'react-toastify';
@@ -29,6 +29,24 @@ export default function ProfileModal({ setProfileOpen, companies, isProfileOpen,
   const [workspace, setWorkspaceOpen] = useState(false);
   const router = useRouter();
   const firebaseUser = auth.currentUser;
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+  const handleImageClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const displayName = firestoreUser?.displayName || firebaseUser?.displayName || "User";
   const email = firestoreUser?.email || firebaseUser?.email || "";
@@ -56,12 +74,31 @@ export default function ProfileModal({ setProfileOpen, companies, isProfileOpen,
         className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50 p-4"
         onClick={() => setProfileOpen(false)}
       >
-        <div className="absolute top-20 right-10 bg-white rounded-2xl shadow-2xl w-full max-w-80 p-2 space-y-2">
+        <div 
+          className="absolute top-20 right-10 bg-white rounded-2xl shadow-2xl w-full max-w-80 p-2 space-y-2"
+          onClick={(e) => e.stopPropagation()}
+        >
           {/* Profile Section */}
           <div className="flex flex-col sm:flex-row gap-2 items-center space-y-3">
-            <div className="relative rounded-full group w-16 h-16 b cursor-pointer">
-              <Image alt='0' src={isProfileOpen ? "/user1.png" : "/images/userprofile.png"} width={100} height={100} className="w-16 h-16 rounded-full   " />
-              <span className='text-xs text-center text-white hidden  group-hover:block w-16 h-16 bg-black/60 pt-2 top-0 rounded-full absolute'>Upload Photo Max 5mb</span>
+            <div 
+              className="relative rounded-full group w-16 h-16 b cursor-pointer"
+              onClick={handleImageClick}
+            >
+              <Image 
+                alt='User Profile' 
+                src={previewImage || firestoreUser?.photoURL || firebaseUser?.photoURL || '/images/userprofile.png'} 
+                width={64} 
+                height={64} 
+                className="w-16 h-16 rounded-full object-cover" 
+              />
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                onChange={handleFileChange} 
+                className="hidden" 
+                accept="image/*" 
+              />
+              <span className='text-xs text-center text-white hidden group-hover:block w-16 h-16 bg-black/60 pt-2 top-0 rounded-full absolute'>Upload Photo Max 5mb</span>
               <div className="absolute bottom-0 right-0 bg-black rounded-full p-1 shadow-md border border-gray-200">
                 <FaCamera className="w-3 h-3 text-white" />
               </div>

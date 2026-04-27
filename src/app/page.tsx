@@ -1,7 +1,7 @@
 import React from 'react'
-import SignIn from './components/Signin'
-import AuthWrapper from './components/AuthWrapper'
-import RouteGuard from './components/RouteGuard'
+import SignIn from './components/forms/Signin'
+import AuthWrapper from './components/layouts/AuthWrapper'
+import RouteGuard from './components/layouts/RouteGuard'
 import Homepage from './components/Homepage/Homepage'
 const page = () => {
   return (
@@ -14,3 +14,4 @@ const page = () => {
 }
 
 export default page
+

@@ -2,7 +2,7 @@
 "use client";
 import React, { useState } from "react";
 import { SlOptionsVertical } from "react-icons/sl";
-import Pagination from "../Pagination";
+import Pagination from "@/app/components/ui/Pagination";
 import COLORS from "@/utils/Color";
 import { GrDownload } from "react-icons/gr";
 interface Invoice {

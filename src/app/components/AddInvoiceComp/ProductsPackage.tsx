@@ -1,12 +1,12 @@
 
 import React, { useState } from 'react'
-import AddButton from '../AddButton'
+import AddButton from '@/app/components/ui/AddButton'
 import { InfoIcon } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import InvoiceTable from './InvoiceTable'
 import InvoicePriceData from './InvoicePriceData'
 import SplitInvoicePayment from './SplitInvoicePayment'
-import PremiumPortraitPackage from '../PremiumPortraitPackage'
+import PremiumPortraitPackage from '@/app/components/ui/PremiumPortraitPackage'
 import { useDispatch, useSelector } from 'react-redux'
 import { setInvoices, setQuotes } from '@/store/slices/invoiceSlice'
 import { toast } from 'react-toastify';

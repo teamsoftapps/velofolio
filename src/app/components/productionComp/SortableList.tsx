@@ -8,7 +8,7 @@ import { BiPlus } from 'react-icons/bi';
 import { ClipboardList } from 'lucide-react';
 import { colors } from '@/utils/colors';
 import SortableCard from './SortableCard';
-import { Card, List } from '../../production/types';
+import { Card, List } from '@/app/production/types';
 
 interface SortableListProps {
   list: List;

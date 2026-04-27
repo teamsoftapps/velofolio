@@ -15,11 +15,11 @@ interface Method {
 
 interface Props {
   method: Method;
-   toggleMethod: (id: number) => void ;
-
+  toggleMethod: (id: number) => void;
+  deleteMethod: (id: number) => void;
 }
 
-const MethodCard: React.FC<Props> = ({ method, toggleMethod }) => {
+const MethodCard: React.FC<Props> = ({ method, toggleMethod, deleteMethod }) => {
   return (
     <div className="border border-gray-300 rounded-md bg-[#F4F4F5] w-full p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
       
@@ -53,7 +53,10 @@ const MethodCard: React.FC<Props> = ({ method, toggleMethod }) => {
             Set Default
           </button>
         )}
-        <BsFillTrashFill className="w-6 h-6 text-gray-400 cursor-pointer hover:text-red-500 transition" />
+        <BsFillTrashFill 
+          onClick={() => deleteMethod(method.id)} 
+          className="w-6 h-6 text-gray-400 cursor-pointer hover:text-red-500 transition" 
+        />
       </div>
     </div>
   );

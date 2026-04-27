@@ -7,7 +7,7 @@ import LeadData from '@/utils/Lead.json';
 import JobData from '@/utils/Job.json';
 import { DateValue } from '@internationalized/date';
 import { filterByTimeRange } from '@/utils/TableUtils';
-import AddShootModal from '../components/AddShootModal';
+import AddShootModal from '@/app/components/forms/AddShootModal';
 
 interface UpcomingShootsProps {
   timeRange?: string;
@@ -121,3 +121,5 @@ const UpcomingShoots = ({ timeRange = "All Data", value }: UpcomingShootsProps) 
 };
 
 export default UpcomingShoots;
+
+

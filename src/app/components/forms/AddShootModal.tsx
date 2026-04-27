@@ -54,7 +54,7 @@ const defaultPeople: Person[] = [
     { id: '1', name: 'Sarah Johnson', image: '/teampic1.png', role: 'Lead Photographer' },
     { id: '2', name: 'David P.', image: '/teampic2.png', role: 'Photographer' },
     { id: '3', name: 'Mike Chen', image: '/teampic3.png', role: 'Second Shooter' },
-    { id: '4', name: 'Priya', image: '/teampic4.png', role: 'Photo Editor' },
+    { id: '4', name: 'Priya', image: '/teampic2.png', role: 'Photo Editor' },
 ];
 
 export default function AddShootModal({

@@ -7,8 +7,8 @@ import { FaSort } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
 import { MdEmail } from 'react-icons/md';
 import { CiFilter } from 'react-icons/ci';
-import AddButton from './AddButton';
-import SortModal from './SortModal';
+import AddButton from '@/app/components/ui/AddButton';
+import SortModal from '@/app/components/forms/SortModal';
 import Link from "next/link";
 // interface OverviewHeaderProps {
 //   title: string;

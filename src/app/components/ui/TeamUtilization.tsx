@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { colors } from "../../utils/colors";
+import { colors } from "@/utils/colors";
 import { FiChevronDown } from "react-icons/fi";
 
 const teamData = [
@@ -126,3 +126,4 @@ const TeamUtilization = () => {
 };
 
 export default TeamUtilization;
+

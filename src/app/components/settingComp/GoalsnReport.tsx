@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AddButton from '../AddButton'
+import AddButton from '@/app/components/ui/AddButton'
 import GoalsDashboard from './GoalsHeaderCard'
 import PerfomanceSummary from './PerfomanceSummary'
 import InsightsSummary from './InsightsSummary'

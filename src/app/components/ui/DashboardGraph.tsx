@@ -1,7 +1,7 @@
 
 
 "use client";
-import { colors } from "../../utils/colors";
+import { colors } from "@/utils/colors";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { Line } from "react-chartjs-2";
@@ -28,12 +28,12 @@ ChartJS.register(
   Filler
 );
 
-import CalenderModal from "./CalenderModal"
+import CalenderModal from "@/app/components/forms/CalenderModal"
 import { DateValue } from "@internationalized/date";
-import LeadData from "../../utils/Lead.json";
-import JobData from "../../utils/Job.json";
-import PaymentData from "../../utils/Payements.json";
-import { filterByTimeRange } from "../../utils/TableUtils";
+import LeadData from "@/utils/Lead.json";
+import JobData from "@/utils/Job.json";
+import PaymentData from "@/utils/Payements.json";
+import { filterByTimeRange } from "@/utils/TableUtils";
 
 interface DashboardGraphProps {
   timeRange: string;
@@ -265,3 +265,4 @@ const DashboardGraph = ({ timeRange, setTimeRange, value, setValue }: DashboardG
 };
 
 export default DashboardGraph;
+

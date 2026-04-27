@@ -1,5 +1,5 @@
 import React from 'react'
-import SignIn from '../components/Signin'
+import SignIn from '@/app/components/forms/Signin'
 
 const Page = () => {
   return (
@@ -8,3 +8,4 @@ const Page = () => {
 }
 
 export default Page
+

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { HiChevronDown, HiChevronLeft, HiChevronRight } from 'react-icons/hi';
-import FilterButton from './filterButton';
+import FilterButton from '@/app/components/ui/filterButton';
 
 type ViewType = 'Day' | 'Week' | 'Month';
 

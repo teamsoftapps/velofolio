@@ -2,7 +2,7 @@
 /** @format */
 'use client';
 import React, { useState } from 'react';
-import { colors } from "../../utils/colors";
+import { colors } from "@/utils/colors";
 import { SlOptionsVertical } from 'react-icons/sl';
 import { FaCircleCheck, FaClock } from 'react-icons/fa6';
 import { IoMdRefreshCircle } from 'react-icons/io';
@@ -346,3 +346,5 @@ const Table = ({
 };
 
 export default Table;
+
+

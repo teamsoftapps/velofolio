@@ -3,17 +3,17 @@
 
 'use client';
 import React, { useMemo, useState } from 'react';
-import { colors } from "../../utils/colors";
-import Navbar from '../components/Navbar';
-import JobsTable from '../components/JobsTable';
-import OverviewHeader from '../components/OverviewHeader';
-import OverviewChart from '../components/OverviewChart';
-import DeleteModal from '../components/DeleteModal';
-import FilterModal from '../components/FilterModal';
-import JobsDataRaw from '../../utils/Job.json';
-import { filterData, sortData, handleDelete, applyAdvancedFilters, filterByTimeRange } from '../../utils/TableUtils';
-import RouteGuard from '../components/RouteGuard';
-import AddJobModal from '../components/AddJobModal';
+import { colors } from "@/utils/colors";
+import Navbar from '@/app/components/layouts/Navbar';
+import JobsTable from '@/app/components/ui/JobsTable';
+import OverviewHeader from '@/app/components/layouts/OverviewHeader';
+import OverviewChart from '@/app/components/ui/OverviewChart';
+import DeleteModal from '@/app/components/forms/DeleteModal';
+import FilterModal from '@/app/components/forms/FilterModal';
+import JobsDataRaw from '@/utils/Job.json';
+import { filterData, sortData, handleDelete, applyAdvancedFilters, filterByTimeRange } from '@/utils/TableUtils';
+import RouteGuard from '@/app/components/layouts/RouteGuard';
+import AddJobModal from '@/app/components/forms/AddJobModal';
 import generateChartData from '@/utils/ChartLogics';
 
 const tableData = JobsDataRaw;
@@ -142,3 +142,8 @@ export default function Page() {
     </RouteGuard>
   );
 }
+
+
+
+
+

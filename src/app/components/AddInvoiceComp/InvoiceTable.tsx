@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { SlOptionsVertical } from "react-icons/sl";
-import ActionModalInvoice from "../ActionModalInvoice";
+import ActionModalInvoice from "@/app/components/forms/ActionModalInvoice";
 import { usePathname } from "next/navigation";
 
 interface InvoiceItem {

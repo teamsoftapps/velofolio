@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react';
-import { colors } from '../../utils/colors';
+import { colors } from '@/utils/colors';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 
@@ -284,3 +284,5 @@ const LeadForm: React.FC<LeadFormProps> = ({
 };
 
 export default LeadForm;
+
+

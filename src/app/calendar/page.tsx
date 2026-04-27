@@ -1,10 +1,10 @@
 "use client"
 import React, { useState } from 'react'
-import Calendar from '../components/Calender'
-import CalenderHeader from '../components/CalenderHeader'
-import Navbar from '../components/Navbar'
-import DateNavBar from '../components/DateNavbar'
-import FilterModal from '../components/FilterModal'
+import Calendar from '@/app/components/ui/Calender'
+import CalenderHeader from '@/app/components/layouts/CalenderHeader';
+import Navbar from '@/app/components/layouts/Navbar'
+import DateNavBar from '@/app/components/layouts/DateNavbar'
+import FilterModal from '@/app/components/forms/FilterModal'
 const page = () => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
 
@@ -47,3 +47,6 @@ const page = () => {
 }
 
 export default page
+
+
+

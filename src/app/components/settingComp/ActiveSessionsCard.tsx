@@ -1,6 +1,18 @@
 "use client";
+import { useState } from "react";
+import DeleteModal from "@/app/components/forms/DeleteModal";
 
 export default function ActiveSessionsCard() {
+  const [sessionToLogout, setSessionToLogout] = useState<string | null>(null);
+
+  const handleLogoutClick = (device: string) => {
+    setSessionToLogout(device);
+  };
+
+  const confirmLogout = () => {
+    console.log("Logged out of", sessionToLogout);
+    setSessionToLogout(null);
+  };
   const sessions = [
     {
       device: "Chrome - Mac",
@@ -85,7 +97,10 @@ export default function ActiveSessionsCard() {
                 </td>
 
                 <td className="px-4 py-5 text-right">
-                  <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                  <button 
+                    onClick={() => handleLogoutClick(session.device)}
+                    className="text-blue-600 hover:text-blue-800 text-sm font-medium cursor-pointer"
+                  >
                     Logout
                   </button>
                 </td>
@@ -97,10 +112,27 @@ export default function ActiveSessionsCard() {
 
       {/* Footer */}
       <div className="p-6 border-t border-gray-200 text-center">
-        <button className="text-blue-600 hover:text-blue-800 text-sm font-medium underline">
+        <button 
+          onClick={() => handleLogoutClick("All Devices")}
+          className="text-blue-600 hover:text-blue-800 text-sm font-medium underline cursor-pointer"
+        >
           Logout from all devices
         </button>
       </div>
+
+      <DeleteModal
+        isOpen={!!sessionToLogout}
+        onClose={() => setSessionToLogout(null)}
+        onConfirm={confirmLogout}
+        title="Confirm Logout"
+        message={
+          sessionToLogout === "All Devices"
+            ? "Are you sure you want to log out from all devices?"
+            : `Are you sure you want to log out from ${sessionToLogout}?`
+        }
+        confirmLabel="Logout"
+        confirmClassName="bg-red-500 hover:bg-red-600"
+      />
     </div>
   );
 }

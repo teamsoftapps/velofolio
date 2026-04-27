@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useMemo } from 'react';
-import Navbar from '../components/Navbar';
+import Navbar from '@/app/components/layouts/Navbar';
 import { useRouter } from 'next/navigation';
 import {
   Magnet,
@@ -10,20 +10,20 @@ import {
 } from 'lucide-react';
 import { ImMagnet } from "react-icons/im";
 
-import ClientProfileCard from '../components/ClientProfileCard';
-import ProfileAccordionItem from '../components/ProfileAccordionItem';
-import AddButton from '../components/AddButton';
+import ClientProfileCard from '@/app/components/ui/ClientProfileCard';
+import ProfileAccordionItem from '@/app/components/ui/ProfileAccordionItem';
+import AddButton from '@/app/components/ui/AddButton';
 import Link from 'next/link';
-import LeadForm from '../components/LeadFormModel';
-import AddJobModal from '../components/AddJobModal';
-import ClientForm from '../components/ClientFormModal';
-import DeleteModal from '../components/DeleteModal';
-import ExpandableSection from '../components/ExpandableSection';
-import JobCard from '../components/JobCard';
+import LeadForm from '@/app/components/forms/LeadFormModel';
+import AddJobModal from '@/app/components/forms/AddJobModal';
+import ClientForm from '@/app/components/forms/ClientFormModal';
+import DeleteModal from '@/app/components/forms/DeleteModal';
+import ExpandableSection from '@/app/components/ui/ExpandableSection';
+import JobCard from '@/app/components/ui/JobCard';
 import { toast } from 'react-toastify';
 
 import { useSearchParams } from 'next/navigation';
-import TableData from '../../utils/Data.json';
+import TableData from '@/utils/Data.json';
 
 /**
  * ClientProfilePage Component
@@ -204,3 +204,8 @@ const ClientProfilePage = () => {
 };
 
 export default ClientProfilePage;
+
+
+
+
+

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import Navbar from '../components/Navbar';
+import Navbar from '@/app/components/layouts/Navbar';
 import Link from 'next/link';
 import { FaArrowLeft } from 'react-icons/fa';
 import { FiChevronDown, FiTrash2, FiEdit2, FiMail, FiPhone, FiCalendar, FiMapPin, FiGlobe, FiX, FiSave, FiPlus, FiMinus } from 'react-icons/fi';
@@ -12,13 +12,13 @@ import { MdOutlineAccessTime } from 'react-icons/md';
 import { AiOutlineFileText } from 'react-icons/ai';
 import { LiaCitySolid } from 'react-icons/lia';
 import { ImMagnet } from 'react-icons/im';
-import DeleteModal from '../components/DeleteModal';
-import FormModal from '../components/FormModal';
+import DeleteModal from '@/app/components/forms/DeleteModal';
+import FormModal from '@/app/components/forms/FormModal';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
-import JobCard from '../components/JobCard';
-import ExpandableSection from '../components/ExpandableSection';
+import JobCard from '@/app/components/ui/JobCard';
+import ExpandableSection from '@/app/components/ui/ExpandableSection';
 
 // --- Profile Sidebar ---
 const ProfileSidebar = ({ member, onEditClick, onDeleteClick }: { member: any; onEditClick: () => void; onDeleteClick: () => void }) => {
@@ -272,3 +272,5 @@ const TeamProfilePage = () => {
 };
 
 export default TeamProfilePage;
+
+

@@ -1,13 +1,13 @@
 "use client"
 import React, { useState } from 'react'
-import { colors } from '../../utils/colors'
-import Navbar from '../components/Navbar'
-import ReportHeader from '../components/reportComp/ReportHeader'
-import ReportGraph from '../components/reportComp/ReportGraph'
-import ReportPiChart from '../components/reportComp/ReportPiChart'
-import TeamUtilization from '../components/reportComp/TeamUtilization'
-import TopPerfomingProject from '../components/reportComp/TopPerfomingProject'
-import ReportDropdown from '../components/ReportDropDown'
+import { colors } from '@/utils/colors'
+import Navbar from '@/app/components/layouts/Navbar'
+import ReportHeader from '@/app/components/reportComp/ReportHeader'
+import ReportGraph from '@/app/components/reportComp/ReportGraph'
+import ReportPiChart from '@/app/components/reportComp/ReportPiChart'
+import TeamUtilization from '@/app/components/reportComp/TeamUtilization'
+import TopPerfomingProject from '@/app/components/reportComp/TopPerfomingProject'
+import ReportDropdown from '@/app/components/ui/ReportDropDown'
 import { DateValue, parseDate } from "@internationalized/date";
 
 const reports = () => {
@@ -396,3 +396,7 @@ const reports = () => {
 }
 
 export default reports
+
+
+
+

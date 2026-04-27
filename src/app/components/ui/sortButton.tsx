@@ -32,7 +32,7 @@
 // export default SortButton;
 
 import React, { useState } from 'react';
-import SortModal from './SortModal';
+import SortModal from '@/app/components/forms/SortModal';
 import { FaSort } from 'react-icons/fa';
 
 const SortButton = ({ sortBy, setSortBy, options, setSortActive }: any) => {

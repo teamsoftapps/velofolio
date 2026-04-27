@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { SlOptionsVertical } from "react-icons/sl";
-import Pagination from "../Pagination";
+import Pagination from "@/app/components/ui/Pagination";
 import COLORS from "@/utils/Color";
 interface User {
   name: string;

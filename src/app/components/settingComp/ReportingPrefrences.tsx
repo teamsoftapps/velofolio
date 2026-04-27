@@ -1,6 +1,6 @@
 import React from 'react'
 import ReportSettings from './ReportPrefrencesOptions'
-import AddButton from '../AddButton'
+import AddButton from '@/app/components/ui/AddButton'
 
 const ReportingPrefrences = () => {
   return (

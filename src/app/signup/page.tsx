@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import { signUpWithEmail, continueWithGoogle } from "@/firebase_Routes/routes";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import RouteGuard from "../components/RouteGuard";
+import RouteGuard from "@/app/components/layouts/RouteGuard";
 import { useDispatch } from "react-redux";
 import { setCredientials } from "@/store/slices/authSlice";
 import { useValidateInviteQuery } from "@/store/apis/Common";
@@ -298,3 +298,5 @@ const Signup: React.FC = () => {
 };
 
 export default Signup;
+
+

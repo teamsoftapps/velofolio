@@ -2,10 +2,10 @@
 
 import { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import DateNavBar from './DateNavbar';
-import LeadData from '../../utils/Lead.json';
-import JobData from '../../utils/JobDetail.json';
-import { applyAdvancedFilters } from '../../utils/TableUtils';
+import DateNavBar from '@/app/components/layouts/DateNavbar';
+import LeadData from '@/utils/Lead.json';
+import JobData from '@/utils/JobDetail.json';
+import { applyAdvancedFilters } from '@/utils/TableUtils';
 
 type ViewType = 'Day' | 'Week' | 'Month';
 
@@ -242,3 +242,5 @@ export default function Calendar({ setOpenFilter, filters }: any) {
     </div>
   );
 }
+
+

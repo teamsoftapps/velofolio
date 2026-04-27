@@ -2,19 +2,19 @@
 
 'use client';
 import React, { useState } from 'react';
-import Navbar from '../components/Navbar';
+import Navbar from '@/app/components/layouts/Navbar';
 import Link from 'next/link';
-import AddButton from '../components/AddButton';
-import Contracts from '../components/Contracts';
-import ClientJobCard from '../components/JobProfileComp/JobClientCard';
-import JobDetail from "../../utils/JobDetail.json";
+import AddButton from '@/app/components/ui/AddButton';
+import Contracts from '@/app/components/ui/Contracts';
+import ClientJobCard from '@/app/components/JobProfileComp/JobClientCard';
+import JobDetail from "@/utils/JobDetail.json";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { LuNetwork } from "react-icons/lu";
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
-import WorkflowSteps from '../components/JobProfileComp/WorkflowSteps';
-import InvoiceCard from '../components/JobProfileComp/InvoiceCard';
-import EmptyInvoicnQuoteState from '../components/EmptyInvoicnQuoteState';
-import AddActionsModal from '../components/JobProfileComp/AddActionsModal';
+import WorkflowSteps from '@/app/components/JobProfileComp/WorkflowSteps';
+import InvoiceCard from '@/app/components/JobProfileComp/InvoiceCard';
+import EmptyInvoicnQuoteState from '@/app/components/ui/EmptyInvoicnQuoteState';
+import AddActionsModal from '@/app/components/JobProfileComp/AddActionsModal';
 import { useSelector } from 'react-redux';
 
 const JobProfilePage = () => {
@@ -296,3 +296,9 @@ const JobProfilePage = () => {
 };
 
 export default JobProfilePage;
+
+
+
+
+
+

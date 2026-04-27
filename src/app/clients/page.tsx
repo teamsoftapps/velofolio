@@ -1,20 +1,20 @@
 
 'use client';
 import React, { useMemo, useState } from 'react';
-import { colors } from "../../utils/colors";
+import { colors } from "@/utils/colors";
 
-import Navbar from '../components/Navbar';
-import FilterModal from '../components/FilterModal';
-import Table from '../components/Table';
-import OverviewHeader from '../components/OverviewHeader';
-import TableData from '../../utils/Data.json';
-import ClientFormModal from '../components/ClientFormModal';
-import DeleteModal from '../components/DeleteModal';
-import { filterData, sortData, SortState, applyAdvancedFilters } from "../../utils/TableUtils";
-import RouteGuard from '../components/RouteGuard';
-import ImportClientsButton from '../components/ImportClientsButton';
-import ImportClientsModal from '../components/ImportClientModal';
-import ExportModal from '../components/ExportModal';
+import Navbar from '@/app/components/layouts/Navbar';
+import FilterModal from '@/app/components/forms/FilterModal';
+import Table from '@/app/components/ui/Table';
+import OverviewHeader from '@/app/components/layouts/OverviewHeader';
+import TableData from '@/utils/Data.json';
+import ClientFormModal from '@/app/components/forms/ClientFormModal';
+import DeleteModal from '@/app/components/forms/DeleteModal';
+import { filterData, sortData, SortState, applyAdvancedFilters } from "@/utils/TableUtils";
+import RouteGuard from '@/app/components/layouts/RouteGuard';
+import ImportClientsButton from '@/app/components/ui/ImportClientsButton';
+import ImportClientsModal from '@/app/components/forms/ImportClientModal';
+import ExportModal from '@/app/components/forms/ExportModal';
 
 const tableHeaders = [
   { key: 'dateCreated', label: 'Date Created' },
@@ -236,3 +236,8 @@ export default function ClientsPage() {
     </RouteGuard>
   );
 }
+
+
+
+
+

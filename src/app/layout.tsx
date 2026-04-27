@@ -5,8 +5,8 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import StoreProvider from './components/StoreProvider';
-import RouteGuard from './components/RouteGuard';
+import StoreProvider from './components/layouts/StoreProvider';
+import RouteGuard from './components/layouts/RouteGuard';
 import { HeroUIProvider } from '@heroui/system';
 const geistSans = Geist({
   variable: '--font-geist-sans',

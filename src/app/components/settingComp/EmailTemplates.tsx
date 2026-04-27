@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import AddButton from '../AddButton';
+import AddButton from '@/app/components/ui/AddButton';
 import { ChevronDown } from 'lucide-react';
 import { SlOptionsVertical } from 'react-icons/sl';
 import EmailTemplateModal from './EmailTemplateModal';
-import DeleteModal from '../DeleteModal';
+import DeleteModal from '@/app/components/forms/DeleteModal';
 import { auth } from '@/config/firebase';
 import { getEmailTemplates, EmailTemplateData, deleteEmailTemplate } from '@/firebase_Routes/routes';
 import { toast } from 'react-toastify';

@@ -6,16 +6,16 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
-import ProfileModal from './NavModal';
+import ProfileModal from '@/app/components/layouts/NavModal';
 import { useDispatch } from 'react-redux';
 import { clearCredientials } from '@/store/slices/authSlice';
 import { logOut, getUserProfile } from '@/firebase_Routes/routes';
 import { auth } from '@/config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useGetOrganizationsQuery } from '@/store/apis/Common';
-import CreateWorkspaceModal from './CreateWorkspace';
+import CreateWorkspaceModal from '@/app/components/forms/CreateWorkspace';
 import { IoNotificationsOutline } from "react-icons/io5";
-import NotificationModal from './NotificationModal';
+import NotificationModal from '@/app/components/layouts/NotificationModal';
 import { colors } from '@/utils/colors';
 
 const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
@@ -35,7 +35,7 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setFirebaseUser(user);
       if (user?.uid) {
-        getUserProfile(user.uid).then(({ profile }) => {
+        getUserProfile(user.uid).then(({ profile }: any) => {
           if (profile) setFirestoreUser(profile);
         });
       } else {
@@ -44,7 +44,7 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
     });
     return () => unsubscribe();
   }, []);
-
+  console.log("User: ", firebaseUser);
   const isLoggedIn = !!firebaseUser;
   const displayName = firestoreUser?.displayName || firebaseUser?.displayName || "User";
 
@@ -132,13 +132,13 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
                   className='flex items-center cursor-pointer focus:outline-none transition-colors duration-200 border border-gray-300 text-gray-700 rounded-full px-2'
                   aria-label='Toggle profile menu'
                 >
-                  <div className='bg-gray-200 rounded-full h-9 w-9 flex items-center justify-center'>
+                  <div className='bg-gray-200 rounded-full h-9 w-9 flex items-center justify-center overflow-hidden'>
                     <Image
-                      src='/images/userprofile.png'
+                      src={firestoreUser?.photoURL || firebaseUser?.photoURL || '/images/userprofile.png'}
                       alt='User Profile'
                       width={24}
                       height={24}
-                      className='w-6 h-6 object-cover'
+                      className='w-7 h-7 object-cover rounded-full'
                     />
                   </div>
                   <span className='ml-2 text-sm font-medium hidden xl:inline'>
@@ -261,3 +261,4 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
 };
 
 export default Navbar;
+

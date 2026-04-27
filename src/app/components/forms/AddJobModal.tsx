@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { colors } from '../../utils/colors';
+import { colors } from '@/utils/colors';
 import { MdClose, MdCalendarToday, MdLocationOn, MdPersonAdd, MdCheck } from 'react-icons/md';
 import Image from 'next/image';
 
@@ -43,7 +43,7 @@ const defaultMembers: Member[] = [
     { id: '1', name: 'Sarah Johnson', image: '/teampic1.png', role: 'Lead Photographer' },
     { id: '2', name: 'Priya', image: '/teampic2.png', role: 'Photographer' },
     { id: '3', name: 'Sofia', image: '/teampic3.png', role: 'Assistant' },
-    { id: '4', name: 'Mike Chen', image: '/teampic4.png', role: 'Videographer' },
+    { id: '4', name: 'Mike Chen', image: '/teampic1.png', role: 'Videographer' },
 ];
 
 export default function AddJobModal({
@@ -407,3 +407,4 @@ export default function AddJobModal({
         </>
     );
 }
+

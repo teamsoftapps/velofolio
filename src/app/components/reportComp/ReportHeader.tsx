@@ -5,7 +5,7 @@ import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import ReportButton from './ReportButton';
 import COLORS from '@/utils/Color';
 import { DateValue } from "@internationalized/date";
-import CalenderModal from "../CalenderModal";
+import CalenderModal from "@/app/components/forms/CalenderModal";
 
 const ReportHeader = ({
   timeRange,

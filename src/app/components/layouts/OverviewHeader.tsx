@@ -2,21 +2,21 @@
 /** @format */
 'use client';
 import React, { useState } from 'react';
-import { colors } from "../../utils/colors";
+import { colors } from "@/utils/colors";
 import { GoSearch } from 'react-icons/go';
 import { FaSort, FaPlus } from 'react-icons/fa6';
 import { usePathname } from 'next/navigation';
 import { MdEmail } from 'react-icons/md';
 import { CiFilter } from 'react-icons/ci';
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
-import AddButton from './AddButton';
-import SortModal from './SortModal';
-import { SortOption } from './SortModal';
-import ImportClientsButton from './ImportClientsButton';
-import CalenderModal from "./CalenderModal";
+import AddButton from '@/app/components/ui/AddButton';
+import SortModal from '@/app/components/forms/SortModal';
+import { SortOption } from '@/app/components/forms/SortModal';
+import ImportClientsButton from '@/app/components/ui/ImportClientsButton';
+import CalenderModal from '@/app/components/forms/CalenderModal';
 import { DateValue } from "@internationalized/date";
 import Link from "next/link";
-import InviteEmailButton from './InviteEmailButton';
+import InviteEmailButton from '@/app/components/ui/InviteEmailButton';
 interface SortState {
   value: string;
   direction: 'asc' | 'desc';
@@ -219,3 +219,5 @@ const OverviewHeader = ({
 };
 
 export default OverviewHeader;
+
+

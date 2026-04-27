@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
-import DropOption from '../DropOption';
-import Table from '../Table';
+import DropOption from '@/app/components/ui/DropOption';
+import Table from '@/app/components/ui/Table';
 import { HiLightBulb } from "react-icons/hi";
 import MiniTable from './MiniTable';
 import { RiTeamFill } from "react-icons/ri";

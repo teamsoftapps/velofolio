@@ -3,17 +3,17 @@
 
 'use client';
 import React, { useMemo, useState } from 'react';
-import { colors } from "../../utils/colors";
-import Navbar from '../components/Navbar';
-import Table from '../components/Table';
-import OverviewHeader from '../components/OverviewHeader';
-import OverviewChart from '../components/OverviewChart';
-import FilterModal from '../components/FilterModal';
-import LeadsDataRaw from '../../utils/Lead.json';
-import { filterData, sortData, applyAdvancedFilters, filterByTimeRange } from '../../utils/TableUtils';
+import { colors } from "@/utils/colors";
+import Navbar from '@/app/components/layouts/Navbar';
+import Table from '@/app/components/ui/Table';
+import OverviewHeader from '@/app/components/layouts/OverviewHeader';
+import OverviewChart from '@/app/components/ui/OverviewChart';
+import FilterModal from '@/app/components/forms/FilterModal';
+import LeadsDataRaw from '@/utils/Lead.json';
+import { filterData, sortData, applyAdvancedFilters, filterByTimeRange } from '@/utils/TableUtils';
 import generateChartData from '@/utils/ChartLogics';
-import RouteGuard from '../components/RouteGuard';
-import LeadForm from '../components/LeadFormModel';
+import RouteGuard from '@/app/components/layouts/RouteGuard';
+import LeadForm from '@/app/components/forms/LeadFormModel';
 import { addLead, LeadData } from '@/firebase_Routes/routes';
 import { auth } from '@/config/firebase';
 import { toast } from 'react-toastify';
@@ -154,3 +154,8 @@ export default function Page() {
     </RouteGuard>
   );
 }
+
+
+
+
+

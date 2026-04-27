@@ -2,20 +2,20 @@
 
 'use client';
 import React, { useState } from 'react';
-import Navbar from '../components/Navbar';
+import Navbar from '@/app/components/layouts/Navbar';
 import Link from 'next/link';
 
 import { Briefcase } from 'lucide-react';
 
-import JobDetail from "../../utils/JobDetail.json";
+import JobDetail from "@/utils/JobDetail.json";
 import { useSearchParams } from 'next/navigation';
 
-import InvoiceDetailsForm from '../components/AddInvoiceComp/InvoiceDeatil';
-import ClientCard from '../components/JobProfileComp/ClientCard';
+import InvoiceDetailsForm from '@/app/components/AddInvoiceComp/InvoiceDeatil';
+import ClientCard from '@/app/components/JobProfileComp/ClientCard';
 import { RiTeamFill } from 'react-icons/ri';
-import JobCardDetail from '../components/JobProfileComp/JobCardDetail';
-import ProductsPackage from '../components/AddInvoiceComp/ProductsPackage';
-import AddInvoiceModal from '../components/AddInvoiceComp/AddInvoiceModal';
+import JobCardDetail from '@/app/components/JobProfileComp/JobCardDetail';
+import ProductsPackage from '@/app/components/AddInvoiceComp/ProductsPackage';
+import AddInvoiceModal from '@/app/components/AddInvoiceComp/AddInvoiceModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInvoices } from '@/store/slices/invoiceSlice';
 
@@ -182,3 +182,7 @@ const JobProfilePage = () => {
 };
 
 export default JobProfilePage;
+
+
+
+

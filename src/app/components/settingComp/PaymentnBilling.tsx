@@ -2,7 +2,7 @@ import React from 'react'
 import LeftHeaderCard from './LeftHeaderCard'
 import RightHeaderCard from './RightHeaderCard'
 import InvoiceTable from './InvoiceTable'
-import AddButton from '../AddButton';
+import AddButton from '@/app/components/ui/AddButton';
 import Image from "next/image";
 import { BsFillTrashFill } from "react-icons/bs";
 import PaymentMethod from './PaymentMethod';

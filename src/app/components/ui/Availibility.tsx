@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import AddButton from './AddButton';
-import AddTimeOffModal from './AddTimeOffModal';
+import AddTimeOffModal from '@/app/components/forms/AddTimeOffModal';
 
 // In your parent component (Availability tab):
 const statusMap: Record<string, string> = {

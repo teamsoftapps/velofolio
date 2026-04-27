@@ -9,6 +9,7 @@ import ActiveSessionsCard from './ActiveSessionsCard';
 import TwoFactorSetupModal from './TwoFactorSetupModal';
 import Disable2FAModal from './Disable2FAModal';
 import DeleteAccountModal from './DeleteAccountModal';
+import DownloadDataModal from './DownloadDataModal';
 import { auth } from '@/config/firebase';
 import { getUserProfile } from '@/firebase_Routes/routes';
 
@@ -16,6 +17,7 @@ const SecuritynPassword = () => {
   const [openTwoFactorModal, setOpenTwoFactorModal] = useState(false);
   const [openDisable2FAModal, setDisable2FAModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openDownloadModal, setOpenDownloadModal] = useState(false);
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
 
   useEffect(() => {
@@ -51,6 +53,7 @@ const SecuritynPassword = () => {
           is2FAEnabled={is2FAEnabled}
           setIs2FAEnabled={setIs2FAEnabled}
           setOpenDeleteModal={setOpenDeleteModal}
+          setOpenDownloadModal={setOpenDownloadModal}
         />
         <ActiveSessionsCard />
       </div>
@@ -73,6 +76,11 @@ const SecuritynPassword = () => {
       <DeleteAccountModal 
         isOpen={openDeleteModal}
         setIsOpen={setOpenDeleteModal}
+      />
+
+      <DownloadDataModal 
+        isOpen={openDownloadModal}
+        setIsOpen={setOpenDownloadModal}
       />
     </div>
   );
