@@ -2,7 +2,6 @@
 /** @format */
 
 'use client';
-import Navbar from '@/app/components/layouts/Navbar';
 import DashboardGraph from '@/app/components/ui/DashboardGraph';
 import UpcomingShoots from '@/app/components/ui/UpcomingShoots';
 import RecentLeads from '@/app/components/ui/RecentLeads';
@@ -20,7 +19,6 @@ export default function Home() {
   return (
     <RouteGuard allowedRoles={['superadmin']}>
       <div className='flex flex-col w-full min-h-screen bg-white pb-20 lg:pb-28'>
-        <Navbar />
 
 
         <div className='w-full lg:w-[94%] xl:w-4/5 my-8 flex flex-col lg:flex-row justify-center mx-auto gap-8 items-stretch px-4 pt-6 sm:px-8'>

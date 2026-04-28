@@ -1,65 +1,60 @@
-/** @format */
-
 'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import ProfileModal from '@/app/components/layouts/NavModal';
 import { useDispatch } from 'react-redux';
-import { clearCredientials } from '@/store/slices/authSlice';
-import { logOut, getUserProfile } from '@/firebase_Routes/routes';
-import { auth } from '@/config/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { clearCredientials as clearCredentials } from '@/store/slices/authSlice';
+import { logOut } from '@/firebase_Routes/routes';
 import { useGetOrganizationsQuery } from '@/store/apis/Common';
-import CreateWorkspaceModal from '@/app/components/forms/CreateWorkspace';
-import { IoNotificationsOutline } from "react-icons/io5";
 import NotificationModal from '@/app/components/layouts/NotificationModal';
-import { colors } from '@/utils/colors';
+
+// Custom Hooks & Config
+import { useFirebaseAuth } from '@/hooks/useFirebaseAuth';
+import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+
+// Extracted UI Components
+import { NavTabs } from '@/app/components/navcomp/NavTabs';
+import { NotificationButton } from '@/app/components/navcomp/NotificationButton';
+
+// --- Stub Hook for Notifications ---
+// TODO: Move to a real file when implementing notification logic
+const useNotifications = () => {
+  return { notificationCount: 2 }; 
+};
+
+// --- Main Navbar Component ---
 
 const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const dispatch = useDispatch();
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
-  const dispatch = useDispatch();
-  const [workspace, setWorkspaceOpen] = useState(false);
+
+  // Close modals when clicking outside
+  const profileRef = useRef<HTMLDivElement>(null);
+  useOnClickOutside(profileRef, () => setIsProfileOpen(false));
+
   const { data: companies } = useGetOrganizationsQuery({});
+  const { firebaseUser, firestoreUser, isLoggedIn, displayName, photoURL } = useFirebaseAuth();
+  const { notificationCount } = useNotifications();
 
-  const [firebaseUser, setFirebaseUser] = useState<any>(undefined);
-  const [firestoreUser, setFirestoreUser] = useState<any>(null);
-
+  // Close mobile menu on route change
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setFirebaseUser(user);
-      if (user?.uid) {
-        getUserProfile(user.uid).then(({ profile }: any) => {
-          if (profile) setFirestoreUser(profile);
-        });
-      } else {
-        setFirestoreUser(null);
-      }
-    });
-    return () => unsubscribe();
-  }, []);
-  console.log("User: ", firebaseUser);
-  const isLoggedIn = !!firebaseUser;
-  const displayName = firestoreUser?.displayName || firebaseUser?.displayName || "User";
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
-  const tabs = [
-    { name: 'Dashboard', icon: '/images/home.png', href: '/dashboard' },
-    { name: 'Clients', icon: '/images/users.png', href: '/clients' },
-    { name: 'Production', icon: '/images/film.png', href: '/production' },
-    { name: 'Leads', icon: '/images/leads.png', href: '/leads' },
-    { name: 'Jobs', icon: '/images/briefcase.png', href: '/jobs' },
-    { name: 'Calendar', icon: '/images/calendar.png', href: '/calendar' },
-    { name: 'Team', icon: '/images/team.png', href: '/team' },
-    { name: 'Payments', icon: '/images/creditcard.png', href: '/payments' },
-    { name: 'Reports', icon: '/images/chart-histogram.png', href: '/reports' },
-    { name: 'Settings', icon: '/images/settings.png', href: '/settings' },
-  ];
+  const handleLogout = async () => {
+    await logOut();
+    dispatch(clearCredentials());
+    router.push('/');
+  };
 
   return (
     <nav className='bg-white shadow-md sticky top-0 z-1000 w-full'>
@@ -80,61 +75,26 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
           </div>
 
           {/* Desktop Menu - AUTH ONLY */}
-          {isLoggedIn && (
-            <div className='hidden lg:flex items-center space-x-1 xl:space-x-4 overflow-hidden'>
-              {tabs.map((tab) => {
-                const isClientProfile = tab.name === 'Clients' && (pathname.startsWith('/clientProfile') || pathname.startsWith('/clientprofile'));
-                const isJobProfile = tab.name === 'Jobs' && (pathname.startsWith('/jobProfile') || pathname.startsWith('/jobprofile'));
-                const isTeamProfile = tab.name === 'Team' && (pathname.startsWith('/teamProfile') || pathname.startsWith('/teamprofile'));
-                const isActive = pathname === tab.href || pathname.startsWith(tab.href + '/') || isClientProfile || isJobProfile || isTeamProfile;
-                return (
-                  <Link
-                    key={tab.name}
-                    href={tab.href}
-                    className={`px-2 xl:px-3 py-2 rounded-lg text-xs xl:text-[15px] font-medium flex flex-col items-center transition-colors duration-200 flex-shrink-0 whitespace-nowrap 
-                      ${isActive ? 'text-[#01B0E9] bg-blue-50' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}
-                  >
-                    <Image
-                      src={tab.icon}
-                      alt={`${tab.name} Icon`}
-                      width={24}
-                      height={24}
-                      className={`w-6 h-6 mb-1 ${isActive ? 'opacity-100' : 'opacity-60 hover:opacity-100'}`}
-                      style={{
-                        filter: isActive
-                          ? 'invert(52%) sepia(91%) saturate(2251%) hue-rotate(167deg) brightness(98%) contrast(98%)'
-                          : 'none'
-                      }}
-                    />
-                    <span>{tab.name}</span>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
+          {isLoggedIn && <NavTabs variant="desktop" pathname={pathname} />}
 
           {/* Profile / Login - DYNAMIC */}
           <div className='flex items-center space-x-4'>
             {isLoggedIn ? (
-              <div className='hidden lg:flex items-center relative'>
+              <div className='hidden lg:flex items-center relative' ref={profileRef}>
+                <NotificationButton 
+                  count={notificationCount} 
+                  onClick={() => setIsNotifOpen(prev => !prev)} 
+                  className='mr-3 border-gray-200'
+                />
+                
                 <button
-                  onClick={() => setIsNotifOpen(!isNotifOpen)}
-                  className='relative mr-3 focus:outline-none p-2 rounded-full bg-gray-50 border border-gray-200 text-gray-700 cursor-pointer transition-colors duration-200'
-                  aria-label='Notifications'
-                >
-                  <IoNotificationsOutline className='w-6 h-6' />
-                  <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#01B0E9] px-1 text-[11px] font-bold text-white transition-all duration-300" style={{ boxShadow: `0 0 0 2px ${colors.white}` }}>
-                    2
-                  </span>
-                </button>
-                <button
-                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  onClick={() => setIsProfileOpen(prev => !prev)}
                   className='flex items-center cursor-pointer focus:outline-none transition-colors duration-200 border border-gray-300 text-gray-700 rounded-full px-2'
                   aria-label='Toggle profile menu'
                 >
                   <div className='bg-gray-200 rounded-full h-9 w-9 flex items-center justify-center overflow-hidden'>
                     <Image
-                      src={firestoreUser?.photoURL || firebaseUser?.photoURL || '/images/userprofile.png'}
+                      src={photoURL || '/images/userprofile.png'}
                       alt='User Profile'
                       width={24}
                       height={24}
@@ -167,22 +127,17 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
             {/* Mobile Menu Toggle */}
             <div className='lg:hidden flex items-center'>
               {isLoggedIn && (
-                <div className='relative'>
-                  <button
-                    onClick={() => setIsNotifOpen(!isNotifOpen)}
-                    className='focus:outline-none p-2 mr-2 rounded-full bg-gray-50 border border-gray-100 text-gray-700 shadow-sm relative transition-colors duration-200'
-                    aria-label='Notifications'
-                  >
-                    <IoNotificationsOutline className='w-6 h-6' />
-                    <span className="absolute -top-1 -right-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#01B0E9] px-1 text-[11px] font-bold text-white transition-all duration-300" style={{ boxShadow: `0 0 0 2px ${colors.white}` }}>
-                      2
-                    </span>
-                  </button>
+                <div className='relative mr-2'>
+                  <NotificationButton 
+                    count={notificationCount} 
+                    onClick={() => setIsNotifOpen(prev => !prev)} 
+                    className='border-gray-100 shadow-sm'
+                  />
                 </div>
               )}
 
               <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                onClick={() => setIsMobileMenuOpen(prev => !prev)}
                 className='text-gray-700 focus:outline-none p-2 rounded-md transition-colors duration-200'
                 aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               >
@@ -202,48 +157,7 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
         <div className='lg:hidden bg-white border-t border-gray-200 w-full'>
           <div className='px-4 py-4 space-y-1 sm:px-6'>
             {isLoggedIn ? (
-              <>
-                {tabs.map((tab) => {
-                  const isClientProfile = tab.name === 'Clients' && (pathname.startsWith('/clientProfile') || pathname.startsWith('/clientprofile'));
-                  const isJobProfile = tab.name === 'Jobs' && (pathname.startsWith('/jobProfile') || pathname.startsWith('/jobprofile'));
-                  const isTeamProfile = tab.name === 'Team' && (pathname.startsWith('/teamProfile') || pathname.startsWith('/teamprofile'));
-                  const isActive = pathname === tab.href || pathname.startsWith(tab.href + '/') || isClientProfile || isJobProfile || isTeamProfile;
-                  return (
-                    <Link
-                      key={tab.name}
-                      href={tab.href}
-                      className={`block px-3 py-3 rounded-md text-lg font-medium flex items-center transition-colors duration-200 
-                        ${isActive ? 'text-[#01B0E9] bg-blue-50' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}
-                      onClick={() => setIsMobileMenuOpen(false)}>
-                      <Image
-                        src={tab.icon}
-                        alt={`${tab.name} Icon`}
-                        width={24}
-                        height={24}
-                        className={`w-6 h-6 mr-3 ${isActive ? 'opacity-100' : 'opacity-60 hover:opacity-100'}`}
-                        style={{
-                          filter: isActive
-                            ? 'invert(52%) sepia(91%) saturate(2251%) hue-rotate(167deg) brightness(98%) contrast(98%)'
-                            : 'none'
-                        }}
-                      />
-                      {tab.name}
-                    </Link>
-                  );
-                })}
-                <div className='border-t border-gray-200 pt-4'>
-                  <button
-                    className='block w-full text-left px-3 py-2 text-base font-medium text-gray-700 rounded-md transition-colors duration-200 hover:bg-gray-100'
-                    onClick={async () => {
-                      await logOut();
-                      dispatch(clearCredientials());
-                      setIsMobileMenuOpen(false);
-                      router.push('/');
-                    }}>
-                    Logout
-                  </button>
-                </div>
-              </>
+              <NavTabs variant="mobile" pathname={pathname} onLogout={handleLogout} />
             ) : (
               <div className="text-gray-400 text-sm px-3 italic">
                 {guestLabel || "VeloFolio - Professional Workflow"}
@@ -252,7 +166,6 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
           </div>
         </div>
       )}
-      {workspace && <CreateWorkspaceModal setWorkspaceOpen={setWorkspaceOpen} />}
       {isNotifOpen && (
         <NotificationModal isOpen={isNotifOpen} onClose={() => setIsNotifOpen(false)} />
       )}
@@ -261,4 +174,3 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
 };
 
 export default Navbar;
-

@@ -1,6 +1,5 @@
 'use client';
 import React, { useState } from 'react';
-import Navbar from '@/app/components/layouts/Navbar';
 import Link from 'next/link';
 import { FaArrowLeft } from 'react-icons/fa';
 import { FiChevronDown, FiTrash2, FiEdit2, FiMail, FiPhone, FiCalendar, FiMapPin, FiGlobe, FiX, FiSave, FiPlus, FiMinus } from 'react-icons/fi';
@@ -222,7 +221,6 @@ const TeamProfilePage = () => {
 
   return (
     <div className='min-h-screen w-full flex flex-col bg-[#FAFAFA]'>
-      <Navbar />
       <div className='w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6'>
         {/* Title & Navigation */}
         <div className="mb-12 animate-in fade-in slide-in-from-top-4 duration-700">

@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from 'react'
 import { colors } from '@/utils/colors'
-import Navbar from '@/app/components/layouts/Navbar'
 import ReportHeader from '@/app/components/reportComp/ReportHeader'
 import ReportGraph from '@/app/components/reportComp/ReportGraph'
 import ReportPiChart from '@/app/components/reportComp/ReportPiChart'
@@ -145,8 +144,7 @@ const reports = () => {
 
       {/* 1. SCREEN ONLY CONTENT (The interactive dashboard) */}
       <div className="screen-only-content">
-        <Navbar />
-        <div className='container mx-auto w-[100%] h-full px-2 lg:px-6 -mt-2'>
+        <div className='container mx-auto w-[100%] h-full px-2 lg:px-6'>
           <ReportHeader
             timeRange={timeRange}
             setTimeRange={setTimeRange}

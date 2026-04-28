@@ -2,7 +2,6 @@
 
 'use client';
 import React, { useState } from 'react';
-import Navbar from '@/app/components/layouts/Navbar';
 import Link from 'next/link';
 import AddButton from '@/app/components/ui/AddButton';
 import Contracts from '@/app/components/ui/Contracts';
@@ -73,7 +72,6 @@ const JobProfilePage = () => {
 
   return (
     <div className='min-h-screen pb-16 lg:pb-32 w-full flex flex-col items-start bg-[#FAFAFA] inter'>
-      <Navbar />
       <div className='container w-full max-w-[1400px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 sm:px-6 md:px-8 pb-10 flex flex-col lg:flex-row gap-6 lg:gap-20'>
 
         {/* Left Section */}

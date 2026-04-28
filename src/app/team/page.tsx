@@ -1,7 +1,6 @@
 'use client';
 import React, { useMemo, useState } from 'react';
 
-import Navbar from '@/app/components/layouts/Navbar';
 import TeamsTable from '@/app/components/ui/TeamsTable';
 import OverviewHeader from '@/app/components/layouts/OverviewHeader';
 import TeamData from '@/utils/team.json';
@@ -65,7 +64,6 @@ export default function Page() {
 
   return (
     <>
-      <Navbar />
       {isDeleteModalOpen && (
         <DeleteModal
           isOpen={isDeleteModalOpen}

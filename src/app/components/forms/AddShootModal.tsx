@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { MdClose, MdCalendarToday, MdPerson } from 'react-icons/md';
+import { MdClose, MdPerson } from 'react-icons/md';
 import Image from 'next/image';
 
 interface ShootData {
@@ -168,9 +168,8 @@ export default function AddShootModal({
                                     required
                                     value={formData.date}
                                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                                    className="w-full pl-3 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
                                 />
-                                <MdCalendarToday className="absolute right-3 top-2.5 w-4 h-4 text-gray-400 pointer-events-none" />
                             </div>
                         </div>
                         {/* Title */}

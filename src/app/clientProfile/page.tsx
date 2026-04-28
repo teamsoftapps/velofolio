@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useMemo } from 'react';
-import Navbar from '@/app/components/layouts/Navbar';
 import { useRouter } from 'next/navigation';
 import {
   Magnet,
@@ -77,7 +76,6 @@ const ClientProfilePage = () => {
 
   return (
     <div className='min-h-screen w-full flex flex-col items-start bg-[#F8F9FB]'>
-      <Navbar />
 
       <div className='w-full max-w-[1440px] mx-auto py-8 sm:py-10 md:py-12 px-6 sm:px-8 md:px-10 pb-16'>
 

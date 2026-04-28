@@ -36,7 +36,6 @@ import {
   useSortable,
   arrayMove,
 } from '@dnd-kit/sortable';
-import Navbar from '@/app/components/layouts/Navbar';
 import ProductionHeader from '@/app/components/layouts/productionHeader';
 import PreWeddingModal from '@/app/components/forms/WeddingModal';
 import { BiPencil, BiPlus } from 'react-icons/bi';
@@ -594,10 +593,9 @@ const ProductionPage: React.FC = () => {
   };
 
   return (
-    <div className='h-screen w-full flex flex-col bg-gray-100 overflow-hidden relative' style={{ touchAction: 'none', overscrollBehavior: 'none' }}>
-      <Navbar />
+    <div className='h-screen w-full flex flex-col  overflow-hidden relative' style={{ touchAction: 'none', overscrollBehavior: 'none' }}>
       <div
-        className={`w-full max-w-[1800px] mx-auto mt-2 sm:mt-4 md:mt-6 px-4 pt-2 sm:px-17 flex flex-col flex-1 h-full overflow-hidden ${modal ? 'blur-sm' : ''
+        className={`w-full max-w-[1440px] mx-auto mt-2 sm:mt-4 md:mt-6 px-4 sm:px-6 lg:px-10 pt-2 flex flex-col flex-1 h-full overflow-hidden ${modal ? 'blur-sm' : ''
           }`}
         style={{ touchAction: 'none', overscrollBehavior: 'none' }}>
         <ProductionHeader
@@ -610,7 +608,7 @@ const ProductionPage: React.FC = () => {
         />
         <ClientOnly>
           {/* Zoom Controls Overlay */}
-          <div className="absolute bottom-6 right-6 flex items-center gap-2 bg-white p-2 rounded-full shadow-lg z-[2000] border border-gray-200">
+          <div className="fixed bottom-6 right-6 flex items-center gap-2 bg-white p-2 rounded-full shadow-lg z-[2000] border border-gray-200">
             <button onClick={() => setTargetScale(s => Math.max(0.2, parseFloat((s - 0.1).toFixed(3))))} className="p-2 hover:bg-gray-100 rounded-full transition-colors" title="Zoom Out">
               <AiOutlineZoomOut size={20} className="text-gray-600" />
             </button>

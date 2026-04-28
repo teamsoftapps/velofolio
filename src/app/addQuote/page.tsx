@@ -2,7 +2,6 @@
 
 'use client';
 import React, { useState } from 'react';
-import Navbar from '@/app/components/layouts/Navbar';
 import Link from 'next/link';
 import { useSelector, UseSelector } from 'react-redux';
 import { Briefcase } from 'lucide-react';
@@ -103,7 +102,6 @@ const JobProfilePage = () => {
 
   return (
     <div className='min-h-screen h-full  w-full flex flex-col items-start bg-[#FAFAFA] inter'>
-      <Navbar />
       <div className='container w-full max-w-[1400px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 sm:px-6 md:px-8 flex flex-col gap-4'>
 
         <div>

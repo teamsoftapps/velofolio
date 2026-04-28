@@ -2,7 +2,11 @@ import React, { useState } from 'react'
 import { BiRightArrowAlt } from 'react-icons/bi';
 
 const FileAutomation = () => {
-    const [is2FAEnabled, setIs2FAEnabled] = useState(false);
+  const [allowUpload, setAllowUpload] = useState(true);
+  const [autoSendInvoice, setAutoSendInvoice] = useState(true);
+  const [autoSendQuote, setAutoSendQuote] = useState(true);
+  const [autoRemind, setAutoRemind] = useState(true);
+
   return (
     <div className='lg:w-3xl w-full bg-white p-6 rounded-2xl border border-[#E0E0E2]'>
         <h1 className='text-xl mb-7'>File Automation</h1>
@@ -10,75 +14,66 @@ const FileAutomation = () => {
             <div className='bg-[#F4F4F5] border-gray-300 flex items-center justify-between min-w-[200px] border-1 rounded-md px-4 py-2'>
                 <h3  className='flex items-center gap-3 '>Allow Clients Upload</h3>
                   <button
-              onClick={() => {
-                setIs2FAEnabled(!is2FAEnabled);
-              }}
+              onClick={() => setAllowUpload(!allowUpload)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                is2FAEnabled ? "bg-[#01B0E9]" : "bg-gray-300"
+                allowUpload ? "bg-[#01B0E9]" : "bg-gray-300"
               }`}
             >
               <span
                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  is2FAEnabled ? "translate-x-6" : "translate-x-1"
+                  allowUpload ? "translate-x-6" : "translate-x-1"
                 }`}
               />
             </button>
             </div>
-                        <div className='bg-[#F4F4F5] border-gray-300 flex items-center justify-between min-w-[200px] border-1 rounded-md px-4 py-2'>
+            
+            <div className='bg-[#F4F4F5] border-gray-300 flex items-center justify-between min-w-[200px] border-1 rounded-md px-4 py-2'>
                 <h3  className='flex items-center gap-3 '>Auto Send Invoice Email</h3>
                   <button
-              onClick={() => {
-                setIs2FAEnabled(!is2FAEnabled);
-              }}
+              onClick={() => setAutoSendInvoice(!autoSendInvoice)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                is2FAEnabled ? "bg-[#01B0E9]" : "bg-gray-300"
+                autoSendInvoice ? "bg-[#01B0E9]" : "bg-gray-300"
               }`}
             >
               <span
                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  is2FAEnabled ? "translate-x-6" : "translate-x-1"
+                  autoSendInvoice ? "translate-x-6" : "translate-x-1"
                 }`}
               />
             </button>
             </div>
 
-                        <div className='bg-[#F4F4F5] border-gray-300 flex items-center justify-between min-w-[200px] border-1 rounded-md px-4 py-2'>
-                <h3  className='flex items-center gap-3 '>Auto Send Invoice Email</h3>
+            <div className='bg-[#F4F4F5] border-gray-300 flex items-center justify-between min-w-[200px] border-1 rounded-md px-4 py-2'>
+                <h3  className='flex items-center gap-3 '>Auto Send Quote Email</h3>
                   <button
-              onClick={() => {
-                setIs2FAEnabled(!is2FAEnabled);
-              }}
+              onClick={() => setAutoSendQuote(!autoSendQuote)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                is2FAEnabled ? "bg-[#01B0E9]" : "bg-gray-300"
+                autoSendQuote ? "bg-[#01B0E9]" : "bg-gray-300"
               }`}
             >
               <span
                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  is2FAEnabled ? "translate-x-6" : "translate-x-1"
+                  autoSendQuote ? "translate-x-6" : "translate-x-1"
                 }`}
               />
             </button>
             </div>
-                        <div className='bg-[#F4F4F5] border-gray-300 flex items-center justify-between min-w-[200px] border-1 rounded-md px-4 py-2'>
+            
+            <div className='bg-[#F4F4F5] border-gray-300 flex items-center justify-between min-w-[200px] border-1 rounded-md px-4 py-2'>
                 <h3  className='flex items-center gap-3 '>Auto remind OverDue</h3>
                   <button
-              onClick={() => {
-                setIs2FAEnabled(!is2FAEnabled);
-              }}
+              onClick={() => setAutoRemind(!autoRemind)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                is2FAEnabled ? "bg-[#01B0E9]" : "bg-gray-300"
+                autoRemind ? "bg-[#01B0E9]" : "bg-gray-300"
               }`}
             >
               <span
                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  is2FAEnabled ? "translate-x-6" : "translate-x-1"
+                  autoRemind ? "translate-x-6" : "translate-x-1"
                 }`}
               />
             </button>
             </div>
-
-
-      
 
                <div className='flex items-center justify-between w-full'>
                 <h3 className='text-lg'>Remind me after </h3>

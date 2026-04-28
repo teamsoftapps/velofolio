@@ -8,7 +8,6 @@
 'use client';
 import React, { useEffect, useMemo, useState } from 'react';
 import { colors } from '@/utils/colors';
-import Navbar from '@/app/components/layouts/Navbar';
 
 import PaymentsTable from '@/app/components/ui/PaymentsTable';
 import OverviewHeader from '@/app/components/layouts/OverviewHeader';
@@ -158,7 +157,6 @@ export default function Page() {
   }, [paymentSummary, timeRange]);
   return (
     <>
-      <Navbar />
 
       <div className='min-h-screen w-full flex flex-col items-start overflow-x-hidden pt-9 pb-24' style={{ backgroundColor: colors.bgLight }}>
         {/* <Pagination /> */}

@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { colors } from '@/utils/colors'
-import Navbar from '@/app/components/layouts/Navbar'
 import SettingTab from '@/app/components/settingComp/SettingTab'
 import Image from 'next/image'
 import LogoSetting from '@/app/components/settingComp/LogoSetting'
@@ -20,10 +19,9 @@ import SystemPrefrences from '@/app/components/settingComp/SystemPrefrences/Syst
 const page = () => {
   const [activeTab, setActiveTab] = useState('Company Info');
   return (
-    <div className='h-full pb-8 transition-colors duration-300' style={{ backgroundColor: colors.bgLight }}>
-      <Navbar />
+    <div className='h-full  pb-8 transition-colors duration-300' style={{ backgroundColor: colors.bgLight }}>
       <div className='container mx-auto w-[100%] min-h-[90vh] h-full px-10' style={{ backgroundColor: colors.bgLight }}>
-        <div className='w-full mt-12 mb-10'>
+        <div className='w-full mb-10 mt-16  '>
           <h1 className="text-[24px] font-semibold text-gray-950 mb-2">Settings</h1>
           <div className="flex items-center gap-4 text-[14px] text-gray-500 font-medium">
             <Link href="/dashboard" className="hover:text-gray-950 transition-colors cursor-pointer">Dashboard</Link>

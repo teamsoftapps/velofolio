@@ -4,7 +4,6 @@
 'use client';
 import React, { useMemo, useState } from 'react';
 import { colors } from "@/utils/colors";
-import Navbar from '@/app/components/layouts/Navbar';
 import Table from '@/app/components/ui/Table';
 import OverviewHeader from '@/app/components/layouts/OverviewHeader';
 import OverviewChart from '@/app/components/ui/OverviewChart';
@@ -97,7 +96,6 @@ export default function Page() {
 
   return (
     <RouteGuard allowedRoles={['superadmin']}>
-      <Navbar />
 
       <div className='min-h-screen w-full flex flex-col items-start overflow-x-hidden pt-9 pb-24' style={{ backgroundColor: colors.bgLight }}>
         <div className='w-full lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8'>

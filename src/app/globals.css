@@ -6,11 +6,13 @@ html,
 body {
   font-family: 'Inter', sans-serif !important;
 }
-.inter{
- font-family: 'Inter', sans-serif;
+
+.inter {
+  font-family: 'Inter', sans-serif;
 }
+
 :root {
-  --background: #ffffff;
+  --background: #FAFAFA;
   --foreground: #171717;
 }
 
@@ -33,14 +35,19 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
 .scroller {
-  overflow-y: scroll; /* allows scrolling */
-  scrollbar-width: none; /* for Firefox */
-  -ms-overflow-style: none; /* for Internet Explorer and Edge */
+  overflow-y: scroll;
+  /* allows scrolling */
+  scrollbar-width: none;
+  /* for Firefox */
+  -ms-overflow-style: none;
+  /* for Internet Explorer and Edge */
 }
 
 .scroller::-webkit-scrollbar {
-  display: none; /* for Chrome, Safari, and Opera */
+  display: none;
+  /* for Chrome, Safari, and Opera */
 }
 
 /* globals.css or component <style> */
@@ -62,22 +69,26 @@ body {
   font-weight: 700;
   color: #00a4dd;
 }
-.black{
+
+.black {
   color: #000;
 }
 
 .select-no-arrow {
   -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   background-image: none !important;
-  padding-right: 1rem !important;   /* Remove extra space taken by arrow */
+  padding-right: 1rem !important;
+  /* Remove extra space taken by arrow */
 }
 
 .select-no-arrow::-ms-expand {
-  display: none; /* IE/Edge */
+  display: none;
+  /* IE/Edge */
 }
 
 .my-checkbox {
-  accent-color: #01B0E9; /* change the checkmark & background when checked */
+  accent-color: #01B0E9;
+  /* change the checkmark & background when checked */
 }

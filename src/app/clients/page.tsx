@@ -3,7 +3,6 @@
 import React, { useMemo, useState } from 'react';
 import { colors } from "@/utils/colors";
 
-import Navbar from '@/app/components/layouts/Navbar';
 import FilterModal from '@/app/components/forms/FilterModal';
 import Table from '@/app/components/ui/Table';
 import OverviewHeader from '@/app/components/layouts/OverviewHeader';
@@ -153,7 +152,6 @@ export default function ClientsPage() {
           fileName={`clients_export_${new Date().toISOString().split('T')[0]}`}
           recordCount={allTableData.length}
         />
-        <Navbar />
 
         <ImportClientsModal
           isOpen={isImportModalOpen}

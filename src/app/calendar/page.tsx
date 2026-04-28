@@ -23,7 +23,6 @@ const page = () => {
 
   return (
     <div className='w-full bg-[#FaFaFA]'>
-      <Navbar />
       <FilterModal
         isOpen={openFilter}
         onClose={() => setOpenFilter(false)}

@@ -7,6 +7,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StoreProvider from './components/layouts/StoreProvider';
 import RouteGuard from './components/layouts/RouteGuard';
+import PageTransition from './components/layouts/PageTransition';
+import NavbarWrapper from './components/layouts/NavbarWrapper';
 import { HeroUIProvider } from '@heroui/system';
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -37,6 +39,7 @@ export default function RootLayout({
           <ToastContainer />
           <RouteGuard>
             <StoreProvider>
+              <NavbarWrapper />
               {children}
             </StoreProvider>
           </RouteGuard>
