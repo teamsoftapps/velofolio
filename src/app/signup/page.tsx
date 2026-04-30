@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import RouteGuard from "@/app/components/layouts/RouteGuard";
 import { useDispatch } from "react-redux";
 import { setCredientials } from "@/store/slices/authSlice";
-import { useValidateInviteQuery } from "@/store/apis/Common";
+import { useInvitationLogic } from "@/hooks/useInvitationLogic";
 import { Base_url } from "@/utils/Url";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { getFriendlyErrorMessage } from "@/utils/firebaseErrors";
@@ -21,7 +21,11 @@ const SignupSchema = Yup.object({
   full_name: Yup.string().min(2, "Too short!").required("Full name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
+    .min(8, "Password must be at least 8 characters")
+    .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(/[0-9]/, "Password must contain at least one number")
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, "Password must contain at least one special character")
     .required("Password is required"),
   agree: Yup.boolean().oneOf([true], "You must accept the terms"),
 });
@@ -42,37 +46,8 @@ const Signup: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
 
 
-  // URL token handling
-  const [invitationToken, setInvitationToken] = useState<string | null>(null);
-  const [inviteEmail, setInviteEmail] = useState("");
-  const [inviteRole, setInviteRole] = useState("");
-  const [loadingInvite, setLoadingInvite] = useState(false);
-  const { data, isLoading, error } = useValidateInviteQuery(invitationToken as string, {
-    skip: !invitationToken, // only run when token exists
-  });
-  //---------------------------------------
-  //  GET TOKEN FROM URL
-  //---------------------------------------
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
-    setInvitationToken(token);
-  }, []);
-
-  //---------------------------------------
-  //  FETCH INVITATION DETAILS
-  //---------------------------------------
-  useEffect(() => {
-    if (!data) return;
-
-    if (!data.success) {
-      toast.error(data.message || "Invalid or expired invitation");
-      return;
-    }
-
-    setInviteEmail(data.email);
-    setInviteRole(data.role);
-  }, [data]);
+  // URL token handling moved to custom hook
+  const { invitationToken, inviteEmail, inviteRole, loadingInvite } = useInvitationLogic();
 
   //---------------------------------------
   //  GOOGLE LOGIN

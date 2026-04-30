@@ -42,7 +42,7 @@ const Notification = () => {
 
   return (
     <div className="text-black max-w-3xl  p-8">
-    <h1 className="text-2xl font-bold mb-8">Notification Settings</h1>
+      <h1 className="text-2xl  mb-8">Notification Settings</h1>
 
       <div className=" pb-5 pt-3 space-y-4 bg-[#FAFAFA] rounded-lg">
         {categories.map((cat) => {

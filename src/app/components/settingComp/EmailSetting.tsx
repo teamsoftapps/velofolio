@@ -8,7 +8,7 @@ import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
 import FontFamily from '@tiptap/extension-font-family';
-import {TextStyle} from '@tiptap/extension-text-style';
+import { TextStyle } from '@tiptap/extension-text-style';
 import Color from '@tiptap/extension-color';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
@@ -19,26 +19,26 @@ import FontSize from '@tiptap/extension-font-size';
 import { RichTextToolbar } from './ToolBar';
 
 const EmailSetting = () => {
- const editor = useEditor({
+  const editor = useEditor({
     extensions: [
       StarterKit.configure({
-  heading: false,
-  bulletList: false,
-  orderedList: false,
-  listItem: false,
-}),
+        heading: false,
+        bulletList: false,
+        orderedList: false,
+        listItem: false,
+      }),
       Underline,
       Link.configure({ openOnClick: false }),
       TextAlign.configure({ types: ['paragraph'] }),
       FontFamily,
       TextStyle,
       Color,
-    FontSize.configure({
-      types: ['textStyle'], // required
-    }),
-     ListItem,
-    BulletList,
-    OrderedList,
+      FontSize.configure({
+        types: ['textStyle'], // required
+      }),
+      ListItem,
+      BulletList,
+      OrderedList,
     ],
     content: `
       <p><strong>Lumière Studios</strong></p>
@@ -48,9 +48,9 @@ const EmailSetting = () => {
     immediatelyRender: false, // Fixes Next.js SSR error
     editorProps: {
       attributes: {
-class: 'prose max-w-full focus:outline-none min-h-40 p-4 border border-gray-300 rounded-b-lg',
+        class: 'prose max-w-full focus:outline-none min-h-40 p-4 border border-gray-300 rounded-b-lg',
         contenteditable: 'true'
-       , spellcheck: 'false',
+        , spellcheck: 'false',
       },
     },
   });
@@ -65,7 +65,7 @@ class: 'prose max-w-full focus:outline-none min-h-40 p-4 border border-gray-300 
 
   return (
     <div className="max-w-3xl  p-8">
-      <h1 className="text-2xl font-bold mb-8">Email Settings</h1>
+      <h1 className="text-2xl  mb-8">Email Settings</h1>
 
       <form className="space-y-7">
         {/* All your original inputs — unchanged */}
@@ -100,17 +100,17 @@ class: 'prose max-w-full focus:outline-none min-h-40 p-4 border border-gray-300 
         <div>
           <label className="block text-sm font-medium mb-2">Footer Signature</label>
 
-        <RichTextToolbar editor={editor} />
+          <RichTextToolbar editor={editor} />
 
           {/* Editor Area */}
-   <EditorContent
-  editor={editor}
-  className="
+          <EditorContent
+            editor={editor}
+            className="
     focus:outline-none min-h-40 border border-gray-300 rounded-b-lg p-4
     [&_ul]:list-disc [&_ul]:pl-5 [&_li]:my-1
     [&_ol]:list-decimal [&_ol]:pl-5
   "
-/>
+          />
 
         </div>
 

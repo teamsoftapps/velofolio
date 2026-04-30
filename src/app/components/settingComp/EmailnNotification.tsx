@@ -6,15 +6,15 @@ import EmailTemplates from './EmailTemplates'
 const EmailnNotification = () => {
   return (
     <div>
-    <div className='text-black flex gap-6 flex-col lg:flex-row lg:gap-20 '>
-        <div className='lg:mt-16 lg:w-1/2'>
-            <EmailSetting />
+      <div className='text-black flex gap-6 flex-col lg:flex-row lg:gap-20 '>
+        <div className='lg:mt-5 lg:w-1/2'>
+          <EmailSetting />
         </div>
-          <div className='lg:mt-16'>
-            <Notification/>
-          </div>
-    </div>
-    <EmailTemplates />
+        <div className='lg:mt-5'>
+          <Notification />
+        </div>
+      </div>
+      <EmailTemplates />
     </div>
   )
 }
