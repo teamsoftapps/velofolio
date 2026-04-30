@@ -18,7 +18,7 @@ const tableData = [
     name: "John Doe",
     email: "john.doe@example.com",
     image: "/teampic1.png",
-    role: "Administrator",
+    role: "Super Admin",
     status: "Active",
     lastActive: "2025-11-06",
     action: "View Profile"
@@ -26,8 +26,8 @@ const tableData = [
   {
     name: "Sarah Connor",
     email: "sarah.connor@example.com",
-    image: "/teampic1.png",
-    role: "Manager",
+    image: "/teampic2.png",
+    role: "Admin",
     status: "Inactive",
     lastActive: "2025-10-30",
     action: "View Profile"
@@ -35,8 +35,8 @@ const tableData = [
   {
     name: "Michael Smith",
     email: "michael.smith@example.com",
-    image: "/teampic1.png",
-    role: "Developer",
+    image: "/teampic3.png",
+    role: "Editor",
     status: "Active",
     lastActive: "2025-11-07",
     action: "View Profile"
@@ -44,8 +44,8 @@ const tableData = [
   {
     name: "Emily Johnson",
     email: "emily.johnson@example.com",
-    image: "/teampic1.png",
-    role: "Designer",
+    image: "/user1.png",
+    role: "Editor",
     status: "Active",
     lastActive: "2025-11-05",
     action: "View Profile"
@@ -54,7 +54,7 @@ const tableData = [
     name: "Robert Brown",
     email: "robert.brown@example.com",
     image: "/teampic1.png",
-    role: "Support Staff",
+    role: "Editor",
     status: "On Leave",
     lastActive: "2025-10-25",
     action: "View Profile"

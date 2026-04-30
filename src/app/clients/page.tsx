@@ -71,7 +71,7 @@ export default function ClientsPage() {
       id: row.id || `CLNT-${String(index + 1).padStart(3, '0')}`,
       dateCreated: row.dateCreated || new Date().toISOString().split('T')[0],
       name: `${row.firstName || row.name || 'Unknown'} ${row.lastName || ''}`.trim(),
-      company: row.company || '-',
+      company: row.company || row.companyName || '-',
       email: row.email || 'N/A',
       jobs: row.jobs || '3',
       status: row.status || 'Active',

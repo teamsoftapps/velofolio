@@ -1,12 +1,12 @@
 /** @format */
-
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useMemo, Suspense } from 'react';
 import Link from 'next/link';
 import AddButton from '@/app/components/ui/AddButton';
 import Contracts from '@/app/components/ui/Contracts';
 import ClientJobCard from '@/app/components/JobProfileComp/JobClientCard';
 import JobDetail from "@/utils/JobDetail.json";
+import ClientData from "@/utils/Data.json";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { LuNetwork } from "react-icons/lu";
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
@@ -16,18 +16,48 @@ import EmptyInvoicnQuoteState from '@/app/components/ui/EmptyInvoicnQuoteState';
 import AddActionsModal from '@/app/components/JobProfileComp/AddActionsModal';
 import { useSelector } from 'react-redux';
 
-const JobProfilePage = () => {
+const JobProfileContent = () => {
   const [activeTab, setActiveTab] = useState('Invoices');
   const [openForm, setOpenForm] = useState(false);
   const { invoices, quotes } = useSelector((state: any) => state.persisted.invoiceandQuote);
   const searchParams = useSearchParams();
-  const id = Number(searchParams.get("id"));
+  
+  const rawId = searchParams.get("id");
+  const id = rawId ? (rawId.startsWith('CLNT-') ? rawId : Number(rawId)) : null;
   const router = useRouter();
-  const data = JobDetail.find((item) => item.id === id);
+  
+  const data = useMemo(() => {
+    if (!id) return null;
+    const jobData = JobDetail.find((item) => item.id === id);
+    if (jobData) return jobData;
+    
+    // Fallback to client data if job not found
+    const clientFound = ClientData.find((c) => c.id === id);
+    if (clientFound) {
+      return {
+        id: clientFound.id,
+        client: {
+          name: clientFound.name,
+          email: clientFound.email,
+          phone: clientFound.phone,
+          address: clientFound.address,
+          image: (clientFound as any).image || "/teampic1.png"
+        },
+        jobDetails: {
+          title: "Job Profile",
+          type: "General",
+          status: "Pending"
+        }
+      };
+    }
+    return null;
+  }, [id]);
+
   const [notesList, setNotesList] = useState<any[]>((data as any)?.notes ? [{ id: 1, title: 'Initial Briefing', text: (data as any)?.notes, date: 'Oct 12, 2025' }] : []);
   const [selectedNote, setSelectedNote] = useState<any | null>(null);
   const [noteTitle, setNoteTitle] = useState('');
   const [noteText, setNoteText] = useState('');
+  
   const steps = [
     { id: 1, title: "Lead", date: "19 Nov 2025", completed: true },
     { id: 2, title: "Qualified", date: "20 Nov 2025", completed: true },
@@ -77,12 +107,12 @@ const JobProfilePage = () => {
         {/* Left Section */}
         <div className='w-full lg:w-[31%] flex-shrink-0'>
           <div>
-            <h1 className='text-2xl font-semibold text-black'>{data?.jobDetails.title}</h1>
+            <h1 className='text-2xl font-semibold text-black'>{data?.jobDetails?.title || "Job Profile"}</h1>
             <Link
               href='/jobs'
               className='flex items-center mt-2 text-[#a3a3a3] hover:text-gray-900 text-sm sm:text-base md:text-base lg:text-sm font-medium mb-2 sm:mb-3 md:mb-4 transition-colors duration-200'
             >
-              Dashboard | Job Overview | <span className="font-semibold text-black">{data?.jobDetails.title}</span>
+              Dashboard | Job Overview | <span className="font-semibold text-black">{data?.jobDetails?.title || "Overview"}</span>
             </Link>
           </div>
           <ClientJobCard data={data} />
@@ -191,20 +221,14 @@ const JobProfilePage = () => {
         {/* Right Section */}
         <div className='w-full lg:w-[65%] flex flex-col flex-col-reverse mt-4    min-h-screen overflow-y-scroll scroller pb-24 lg:pb-32'>
           {/* Stepper */}
-
           <div className=''>
             <WorkflowSteps />
           </div>
 
-
           {/* Tabs */}
           <div className='w-full mt-4 h-[620px] bg-white p-3 sm:p-6 rounded-lg shadow-md'>
-
             <div className='flex  lg:justify-between scroller gap-2 sm:gap-3 overflow-x-auto p-2 border-2 border-gray-300 rounded-xl'>
-              {['Invoices', 'Quotes', 'Contracts', 'Questionnaires', 'Files'
-
-                // ,'Notes'
-              ].map(tab => (
+              {['Invoices', 'Quotes', 'Contracts', 'Questionnaires', 'Files'].map(tab => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
@@ -231,8 +255,6 @@ const JobProfilePage = () => {
                           type="Invoice"
                         />
                       ))}
-
-                      {/* Render AddButton only once */}
                       <div className="w-36 mt-4">
                         <AddButton
                           setOpenForm={() => router.push(`/addInvoice?id=${id}`)}
@@ -245,8 +267,6 @@ const JobProfilePage = () => {
                   )}
                 </>
               )}
-
-
 
               {activeTab === 'Quotes' && (
                 <>
@@ -273,7 +293,6 @@ const JobProfilePage = () => {
               {activeTab === 'Contracts' && <Contracts />}
               {activeTab === 'Questionnaires' && <EmptyInvoicnQuoteState setOpenForm={setOpenForm} id={id} type='Questionnaire' desibled={true} />}
               {activeTab === 'Files' && <EmptyInvoicnQuoteState setOpenForm={setOpenForm} id={id} type='File' desibled={true} />}
-
             </div>
           </div>
           <div className='w-full flex justify-end relative z-[110]'>
@@ -283,20 +302,21 @@ const JobProfilePage = () => {
             <AddActionsModal
               isOpen={openForm}
               onClose={() => setOpenForm(false)}
-              clientId={id}
+              clientId={id as any}
             />
           </div>
         </div>
-
       </div>
     </div>
   );
 };
 
+const JobProfilePage = () => {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <JobProfileContent />
+    </Suspense>
+  );
+};
+
 export default JobProfilePage;
-
-
-
-
-
-

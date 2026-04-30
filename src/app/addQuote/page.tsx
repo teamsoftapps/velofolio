@@ -1,12 +1,12 @@
 /** @format */
-
 'use client';
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
-import { useSelector, UseSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Briefcase } from 'lucide-react';
 
 import JobDetail from "@/utils/JobDetail.json";
+import ClientData from "@/utils/Data.json";
 import { useSearchParams } from 'next/navigation';
 
 import InvoiceDetailsForm from '@/app/components/AddInvoiceComp/InvoiceDeatil';
@@ -16,12 +16,13 @@ import JobCardDetail from '@/app/components/JobProfileComp/JobCardDetail';
 import ProductsPackage from '@/app/components/AddInvoiceComp/ProductsPackage';
 import AddInvoiceModal from '@/app/components/AddInvoiceComp/AddInvoiceModal';
 
-const JobProfilePage = () => {
-  const [activeTab, setActiveTab] = useState('Invoices');
+const AddQuoteContent = () => {
   const quotes = useSelector((state: any) => state.persisted.invoiceandQuote.quotes);
-
   const searchParams = useSearchParams();
-  const id = Number(searchParams.get("clientId") || searchParams.get("id"));
+  
+  const rawId = searchParams.get("clientId") || searchParams.get("id");
+  const id = rawId ? (rawId.startsWith('CLNT-') ? rawId : Number(rawId)) : null;
+
   const quoteIdParam = searchParams.get("QuoteId");
   const isEditing = searchParams.get("edit") === "true";
 
@@ -45,51 +46,34 @@ const JobProfilePage = () => {
     return Math.random().toString(36).substring(2, 9).toUpperCase();
   }, [isEditing, quoteIdParam]);
 
-  const data = JobDetail.find((item) => item.id === id);
-  console.log("id", id);
-  console.log("JobDetail", JobDetail);
-  console.log("data", data);
-  const steps = [
-    { id: 1, title: "Lead", date: "19 Nov 2025", completed: true },
-    { id: 2, title: "Qualified", date: "20 Nov 2025", completed: true },
-    { id: 3, title: "Proposal", date: "21 Nov 2025", completed: true },
-    { id: 4, title: "Negotiation", completed: false },
-    { id: 5, title: "Closed Won", completed: false },
-  ];
-  const eventsData = [
-    {
-      title: 'Pre-Wedding Shoot - Sarah & John',
-      status: 'COMPLETED',
-      location: 'Toronto City Hall',
-      date: 'Oct 12, 2025, 5:32 AM',
-      deliverables: ['Full Film', 'Teaser', 'RAW Photos'],
-      team: ['Priya', 'Sofia'],
-    },
-    {
-      title: 'Wedding Ceremony - Sarah & John',
-      status: 'IN PROGRESS',
-      location: 'Toronto City Hall',
-      date: 'Oct 12, 2025, 5:32 AM',
-      deliverables: ['Highlight Reel', 'Edited Photos'],
-      team: ['Priya', 'Sofia'],
-    },
-    {
-      title: 'Engagement Party - Sarah & John',
-      status: 'COMPLETED',
-      location: 'Vancouver Park',
-      date: 'Nov 5, 2025, 3:00 PM',
-      deliverables: ['Event Coverage', 'Photo Album'],
-      team: ['Priya', 'John'],
-    },
-    {
-      title: 'Reception - Sarah & John',
-      status: 'NOT STARTED',
-      location: 'Toronto Grand Hall',
-      date: 'Dec 15, 2025, 6:00 PM',
-      deliverables: ['Full Video', 'Edited Clips'],
-      team: ['Sofia', 'Mike'],
-    },
-  ];
+  const data = React.useMemo(() => {
+    if (!id) return null;
+    
+    // Try to find in JobDetail first
+    const jobData = JobDetail.find((item) => item.id === id);
+    if (jobData) return jobData;
+
+    // Try to find in ClientData
+    const clientFound = ClientData.find((c) => c.id === id);
+    if (clientFound) {
+      return {
+        id: clientFound.id,
+        client: {
+          name: clientFound.name,
+          email: clientFound.email,
+          phone: clientFound.phone,
+          address: clientFound.address,
+          image: (clientFound as any).image || "/teampic1.png"
+        },
+        jobDetails: {
+          title: "New Job",
+          type: "General",
+          status: "Pending"
+        }
+      };
+    }
+    return null;
+  }, [id]);
 
   const handleModalSubmit = (pkg: any) => {
     if (packageToEdit) {
@@ -105,12 +89,12 @@ const JobProfilePage = () => {
       <div className='container w-full max-w-[1400px] mx-auto mt-4 sm:mt-6 md:mt-8 px-4 sm:px-6 md:px-8 flex flex-col gap-4'>
 
         <div>
-          <h1 className='text-2xl font-semibold text-black'>{data?.jobDetails?.title}</h1>
+          <h1 className='text-2xl font-semibold text-black'>{data?.jobDetails?.title || "Quote"}</h1>
           <Link
             href='/jobs'
             className='flex items-center mt-2 text-[#a3a3a3] hover:text-gray-900 text-sm sm:text-base md:text-base lg:text-sm font-medium mb-2 sm:mb-3 md:mb-4 transition-colors duration-200'
           >
-            Dashboard | Job Overview | {data?.jobDetails?.title} | <span className="font-semibold text-black">Quotes</span>
+            Dashboard | Job Overview | {data?.jobDetails?.title || "New Job"} | <span className="font-semibold text-black">Quotes</span>
           </Link>
         </div>
         {/*bottom Section 1 */}
@@ -166,12 +150,15 @@ const JobProfilePage = () => {
         initialData={packageToEdit}
       />
     </div>
+  );
+};
 
+const JobProfilePage = () => {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <AddQuoteContent />
+    </Suspense>
   );
 };
 
 export default JobProfilePage;
-
-
-
-

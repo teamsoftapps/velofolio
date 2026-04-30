@@ -6,6 +6,7 @@ import AddButton from '@/app/components/ui/AddButton';
 import Image from "next/image";
 import { BsFillTrashFill } from "react-icons/bs";
 import PaymentMethod from './PaymentMethod';
+import { useSelector } from 'react-redux';
 
 const tableHeaders = [
   { key: 'name', label: 'Invoice #' },
@@ -54,22 +55,37 @@ const tableData = [
 ];
 
 const PaymentnBilling = () => {
+  const invoices = useSelector((state: any) => state.persisted.invoiceandQuote.invoices);
+
+  const dynamicTableData = React.useMemo(() => {
+    if (!invoices || invoices.length === 0) return tableData;
+
+    const realInvoices = invoices.map((inv: any) => ({
+      name: inv.id || "INV-NEW",
+      date: inv.createdAt ? new Date(inv.createdAt).toISOString().split('T')[0] : "2025-11-20",
+      status: inv.status || "Paid",
+      amount: `$${parseFloat(inv.totalAmount || 0).toLocaleString()}`,
+      action: inv,
+    }));
+
+    // Combine real invoices with sample data to keep it looking full
+    return [...realInvoices, ...tableData];
+  }, [invoices]);
+
   return (
     <div className='text-black '>
       <div className='mt-13 flex-col flex lg:flex-row items-center justify-between gap-8 '>
-    <LeftHeaderCard />
-   <RightHeaderCard />
+        <LeftHeaderCard />
+        <RightHeaderCard />
       </div>
       <div className='mt-10 pb-3 w-full flex-col flex lg:flex-row items-center justify-between gap-10'>
         <div className='w-full lg:w-1/2 bg-white rounded-xl p-5 border-b border-gray-300 '>
-        <h1 className='mb-3 text-xl'>Invoices & Billing History</h1>
-        <InvoiceTable headers={tableHeaders} data={tableData}/>
-
+          <h1 className='mb-3 text-xl font-semibold'>Invoices & Billing History</h1>
+          <InvoiceTable headers={tableHeaders} data={dynamicTableData} />
         </div>
-<PaymentMethod />
+        <PaymentMethod />
       </div>
-      
-      </div>
+    </div>
   )
 }
 

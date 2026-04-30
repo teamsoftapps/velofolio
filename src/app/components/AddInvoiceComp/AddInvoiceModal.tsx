@@ -412,6 +412,12 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
                 <p>Price</p>
                 <p>{formData.price} $</p>
               </div>
+              {parseFloat(formData.discount || '0') > 0 && (
+                <div className="flex w-full items-center justify-between text-red-500">
+                  <p>Discount</p>
+                  <p>-{formData.discount} %</p>
+                </div>
+              )}
               <div className="flex w-full items-center justify-between ">
                 <p>Tax</p>
                 <p>{formData.tax} %</p>

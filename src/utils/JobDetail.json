@@ -138,5 +138,25 @@
       "assignedTeam": "John, Anna",
       "progress": "100%"
     }
+  },
+  {
+    "id": 8,
+    "client": {
+      "name": "Sarah J.",
+      "email": "sarah.j@example.com",
+      "phone": "+1(555) 123-4567",
+      "address": "124 Willow Lane, Los Angeles, CA",
+      "image": "/teampic3.png"
+    },
+    "jobDetails": {
+      "title": "Birthday Shoot",
+      "type": "Engagement",
+      "status": "Pending",
+      "shootDate": "2026-03-10",
+      "location": "Hawkins",
+      "leadSource": "Direct",
+      "assignedTeam": "Steve, Sarah",
+      "progress": "10%"
+    }
   }
 ]

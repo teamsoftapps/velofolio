@@ -100,6 +100,10 @@ const ClientProfilePage = () => {
               data={client}
               onEditClick={() => setIsClientModalOpen(true)}
               onDeleteClick={() => setIsDeleteModalOpen(true)}
+              onStatusChange={(newStatus: string) => {
+                setClient((prev: any) => ({ ...prev, status: newStatus }));
+                toast.success(`Client status updated to ${newStatus}`);
+              }}
             />
           </div>
 

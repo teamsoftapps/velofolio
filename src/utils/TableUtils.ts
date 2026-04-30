@@ -125,7 +125,7 @@ export function applyAdvancedFilters(
     if (eventType?.length && !eventType?.includes(type)) return false;
 
     // Filter by Payment Status
-    if (paymentStatus?.length && !paymentStatus?.includes(item.paymentStatus))
+    if (paymentStatus?.length && !paymentStatus.some(s => s.toLowerCase() === (item.paymentStatus || "").toLowerCase()))
       return false;
 
     // Filter by Date Range (using robust getItemDate)

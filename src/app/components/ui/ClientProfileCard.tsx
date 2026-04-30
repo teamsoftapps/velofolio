@@ -2,7 +2,15 @@ import React from "react";
 import { Mail, Phone, MapPin, Trash2, Edit2, Camera, Globe, Building2, ChevronDown } from "lucide-react";
 import Image from "next/image";
 
-const ClientProfileCard = ({ data, onEditClick, onDeleteClick }: any) => {
+const ClientProfileCard = ({ data, onEditClick, onDeleteClick, onStatusChange }: any) => {
+  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+
+  const statusColors: Record<string, string> = {
+    Active: "#10b981",   // Green
+    Inactive: "#9ca3af", // Gray
+    Busy: "#ef4444",     // Red
+  };
+
   return (
     <div className="w-full bg-white rounded-[16px] border border-gray-200 p-8 overflow-hidden flex flex-col gap-4 h-fit shrink-0">
       {/* Top Header Section */}
@@ -22,14 +30,46 @@ const ClientProfileCard = ({ data, onEditClick, onDeleteClick }: any) => {
               <Camera className="w-3.5 h-3.5 text-white" />
             </div>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 relative">
             <h2 className="text-[18px] font-semibold text-gray-950 leading-tight">
               {data?.name || "Sarah Johnson"}
             </h2>
-            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#F3F4F6] text-gray-700 text-[13px] font-medium w-fit cursor-pointer hover:bg-gray-200 transition-colors">
-              <div className="w-2 h-2 rounded-full bg-[#f59e0b]" />
-              {data?.status || "Active"}
-              <ChevronDown className="w-4 h-4 ml-1 opacity-60" />
+            <div className="relative">
+              <div
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#F3F4F6] text-gray-700 text-[13px] font-medium w-fit cursor-pointer hover:bg-gray-200 transition-all active:scale-95 border border-transparent hover:border-gray-300 "
+              >
+                <div
+                  className="w-2 h-2 rounded-full"
+                  style={{ backgroundColor: statusColors[data?.status || "Active"] || "#10b981" }}
+                />
+                {data?.status || "Active"}
+                <ChevronDown className={`w-4 h-4 ml-1 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+              </div>
+
+              {isDropdownOpen && (
+                <>
+                  <div className="fixed inset-0 z-10" onClick={() => setIsDropdownOpen(false)} />
+                  <div className="absolute top-full left-0 mt-2 w-36 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-20 animate-in fade-in zoom-in-95 duration-200">
+                    {Object.keys(statusColors).map((status) => (
+                      <button
+                        key={status}
+                        onClick={() => {
+                          onStatusChange?.(status);
+                          setIsDropdownOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-4 py-2 text-[13px] font-medium text-gray-700 hover:bg-gray-50 transition-colors first:rounded-t-lg last:rounded-b-lg"
+                      >
+                        <div
+                          className="w-2 h-2 rounded-full"
+                          style={{ backgroundColor: statusColors[status] }}
+                        />
+                        {status}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

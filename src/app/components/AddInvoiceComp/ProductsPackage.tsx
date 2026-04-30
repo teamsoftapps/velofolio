@@ -199,6 +199,8 @@ const ProductsPackage = ({ id, setOpenForm, type = "Invoice", packages = [], set
       splitType: splitType,
       payments: currentPayments,
       createdAt: savedDate,
+      status: "Pending", // Default status for new invoices in billing history
+      type: type, // Store whether it's an Invoice or Quote
     };
 
     if (type === "Invoice") {

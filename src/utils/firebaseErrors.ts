@@ -1,10 +1,7 @@
-/**
- * Converts Firebase error codes into user-friendly messages.
- */
+
 export const getFriendlyErrorMessage = (error: any): string => {
   const code = error?.code || error?.message || "";
-  
-  // Handle string errors (if they are already strings)
+
   if (typeof error === 'string') {
     if (error.includes('auth/user-not-found')) return "No account found with this email.";
     if (error.includes('auth/wrong-password')) return "Incorrect password. Please try again.";
@@ -20,7 +17,7 @@ export const getFriendlyErrorMessage = (error: any): string => {
     return error;
   }
 
-  // Handle Firebase Error objects
+
   switch (code) {
     case 'auth/user-not-found':
       return "No account found with this email.";
