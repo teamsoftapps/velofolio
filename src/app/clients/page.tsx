@@ -14,6 +14,7 @@ import RouteGuard from '@/app/components/layouts/RouteGuard';
 import ImportClientsButton from '@/app/components/ui/ImportClientsButton';
 import ImportClientsModal from '@/app/components/forms/ImportClientModal';
 import ExportModal from '@/app/components/forms/ExportModal';
+import { INITIAL_FILTER_STATE, FilterState } from '@/hooks/useFilterState';
 
 const tableHeaders = [
   { key: 'dateCreated', label: 'Date Created' },
@@ -35,15 +36,7 @@ export default function ClientsPage() {
     value: "dateCreated",
     direction: "desc",
   });
-  const [filters, setFilters] = useState({
-    status: [],
-    selectedMembers: [],
-    leadSource: [],
-    eventType: [],
-    fromDate: "",
-    toDate: "",
-    paymentStatus: [],
-  });
+  const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
 
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);

@@ -1,51 +1,43 @@
-"use client"
-import React, { useState } from 'react'
-import Calendar from '@/app/components/ui/Calender'
+/** @format */
+
+'use client';
+
+import React, { useState } from 'react';
+import Calendar from '@/app/components/ui/Calender';
 import CalenderHeader from '@/app/components/layouts/CalenderHeader';
-import Navbar from '@/app/components/layouts/Navbar'
-import DateNavBar from '@/app/components/layouts/DateNavbar'
-import FilterModal from '@/app/components/forms/FilterModal'
-const page = () => {
-  const [openFilter, setOpenFilter] = useState<boolean>(false);
+import FilterModal from '@/app/components/forms/FilterModal';
+import { INITIAL_FILTER_STATE, FilterState } from '@/hooks/useFilterState';
 
-  const [filters, setFilters] = useState({
-    status: [],
-    selectedMembers: [],
-    leadSource: [],
-    eventType: [],
-    fromDate: "",
-    toDate: "",
-    paymentStatus: [],
-  });
-
-
-
+const CalendarPage = () => {
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
+  
+  const handleApplyFilters = (newFilters: FilterState) => {
+    setFilters(newFilters);
+  };
 
   return (
-    <div className='w-full bg-[#FaFaFA]'>
+    <div className="w-full bg-[#FAFAFA]">
       <FilterModal
-        isOpen={openFilter}
-        onClose={() => setOpenFilter(false)}
-        isVisible={openFilter}
-        setIsVisible={setOpenFilter}
-        onApply={(newfilters) => setFilters(newfilters)}
-
+        isOpen={isFilterOpen}
+        isVisible={isFilterVisible}
+        setIsVisible={setIsFilterVisible}
+        onClose={() => setIsFilterOpen(false)}
+        onApply={handleApplyFilters}
       />
 
-      <div className='min-h-screen  w-full flex flex-col items-start bg-[#FAFAFA] pb-10 lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='container mx-auto w-[100%] h-full'>
+      <div className="min-h-screen w-full flex flex-col items-start bg-[#FAFAFA] pb-10 lg:w-[94%] xl:w-4/5 mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto w-full h-full">
           <CalenderHeader />
-          {/* <DateNavBar/> */}
-
-
-          <Calendar setOpenFilter={setOpenFilter} filters={filters} />
+          <Calendar 
+            setOpenFilter={setIsFilterOpen} 
+            filters={filters} 
+          />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
-
-
-
+export default CalendarPage;

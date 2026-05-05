@@ -21,6 +21,7 @@ import { filterData, sortData, handleDelete, applyAdvancedFilters, filterByTimeR
 import { useSelector } from 'react-redux';
 import JobDetail from '@/utils/JobDetail.json';
 import generateChartData from '@/utils/ChartLogics';
+import { INITIAL_FILTER_STATE, FilterState } from '@/hooks/useFilterState';
 const tableData = PayementData;
 
 const tableHeaders = [
@@ -89,15 +90,7 @@ export default function Page() {
   const [timeRange, setTimeRange] = useState("Ytd");
   const [value, setValue] = useState<DateValue>(parseDate("2026-03-25"));
 
-  const [filters, setFilters] = useState({
-    status: [],
-    selectedMembers: [],
-    leadSource: [],
-    eventType: [],
-    fromDate: "",
-    toDate: "",
-    paymentStatus: [],
-  });
+  const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
 
 
 

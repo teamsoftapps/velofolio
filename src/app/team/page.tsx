@@ -9,6 +9,7 @@ import DeleteModal from '@/app/components/forms/DeleteModal';
 import FilterModal from '@/app/components/forms/FilterModal';
 import InviteMemberModal from '@/app/components/forms/InviteMember';
 import { applyAdvancedFilters, filterData, sortData } from '@/utils/TableUtils';
+import { INITIAL_FILTER_STATE, FilterState } from '@/hooks/useFilterState';
 
 const tableData = TeamData;
 const tableHeaders = [
@@ -39,15 +40,7 @@ export default function Page() {
     direction: "desc",
   });
 
-  const [filters, setFilters] = useState({
-    status: [],
-    selectedMembers: [],
-    leadSource: [],
-    eventType: [],
-    fromDate: "",
-    toDate: "",
-    paymentStatus: [],
-  });
+  const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
 
   // Combine search + sort + filter
   const advancedfilteredData = useMemo(() => {

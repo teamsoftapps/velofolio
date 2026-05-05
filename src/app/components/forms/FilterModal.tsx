@@ -1,82 +1,90 @@
+/** @format */
+
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { MdCalendarToday, MdClose } from 'react-icons/md';
+import React, { useEffect } from 'react';
+import { MdClose } from 'react-icons/md';
 import { usePathname } from 'next/navigation';
+import { 
+  TEAM_MEMBERS, 
+  LEAD_SOURCES, 
+  PAYMENT_STATUSES, 
+  CATEGORY_OPTIONS, 
+  getStatusesByPath, 
+  getEventTypesByPath,
+  CALENDAR_STATUS_GROUPS,
+  TeamMember
+} from '@/config/filterConfig';
+import { useFilterState, FilterState } from '@/hooks/useFilterState';
 
-interface TeamMember {
-  id: string;
-  name: string;
-}
-
-const teamMembers: TeamMember[] = [
-  { id: '1', name: 'Sarah Johnson' },
-  { id: '2', name: 'Anna David' },
-  { id: '3', name: 'Mike Chen' },
-  { id: '4', name: 'Emma Wilson' },
-  { id: 't4', name: 'Marketing' },
-  { id: 't5', name: 'Emma Wilson' },
-];
-
-export default function FilterModal({ 
-  isOpen, 
-  onClose, 
-  isVisible, 
-  setIsVisible, 
-  onApply,
-  mode
-}: { 
-  isOpen: boolean; 
+interface FilterModalProps {
+  isOpen: boolean;
   onClose: () => void;
-  onApply: (filters: any) => void;
+  onApply: (filters: FilterState) => void;
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   mode?: string;
-}) {
+}
+
+// --- Reusable Sub-components ---
+
+const FilterSection = ({ 
+  label, 
+  options, 
+  selected, 
+  onToggle, 
+  size = 'md' 
+}: { 
+  label: string; 
+  options: string[]; 
+  selected: string[]; 
+  onToggle: (val: string) => void;
+  size?: 'sm' | 'md';
+}) => (
+  <div>
+    <label className={`block font-medium text-gray-700 mb-2 ${size === 'sm' ? 'text-xs text-gray-400 uppercase tracking-wider' : 'text-lg'}`}>
+      {label}
+    </label>
+    <div className="flex flex-wrap gap-2">
+      {options.map((opt) => (
+        <button
+          key={opt}
+          onClick={() => onToggle(opt)}
+          className={`rounded-lg font-medium border-2 transition-all cursor-pointer ${
+            size === 'sm' ? 'px-3 py-1 text-xs' : 'px-4 py-1 text-sm'
+          } ${
+            selected.includes(opt)
+              ? 'border-[#01B0E9] text-black'
+              : 'border-gray-100 text-black hover:border-[#01B0E9]'
+          }`}
+        >
+          {opt}
+        </button>
+      ))}
+    </div>
+  </div>
+);
+
+export default function FilterModal({
+  isOpen,
+  onClose,
+  isVisible,
+  setIsVisible,
+  onApply,
+  mode,
+}: FilterModalProps) {
   const pathname = usePathname();
-  
-  // Status Filters
-  const [status, setStatus] = useState<string[]>([]);
-  
-  const getStatuses = () => {
-    if (mode === 'contracts') return ['Draft', 'Signed', 'Pending'];
-    if (pathname === '/leads') return ['Active', 'Inactive', 'New Lead'];
-    if (pathname === '/jobs') return ['In Progress', 'Upcoming', 'Completed', 'Pending', 'Active']; // Production specific
-    if (pathname === '/payments') return ['Paid', 'Pending', 'Overdue'];
-    return ['Active', 'Inactive', 'Lead', 'Archived', 'Booked', 'New Lead'];
-  };
-  
-  const statuses = getStatuses();
-
-  // Assigned Team Members
-  const [selectedMembers, setSelectedMembers] = useState<TeamMember[]>([]);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  // Lead Source
-  const [leadSource, setLeadSource] = useState<string[]>([]);
-  const leadSources = ['Website', 'Referral', 'Instagram', 'Facebook', 'Walk-in'];
-
-  // Event Type
-  const [eventType, setEventType] = useState<string[]>([]);
-  const eventTypes = pathname === '/jobs' 
-    ? ['Wedding', 'Portrait', 'Engagement', 'Commercial', 'Other'] // Production specific
-    : ['Wedding', 'Corporate', 'Pre-wedding', 'Birthday', 'Other'];
-
-  // Payment Status
-  const [paymentStatus, setPaymentStatus] = useState<string[]>([]);
-  const paymentStatuses = ['Paid', 'Pending', 'Overdue', "Booked", "Archived"];
-
-  // Date Range
-  const [fromDate, setFromDate] = useState('');
-  const [toDate, setToDate] = useState('');
-
-  const toggleFilter = (arr: string[], value: string, setter: React.Dispatch<React.SetStateAction<string[]>>) => {
-    setter(arr.includes(value) ? arr.filter(v => v !== value) : [...arr, value]);
-  };
-
-  const removeMember = (id: string) => {
-    setSelectedMembers(selectedMembers.filter(m => m.id !== id));
-  };
+  const {
+    filters,
+    dropdownOpen,
+    setDropdownOpen,
+    toggleFilter,
+    setDateRange,
+    addMember,
+    removeMember,
+    resetFilters,
+    applyFilters,
+  } = useFilterState(onApply, onClose);
 
   useEffect(() => {
     if (isOpen) {
@@ -85,61 +93,19 @@ export default function FilterModal({
       const timer = setTimeout(() => setIsVisible(false), 300);
       return () => clearTimeout(timer);
     }
-  }, [isOpen]);
+  }, [isOpen, setIsVisible]);
 
   if (!isOpen && !isVisible) return null;
 
-  const addMember = (member: TeamMember) => {
-    if (!selectedMembers.find(m => m.id === member.id)) {
-      setSelectedMembers([...selectedMembers, member]);
-    }
-    setDropdownOpen(false);
-  };
-
-  const resetFilters = () => {
-    setStatus([]);
-    setSelectedMembers([]);
-    setLeadSource([]);
-    setEventType([]);
-    setFromDate('');
-    setToDate('');
-    setPaymentStatus([]);
-    onApply({
-      status: [],
-      selectedMembers: [],
-      leadSource: [],
-      eventType: [],
-      fromDate: '',
-      toDate: '',
-      paymentStatus: [],
-    });
-  };
-
-  const applyFilters = () => {
-    const filters = {
-      status,
-      selectedMembers,
-      leadSource,
-      eventType,
-      fromDate,
-      toDate,
-      paymentStatus,
-    };
-    onClose();
-    onApply(filters)
-  };
-
-  if (!isOpen) return null;
+  const statuses = getStatusesByPath(pathname, mode);
+  const eventTypes = getEventTypesByPath(pathname);
 
   return (
     <>
-      <div
-        className="fixed inset-0 bg-black/50  z-40"
-        onClick={onClose}
-      />
+      <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose} />
 
       <div
-        className={`fixed top-24 bottom-6 right-4 sm:top-[120px] sm:bottom-8 sm:right-8 rounded-2xl w-[calc(100vw-2rem)] sm:w-[400px] z-[100] transform transition-transform ease-in-out`}
+        className="fixed top-24 bottom-6 right-4 sm:top-[120px] sm:bottom-8 sm:right-8 rounded-2xl w-[calc(100vw-2rem)] sm:w-[400px] z-[100] transform transition-transform ease-in-out"
         style={{
           transform: isOpen ? 'translateX(0)' : 'translateX(120%)',
           transitionDuration: '400ms',
@@ -154,30 +120,41 @@ export default function FilterModal({
           </div>
 
           <div className="p-6 space-y-6 flex-1 overflow-y-auto scroller relative">
-            {/* Status */}
-            {(pathname !== '/payments' || mode === 'contracts') && (
-              <div>
-                <label className="block text-lg font-medium text-gray-700 mb-2">
-                  {mode === 'contracts' ? 'Document Status' : 'Status'}
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {statuses.map(s => (
-                    <button
-                      key={s}
-                      onClick={() => toggleFilter(status, s, setStatus)}
-                      className={`px-4 py-1 rounded-lg text-sm font-medium border-2 transition-all cursor-pointer ${status.includes(s)
-                          ? 'border-[#01B0E9] text-black'
-                          : 'border-gray-100 text-black hover:border-[#01B0E9]'
-                        }`}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
+            {/* --- Status Sections --- */}
+            {pathname !== '/calendar' && (pathname !== '/payments' || mode === 'contracts') && (
+              <FilterSection
+                label={mode === 'contracts' ? 'Document Status' : 'Status'}
+                options={statuses}
+                selected={filters.status}
+                onToggle={(val) => toggleFilter('status', val)}
+              />
+            )}
+
+            {pathname === '/calendar' && (
+              <div className="space-y-4">
+                {CALENDAR_STATUS_GROUPS.map((group) => (
+                  <FilterSection
+                    key={group.label}
+                    label={group.label}
+                    options={group.options}
+                    selected={filters[group.stateKey] as string[]}
+                    onToggle={(val) => toggleFilter(group.stateKey, val)}
+                  />
+                ))}
               </div>
             )}
 
-            {/* Assigned Member (Production & Teams) */}
+            {/* --- Categories (Calendar Only) --- */}
+            {pathname === '/calendar' && (
+              <FilterSection
+                label="Show on Calendar"
+                options={CATEGORY_OPTIONS}
+                selected={filters.categories}
+                onToggle={(val) => toggleFilter('categories', val)}
+              />
+            )}
+
+            {/* --- Assigned Member --- */}
             {mode !== 'contracts' && (pathname === '/jobs' || pathname === '/team') && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Assigned Member</label>
@@ -194,27 +171,22 @@ export default function FilterModal({
 
                   {dropdownOpen && (
                     <div className="absolute top-full left-0 right-0 mt-1 text-gray-600 bg-white border rounded-lg shadow-lg z-10">
-                      {teamMembers
-                        .filter(m => !selectedMembers.find(sm => sm.id === m.id))
-                        .map(member => (
-                          <button
-                            key={member.id}
-                            onClick={() => addMember(member)}
-                            className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50"
-                          >
-                            {member.name}
-                          </button>
-                        ))}
+                      {TEAM_MEMBERS.filter((m) => !filters.selectedMembers.find((sm) => sm.id === m.id)).map((member) => (
+                        <button
+                          key={member.id}
+                          onClick={() => addMember(member)}
+                          className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50"
+                        >
+                          {member.name}
+                        </button>
+                      ))}
                     </div>
                   )}
                 </div>
 
                 <div className="flex flex-wrap gap-2 mt-3">
-                  {selectedMembers.map(member => (
-                    <span
-                      key={member.id}
-                      className="inline-flex items-center gap-1 px-3 py-1 bg-[#01B0E9] text-white text-sm rounded-full"
-                    >
+                  {filters.selectedMembers.map((member) => (
+                    <span key={member.id} className="inline-flex items-center gap-1 px-3 py-1 bg-[#01B0E9] text-white text-sm rounded-full">
                       {member.name}
                       <button onClick={() => removeMember(member.id)} className="ml-1">
                         <MdClose className="w-3 h-3" />
@@ -225,90 +197,55 @@ export default function FilterModal({
               </div>
             )}
 
-            {/* Lead Source */}
-            {mode !== 'contracts' && pathname !== '/payments' && pathname !== '/clients' && pathname !== '/jobs' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Lead Source</label>
-                <div className="flex flex-wrap gap-2">
-                  {leadSources.map(source => (
-                    <button
-                      key={source}
-                      onClick={() => toggleFilter(leadSource, source, setLeadSource)}
-                      className={`px-4 py-1 rounded-lg text-sm font-medium border-2 transition-all cursor-pointer ${leadSource.includes(source)
-                          ? 'border-[#01B0E9] text-black'
-                          : 'border-gray-100 text-black hover:border-[#01B0E9]'
-                        }`}
-                    >
-                      {source}
-                    </button>
-                  ))}
-                </div>
-              </div>
+            {/* --- Lead Source --- */}
+            {mode !== 'contracts' && !['/payments', '/clients', '/jobs', '/calendar'].includes(pathname) && (
+              <FilterSection
+                label="Lead Source"
+                options={LEAD_SOURCES}
+                selected={filters.leadSource}
+                onToggle={(val) => toggleFilter('leadSource', val)}
+              />
             )}
 
-            {/* Job Type / Event Type */}
+            {/* --- Event Types --- */}
             {mode !== 'contracts' && pathname !== '/payments' && (
+              <FilterSection
+                label={pathname === '/jobs' ? 'Job Type' : 'Event Type'}
+                options={eventTypes}
+                selected={filters.eventType}
+                onToggle={(val) => toggleFilter('eventType', val)}
+              />
+            )}
+
+            {/* --- Date Range --- */}
+            {pathname !== '/calendar' && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">{pathname === '/jobs' ? 'Job Type' : 'Event Type'}</label>
-                <div className="flex flex-wrap gap-2">
-                  {eventTypes.map(type => (
-                    <button
-                      key={type}
-                      onClick={() => toggleFilter(eventType, type, setEventType)}
-                      className={`px-4 py-1 rounded-lg text-sm font-medium border-2 transition-all cursor-pointer ${eventType.includes(type)
-                          ? 'border-[#01B0E9] text-black'
-                          : 'border-gray-100 text-black hover:border-[#01B0E9]'
-                        }`}
-                    >
-                      {type}
-                    </button>
-                  ))}
+                <label className="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
+                <div className="grid grid-cols-2 gap-3">
+                  <input
+                    type="date"
+                    value={filters.fromDate}
+                    onChange={(e) => setDateRange(e.target.value, filters.toDate)}
+                    className="w-full px-3 py-2 text-gray-600 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#01B0E9]"
+                  />
+                  <input
+                    type="date"
+                    value={filters.toDate}
+                    onChange={(e) => setDateRange(filters.fromDate, e.target.value)}
+                    className="w-full px-3 py-2 text-gray-600 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#01B0E9]"
+                  />
                 </div>
               </div>
             )}
 
-            {/* Date Range */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="relative">
-                  <input
-                    type="date"
-                    value={fromDate}
-                    onChange={e => setFromDate(e.target.value)}
-                    className="w-full px-3 py-2 text-gray-600 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#01B0E9] focus:border-[#01B0E9]"
-                  />
-                </div>
-                <div className="relative">
-                  <input
-                    type="date"
-                    value={toDate}
-                    onChange={e => setToDate(e.target.value)}
-                    className="w-full px-3 py-2 text-gray-600 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#01B0E9] focus:border-[#01B0E9]"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Payment Status (Only Payments page) */}
+            {/* --- Payment Status --- */}
             {mode !== 'contracts' && pathname === '/payments' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Payment Status</label>
-                <div className="flex flex-wrap gap-2">
-                  {paymentStatuses.map(ps => (
-                    <button
-                      key={ps}
-                      onClick={() => toggleFilter(paymentStatus, ps, setPaymentStatus)}
-                      className={`px-4 py-1 rounded-lg text-sm font-medium border-2 transition-all cursor-pointer ${paymentStatus.includes(ps)
-                          ? 'border-[#01B0E9] text-black'
-                          : 'border-gray-100 text-black hover:border-[#01B0E9]'
-                        }`}
-                    >
-                      {ps}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              <FilterSection
+                label="Payment Status"
+                options={PAYMENT_STATUSES}
+                selected={filters.paymentStatus}
+                onToggle={(val) => toggleFilter('paymentStatus', val)}
+              />
             )}
           </div>
 
@@ -319,7 +256,9 @@ export default function FilterModal({
             >
               Apply
             </button>
-            <button className='text-center w-full mt-2 text-[#01B0E9] cursor-pointer' onClick={resetFilters}>Reset</button>
+            <button className="text-center w-full mt-2 text-[#01B0E9] cursor-pointer" onClick={resetFilters}>
+              Reset
+            </button>
           </div>
         </div>
       </div>

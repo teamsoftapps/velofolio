@@ -84,7 +84,8 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
                 <NotificationButton 
                   count={notificationCount} 
                   onClick={() => setIsNotifOpen(prev => !prev)} 
-                  className='mr-3 border-gray-200'
+                  className='mr-3'
+                  isActive={pathname === '/notifications'}
                 />
                 
                 <button
@@ -131,7 +132,8 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
                   <NotificationButton 
                     count={notificationCount} 
                     onClick={() => setIsNotifOpen(prev => !prev)} 
-                    className='border-gray-100 shadow-sm'
+                    className='shadow-sm'
+                    isActive={pathname === '/notifications'}
                   />
                 </div>
               )}

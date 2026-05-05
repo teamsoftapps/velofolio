@@ -137,11 +137,8 @@ const DashboardTable = ({
       <div className="-mt-0">
         <Pagination
           totalPages={totalPages}
+          currentPage={currentPage}
           onPageChange={handlePageChange}
-          initialPage={currentPage}
-          color={color}
-          hoverColor={COLORS.BlueButtonhover}
-          disabledColor={COLORS.BlueDisabled}
         />
       </div>
     </>

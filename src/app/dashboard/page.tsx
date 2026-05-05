@@ -9,12 +9,12 @@ import TeamUtilization from '@/app/components/ui/TeamUtilization';
 import RouteGuard from '@/app/components/layouts/RouteGuard';
 import LeadForm from '@/app/components/forms/LeadFormModel';
 import { useState } from 'react';
-import { DateValue, parseDate } from "@internationalized/date";
+import { DateValue, today, getLocalTimeZone } from "@internationalized/date";
 
 export default function Home() {
   const [OpenForm, setOpenForm] = useState(false);
   const [timeRange, setTimeRange] = useState("All Data");
-  const [value, setValue] = useState<DateValue>(parseDate("2026-03-25"));
+  const [value, setValue] = useState<DateValue>(today(getLocalTimeZone()));
 
   return (
     <RouteGuard allowedRoles={['superadmin']}>

@@ -113,7 +113,11 @@ const UserTable: React.FC<TableProps> = ({ headers, data, itemsPerPage = 6 }) =>
 
  
       <div className="mt-4">
-        <Pagination totalPages={totalPages} onPageChange={handlePageChange} hoverColor={COLORS.BlueButtonhover} color={COLORS.headerBlueButtonbg}  disabledColor={COLORS.BlueDisabled} />
+        <Pagination 
+          totalPages={totalPages} 
+          currentPage={currentPage}
+          onPageChange={handlePageChange} 
+        />
       </div>
     </div>
   );

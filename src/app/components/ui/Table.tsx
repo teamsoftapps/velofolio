@@ -287,54 +287,11 @@ const Table = ({
             </div>
 
             <div className="flex justify-center w-full sm:w-auto">
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-black'}`}
-                >
-                  <HiArrowLongLeft className="w-5 h-5" />
-                  Previous
-                </button>
-
-                <div className="flex items-center gap-1 mx-2">
-                  {[...Array(totalPages)].map((_, i) => {
-                    const pageNum = i + 1;
-                    if (
-                      totalPages <= 7 ||
-                      pageNum === 1 ||
-                      pageNum === totalPages ||
-                      (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
-                    ) {
-                      return (
-                        <button
-                          key={pageNum}
-                          onClick={() => handlePageChange(pageNum)}
-                          className={`w-10 h-10 rounded-lg text-sm font-bold transition-all ${currentPage === pageNum ? 'bg-black text-white shadow-md shadow-gray-200' : 'text-gray-500 hover:bg-gray-50'}`}
-                        >
-                          {pageNum}
-                        </button>
-                      );
-                    }
-                    if (
-                      (pageNum === 2 && currentPage > 4) ||
-                      (pageNum === totalPages - 1 && currentPage < totalPages - 3)
-                    ) {
-                      return <span key={pageNum} className="px-2 text-gray-400">...</span>;
-                    }
-                    return null;
-                  })}
-                </div>
-
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold transition-colors ${currentPage === totalPages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-black'}`}
-                >
-                  Next
-                  <HiArrowLongRight className="w-5 h-5" />
-                </button>
-              </div>
+              <Pagination 
+                totalPages={totalPages}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+              />
             </div>
 
             <div className="flex-1 hidden sm:flex justify-end"></div>

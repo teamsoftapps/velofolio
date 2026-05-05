@@ -20,14 +20,16 @@ import { toast } from 'react-toastify';
 const tableData = LeadsDataRaw;
 
 const tableHeaders = [
-  { key: 'leadName', label: 'Lead Name' },
   { key: 'dateCreated', label: 'Lead Created' },
+  { key: 'leadName', label: 'Lead Name' },
   { key: 'interestedService', label: 'Job Type' },
   { key: 'status', label: 'Status' },
   { key: 'eventDate', label: 'Event Date' },
   { key: 'priority', label: 'Priority' },
   { key: 'action', label: 'Action' },
 ];
+
+import { AdvancedFilters } from '@/types/filters';
 
 export default function Page() {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
@@ -52,6 +54,7 @@ export default function Page() {
       setOpenLeadsModal(false);
     }
   };
+
   interface SortState {
     value: string;
     direction: "asc" | "desc";
@@ -62,7 +65,7 @@ export default function Page() {
   });
   const [timeRange, setTimeRange] = useState("Ytd");
 
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<AdvancedFilters>({
     status: [],
     selectedMembers: [],
     leadSource: [],

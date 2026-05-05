@@ -7,6 +7,7 @@ import SortButton from '@/app/components/ui/sortButton';
 import FilterButton from '@/app/components/ui/filterButton';
 import { MdModeEditOutline } from 'react-icons/md';
 import AddTeamMembersModal from '@/app/components/forms/AddTeamMemberModal';
+import { SortOption } from '@/app/components/forms/SortModal';
 
 
 const ProductionHeader = ({ 
@@ -24,7 +25,7 @@ const ProductionHeader = ({
   setSortBy: any;
   setSortActive: (active: boolean) => void;
 }) => {
-  const sortOptions = [
+  const sortOptions: SortOption[] = [
     { id: 'event-asc', label: 'Event Name (A-Z)', value: 'title', direction: 'asc' },
     { id: 'event-desc', label: 'Event Name (Z-A)', value: 'title', direction: 'desc' },
     { id: 'date-asc', label: 'Event Date (Oldest)', value: 'date', direction: 'asc' },
@@ -57,7 +58,7 @@ const ProductionHeader = ({
         <div className="w-full sm:w-1/3 flex flex-row justify-between sm:justify-end items-center gap-2">
 
   
-          <SortButton sortBy={sortBy} setSortBy={setSortBy} options={sortOptions} setSortActive={setSortActive} />
+          <SortButton sortBy={sortBy} setSortBy={setSortBy} options={sortOptions} onSortChange={() => setSortActive(true)} />
         
 
           <FilterButton setOpenFilter={setOpenFilter} />

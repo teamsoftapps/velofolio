@@ -4,6 +4,7 @@ import SortButton from './sortButton'
 import FilterButton from './filterButton'
 import Table from './Table'
 import FilterModal from '@/app/components/forms/FilterModal'
+import { SortOption } from '@/app/components/forms/SortModal'
 
 const tableHeaders = [
     { key: 'documentType', label: 'Document' },
@@ -57,7 +58,7 @@ const initialTableData = [
     },
 ]
 
-const contractSortOptions: any[] = [
+const contractSortOptions: SortOption[] = [
     { id: 'document-asc', label: 'Document Name (A-Z)', value: 'documentType', direction: 'asc' },
     { id: 'document-desc', label: 'Document Name (Z-A)', value: 'documentType', direction: 'desc' },
     { id: 'type-asc', label: 'Type (A-Z)', value: 'type', direction: 'asc' },
@@ -66,7 +67,7 @@ const contractSortOptions: any[] = [
 
 const Contracts = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortBy, setSortBy] = useState({ value: 'documentType', direction: 'asc' });
+    const [sortBy, setSortBy] = useState<{ value: string; direction: 'asc' | 'desc' }>({ value: 'documentType', direction: 'asc' });
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [activeFilters, setActiveFilters] = useState<any>({});

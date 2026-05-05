@@ -104,7 +104,7 @@ const InvoiceTable: React.FC<TableProps> = ({
       {data.length > itemsPerPage && (
         <div className="mt-4">
           <Pagination
-            initialPage={currentPage}
+            currentPage={currentPage}
             totalPages={Math.ceil(data.length / itemsPerPage)}
             onPageChange={setCurrentPage}
           />

@@ -5,21 +5,28 @@ interface NotificationButtonProps {
   count: number;
   onClick: () => void;
   className?: string;
+  isActive?: boolean;
 }
 
 export const NotificationButton = ({
   count,
   onClick,
-  className = ''
+  className = '',
+  isActive = false
 }: NotificationButtonProps) => (
   <button
     onClick={onClick}
-    className={`relative focus:outline-none p-2 rounded-full bg-gray-50 border text-gray-700 cursor-pointer transition-colors duration-200 ${className}`}
+    className={`relative focus:outline-none p-2 rounded-full cursor-pointer transition-all duration-200 
+      ${isActive 
+        ? 'bg-[#01B0E9] text-white shadow-md border-none' 
+        : 'bg-gray-50 text-gray-700 border border-gray-100 hover:bg-gray-100'} 
+      ${className}`}
     aria-label='Notifications'
   >
     <IoNotificationsOutline className='w-6 h-6' />
     {count > 0 && (
-      <span className="absolute -top-1 -right-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#01B0E9] px-1 text-[11px] font-bold text-white transition-all duration-300" style={{ boxShadow: `0 0 0 2px ${colors.white}` }}>
+      <span className={`absolute -top-1 -right-0 flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-[11px] font-bold transition-all duration-300 ring-2 ring-white
+        ${isActive ? 'bg-red-500 text-white' : 'bg-[#01B0E9] text-white'}`}>
         {count}
       </span>
     )}

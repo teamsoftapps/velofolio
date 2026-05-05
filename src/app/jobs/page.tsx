@@ -14,6 +14,7 @@ import { filterData, sortData, handleDelete, applyAdvancedFilters, filterByTimeR
 import RouteGuard from '@/app/components/layouts/RouteGuard';
 import AddJobModal from '@/app/components/forms/AddJobModal';
 import generateChartData from '@/utils/ChartLogics';
+import { INITIAL_FILTER_STATE, FilterState } from '@/hooks/useFilterState';
 
 const tableData = JobsDataRaw;
 
@@ -44,15 +45,7 @@ export default function Page() {
   });
   const [timeRange, setTimeRange] = useState("All Data");
 
-  const [filters, setFilters] = useState({
-    status: [],
-    selectedMembers: [],
-    leadSource: [],
-    eventType: [],
-    fromDate: "",
-    toDate: "",
-    paymentStatus: [],
-  });
+  const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
 
   const advancedfilteredData = useMemo(() => {
     let result = filterByTimeRange(tableData, timeRange);
