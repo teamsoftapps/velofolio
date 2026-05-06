@@ -63,54 +63,59 @@ const TeamUtilization = () => {
         </div>
       </div>
 
-      {/* Table Header */}
-      <div className="flex items-center bg-gray-50 px-4 py-3 rounded-lg mb-2 text-gray-600 font-medium text-[14px]">
-        <span className="flex-1">Team Member</span>
-        <span className="w-24 text-center">Utilization</span>
-        <span className="w-24 text-center ml-4">Jobs</span>
-      </div>
-
-      {/* List Items */}
-      <div className="flex-1 overflow-y-auto no-scrollbar">
-        {teamData.map((member, index) => (
-          <div
-            key={index}
-            className="flex items-center justify-between py-4 border-b border-gray-100 last:border-0"
-          >
-            {/* Name & Role */}
-            <div className="flex items-center flex-1">
-              <img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-full mr-3 object-cover" />
-              <div className="flex flex-col">
-                <span className="text-gray-900 font-medium text-[15px]">
-                  {member.name}
-                </span>
-                <span className="text-gray-400 text-[13px] font-normal">
-                  {member.role}
-                </span>
-              </div>
-            </div>
-
-            {/* Utilization */}
-            <div className="w-24 flex justify-center flex-shrink-0">
-              <span
-                className={`inline-flex items-center justify-center w-14 h-[26px] rounded-full text-[13px] font-medium`}
-                style={{
-                  backgroundColor: member.utilization >= 90 ? 'rgba(16, 185, 129, 0.15)' : 'rgba(0, 181, 226, 0.15)',
-                  color: member.utilization >= 90 ? '#10B981' : '#00B5E2'
-                }}
-              >
-                {member.utilization}%
-              </span>
-            </div>
-
-            {/* Jobs */}
-            <div className="w-24 text-center flex-shrink-0 ml-4">
-              <span className="text-gray-900 font-medium text-[15px]">
-                {member.jobs}
-              </span>
-            </div>
+      {/* Horizontally scrollable table area */}
+      <div className="flex-1 overflow-x-auto overflow-y-auto no-scrollbar">
+        <div className="min-w-[380px]">
+          {/* Table Header */}
+          <div className="flex items-center bg-gray-50 px-4 py-3 rounded-lg mb-2 text-gray-600 font-medium text-[14px]">
+            <span className="flex-1">Team Member</span>
+            <span className="w-24 text-center">Utilization</span>
+            <span className="w-24 text-center ml-4">Jobs</span>
           </div>
-        ))}
+
+          {/* List Items */}
+          <div>
+            {teamData.map((member, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-between py-4 border-b border-gray-100 last:border-0"
+              >
+                {/* Name & Role */}
+                <div className="flex items-center flex-1 min-w-0">
+                  <img src={member.avatar} alt={member.name} className="w-10 h-10 rounded-full mr-3 object-cover flex-shrink-0" />
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-gray-900 font-medium text-[15px] truncate">
+                      {member.name}
+                    </span>
+                    <span className="text-gray-400 text-[13px] font-normal truncate">
+                      {member.role}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Utilization */}
+                <div className="w-24 flex justify-center flex-shrink-0">
+                  <span
+                    className={`inline-flex items-center justify-center w-14 h-[26px] rounded-full text-[13px] font-medium`}
+                    style={{
+                      backgroundColor: member.utilization >= 90 ? 'rgba(16, 185, 129, 0.15)' : 'rgba(0, 181, 226, 0.15)',
+                      color: member.utilization >= 90 ? '#10B981' : '#00B5E2'
+                    }}
+                  >
+                    {member.utilization}%
+                  </span>
+                </div>
+
+                {/* Jobs */}
+                <div className="w-24 text-center flex-shrink-0 ml-4">
+                  <span className="text-gray-900 font-medium text-[15px]">
+                    {member.jobs}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="mt-4">

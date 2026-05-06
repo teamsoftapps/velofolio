@@ -79,7 +79,7 @@ export default function AccountRecoveryForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className={`px-6 py-3 text-white rounded-full font-medium cursor-pointer transition ${isLoading ? 'bg-gray-400' : 'bg-[#01B0E9] hover:bg-[#019dcf]'}`}
+            className={`px-6 py-3 text-white rounded-full font-medium cursor-pointer transition ${isLoading ? 'bg-gray-400' : 'bg-[var(--primary-color)] hover:bg-[#019dcf]'}`}
           >
             {isLoading ? "Updating..." : "Update"}
           </button>

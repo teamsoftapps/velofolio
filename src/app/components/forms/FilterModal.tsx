@@ -54,8 +54,8 @@ const FilterSection = ({
             size === 'sm' ? 'px-3 py-1 text-xs' : 'px-4 py-1 text-sm'
           } ${
             selected.includes(opt)
-              ? 'border-[#01B0E9] text-black'
-              : 'border-gray-100 text-black hover:border-[#01B0E9]'
+              ? 'border-[var(--primary-color)] text-black'
+              : 'border-gray-100 text-black hover:border-[var(--primary-color)]'
           }`}
         >
           {opt}
@@ -186,7 +186,7 @@ export default function FilterModal({
 
                 <div className="flex flex-wrap gap-2 mt-3">
                   {filters.selectedMembers.map((member) => (
-                    <span key={member.id} className="inline-flex items-center gap-1 px-3 py-1 bg-[#01B0E9] text-white text-sm rounded-full">
+                    <span key={member.id} className="inline-flex items-center gap-1 px-3 py-1 bg-[var(--primary-color)] text-white text-sm rounded-full">
                       {member.name}
                       <button onClick={() => removeMember(member.id)} className="ml-1">
                         <MdClose className="w-3 h-3" />
@@ -226,13 +226,13 @@ export default function FilterModal({
                     type="date"
                     value={filters.fromDate}
                     onChange={(e) => setDateRange(e.target.value, filters.toDate)}
-                    className="w-full px-3 py-2 text-gray-600 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#01B0E9]"
+                    className="w-full px-3 py-2 text-gray-600 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[var(--primary-color)]"
                   />
                   <input
                     type="date"
                     value={filters.toDate}
                     onChange={(e) => setDateRange(filters.fromDate, e.target.value)}
-                    className="w-full px-3 py-2 text-gray-600 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#01B0E9]"
+                    className="w-full px-3 py-2 text-gray-600 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[var(--primary-color)]"
                   />
                 </div>
               </div>
@@ -252,11 +252,11 @@ export default function FilterModal({
           <div className="p-6 border-t border-gray-100 mt-auto">
             <button
               onClick={applyFilters}
-              className="w-full py-2 bg-[#01B0E9] text-white font-medium rounded-full hover:bg-[#01B0E9]/75 cursor-pointer transition-colors"
+              className="w-full py-2 bg-[var(--primary-color)] text-white font-medium rounded-full hover:bg-[var(--primary-color)]/75 cursor-pointer transition-colors"
             >
               Apply
             </button>
-            <button className="text-center w-full mt-2 text-[#01B0E9] cursor-pointer" onClick={resetFilters}>
+            <button className="text-center w-full mt-2 text-[var(--primary-color)] cursor-pointer" onClick={resetFilters}>
               Reset
             </button>
           </div>

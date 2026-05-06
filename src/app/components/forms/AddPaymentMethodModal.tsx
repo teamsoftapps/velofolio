@@ -94,7 +94,7 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodModalProps> = ({ isOpen, o
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#01B0E9] to-[#0084af] p-5 text-white relative">
+        <div className="bg-gradient-to-r from-[var(--primary-color)] to-[#0084af] p-5 text-white relative">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 p-1.5 hover:bg-white/20 rounded-full transition-colors"
@@ -154,7 +154,7 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodModalProps> = ({ isOpen, o
                   required
                   placeholder="Full Name"
                   maxLength={23}
-                  className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent outline-none transition-all text-gray-800 font-medium"
+                  className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent outline-none transition-all text-gray-800 font-medium"
                   value={formData.cardName}
                   onChange={(e) => setFormData({ ...formData, cardName: e.target.value })}
                 />
@@ -173,7 +173,7 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodModalProps> = ({ isOpen, o
                   required
                   placeholder="0000 0000 0000 0000"
                   maxLength={19}
-                  className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent outline-none transition-all text-gray-800 font-medium"
+                  className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent outline-none transition-all text-gray-800 font-medium"
                   value={formatCardNumber(formData.cardNumber)}
                   onChange={(e) => {
                     const val = e.target.value.replace(/\D/g, '').substring(0, 16);
@@ -196,7 +196,7 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodModalProps> = ({ isOpen, o
                     required
                     placeholder="MM/YY"
                     maxLength={5}
-                    className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent outline-none transition-all text-gray-800 font-medium"
+                    className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent outline-none transition-all text-gray-800 font-medium"
                     value={formData.expiryDate}
                     onChange={(e) => setFormData({ ...formData, expiryDate: formatExpiry(e.target.value) })}
                   />
@@ -213,7 +213,7 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodModalProps> = ({ isOpen, o
                     required
                     placeholder="***"
                     maxLength={3}
-                    className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent outline-none transition-all text-gray-800 font-medium"
+                    className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent outline-none transition-all text-gray-800 font-medium"
                     value={formData.cvv}
                     onChange={(e) => setFormData({ ...formData, cvv: e.target.value.replace(/\D/g, '') })}
                   />
@@ -232,7 +232,7 @@ const AddPaymentMethodModal: React.FC<AddPaymentMethodModalProps> = ({ isOpen, o
             </button>
             <button
               type="submit"
-              className="flex-[2] py-3 px-4 rounded-lg bg-[#01B0E9] text-white font-bold hover:bg-[#009bc9] shadow-lg shadow-blue-500/20 transition-all active:scale-[0.98]"
+              className="flex-[2] py-3 px-4 rounded-lg bg-[var(--primary-color)] text-white font-bold hover:bg-[#009bc9] shadow-lg shadow-blue-500/20 transition-all active:scale-[0.98]"
             >
               Add Card
             </button>

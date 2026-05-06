@@ -78,8 +78,8 @@ const PaymentnBilling = () => {
         <LeftHeaderCard />
         <RightHeaderCard />
       </div>
-      <div className='mt-10 pb-3 w-full flex-col flex lg:flex-row items-center justify-between gap-10'>
-        <div className='w-full lg:w-1/2 bg-white rounded-xl p-5 border-b border-gray-300 '>
+      <div className='mt-10 pb-3 w-full flex-col flex lg:flex-row items-start justify-between gap-10'>
+        <div className='w-full lg:w-1/2 bg-white rounded-xl p-5 border border-gray-200'>
           <h1 className='mb-3 text-xl font-semibold'>Invoices & Billing History</h1>
           <InvoiceTable headers={tableHeaders} data={dynamicTableData} />
         </div>

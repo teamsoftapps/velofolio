@@ -372,7 +372,7 @@ const ProductsPackage = ({ id, setOpenForm, type = "Invoice", packages = [], set
               <label className="flex items-center cursor-pointer">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 rounded border border-gray-400 cursor-pointer bg-gray-200 checked:bg-[#01B0E9] checked:border-[#01B0E9]
+                  className="w-4 h-4 rounded border border-gray-400 cursor-pointer bg-gray-200 checked:bg-[var(--primary-color)] checked:border-[var(--primary-color)]
                  appearance-none relative
                   before:absolute before:inset-0 before:flex before:items-center before:justify-center 
                  before:opacity-0 before:text-white before:text-sm before:content-['✔'] checked:before:opacity-100"
@@ -385,7 +385,7 @@ const ProductsPackage = ({ id, setOpenForm, type = "Invoice", packages = [], set
             <div className='flex items-center gap-3'>
               <input
                 type="checkbox"
-                className="w-4 h-4 rounded border border-gray-400 cursor-pointer bg-gray-200 checked:bg-[#01B0E9] checked:border-[#01B0E9]
+                className="w-4 h-4 rounded border border-gray-400 cursor-pointer bg-gray-200 checked:bg-[var(--primary-color)] checked:border-[var(--primary-color)]
                  appearance-none relative
                   before:absolute before:inset-0 before:flex before:items-center before:justify-center 
                  before:opacity-0 before:text-white before:text-sm before:content-['✔'] checked:before:opacity-100"
@@ -399,7 +399,7 @@ const ProductsPackage = ({ id, setOpenForm, type = "Invoice", packages = [], set
         </>}
         {/* Buttons */}
         <div className='flex flex-col sm:flex-row sm:items-center sm:gap-4 lg:w-2/3'>
-          <button className='w-full sm:w-40 bg-[#01B0E9] text-white py-3 rounded-full mb-2 sm:mb-0' onClick={handleSaveItem}>Save {type}</button>
+          <button className='w-full sm:w-40 bg-[var(--primary-color)] text-white py-3 rounded-full mb-2 sm:mb-0' onClick={handleSaveItem}>Save {type}</button>
           <button
             onClick={() => router.push(`/jobProfile?id=${id}`)}
             className='w-full sm:w-32 border border-gray-400 text-black py-3 rounded-full'

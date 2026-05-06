@@ -38,7 +38,7 @@ const ClientCard = ({ data }: any) => {
 
         {/* Email */}
         <div className="flex items-center gap-4  mb-4">
-          <div className="w-10 h-10 aspect-square sm:w-10 sm:h-10 bg-[#01B0E9] rounded-full flex items-center  justify-center shadow-md">
+          <div className="w-10 h-10 aspect-square sm:w-10 sm:h-10 bg-[var(--primary-color)] rounded-full flex items-center  justify-center shadow-md">
             <Mail className="w-5 h-5 text-white" />
           </div>
           <div>
@@ -51,7 +51,7 @@ const ClientCard = ({ data }: any) => {
 
         {/* Phone */}
         <div className="flex items-center gap-4  mb-4">
-          <div className="w-10 h-10 aspect-square sm:w-10 sm:h-10 bg-[#01B0E9] rounded-full flex items-center  justify-center shadow-md">
+          <div className="w-10 h-10 aspect-square sm:w-10 sm:h-10 bg-[var(--primary-color)] rounded-full flex items-center  justify-center shadow-md">
             <Phone className="w-5 h-5 text-white" />
           </div>
           <div>
@@ -64,7 +64,7 @@ const ClientCard = ({ data }: any) => {
 
         {/* Address */}
         <div className="flex items-center gap-4   mb-4">
-          <div className="w-10 h-10 aspect-square sm:w-10 sm:h-10 bg-[#01B0E9] rounded-full flex items-center  justify-center shadow-md">
+          <div className="w-10 h-10 aspect-square sm:w-10 sm:h-10 bg-[var(--primary-color)] rounded-full flex items-center  justify-center shadow-md">
             <MapPin className="w-5 h-5 text-white" />
           </div>
           <div>
@@ -75,7 +75,7 @@ const ClientCard = ({ data }: any) => {
           </div>
         </div>
               <div className="flex items-center gap-4   mb-4">
-          <div className="w-10 h-10 aspect-square sm:w-10 sm:h-10 bg-[#01B0E9] rounded-full flex items-center  justify-center shadow-md">
+          <div className="w-10 h-10 aspect-square sm:w-10 sm:h-10 bg-[var(--primary-color)] rounded-full flex items-center  justify-center shadow-md">
             <LiaCitySolid className="w-5 h-5 text-white" />
           </div>
           <div>

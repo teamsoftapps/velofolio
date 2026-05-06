@@ -48,11 +48,11 @@ dispatch(
         value={companyName}
         onChange={(e) => setCompanyName(e.target.value)}
         placeholder="Company Name"
-        className="w-full text-gray-700 border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-[#01B0E9]"
+        className="w-full text-gray-700 border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
       />
       <button
         onClick={handleCreate}
-        className="w-full bg-[#01B0E9] text-white py-2 rounded-full font-medium hover:bg-[#019cc7] transition cursor-pointer"
+        className="w-full bg-[var(--primary-color)] text-white py-2 rounded-full font-medium hover:bg-[#019cc7] transition cursor-pointer"
       >
         Create
       </button>

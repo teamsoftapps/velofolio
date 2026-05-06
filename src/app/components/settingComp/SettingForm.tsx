@@ -205,7 +205,7 @@
 
 //         {/* Save Button */}
 //         <div className="flex justify-start">
-//           <button className="px-6 py-2 bg-[#01b0e9] text-white font-medium rounded-full transition-colors">
+//           <button className="px-6 py-2 bg-[var(--primary-color)] text-white font-medium rounded-full transition-colors">
 //             Save Changes
 //           </button>
 //         </div>
@@ -318,7 +318,7 @@ const SettingForm = () => {
                 value={companyName}
                 maxLength={40}
                 onChange={handleNameChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent text-black"
               />
             </div>
             <div className="flex-1">
@@ -331,7 +331,7 @@ const SettingForm = () => {
                 value={website}
                 maxLength={100}
                 onChange={(e) => setWebsite(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent text-black"
               />
             </div>
           </div>
@@ -348,7 +348,7 @@ const SettingForm = () => {
                 maxLength={60}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your business email address"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent text-black"
               />
             </div>
             <div className="flex-1">
@@ -361,7 +361,7 @@ const SettingForm = () => {
                 maxLength={15}
                 onChange={handlePhoneChange}
                 placeholder="Enter your company phone number"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent text-black"
               />
             </div>
           </div>
@@ -378,7 +378,7 @@ const SettingForm = () => {
                 maxLength={100}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Enter your street address"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent text-black"
               />
             </div>
             <div className="flex-1">
@@ -391,7 +391,7 @@ const SettingForm = () => {
                 maxLength={40}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Enter your city or suburb"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent text-black"
               />
             </div>
           </div>
@@ -408,7 +408,7 @@ const SettingForm = () => {
                 maxLength={40}
                 onChange={(e) => setState(e.target.value)}
                 placeholder="Enter your state or county"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent text-black"
               />
             </div>
             <div className="flex-1">
@@ -421,7 +421,7 @@ const SettingForm = () => {
                 maxLength={15}
                 onChange={(e) => setZip(e.target.value)}
                 placeholder="Enter your postcode or zip code"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent text-black"
               />
             </div>
           </div>
@@ -435,7 +435,7 @@ const SettingForm = () => {
               <select
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent text-black"
               >
                 {countries.map((item, i) => (
                   <option key={i} value={item.value}>
@@ -451,7 +451,7 @@ const SettingForm = () => {
               <select
                 value={timezone}
                 onChange={(e) => setTimezone(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01b0e9] focus:border-transparent text-black"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent text-black"
               >
                 {timezones.map((item, i) => (
                   <option key={i} value={item.value}>
@@ -466,7 +466,7 @@ const SettingForm = () => {
           <div className="flex justify-start">
             <button
               type="submit"
-              className="px-6 py-2 bg-[#01b0e9] text-white font-medium rounded-full transition-colors"
+              className="px-6 py-2 bg-[var(--primary-color)] text-white font-medium rounded-full transition-colors"
             >
               Save Changes
             </button>

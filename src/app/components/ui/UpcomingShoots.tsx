@@ -63,48 +63,50 @@ const UpcomingShoots = ({ timeRange = "All Data", value }: UpcomingShootsProps) 
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col overflow-y-auto no-scrollbar">
-        {shootsData.length === 0 ? (
-          <div className="text-gray-500 text-center py-10 italic text-sm">No shoots found in this range</div>
-        ) : shootsData.map((shoot, index) => (
-          <div
-            key={index}
-            className="flex items-center gap-4 py-5 border-b border-gray-100 last:border-0"
-          >
-            {/* Title */}
-            <div className="flex-[2] min-w-0">
-              <span className="text-[14px] sm:text-[15px] font-medium text-gray-900 block truncate" title={shoot.title}>
-                {shoot.title}
-              </span>
-            </div>
-
-            {/* Date & Time Group */}
-            <div className="flex-[2.5] flex items-center justify-between gap-4">
-              <div className="flex-1 min-w-fit">
-                <span className="text-[14px] sm:text-[15px] font-medium text-gray-900">
-                  {index === 0 ? "Today" : index === 1 ? "Tomorrow" : shoot.date}
+      <div className="flex-1 overflow-x-auto no-scrollbar">
+        <div className="min-w-[420px]">
+          {shootsData.length === 0 ? (
+            <div className="text-gray-500 text-center py-10 italic text-sm">No shoots found in this range</div>
+          ) : shootsData.map((shoot, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-4 py-5 border-b border-gray-100 last:border-0"
+            >
+              {/* Title */}
+              <div className="flex-[2] min-w-0">
+                <span className="text-[14px] sm:text-[15px] font-medium text-gray-900 block truncate" title={shoot.title}>
+                  {shoot.title}
                 </span>
               </div>
 
-              <div className="flex-1 flex items-center gap-2 min-w-fit">
-                <span className={`w-2.5 h-2.5 rounded-full border border-gray-100 flex-shrink-0 ${index % 2 === 0 ? 'bg-[#F97316]' : 'bg-[#FB7185]'}`}></span>
-                <span className="text-[14px] sm:text-[15px] font-medium text-gray-900 whitespace-nowrap">
-                  {index % 2 === 0 ? "5 PM" : "All Day"}
+              {/* Date & Time Group */}
+              <div className="flex-[2.5] flex items-center justify-between gap-4">
+                <div className="flex-1 min-w-fit">
+                  <span className="text-[14px] sm:text-[15px] font-medium text-gray-900">
+                    {index === 0 ? "Today" : index === 1 ? "Tomorrow" : shoot.date}
+                  </span>
+                </div>
+
+                <div className="flex-1 flex items-center gap-2 min-w-fit">
+                  <span className={`w-2.5 h-2.5 rounded-full border border-gray-100 flex-shrink-0 ${index % 2 === 0 ? 'bg-[#F97316]' : 'bg-[#FB7185]'}`}></span>
+                  <span className="text-[14px] sm:text-[15px] font-medium text-gray-900 whitespace-nowrap">
+                    {index % 2 === 0 ? "5 PM" : "All Day"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Task Pill */}
+              <div className="flex-1 flex justify-end">
+                <span className={`px-3 py-1 rounded-[4px] text-[12px] font-medium text-gray-900 border truncate max-w-[120px] text-center ${index % 2 === 0 ? 'bg-orange-50 border-orange-300' : 'bg-[#F0FDF4] border-[#10B981]'
+                  }`}
+                  title={shoot.task}
+                >
+                  {shoot.task}
                 </span>
               </div>
             </div>
-
-            {/* Task Pill */}
-            <div className="flex-1 flex justify-end">
-              <span className={`px-3 py-1 rounded-[4px] text-[12px] font-medium text-gray-900 border truncate max-w-[120px] text-center ${index % 2 === 0 ? 'bg-orange-50 border-orange-300' : 'bg-[#F0FDF4] border-[#10B981]'
-                }`}
-                title={shoot.task}
-              >
-                {shoot.task}
-              </span>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* View Jobs Button */}

@@ -69,7 +69,7 @@ const SortableCard = memo(
           className={`group bg-white rounded-lg p-3 overflow-visible transition-all duration-200 border cursor-grab active:cursor-grabbing ${isDragging
             ? 'opacity-40'
             : 'border-gray-200'
-            } ${menuCardId === card.id ? 'ring-2 ring-[#01B0E9] ring-offset-2 !z-[2000]' : ''
+            } ${menuCardId === card.id ? 'ring-2 ring-[var(--primary-color)] ring-offset-2 !z-[2000]' : ''
             }`}
           style={{
             ...style,
@@ -106,7 +106,7 @@ const SortableCard = memo(
                 <div key={idx} className="relative group/btn">
                   <button
                     className={`p-2 px-4 rounded-xl cursor-pointer w-max text-left text-[14px] font-medium shadow-lg transition-all duration-200 bg-white border-2 ${activeButton === btn.label
-                      ? 'text-[#01B0E9] border-[#01B0E9]'
+                      ? 'text-[var(--primary-color)] border-[var(--primary-color)]'
                       : 'text-gray-800 border-transparent hover:border-gray-100'
                       }`}
                     onClick={() => {
@@ -119,7 +119,7 @@ const SortableCard = memo(
                       <p className="text-[10px] uppercase font-medium text-gray-400 mb-2">Select Date</p>
                       <input
                         type="date"
-                        className="w-full border rounded-lg p-2 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#01B0E9]/20"
+                        className="w-full border rounded-lg p-2 text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]/20"
                         onChange={(e) => {
                           if (onUpdateCard && e.target.value) {
                             const formatted = new Date(e.target.value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
@@ -212,7 +212,7 @@ const SortableCard = memo(
           {menuCardId === card.id && (
             <button
               className='py-2.5 px-8 rounded-lg text-white font-medium text-sm shadow-xl absolute -bottom-[70px] left-0 hover:scale-105 active:scale-95 transition-all duration-200 z-[3000]'
-              style={{ backgroundColor: '#01B0E9' }}
+              style={{ backgroundColor: 'var(--primary-color)' }}
               onClick={(e) => { e.stopPropagation(); setMenuCardId(null); }}
             >
               Save

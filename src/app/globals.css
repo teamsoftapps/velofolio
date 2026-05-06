@@ -14,11 +14,13 @@ body {
 :root {
   --background: #FAFAFA;
   --foreground: #171717;
+  --primary-color: #01B0E9;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary-color);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -89,6 +91,6 @@ body {
 }
 
 .my-checkbox {
-  accent-color: #01B0E9;
+  accent-color: var(--primary-color);
   /* change the checkmark & background when checked */
 }

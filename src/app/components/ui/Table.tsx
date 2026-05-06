@@ -49,7 +49,7 @@ const Table = ({
     Proposal: 'bg-[#E0F2FE] text-[#0EA5E9]',
     Booked: 'bg-[#DFF6EA] text-[#10B981]',
     Done: 'bg-[#DFF6EA] text-[#10B981]',
-    Paid: 'bg-[#01B0E9] text-white',
+    Paid: 'bg-[var(--primary-color)] text-white',
     Active: 'bg-[#FFF4E5] text-[#F59E0B]',
     'On Leave': 'bg-[#E0F2FE] text-[#0EA5E9]',
     Completed: 'bg-[#DFF6EA] text-[#10B981]',

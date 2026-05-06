@@ -62,7 +62,7 @@ export default function NavHomePage() {
             </Link>
             <Link
               href="/signup"
-              className="bg-[#01B0E9] hover:bg-[#01B0E9]/90 text-white font-medium px-6 py-2.5 rounded-full transition-colors duration-200"
+              className="bg-[var(--primary-color)] hover:bg-[var(--primary-color)]/90 text-white font-medium px-6 py-2.5 rounded-full transition-colors duration-200"
             >
               Sign up
             </Link>

@@ -1,7 +1,7 @@
 
 /** @format */
 
-import { FaArrowTrendUp, FaArrowTrendDown } from 'react-icons/fa6';
+import { FiTrendingUp, FiTrendingDown } from 'react-icons/fi';
 import { Line } from 'react-chartjs-2';
 import Image from 'next/image';
 import { colors } from '@/utils/colors';
@@ -40,7 +40,7 @@ const LeadCard = ({
   count,
   percentageChange,
   theme = 'blue',
-  colorClass = 'bg-[#01B0E9]',
+  colorClass = 'bg-[var(--primary-color)]',
   countlabel,
   chartData = [10, 15, 8, 12, 18, 14, 22],
   variant = 'default',
@@ -51,20 +51,22 @@ const LeadCard = ({
 
   if (variant === 'default') {
     return (
-      <div className={`rounded-lg p-5 md:p-7 ${colorClass} ${textColor} shadow-md w-full sm:w-[calc(50%-8px)] lg:w-[calc(25%-12px)] flex-shrink-0`}>
-        <h3 className='text-base md:text-lg font-medium'>{title}</h3>
-        <div className='flex items-center'>
-          <div className='flex flex-col mt-2 w-auto'>
+      <div className={`relative overflow-hidden rounded-lg p-5 md:p-7 ${colorClass} ${textColor} shadow-md w-full sm:w-[calc(50%-8px)] lg:w-[calc(25%-12px)] flex-shrink-0`}>
+        <h3 className='relative z-10 text-base md:text-lg font-medium truncate pr-4'>{title}</h3>
+        <div className='relative z-10 flex items-end justify-between mt-2'>
+          <div className='flex flex-col flex-shrink-0'>
             <span className='text-xl md:text-3xl font-bold min-w-[85px] '>
               {count} <span className='text-sm font-extralight'>{countlabel}</span>
             </span>
-            <span className='text-xs flex items-center mt-1'>
+            <span className='text-xs flex items-center mt-2 w-max'>
               <span className={`${pillColor} text-sm rounded-sm px-1.5 py-0.5 flex items-center font-medium`}>
-                {percentageChange > 0 ? "+" : ""}{percentageChange}% <FaArrowTrendUp className='w-3 h-3 ml-2' />
+                {percentageChange > 0 ? "+" : ""}{percentageChange}% <FiTrendingUp className='w-3 h-3 ml-2 flex-shrink-0' />
               </span>
             </span>
           </div>
-          <Image src={'/Diagram.svg'} alt='diagram' width={100} height={100} className='w-20 md:w-28 lg:w-30' />
+        </div>
+        <div className="absolute right-0 bottom-0 pointer-events-none object-contain">
+          <Image src={'/Diagram.svg'} alt='diagram' width={200} height={100} className='w-[140px] md:w-[110px] h-[50px] md:h-[20px] opacity-90 object-contain object-right-bottom' />
         </div>
       </div>
     );
@@ -117,24 +119,24 @@ const LeadCard = ({
   };
 
   return (
-    <div className={`p-6 rounded-xl border flex flex-col w-full sm:w-[calc(50%-8px)] lg:w-[calc(25%-12px)] flex-shrink-0 `} style={{ backgroundColor: currentTheme.bgStr, borderColor: 'rgba(255,255,255,0.4)' }}>
-      <div className="flex items-center gap-1.5 mb-1">
-        <span className="text-gray-900 text-[14px] font-semibold">{title}</span>
-        <span className="text-[#9CA3AF] text-[14px] font-normal">{subtitle}</span>
+    <div className={`relative overflow-hidden p-5 xl:p-6 rounded-xl border flex flex-col w-full sm:w-[calc(50%-8px)] lg:w-[calc(25%-12px)] flex-shrink-0 `} style={{ backgroundColor: currentTheme.bgStr, borderColor: 'rgba(255,255,255,0.4)' }}>
+      <div className="flex items-center gap-1.5 mb-1 w-full relative z-10">
+        <span className="text-gray-900 text-[14px] font-semibold whitespace-nowrap truncate">{title}</span>
+        <span className="text-[#9CA3AF] text-[13px] font-normal whitespace-nowrap flex-shrink-0">{subtitle}</span>
       </div>
 
-      <div className="flex justify-between items-end mt-1">
-        <div className="flex flex-col">
+      <div className="flex justify-between items-end mt-1 w-full flex-1 relative z-10">
+        <div className="flex flex-col flex-shrink-0">
           <span className="text-3xl font-semibold text-gray-900 leading-tight">{count}</span>
-          <div className={`mt-2 flex items-center justify-between gap-2 px-2 py-1 rounded-md text-[11px] font-bold w-full min-w-[80px]`} style={{ backgroundColor: currentTheme.pillBg, color: currentTheme.pillText }}>
+          <div className={`mt-2 flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-bold w-max min-w-[80px] justify-between`} style={{ backgroundColor: currentTheme.pillBg, color: currentTheme.pillText }}>
             <span>{percentageChange > 0 ? "+" : ""}{percentageChange.toFixed(2)}%</span>
-            {percentageChange >= 0 ? <FaArrowTrendUp className="w-3 h-3" /> : <FaArrowTrendDown className="w-3 h-3" />}
+            {percentageChange >= 0 ? <FiTrendingUp className="w-3 h-3 flex-shrink-0" /> : <FiTrendingDown className="w-3 h-3 flex-shrink-0" />}
           </div>
         </div>
+      </div>
 
-        <div className="flex-shrink-0 ml-2">
-          <Image src={diagramSrc} alt="diagram" width={100} height={100} className="w-32 md:w-40 lg:w-40" />
-        </div>
+      <div className="absolute right-0 bottom-0 pointer-events-none">
+        <Image src={diagramSrc} alt="diagram" width={200} height={100} className=" mr-3 w-[140px] xl:w-[110px] h-[50px] xl:h-[20px] opacity-90 object-contain object-right-bottom" />
       </div>
     </div>
   );

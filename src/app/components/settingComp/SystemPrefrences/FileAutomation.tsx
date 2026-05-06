@@ -19,7 +19,7 @@ const FileAutomation = () => {
                   <button
                     onClick={() => setAllowUpload(!allowUpload)}
                     className={`shrink-0 relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      allowUpload ? "bg-[#01B0E9]" : "bg-gray-300"
+                      allowUpload ? "bg-[var(--primary-color)]" : "bg-gray-300"
                     }`}
                   >
                     <span
@@ -39,7 +39,7 @@ const FileAutomation = () => {
                   <button
                     onClick={() => setAutoSendInvoice(!autoSendInvoice)}
                     className={`shrink-0 relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      autoSendInvoice ? "bg-[#01B0E9]" : "bg-gray-300"
+                      autoSendInvoice ? "bg-[var(--primary-color)]" : "bg-gray-300"
                     }`}
                   >
                     <span
@@ -59,7 +59,7 @@ const FileAutomation = () => {
                   <button
                     onClick={() => setAutoSendQuote(!autoSendQuote)}
                     className={`shrink-0 relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      autoSendQuote ? "bg-[#01B0E9]" : "bg-gray-300"
+                      autoSendQuote ? "bg-[var(--primary-color)]" : "bg-gray-300"
                     }`}
                   >
                     <span
@@ -79,7 +79,7 @@ const FileAutomation = () => {
                   <button
                     onClick={() => setAutoRemind(!autoRemind)}
                     className={`shrink-0 relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      autoRemind ? "bg-[#01B0E9]" : "bg-gray-300"
+                      autoRemind ? "bg-[var(--primary-color)]" : "bg-gray-300"
                     }`}
                   >
                     <span

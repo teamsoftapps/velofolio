@@ -25,14 +25,14 @@ const DashboardTable = ({
 
   const statusColors: any = {
     "New Lead": "bg-[#FEBE2A]",
-    Proposal: "bg-[#01B0E9]",
+    Proposal: "bg-[var(--primary-color)]",
     Booked: "bg-[#14CB95]",
     Done: "bg-green-500",
-    Paid: "bg-[#01B0E9]",
+    Paid: "bg-[var(--primary-color)]",
     Active: "bg-[#FEBE2A]",
-    "On Leave": "bg-[#01B0E9]",
+    "On Leave": "bg-[var(--primary-color)]",
     Completed: "bg-[#14CB95]",
-    New: "bg-[#01B0E9]",
+    New: "bg-[var(--primary-color)]",
     Pending: "bg-[#FFC700]",
     "In Progress": "bg-[#FEBE2A]",
     Overdue: "bg-[#4B5563]",
@@ -41,7 +41,7 @@ const DashboardTable = ({
     Rejected: "bg-red-500",
     Signed: "bg-[#FEBE2A] text-black",
     Draft: "bg-[#13CC95]",
-    Upcoming: "bg-[#01B0E9]",
+    Upcoming: "bg-[var(--primary-color)]",
   };
 
   const handlePageChange = (newPage: number) => {

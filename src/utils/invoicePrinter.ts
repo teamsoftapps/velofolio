@@ -59,6 +59,18 @@ export const printInvoice = (data: InvoiceAction) => {
 
   const taxPercentage = data.tax || (subtotal > 0 ? (taxAmount / (subtotal - discountAmount)) * 100 : 0);
 
+  // Read settings from localStorage to check logo visibility
+  let showLogo = true;
+  try {
+    const saved = localStorage.getItem('clientCustomization');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed.showLogoInvoice === false) {
+        showLogo = false;
+      }
+    }
+  } catch (e) {}
+
   // Generate QR metadata
   const qrMetadata = `Invoice ID: ${data.id}\nClient: ${data.clientName}\nTotal Amount: $${data.totalAmount}\nDate: ${new Date(data.createdAt).toLocaleDateString()}\nStatus: ${data.status || 'Sent'}`;
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(qrMetadata)}`;
@@ -185,7 +197,7 @@ export const printInvoice = (data: InvoiceAction) => {
               </div>
             </div>
             <div class="company-section">
-              <img src="/images/logo.png" alt="VeloFolio" class="logo-img" />
+              ${showLogo ? `<img src="/images/logo.png" alt="VeloFolio" class="logo-img" />` : ''}
               <div class="company-name">VeloFolio Studio</div>
               <div class="company-address">San Francisco, CA</div>
             </div>

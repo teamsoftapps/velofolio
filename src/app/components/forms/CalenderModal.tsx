@@ -12,11 +12,11 @@ export default function CalenderModal({ value, setValue }: any) {
 
       cellButton: `
       rounded-full
-      data-[selected=true]:bg-[#01B0E9]
+      data-[selected=true]:bg-[var(--primary-color)]
       data-[selected=true]:text-white
       
       data-[today=true]:border-2
-      data-[today=true]:border-[#01B0E9]
+      data-[today=true]:border-[var(--primary-color)]
    
       data-[today=true]:font-bold
       

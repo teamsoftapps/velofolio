@@ -50,7 +50,7 @@ export default function TaskList() {
   return (
     <div className="w-full h-full py-3 flex flex-col gap-7 inter">
       {tasks.map((task, index) => {
-        const borderColor = task.checked ? "border-[#13CC95]" : "border-[#01B0E9]";
+        const borderColor = task.checked ? "border-[#13CC95]" : "border-[var(--primary-color)]";
 
         // Disable checkbox if previous task is not checked (excluding first)
         const isDisabled = index !== 0 && !tasks[index - 1].checked;
@@ -76,7 +76,7 @@ export default function TaskList() {
                 className={`circle w-4 h-4 border-2 ${isDisabled ? "border-gray-300" :borderColor } bg-white rounded-full absolute -left-3 top-1/2 -translate-y-1/2 z-10`}
               ></span>
 {index !=tasks.length-1 && <div className="absolute cursor-pointer -bottom-4 left-0 w-full opacity-0 hover:opacity-100 transition-all ease-in-out z-40   border-1 border-gray-300 border-dashed">
-  <div className="absolute -top-4 left-1/2 w-9 h-9 aspect-square bg-[#01B0E9] rounded-full ">
+  <div className="absolute -top-4 left-1/2 w-9 h-9 aspect-square bg-[var(--primary-color)] rounded-full ">
   <IoMdAdd className="w-6 h-6 text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 opacity-100"/>
 
   </div>
@@ -120,7 +120,7 @@ export default function TaskList() {
                       t.trim() && (
                         <span
                           key={i}
-                          className={`${task.type === "event" ? "bg-[#01B0E9] text-white" : "bg-[#818181] text-white"} text-xs px-3 py-1 rounded-3xl inline-block w-fit`}
+                          className={`${task.type === "event" ? "bg-[var(--primary-color)] text-white" : "bg-[#818181] text-white"} text-xs px-3 py-1 rounded-3xl inline-block w-fit`}
                         >
                           {t}
                         </span>

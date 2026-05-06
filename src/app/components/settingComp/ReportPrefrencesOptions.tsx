@@ -122,7 +122,7 @@ const ReportSettings = () => {
                       type="checkbox"
                       checked={item.checked}
                       onChange={() => toggleOption(item.id)}
-                      className="w-4 h-4 text-[#01B0E9] rounded border-gray-300 focus:ring-[#01B0E9]"
+                      className="w-4 h-4 text-[var(--primary-color)] rounded border-gray-300 focus:ring-[var(--primary-color)]"
                     />
                     <span>{item.label}</span>
                   </label>

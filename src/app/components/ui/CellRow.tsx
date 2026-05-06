@@ -7,10 +7,10 @@ import Image from 'next/image';
 export const StatusCell = ({ status }: { status: string }) => {
   const colors: any = {
     'New Lead': 'bg-[#FEBE2A] text-black',
-    Proposal: 'bg-[#01B0E9] text-white',
+    Proposal: 'bg-[var(--primary-color)] text-white',
     Booked: 'bg-[#14CB95] text-white',
     Done: 'bg-green-500 text-white',
-    Paid: 'bg-[#01B0E9] text-white',
+    Paid: 'bg-[var(--primary-color)] text-white',
     Pending: 'bg-[#FEBE2A] text-black',
     Inactive: 'bg-gray-200 text-black',
     Overdue: 'bg-[#14CB95] text-white',

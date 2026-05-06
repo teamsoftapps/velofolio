@@ -194,7 +194,7 @@
 //     <CgSandClock className="w-5 h-5 text-gray-400" />
 //   </div>
 // ) : isSelected ? (
-//   <div className="w-5 h-5 bg-[#01B0E9] rounded flex items-center justify-center">
+//   <div className="w-5 h-5 bg-[var(--primary-color)] rounded flex items-center justify-center">
 //     <MdCheck className="w-3 h-3 text-white" />
 //   </div>
 // ) : (
@@ -228,7 +228,7 @@
 
 //             {/* Invite New Member */}
 //             <button
-//               className="w-full mt-2 flex items-center justify-center gap-2 p-4 cursor-pointer text-[#01B0E9] hover:bg-blue-50 rounded-lg transition-colors"
+//               className="w-full mt-2 flex items-center justify-center gap-2 p-4 cursor-pointer text-[var(--primary-color)] hover:bg-blue-50 rounded-lg transition-colors"
 //               onClick={() => setIsInviteModalOpen(true)}
 //             >
 //               <MdPersonAdd className="w-5 h-5" />
@@ -428,7 +428,7 @@ const [workspaceMembers, setWorkspaceMembers] = useState<Member[]>([
                         {isPending ? (
                           <CgSandClock className="w-5 h-5 text-gray-400" />
                         ) : isSelected ? (
-                          <div className="w-5 h-5 bg-[#01B0E9] rounded flex items-center justify-center">
+                          <div className="w-5 h-5 bg-[var(--primary-color)] rounded flex items-center justify-center">
                             <MdCheck className="w-3 h-3 text-white" />
                           </div>
                         ) : (
@@ -460,7 +460,7 @@ const [workspaceMembers, setWorkspaceMembers] = useState<Member[]>([
 
             {/* Invite New Member */}
             <button
-              className="w-full mt-2 flex items-center justify-center gap-2 p-4 cursor-pointer text-[#01B0E9] hover:bg-blue-50 rounded-lg transition-colors"
+              className="w-full mt-2 flex items-center justify-center gap-2 p-4 cursor-pointer text-[var(--primary-color)] hover:bg-blue-50 rounded-lg transition-colors"
               onClick={() => setIsInviteModalOpen(true)}
             >
               <MdPersonAdd className="w-5 h-5" />

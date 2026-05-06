@@ -426,7 +426,7 @@ const AddInvoiceModal: React.FC<AddInvoiceModalProps> = ({ isOpen, onClose, onSu
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 lg:w-2/3 my-3">
-            <button className="w-full sm:w-40 bg-[#01B0E9] text-white py-3 rounded-full mb-2 sm:mb-0 cursor-pointer">
+            <button className="w-full sm:w-40 bg-[var(--primary-color)] text-white py-3 rounded-full mb-2 sm:mb-0 cursor-pointer">
               Save Invoice
             </button>
             <button

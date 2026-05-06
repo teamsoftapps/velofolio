@@ -31,7 +31,7 @@ export default function ProgressStepper({ steps }: ProgressStepperProps) {
 
         {/* Progress Line */}
         <div
-          className="absolute top-6 sm:top-8 left-20  h-2 bg-[#01B0E9] rounded-full transition-all duration-500 ease-in-out"
+          className="absolute top-6 sm:top-8 left-20  h-2 bg-[var(--primary-color)] rounded-full transition-all duration-500 ease-in-out"
           style={{ width: progressWidth }}
         />
 
@@ -45,7 +45,7 @@ export default function ProgressStepper({ steps }: ProgressStepperProps) {
             <div
               className={`relative flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full border-6 sm:border-8 transition-all duration-300 shadow-md ${
                 step.completed
-                  ? "border-[#01B0E9] bg-white text-[#01B0E9]"
+                  ? "border-[var(--primary-color)] bg-white text-[var(--primary-color)]"
                   : "border-gray-300 bg-white text-gray-300"
               }`}
             >

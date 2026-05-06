@@ -160,7 +160,7 @@ export default function AddJobModal({
                                     placeholder="e.g., Wedding Ceremony"
                                     value={formData.jobName}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                 />
                                 {errors.jobName && <p className="text-xs text-red-500 mt-1">{errors.jobName}</p>}
                             </div>
@@ -176,7 +176,7 @@ export default function AddJobModal({
                                     placeholder="e.g., Sarah & John"
                                     value={formData.clientName}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                 />
                                 {errors.clientName && <p className="text-xs text-red-500 mt-1">{errors.clientName}</p>}
                             </div>
@@ -220,7 +220,7 @@ export default function AddJobModal({
                                         placeholder="Enter location..."
                                         value={formData.location}
                                         onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                                        className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                        className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                     />
                                     <MdLocationOn className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
                                 </div>
@@ -233,7 +233,7 @@ export default function AddJobModal({
                                         required
                                         value={formData.date}
                                         onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                                        className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                        className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                     />
                                 </div>
                                 <div>
@@ -243,7 +243,7 @@ export default function AddJobModal({
                                         required
                                         value={formData.time}
                                         onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                                        className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                        className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                     />
                                 </div>
                             </div>
@@ -278,7 +278,7 @@ export default function AddJobModal({
                                     value={customDeliverable}
                                     onChange={(e) => setCustomDeliverable(e.target.value)}
                                     onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCustomDeliverable())}
-                                    className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                    className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                 />
                                 <button
                                     type="button"
@@ -380,7 +380,7 @@ export default function AddJobModal({
                                 value={formData.notes}
                                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                 placeholder="Add job details, special requirements..."
-                                className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent resize-none"
+                                className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent resize-none"
                             />
                         </div>
 

@@ -74,7 +74,7 @@ const EmailSetting = () => {
           <input
             type="text"
             defaultValue={"Velofolio"}
-            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
           />
         </div>
 
@@ -121,7 +121,7 @@ const EmailSetting = () => {
             console.log('Signature HTML:', editor.getHTML());
             alert('Signature saved! Check console.');
           }}
-          className="px-8 py-3 bg-[#01B0E9] text-white rounded-full font-medium hover:bg-[#0198c7] transition"
+          className="px-8 py-3 bg-[var(--primary-color)] text-white rounded-full font-medium hover:bg-[#0198c7] transition"
         >
           Save Changes
         </button>

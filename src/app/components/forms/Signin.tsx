@@ -119,7 +119,7 @@ onSubmit={async (values, { setSubmitting }) => {
                    autoComplete="email"
                   type="email"
                   placeholder="Enter your email"
-                  className="w-full px-4 py-3 border text-gray-700 border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent outline-none transition"
+                  className="w-full px-4 py-3 border text-gray-700 border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent outline-none transition"
                 />
                 <ErrorMessage
                   name="email"
@@ -143,7 +143,7 @@ onSubmit={async (values, { setSubmitting }) => {
                     type={showPassword ? "text" : "password"}
                     autoComplete="current-password"
                     placeholder="Enter your password"
-                    className="w-full px-4 py-3 pr-12 border text-gray-700 border-gray-300 rounded-lg focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent outline-none transition"
+                    className="w-full px-4 py-3 pr-12 border text-gray-700 border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent outline-none transition"
                   />
                   <button
                     type="button"
@@ -166,7 +166,7 @@ onSubmit={async (values, { setSubmitting }) => {
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 text-[#01B0E9] border-gray-300 rounded focus:ring-[#01B0E9]"
+                    className="w-4 h-4 text-[var(--primary-color)] border-gray-300 rounded focus:ring-[var(--primary-color)]"
                   />
                   <span className="text-sm text-gray-600">
                     Stay signed in for 7 days
@@ -175,7 +175,7 @@ onSubmit={async (values, { setSubmitting }) => {
 
                 <Link
                   href="/forget-password"
-                  className="text-[#01B0E9] text-sm font-medium hover:underline"
+                  className="text-[var(--primary-color)] text-sm font-medium hover:underline"
                 >
                   Forgot Password?
                 </Link>
@@ -185,7 +185,7 @@ onSubmit={async (values, { setSubmitting }) => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full rounded-full bg-[#01B0E9] text-white font-semibold py-3 hover:bg-[#019cc7] transition duration-200"
+                className="w-full rounded-full bg-[var(--primary-color)] text-white font-semibold py-3 hover:bg-[#019cc7] transition duration-200"
               >
                 {isSubmitting ? "Signing In..." : "Sign In"}
               </button>
@@ -215,7 +215,7 @@ onSubmit={async (values, { setSubmitting }) => {
           Not a member?{" "}
           <Link
             href="/signup"
-            className="text-[#01B0E9] font-medium hover:underline"
+            className="text-[var(--primary-color)] font-medium hover:underline"
           >
             Sign Up
           </Link>

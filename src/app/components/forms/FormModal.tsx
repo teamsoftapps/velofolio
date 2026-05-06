@@ -339,7 +339,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
           <div className='w-full flex items-center gap-4'>
             <button
               type='submit'
-              className='w-40 bg-[#01B0E9] text-white p-2  rounded-full cursor-pointer'>
+              className='w-40 bg-[var(--primary-color)] text-white p-2  rounded-full cursor-pointer'>
               {Object.keys(initialData).length > 0 ? 'Update' : 'Add Member'}
             </button>
             <button

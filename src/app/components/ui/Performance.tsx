@@ -34,7 +34,7 @@ const Performance: React.FC = () => {
       {
         label: 'Actual Completed Jobs',
         data: [12, 19, 15, 22, 18, 25, 30],
-        borderColor: '#01B0E9',
+        borderColor: 'var(--primary-color)',
         backgroundColor: 'rgba(1, 176, 233, 0.1)',
         tension: 0.4,
         fill: true,
@@ -67,14 +67,14 @@ const Performance: React.FC = () => {
         <div className='bg-white p-4 rounded-xl shadow-sm border border-gray-200'>
           <div className='flex items-center justify-between mb-2'>
             <p className='text-sm text-gray-500'>Productivity Score</p>
-            <FaChartLine className='text-[#01B0E9]' />
+            <FaChartLine className='text-[var(--primary-color)]' />
           </div>
           <p className='text-2xl font-bold text-black'>94%</p>
           <p className='text-xs text-[#13CC95] flex items-center mt-1'>
             +4.2% since last month
           </p>
           <div className='w-full bg-gray-100 rounded-full h-1.5 mt-3'>
-            <div className='bg-[#01B0E9] h-1.5 rounded-full' style={{ width: '94%' }}></div>
+            <div className='bg-[var(--primary-color)] h-1.5 rounded-full' style={{ width: '94%' }}></div>
           </div>
         </div>
 

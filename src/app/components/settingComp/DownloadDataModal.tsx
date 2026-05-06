@@ -44,8 +44,8 @@ export default function DownloadDataModal({ isOpen, setIsOpen }: DownloadDataMod
         {/* Body */}
         <div className="px-8 py-8">
           <div className="bg-[#F4F4F5] rounded-2xl p-8 border-gray-300 border-2 text-center flex flex-col items-center">
-            <div className="bg-[#01B0E9]/10 p-4 rounded-full mb-4">
-              <DownloadCloud className="w-8 h-8 text-[#01B0E9]" />
+            <div className="bg-[var(--primary-color)]/10 p-4 rounded-full mb-4">
+              <DownloadCloud className="w-8 h-8 text-[var(--primary-color)]" />
             </div>
             <p className="text-gray-700 font-medium mb-4">
               Get a copy of your data to keep. We'll compile an archive containing all your essential information including documents, invoices, media, and account settings.
@@ -67,7 +67,7 @@ export default function DownloadDataModal({ isOpen, setIsOpen }: DownloadDataMod
           <button
             onClick={handleConfirm}
             disabled={isLoading}
-            className="px-6 py-2 bg-[#01B0E9] rounded-full text-white font-medium hover:bg-[#009bc9] transition-colors disabled:opacity-50 cursor-pointer"
+            className="px-6 py-2 bg-[var(--primary-color)] rounded-full text-white font-medium hover:bg-[#009bc9] transition-colors disabled:opacity-50 cursor-pointer"
           >
             {isLoading ? "Processing..." : "Request Download"}
           </button>

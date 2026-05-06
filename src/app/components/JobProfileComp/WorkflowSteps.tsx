@@ -12,7 +12,7 @@ const WorkflowSteps = () => {
             <LuNetwork size={28} /> 
             <h1 className='text-xl'>Workflow</h1>
           </div>
-          <button className='bg-[#01B0E9] w-9 text-white h-9 rounded-full flex items-center justify-center'><PlusIcon size={28} /></button>
+          <button className='bg-[var(--primary-color)] w-9 text-white h-9 rounded-full flex items-center justify-center'><PlusIcon size={28} /></button>
           </div>
     <TimeLine />
 

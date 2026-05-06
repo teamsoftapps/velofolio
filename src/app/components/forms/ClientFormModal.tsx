@@ -214,7 +214,7 @@ const [createClient] = useCreateClientMutation();
               onClick={() => setActiveTab('Client')}
               className={`flex-1 text-center py-2 rounded-full cursor-pointer text-sm font-medium transition-all duration-200 ${
                 activeTab === 'Client'
-                  ? 'bg-[#01B0E9] shadow text-white ]'
+                  ? 'bg-[var(--primary-color)] shadow text-white ]'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -225,7 +225,7 @@ const [createClient] = useCreateClientMutation();
               onClick={() => setActiveTab('Company')}
               className={`flex-1 text-center py-2 rounded-full cursor-pointer text-sm font-medium transition-all duration-200 ${
                 activeTab === 'Company'
-                  ? 'bg-[#01B0E9] shadow text-white ]'
+                  ? 'bg-[var(--primary-color)] shadow text-white ]'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -502,7 +502,7 @@ const [createClient] = useCreateClientMutation();
           <div className='w-full flex items-center gap-4'>
             <button
               type='submit'
-              className='w-40 bg-[#01B0E9] text-white p-2 rounded-full cursor-pointer'
+              className='w-40 bg-[var(--primary-color)] text-white p-2 rounded-full cursor-pointer'
             >
               {activeTab === 'Company' ? 'Add Company' : 'Add Client'}
             </button>

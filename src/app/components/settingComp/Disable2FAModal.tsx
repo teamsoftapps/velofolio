@@ -51,7 +51,7 @@ export default function Disable2FAModal({ isOpen, setIsOpen, onConfirm }: any) {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-white rounded-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#01B0E9]/50 pr-12"
+                  className="w-full px-4 py-3 bg-white rounded-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]/50 pr-12"
                   autoFocus
                 />
                 <button
@@ -80,7 +80,7 @@ export default function Disable2FAModal({ isOpen, setIsOpen, onConfirm }: any) {
             <button
               onClick={handleConfirm}
               disabled={!password.trim()}
-              className="px-6 py-2 bg-[#01B0E9] rounded-full text-white font-medium hover:bg-[#01A0D9] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2 bg-[var(--primary-color)] rounded-full text-white font-medium hover:bg-[#01A0D9] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Confirm Disable
             </button>

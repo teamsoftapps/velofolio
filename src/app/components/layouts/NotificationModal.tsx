@@ -65,7 +65,7 @@ const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
         <div className="px-6 py-5 border-b border-gray-50 flex items-center justify-between bg-white">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-50 rounded-xl">
-              <IoNotificationsOutline className="w-5 h-5 text-[#01B0E9]" />
+              <IoNotificationsOutline className="w-5 h-5 text-[var(--primary-color)]" />
             </div>
             <h2 className="text-lg font-medium text-gray-900">Notifications</h2>
           </div>
@@ -94,7 +94,7 @@ const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
 
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-1">
-                      <h3 className={`text-sm font-bold text-gray-900 ${!notif.isRead ? 'text-[#01B0E9]' : ''}`}>
+                      <h3 className={`text-sm font-bold text-gray-900 ${!notif.isRead ? 'text-[var(--primary-color)]' : ''}`}>
                         {notif.title}
                       </h3>
                       <span className="text-[10px] text-gray-400 font-semibold">{notif.time}</span>
@@ -104,7 +104,7 @@ const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
                     </p>
                   </div>
                   {!notif.isRead && (
-                    <div className="w-2 h-2 rounded-full bg-[#01B0E9] mt-3" />
+                    <div className="w-2 h-2 rounded-full bg-[var(--primary-color)] mt-3" />
                   )}
                 </div>
               ))}
@@ -124,11 +124,11 @@ const NotificationModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =
         <div className="p-6 border-t border-gray-50 bg-white flex flex-col gap-3">
           <button
             onClick={handleSeeAll}
-            className="w-full py-3 bg-[#01B0E9] hover:bg-[#00A4DD] text-white text-sm font-bold rounded-2xl transition-all shadow-lg shadow-blue-100 flex items-center justify-center gap-2"
+            className="w-full py-3 bg-[var(--primary-color)] hover:bg-[#00A4DD] text-white text-sm font-bold rounded-2xl transition-all shadow-lg shadow-blue-100 flex items-center justify-center gap-2"
           >
             See all notifications
           </button>
-          <button className="w-full py-2 text-xs font-bold text-gray-400 hover:text-[#01B0E9] transition-all uppercase tracking-wider">
+          <button className="w-full py-2 text-xs font-bold text-gray-400 hover:text-[var(--primary-color)] transition-all uppercase tracking-wider">
             Mark all as read
           </button>
         </div>

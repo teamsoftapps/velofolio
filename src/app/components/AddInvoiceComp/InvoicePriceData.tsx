@@ -69,7 +69,7 @@ const InvoicePriceData = ({ invoices, totalDue }: any) => {
       {/* Total Due */}
       <div className="flex justify-between gap-8 border-t border-gray-200 pt-3 mt-2">
         <span className="text-xl font-bold text-gray-900">Total Due</span>
-        <span className="text-xl font-bold text-[#01B0E9]">
+        <span className="text-xl font-bold text-[var(--primary-color)]">
           $ {grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </span>
       </div>

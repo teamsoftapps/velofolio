@@ -40,7 +40,7 @@ export default function InvoiceActions({
         {/* Send Invoice Button */}
         <button
           onClick={onSendInvoice}
-          className="group relative inline-flex items-center justify-center min:w-40 w-48  max:w-80 px-4 py-2 text-sm font-medium text-white  bg-[#01B0E9] rounded-full cursor-pointer "
+          className="group relative inline-flex items-center justify-center min:w-40 w-48  max:w-80 px-4 py-2 text-sm font-medium text-white  bg-[var(--primary-color)] rounded-full cursor-pointer "
         >
         <IoIosSend  className="text-white w-5 h-5 mr-2"/>
 

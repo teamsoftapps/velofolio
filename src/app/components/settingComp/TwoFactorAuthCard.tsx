@@ -104,7 +104,7 @@ export default function TwoFactorAuthCard({
                 }
               }}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                is2FAEnabled ? "bg-[#01B0E9]" : "bg-gray-300"
+                is2FAEnabled ? "bg-[var(--primary-color)]" : "bg-gray-300"
               }`}
             >
               <span

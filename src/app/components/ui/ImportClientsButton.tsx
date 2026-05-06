@@ -25,7 +25,7 @@ const ActionButton = ({
   // Different colors for Import and Export
   const baseColor = isImport 
     ? 'bg-emerald-500 hover:bg-emerald-600' 
-    : 'bg-[#01B0E9] hover:bg-[#01B0E9]/80';
+    : 'bg-[var(--primary-color)] hover:bg-[var(--primary-color)]/80';
 
   const formatColor = isImport ? 'text-emerald-100' : 'text-indigo-100';
 

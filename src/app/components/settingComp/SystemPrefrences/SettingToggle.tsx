@@ -12,7 +12,7 @@ const SettingToggle = ({ label, value, onChange }:any) => {
         <button
           onClick={onChange}
           className={`shrink-0 relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-            value ? "bg-[#01B0E9]" : "bg-gray-300"
+            value ? "bg-[var(--primary-color)]" : "bg-gray-300"
           }`}
         >
           <span

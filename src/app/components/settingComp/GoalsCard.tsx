@@ -13,7 +13,7 @@ const GoalCard: React.FC<GoalCardProps> = ({ title, percentage, current, target,
   const barColor =
     percentage < 71 ? 'bg-red-500' :
     percentage > 71 && percentage < 74 ? 'bg-yellow-500' :
-    percentage > 73 && percentage < 95 ? 'bg-[#01B0E9]' :
+    percentage > 73 && percentage < 95 ? 'bg-[var(--primary-color)]' :
     percentage > 95 ? 'bg-green-500' :
     'bg-green-500';
 

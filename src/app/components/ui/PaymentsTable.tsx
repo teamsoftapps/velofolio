@@ -27,7 +27,7 @@ const PaymentsTable = ({
   };
 
   const statusStyles: any = {
-    paid: "bg-[#01B0E9] text-white",
+    paid: "bg-[var(--primary-color)] text-white",
     pending: "bg-[#FFC700] text-black",
     overdue: "bg-[#4B5563] text-white", // Solid gray for payment overdue as per earlier requests
     unpaid: "bg-[#FEF2F2] text-[#EF4444]",

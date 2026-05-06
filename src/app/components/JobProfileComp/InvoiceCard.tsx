@@ -115,7 +115,7 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({
         {/* Right */}
         <div className="space-y-1 text-right">
           <h2 className="font-medium text-gray-500 text-xs uppercase tracking-wider">Total: {formatCurrency(totalAmount)}</h2>
-          <h2 className="font-bold text-[#01B0E9] text-lg">Balance: {formatCurrency(balanceDue || totalAmount)}</h2>
+          <h2 className="font-bold text-[var(--primary-color)] text-lg">Balance: {formatCurrency(balanceDue || totalAmount)}</h2>
         </div>
       </div>
 
@@ -126,13 +126,13 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({
             onClick={() =>
               router.push(`/view${type}?${type}Id=${invoiceId}&clientId=${clientId}`)
             }
-            className="cursor-pointer rounded-full p-1.5 border-[#01B0E9] border-2 bg-white hover:bg-[#01B0E9] hover:text-white transition-all flex items-center gap-2 px-5 text-sm font-semibold text-[#01B0E9]"
+            className="cursor-pointer rounded-full p-1.5 border-[var(--primary-color)] border-2 bg-white hover:bg-[var(--primary-color)] hover:text-white transition-all flex items-center gap-2 px-5 text-sm font-semibold text-[var(--primary-color)]"
           >
             <BsSend className="w-3.5 h-3.5" />
             <span>View</span>
           </button>
 
-          <button className="cursor-pointer rounded-full p-1.5 border-[#01B0E9] border-2 bg-white hover:bg-[#01B0E9] hover:text-white transition-all flex items-center gap-2 px-5 text-sm font-semibold text-[#01B0E9]">
+          <button className="cursor-pointer rounded-full p-1.5 border-[var(--primary-color)] border-2 bg-white hover:bg-[var(--primary-color)] hover:text-white transition-all flex items-center gap-2 px-5 text-sm font-semibold text-[var(--primary-color)]">
             <BsSend className="w-3.5 h-3.5" />
             <span>Send</span>
           </button>
@@ -141,7 +141,7 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({
         <div className="relative" ref={dropdownRef}>
           <button 
             onClick={() => setShowOptions(!showOptions)}
-            className={`cursor-pointer rounded-full p-2 border-2 transition-all ${showOptions ? 'bg-[#01B0E9] border-[#01B0E9] text-white' : 'border-[#01B0E9] text-[#01B0E9] hover:bg-gray-50'}`}
+            className={`cursor-pointer rounded-full p-2 border-2 transition-all ${showOptions ? 'bg-[var(--primary-color)] border-[var(--primary-color)] text-white' : 'border-[var(--primary-color)] text-[var(--primary-color)] hover:bg-gray-50'}`}
           >
             <SlOptions className="w-4 h-4" />
           </button>

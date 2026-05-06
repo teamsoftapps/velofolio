@@ -88,8 +88,8 @@ export default function ExportModal({
           {stage === 'select' && (
             <>
               <div className="flex flex-col items-center text-center mb-6">
-                <div className="w-14 h-14 bg-[#01B0E9]/10 rounded-full flex items-center justify-center mb-4">
-                  <MdDownload className="w-7 h-7 text-[#01B0E9]" />
+                <div className="w-14 h-14 bg-[var(--primary-color)]/10 rounded-full flex items-center justify-center mb-4">
+                  <MdDownload className="w-7 h-7 text-[var(--primary-color)]" />
                 </div>
                 <h2 className="text-xl font-semibold text-gray-900">Export Clients</h2>
                 <p className="text-sm text-gray-500 mt-1">
@@ -104,12 +104,12 @@ export default function ExportModal({
                   onClick={() => setSelectedFormat('csv')}
                   className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all cursor-pointer ${
                     selectedFormat === 'csv'
-                      ? 'border-[#01B0E9] bg-[#01B0E9]/5'
+                      ? 'border-[var(--primary-color)] bg-[var(--primary-color)]/5'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
-                  <BsFiletypeCsv className={`w-9 h-9 ${selectedFormat === 'csv' ? 'text-[#01B0E9]' : 'text-gray-400'}`} />
-                  <span className={`text-sm font-semibold ${selectedFormat === 'csv' ? 'text-[#01B0E9]' : 'text-gray-600'}`}>
+                  <BsFiletypeCsv className={`w-9 h-9 ${selectedFormat === 'csv' ? 'text-[var(--primary-color)]' : 'text-gray-400'}`} />
+                  <span className={`text-sm font-semibold ${selectedFormat === 'csv' ? 'text-[var(--primary-color)]' : 'text-gray-600'}`}>
                     CSV
                   </span>
                   <span className="text-xs text-gray-400">Spreadsheet</span>
@@ -120,12 +120,12 @@ export default function ExportModal({
                   onClick={() => setSelectedFormat('pdf')}
                   className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all cursor-pointer ${
                     selectedFormat === 'pdf'
-                      ? 'border-[#01B0E9] bg-[#01B0E9]/5'
+                      ? 'border-[var(--primary-color)] bg-[var(--primary-color)]/5'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
-                  <AiOutlineFilePdf className={`w-9 h-9 ${selectedFormat === 'pdf' ? 'text-[#01B0E9]' : 'text-gray-400'}`} />
-                  <span className={`text-sm font-semibold ${selectedFormat === 'pdf' ? 'text-[#01B0E9]' : 'text-gray-600'}`}>
+                  <AiOutlineFilePdf className={`w-9 h-9 ${selectedFormat === 'pdf' ? 'text-[var(--primary-color)]' : 'text-gray-400'}`} />
+                  <span className={`text-sm font-semibold ${selectedFormat === 'pdf' ? 'text-[var(--primary-color)]' : 'text-gray-600'}`}>
                     PDF
                   </span>
                   <span className="text-xs text-gray-400">Document</span>
@@ -141,7 +141,7 @@ export default function ExportModal({
                 </button>
                 <button
                   onClick={handleExport}
-                  className="flex-1 py-2.5 bg-[#01B0E9] text-white font-medium rounded-full hover:bg-[#01B0E9]/85 transition-colors cursor-pointer"
+                  className="flex-1 py-2.5 bg-[var(--primary-color)] text-white font-medium rounded-full hover:bg-[var(--primary-color)]/85 transition-colors cursor-pointer"
                 >
                   Export {selectedFormat.toUpperCase()}
                 </button>
@@ -152,8 +152,8 @@ export default function ExportModal({
           {/* ---- EXPORTING STAGE ---- */}
           {stage === 'exporting' && (
             <div className="flex flex-col items-center text-center py-4">
-              <div className="w-14 h-14 bg-[#01B0E9]/10 rounded-full flex items-center justify-center mb-5 animate-pulse">
-                <MdDownload className="w-7 h-7 text-[#01B0E9]" />
+              <div className="w-14 h-14 bg-[var(--primary-color)]/10 rounded-full flex items-center justify-center mb-5 animate-pulse">
+                <MdDownload className="w-7 h-7 text-[var(--primary-color)]" />
               </div>
               <h2 className="text-xl font-semibold text-gray-900 mb-1">Exporting…</h2>
               <p className="text-sm text-gray-500 mb-6">
@@ -163,7 +163,7 @@ export default function ExportModal({
               {/* Progress Bar */}
               <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden mb-2">
                 <div
-                  className="h-full bg-[#01B0E9] rounded-full transition-all duration-200 ease-out"
+                  className="h-full bg-[var(--primary-color)] rounded-full transition-all duration-200 ease-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -189,7 +189,7 @@ export default function ExportModal({
 
               <button
                 onClick={handleClose}
-                className="w-full py-2.5 bg-[#01B0E9] text-white font-medium rounded-full hover:bg-[#01B0E9]/85 transition-colors cursor-pointer"
+                className="w-full py-2.5 bg-[var(--primary-color)] text-white font-medium rounded-full hover:bg-[var(--primary-color)]/85 transition-colors cursor-pointer"
               >
                 Done
               </button>

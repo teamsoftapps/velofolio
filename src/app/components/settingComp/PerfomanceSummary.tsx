@@ -13,8 +13,8 @@
 //             <h3>Revenue Trend</h3>
 //             </div>
 //             <div className='flex items-center gap-1'>
-//                 <IoMdArrowRoundUp  className='text-[#01B0E9] bg-[#DBEDF4] w-5 h-5'/>
-//                 <h3 className='text-[#01B0E9]'>+12.5%</h3>
+//                 <IoMdArrowRoundUp  className='text-[var(--primary-color)] bg-[#DBEDF4] w-5 h-5'/>
+//                 <h3 className='text-[var(--primary-color)]'>+12.5%</h3>
 //                 <p className='text-sm'>vs last month</p>
 //             </div>
 //         </li>

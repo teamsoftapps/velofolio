@@ -45,11 +45,11 @@ const MethodCard: React.FC<Props> = ({ method, toggleMethod, deleteMethod }) => 
       {/* Right: Buttons */}
       <div className="flex items-center gap-3 sm:gap-2 justify-end flex-wrap">
         {method.isDefault ? (
-          <button className="rounded-full px-3 py-1 bg-[#01B0E9] text-white text-sm sm:text-base whitespace-nowrap">
+          <button className="rounded-full px-3 py-1 bg-[var(--primary-color)] text-white text-sm sm:text-base whitespace-nowrap">
             Default
           </button>
         ) : (
-          <button onClick={()=>toggleMethod(method.id)} className="rounded-full px-3 py-1 border border-[#01B0E9] text-[#01B0E9] text-sm sm:text-base whitespace-nowrap cursor-pointer">
+          <button onClick={()=>toggleMethod(method.id)} className="rounded-full px-3 py-1 border border-[var(--primary-color)] text-[var(--primary-color)] text-sm sm:text-base whitespace-nowrap cursor-pointer">
             Set Default
           </button>
         )}

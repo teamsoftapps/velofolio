@@ -57,7 +57,7 @@ const ReportHeader = ({
               onClick={() => setTimeRange(range)}
               className={`whitespace-nowrap px-3 py-2 text-sm font-medium transition-colors border border-gray-300 sm:text-base ${index === 0 ? "rounded-l-md" : ""
                 } ${index === 3 ? "rounded-r-md" : ""} ${timeRange === range
-                  ? 'bg-[#01B0E9] text-white'
+                  ? 'bg-[var(--primary-color)] text-white'
                   : 'bg-white text-gray-700 hover:bg-gray-50'
                 } ${index !== 3 ? 'border-r-0' : ''}`}
             >

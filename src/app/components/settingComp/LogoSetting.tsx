@@ -40,7 +40,7 @@ const LogoSetting = () => {
           </p>
 
           <div className="flex items-center gap-3">
-            <label className="bg-[#01B0E9] p-1 px-3 cursor-pointer rounded-full text-white">
+            <label className="bg-[var(--primary-color)] p-1 px-3 cursor-pointer rounded-full text-white">
               Update
               <input
                 type="file"

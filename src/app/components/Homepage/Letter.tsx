@@ -9,7 +9,7 @@ const Letter = () => {
        <p className='font-regular my-4'>Sign up today and manage your studio like a pro.</p>
          <Link
               href="/signup"
-              className="px-4 mt-4 sm:px-6 bg-[#01B0E9] hover:bg-[#01B0E9]/90 text-white font-medium py-2 sm:py-3 rounded-full transition-colors text-center"
+              className="px-4 mt-4 sm:px-6 bg-[var(--primary-color)] hover:bg-[var(--primary-color)]/90 text-white font-medium py-2 sm:py-3 rounded-full transition-colors text-center"
             >
               Get Started Free
             </Link>

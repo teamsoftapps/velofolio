@@ -19,9 +19,8 @@ const CalendarDay = ({
   tags
 }: CalendarDayProps) => (
   <div
-    className={`border border-gray-100 flex flex-col items-start justify-start text-left transition-all ${
-      isToday ? 'bg-blue-100 text-blue-600' : isCurrentMonth ? 'hover:bg-gray-100 bg-white' : 'bg-white text-gray-400'
-    }`}
+    className={`border border-gray-100 flex flex-col items-start justify-start text-left transition-all ${isToday ? 'bg-blue-100 text-blue-600' : isCurrentMonth ? 'hover:bg-gray-100 bg-white' : 'bg-white text-gray-400'
+      }`}
     style={{ minHeight: '120px', height: '140px', padding: '8px' }}
   >
     <div className="text-[15px] font-semibold mb-1">{day}</div>

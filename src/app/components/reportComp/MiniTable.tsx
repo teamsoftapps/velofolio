@@ -13,7 +13,7 @@ const MiniTable: React.FC<MiniTableProps> = ({ headers, data, maxHeight = '300px
   const getUtilizationColor = (value: string) => {
     const num = Number(value.replace('%', '').trim());
     if (num >= 90) return 'bg-[#14CB95] text-white'; // green
-    if (num >= 60) return 'bg-[#01B0E9] text-white'; // blue
+    if (num >= 60) return 'bg-[var(--primary-color)] text-white'; // blue
     return 'bg-gray-300 text-gray-700';
   };
 
@@ -21,7 +21,7 @@ const MiniTable: React.FC<MiniTableProps> = ({ headers, data, maxHeight = '300px
     const map: any = {
       Active: 'bg-[#14CB95] text-white',
       'On Hold': 'bg-[#FEBE2A] text-black',
-      Completed: 'bg-[#01B0E9] text-white',
+      Completed: 'bg-[var(--primary-color)] text-white',
       Pending: 'bg-gray-300 text-black',
     };
     return map[status] || 'bg-gray-200 text-gray-700';

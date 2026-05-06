@@ -65,7 +65,7 @@ export default function OtpInput({ length = 6, onComplete }: OtpInputProps) {
           onChange={(e) => handleChange(e.target.value, index)}
           onKeyDown={(e) => handleKeyDown(e, index)}
           onPaste={handlePaste}
-          className="w-12 h-12 text-center text-lg font-semibold border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#01B0E9]"
+          className="w-12 h-12 text-center text-lg font-semibold border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
         />
       ))}
     </div>

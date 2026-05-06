@@ -57,7 +57,7 @@ export default function ChangePasswordForm() {
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="Password"
-              className="w-full px-4 py-3 border border-[#978F8F] rounded-lg pr-12 focus:outline-none focus:ring-1 focus:ring-[#01B0E9]"
+              className="w-full px-4 py-3 border border-[#978F8F] rounded-lg pr-12 focus:outline-none focus:ring-1 focus:ring-[var(--primary-color)]"
               required
             />
             <button
@@ -80,7 +80,7 @@ export default function ChangePasswordForm() {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="Password"
-              className="w-full px-4 py-3 border border-[#978F8F] rounded-lg pr-12 focus:outline-none focus:ring-1 focus:ring-[#01B0E9]"
+              className="w-full px-4 py-3 border border-[#978F8F] rounded-lg pr-12 focus:outline-none focus:ring-1 focus:ring-[var(--primary-color)]"
               required
             />
             <button
@@ -103,7 +103,7 @@ export default function ChangePasswordForm() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm Password"
-              className="w-full px-4 py-3 border border-[#978F8F] rounded-lg pr-12 focus:outline-none focus:ring-1 focus:ring-[#01B0E9]"
+              className="w-full px-4 py-3 border border-[#978F8F] rounded-lg pr-12 focus:outline-none focus:ring-1 focus:ring-[var(--primary-color)]"
               required
             />
             <button
@@ -121,7 +121,7 @@ export default function ChangePasswordForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className={`px-6 py-3 text-white rounded-full font-medium cursor-pointer transition-colors ${isLoading ? 'bg-gray-400' : 'bg-[#01B0E9] hover:bg-[#019cc7]'}`}
+            className={`px-6 py-3 text-white rounded-full font-medium cursor-pointer transition-colors ${isLoading ? 'bg-gray-400' : 'bg-[var(--primary-color)] hover:bg-[#019cc7]'}`}
           >
             {isLoading ? "Updating..." : "Save New Password"}
           </button>

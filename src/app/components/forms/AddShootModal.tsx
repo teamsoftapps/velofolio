@@ -155,7 +155,7 @@ export default function AddShootModal({
                                     placeholder="e.g., Pre-Wedding Shoot"
                                     value={formData.title}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                 />
                                 {errors.title && <p className="text-xs text-red-500 mt-1">{errors.title}</p>}
                             </div>
@@ -168,7 +168,7 @@ export default function AddShootModal({
                                     required
                                     value={formData.date}
                                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                 />
                             </div>
                         </div>
@@ -185,7 +185,7 @@ export default function AddShootModal({
                                         type="checkbox"
                                         checked={formData.isAllDay}
                                         onChange={(e) => setFormData({ ...formData, isAllDay: e.target.checked })}
-                                        className="w-4 h-4 text-[#01B0E9] border-gray-300 rounded focus:ring-[#01B0E9]"
+                                        className="w-4 h-4 text-[var(--primary-color)] border-gray-300 rounded focus:ring-[var(--primary-color)]"
                                     />
                                     <span className="text-sm text-gray-700">All Day</span>
                                 </label>
@@ -196,13 +196,13 @@ export default function AddShootModal({
                                             type="time"
                                             value={formData.startTime}
                                             onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
-                                            className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                            className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                         />
                                         <input
                                             type="time"
                                             value={formData.endTime}
                                             onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
-                                            className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                            className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                         />
                                     </div>
                                 )}
@@ -299,7 +299,7 @@ export default function AddShootModal({
                                 <select
                                     value={formData.category}
                                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                 >
                                     {categoryOptions.map((cat) => (
                                         <option key={cat} value={cat}>{cat}</option>
@@ -367,7 +367,7 @@ export default function AddShootModal({
                                 value={formData.notes}
                                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                 placeholder="Add any additional details..."
-                                className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent resize-none"
+                                className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent resize-none"
                             />
                         </div>
 
@@ -382,7 +382,7 @@ export default function AddShootModal({
                             </button>
                             <button
                                 type="submit"
-                                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-[#01B0E9] hover:bg-[#0095c7] rounded-md transition-colors"
+                                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-[var(--primary-color)] hover:bg-[#0095c7] rounded-md transition-colors"
                             >
                                 Add Shoot
                             </button>

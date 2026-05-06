@@ -1,16 +1,29 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ClientCustomization = () => {
   const [settings, setSettings] = useState<Record<string, any>>({
     showLogoInvoice: true,
-    showLogoEmail: false,
-    showWatermark: true,
+    showLogoQuote: false,
+    brandcolorinportal: false,
     showFooter: false,
     portalTheme: 'Light',
     highlightColor: '#F0666F',
     timelineStyle: 'Step boxes with check...',
   });
+
+  useEffect(() => {
+    const saved = localStorage.getItem('clientCustomization');
+    if (saved) {
+      try {
+        setSettings(prev => ({ ...prev, ...JSON.parse(saved) }));
+      } catch(e) {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('clientCustomization', JSON.stringify(settings));
+  }, [settings]);
 
   const toggleSetting = (key:any) => {
     setSettings((prev:any) => ({
@@ -42,7 +55,7 @@ const toggles = [
               <div
                 onClick={() => toggleSetting(item.key)}
                 className={`w-10 h-5 rounded-3xl relative cursor-pointer transition-colors
-                  ${settings[item.key] ? 'bg-[#01B0E9]' : 'bg-gray-300'}`}
+                  ${settings[item.key] ? 'bg-[var(--primary-color)]' : 'bg-gray-300'}`}
               >
                 <span
                   className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all

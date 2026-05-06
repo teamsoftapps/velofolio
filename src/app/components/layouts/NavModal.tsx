@@ -126,16 +126,25 @@ export default function ProfileModal({ setProfileOpen, companies, isProfileOpen,
           </button>
 
           {/* Menu Items */}
-          <div className="space-y-2">
-            <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors">
-              <span className="text-gray-800 font-medium">Help</span>
-            </button>
-            <hr className="border-gray-200" />
-            <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors">
+          <div className="space-y-1">
+            <Link 
+              href="/help"
+              onClick={() => setProfileOpen(false)}
+              className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <FaQuestionCircle className="w-5 h-5 text-gray-600" />
+              <span className="text-gray-800 font-medium">Help Center</span>
+            </Link>
+            <hr className="border-gray-100" />
+            <Link 
+              href="/privacy"
+              onClick={() => setProfileOpen(false)}
+              className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+            >
               <FaShieldAlt className="w-5 h-5 text-gray-600" />
-              <span className="text-gray-800 font-medium">Privacy</span>
-            </button>
-            <hr className="border-gray-200" />
+              <span className="text-gray-800 font-medium">Privacy Policy</span>
+            </Link>
+            <hr className="border-gray-100" />
           </div>
 
 

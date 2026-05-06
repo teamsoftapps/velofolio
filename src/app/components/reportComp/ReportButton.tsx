@@ -11,7 +11,7 @@ interface AddButtonProps {
 const AddButton = ({
   title,
   setOpenForm,
-  color = "#01B0E9",
+  color = "var(--primary-color)",
   hoverColor = "#00A4DD",
 }: AddButtonProps) => {
   const [bg, setBg] = useState(color);

@@ -23,7 +23,7 @@ export const NavTabs = ({
               key={tab.name}
               href={tab.href}
               className={`px-2 xl:px-3 py-2 rounded-lg text-xs xl:text-[15px] font-medium flex flex-col items-center transition-colors duration-200 flex-shrink-0 whitespace-nowrap 
-                ${active ? 'text-[#01B0E9] bg-blue-50' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}
+                ${active ? 'text-[var(--primary-color)] bg-blue-50' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}
             >
               <Image
                 src={tab.icon}
@@ -54,7 +54,7 @@ export const NavTabs = ({
             key={tab.name}
             href={tab.href}
             className={`block px-3 py-3 rounded-md text-lg font-medium flex items-center transition-colors duration-200 
-              ${active ? 'text-[#01B0E9] bg-blue-50' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}
+              ${active ? 'text-[var(--primary-color)] bg-blue-50' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}
           >
             <Image
               src={tab.icon}

@@ -120,7 +120,7 @@ const Navbar = ({ guestLabel }: { guestLabel?: string }) => {
                 )}
               </div>
             ) : (
-              <span className="hidden lg:block text-[#01B0E9] font-bold text-lg">
+              <span className="hidden lg:block text-[var(--primary-color)] font-bold text-lg">
                 {guestLabel || "VeloFolio"}
               </span>
             )}

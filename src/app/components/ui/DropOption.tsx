@@ -17,7 +17,7 @@ const DropOption = ({ options, value, onChange, className }: any) => {
   return (
     <div className={`relative w-full sm:w-48 ${className || ''}`}>
       <select
-        className={`w-full appearance-none rounded-md border text-black border-gray-300 ${className}   bg-gray-200 py-2 pl-3 pr-10 text-sm focus:border-[#01B0E9] focus:outline-none focus:ring-2 focus:ring-[#01B0E9]/20 sm:text-sm`}
+        className={`w-full appearance-none rounded-md border text-black border-gray-300 ${className}   bg-gray-200 py-2 pl-3 pr-10 text-sm focus:border-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]/20 sm:text-sm`}
         value={isControlled ? value : internalValue}
         onChange={handleChange}
       >

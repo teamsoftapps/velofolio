@@ -145,9 +145,9 @@ export default function DateNavBar({
                     key={idx}
                     onClick={() => handleSelectMonth(month)}
                     className={`block w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${month.getMonth() === currentDate.getMonth() &&
-                        month.getFullYear() === currentDate.getFullYear()
-                        ? 'bg-[#01B0E9]/10 font-medium text-[#01B0E9]'
-                        : 'text-gray-800'
+                      month.getFullYear() === currentDate.getFullYear()
+                      ? 'bg-[var(--primary-color)]/10 font-medium text-[var(--primary-color)]'
+                      : 'text-gray-800'
                       }`}
                   >
                     {formatMonth(month)}
@@ -176,8 +176,8 @@ export default function DateNavBar({
                 setIsDropdownOpen(false);
               }}
               className={`flex-1 sm:flex-initial px-3 py-1.5 text-sm font-medium rounded-md transition-all ${currentView === view
-                  ? 'bg-[#01B0E9] text-white shadow-sm'
-                  : 'text-gray-700 hover:text-gray-900'
+                ? 'bg-[var(--primary-color)] text-white shadow-sm'
+                : 'text-gray-700 hover:text-gray-900'
                 }`}
             >
               {view}

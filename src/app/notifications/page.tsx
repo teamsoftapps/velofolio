@@ -144,7 +144,7 @@ const SwipeableCard = ({
           transform: `translateX(${currentX}px)`,
           transition: isDragging ? 'none' : 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         }}
-        className={`bg-white border border-gray-100 rounded-[32px] p-8 relative z-10 select-none cursor-grab active:cursor-grabbing ${notif.isRead ? '' : 'ring-1 ring-[#01B0E9]/20'
+        className={`bg-white border border-gray-100 rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 relative z-10 select-none cursor-grab active:cursor-grabbing ${notif.isRead ? '' : 'ring-1 ring-[#01B0E9]/20'
           }`}
       >
         <NotificationItem notif={notif} onViewDetails={onViewDetails} />
@@ -227,30 +227,30 @@ export default function NotificationsPage() {
             </nav>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
-            <div className="flex items-center gap-3 overflow-x-auto no-scrollbar py-1">
-              {filters.map((filter) => (
-                <button
-                  key={filter}
-                  onClick={() => {
-                    setActiveFilter(filter);
-                    setCurrentPage(1);
-                  }}
-                  className={`px-8 py-1 rounded-full text-[17px] font-medium whitespace-nowrap transition-all border-2 cursor-pointer ${activeFilter === filter
-                    ? 'bg-[#01B0E9] border-[#01B0E9] text-white'
-                    : 'bg-white border-white text-gray-400 hover:border-gray-200'
-                    }`}
-                >
-                  {filter}
-                </button>
-              ))}
-            </div>
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 sm:mb-10">
+              <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
+                {filters.map((filter) => (
+                  <button
+                    key={filter}
+                    onClick={() => {
+                      setActiveFilter(filter);
+                      setCurrentPage(1);
+                    }}
+                    className={`px-4 sm:px-8 py-1.5 sm:py-2 rounded-full text-[14px] sm:text-[17px] font-medium whitespace-nowrap transition-all border-2 cursor-pointer ${activeFilter === filter
+                      ? 'bg-[#01B0E9] border-[#01B0E9] text-white'
+                      : 'bg-white border-2 border-gray-200 text-gray-900 hover:bg-gray-100 hover:text-black'
+                      }`}
+                  >
+                    {filter}
+                  </button>
+                ))}
+              </div>
 
-            <div className="flex items-center gap-6">
-              <button
-                onClick={handleMarkAllAsRead}
-                className="text-sm font-medium text-gray-400 hover:text-black transition-colors cursor-pointer"
-              >
+              <div className="flex items-center justify-between sm:justify-end gap-6 border-t border-gray-100 pt-4 sm:border-none sm:pt-0">
+                <button
+                  onClick={handleMarkAllAsRead}
+                  className="text-[14px] sm:text-sm font-semibold text-[#01B0E9] hover:text-[#00A4DD] transition-colors cursor-pointer underline-offset-4 hover:underline"
+                >
                 Mark all as read
               </button>
               <SortButton
@@ -344,16 +344,16 @@ export default function NotificationsPage() {
             </div>
           )}
 
-          <div className="mt-8 flex flex-col sm:flex-row justify-between items-center bg-white py-6 rounded-[32px] border border-gray-100 px-8 gap-4">
-            <div className="flex-1 flex justify-center sm:justify-start w-full sm:w-auto">
-              <div className="relative flex-shrink-0">
+          <div className="mt-8 flex flex-col sm:flex-row justify-between items-center bg-white py-4 sm:py-6 rounded-3xl border border-gray-100 px-6 sm:px-8 gap-4">
+            <div className="flex justify-center sm:justify-start w-full sm:w-auto">
+              <div className="relative flex-shrink-0 w-full sm:w-auto">
                 <select
                   value={itemsPerPage}
                   onChange={(e) => {
                     setItemsPerPage(Number(e.target.value));
                     setCurrentPage(1);
                   }}
-                  className="appearance-none bg-[#F3F4F6] border-none rounded-xl py-2.5 px-5 pr-12 text-[14px] font-medium text-gray-800 focus:outline-none cursor-pointer w-full"
+                  className="appearance-none bg-[#F3F4F6] border-none rounded-xl py-2 sm:py-2.5 px-4 sm:px-5 pr-10 sm:pr-12 text-[13px] sm:text-[14px] font-medium text-gray-800 focus:outline-none cursor-pointer w-full"
                 >
                   <option value={8}>8 Alerts</option>
                   <option value={15}>15 Alerts</option>

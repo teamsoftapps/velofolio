@@ -275,8 +275,8 @@ const SortableList = memo(
                 )
             )}
             {cards.length === 0 && (
-              <div className="flex flex-col items-center justify-center p-8 bg-white/40 border-2 border-dashed border-gray-200 rounded-xl space-y-3 transition-all duration-300 hover:border-[#01B0E9]/30 hover:bg-white/60 group/empty">
-                <div className="p-3 bg-gray-50 rounded-full text-gray-400 group-hover/empty:text-[#01B0E9] group-hover/empty:bg-[#01B0E9]/5 transition-colors">
+              <div className="flex flex-col items-center justify-center p-8 bg-white/40 border-2 border-dashed border-gray-200 rounded-xl space-y-3 transition-all duration-300 hover:border-[var(--primary-color)]/30 hover:bg-white/60 group/empty">
+                <div className="p-3 bg-gray-50 rounded-full text-gray-400 group-hover/empty:text-[var(--primary-color)] group-hover/empty:bg-[var(--primary-color)]/5 transition-colors">
                   <ClipboardList size={24} strokeWidth={1.5} />
                 </div>
                 <div className="text-center">

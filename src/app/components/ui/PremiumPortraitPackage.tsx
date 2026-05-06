@@ -48,12 +48,12 @@ export default function PremiumPortraitPackage({
   return (
     <div ref={setNodeRef} style={style} className="w-[400px] shrink-0 font-sans">
 
-      <div className={`bg-white rounded-md shadow-sm border px-1 ${recommended ? "border-2 border-[#01B0E9]" : " border-gray-100"}`}>
+      <div className={`bg-white rounded-md shadow-sm border px-1 ${recommended ? "border-2 border-[var(--primary-color)]" : " border-gray-100"}`}>
         {/* Header */}
         <div className="p-3 border-gray-200 relative">
           <div className="flex justify-between items-center">
 
-            <span className={`absolute -top-4 left-3 bg-white text-black text-xs font-medium px-4 py-1.5 rounded-lg border ${recommended ? "border-2 border-[#01B0E9]" : "border-gray-300"} cursor-pointer`} onClick={() => handleRecommended(id)}>
+            <span className={`absolute -top-4 left-3 bg-white text-black text-xs font-medium px-4 py-1.5 rounded-lg border ${recommended ? "border-2 border-[var(--primary-color)]" : "border-gray-300"} cursor-pointer`} onClick={() => handleRecommended(id)}>
               RECOMMENDED
             </span>
 
@@ -124,7 +124,7 @@ export default function PremiumPortraitPackage({
 
         {/* Body */}
         <div className="p-2 text-left">
-          <h2 className="text-xl text-[#01B0E9] inter font-medium">{title}</h2>
+          <h2 className="text-xl text-[var(--primary-color)] inter font-medium">{title}</h2>
 
           <div className="text-left mb-2">
             <span className="text-2xl font-semibold text-gray-900">

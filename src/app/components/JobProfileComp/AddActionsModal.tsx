@@ -56,7 +56,7 @@ const AddActionsModal: React.FC<AddActionsModalProps> = ({ isOpen, onClose, clie
               action.onClick();
               onClose();
             }}
-            className="w-full px-5 py-3 text-left text-[14px] font-semibold text-gray-700 hover:bg-gray-50 hover:text-[#01B0E9] transition-all cursor-pointer border-b last:border-b-0 border-gray-50/50"
+            className="w-full px-5 py-3 text-left text-[14px] font-semibold text-gray-700 hover:bg-gray-50 hover:text-[var(--primary-color)] transition-all cursor-pointer border-b last:border-b-0 border-gray-50/50"
           >
             {action.title}
           </button>

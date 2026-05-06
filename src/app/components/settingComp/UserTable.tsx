@@ -25,7 +25,7 @@ const UserTable: React.FC<TableProps> = ({ headers, data, itemsPerPage = 6 }) =>
   const statusColors: Record<string, string> = {
     Active: "bg-[#FEBE2A] text-black",
     Inactive: "bg-gray-200 text-black",
-    "On Leave": "bg-[#01B0E9] text-white",
+    "On Leave": "bg-[var(--primary-color)] text-white",
   };
 
   const [currentPage, setCurrentPage] = useState(1);

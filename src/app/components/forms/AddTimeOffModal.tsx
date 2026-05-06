@@ -107,7 +107,7 @@ export default function AddTimeOffModal({
                                         type="button"
                                         onClick={() => setFormData({ ...formData, type: type.value as TimeOffData['type'] })}
                                         className={`flex items-center gap-2 p-3 rounded-lg border transition-all ${formData.type === type.value
-                                            ? 'border-[#01B0E9] bg-blue-50'
+                                            ? 'border-[var(--primary-color)] bg-blue-50'
                                             : 'border-gray-200 hover:bg-gray-50'
                                             }`}
                                     >
@@ -132,7 +132,7 @@ export default function AddTimeOffModal({
                                         required
                                         value={formData.startDate}
                                         onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                                        className="w-full pl-3 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                        className="w-full pl-3 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                     />
                                     <MdCalendarToday className="absolute right-3 top-2.5 w-4 h-4 text-gray-400 pointer-events-none" />
                                 </div>
@@ -147,7 +147,7 @@ export default function AddTimeOffModal({
                                         required
                                         value={formData.endDate}
                                         onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                                        className="w-full pl-3 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                        className="w-full pl-3 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                     />
                                     <MdCalendarToday className="absolute right-3 top-2.5 w-4 h-4 text-gray-400 pointer-events-none" />
                                 </div>
@@ -164,7 +164,7 @@ export default function AddTimeOffModal({
                                 value={formData.notes}
                                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                 placeholder="Add any additional details..."
-                                className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent resize-none"
+                                className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent resize-none"
                             />
                         </div>
 
@@ -199,7 +199,7 @@ export default function AddTimeOffModal({
                             </button>
                             <button
                                 type="submit"
-                                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-[#01B0E9] hover:bg-[#0095c7] rounded-md transition-colors"
+                                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-[var(--primary-color)] hover:bg-[#0095c7] rounded-md transition-colors"
                             >
                                 Add Time Off
                             </button>

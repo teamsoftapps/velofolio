@@ -37,7 +37,7 @@ interface AddTaskModalProps {
 
 const priorityOptions = [
     { value: 'high', label: 'High', color: 'bg-orange-500', textColor: 'text-orange-600', bgColor: 'bg-orange-50' },
-    { value: 'medium', label: 'Medium', color: 'bg-[#01B0E9]', textColor: 'text-[#01B0E9]', bgColor: 'bg-blue-50' },
+    { value: 'medium', label: 'Medium', color: 'bg-[var(--primary-color)]', textColor: 'text-[var(--primary-color)]', bgColor: 'bg-blue-50' },
     { value: 'low', label: 'Low', color: 'bg-yellow-500', textColor: 'text-yellow-600', bgColor: 'bg-yellow-50' },
 ];
 
@@ -139,7 +139,7 @@ export default function AddTaskModal({
                                 placeholder="Enter task name..."
                                 value={formData.taskName}
                                 onChange={(e) => setFormData({ ...formData, taskName: e.target.value })}
-                                className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                             />
                         </div>
 
@@ -191,7 +191,7 @@ export default function AddTaskModal({
                                         required
                                         value={formData.dueDate}
                                         onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-                                        className="w-full pl-3 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent"
+                                        className="w-full pl-3 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent"
                                     />
                                     <MdCalendarToday className="absolute right-3 top-2.5 w-4 h-4 text-gray-400 pointer-events-none" />
                                 </div>
@@ -307,7 +307,7 @@ export default function AddTaskModal({
                                 value={formData.notes}
                                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                 placeholder="Add task details..."
-                                className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01B0E9] focus:border-transparent resize-none"
+                                className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent resize-none"
                             />
                         </div>
 
@@ -321,7 +321,7 @@ export default function AddTaskModal({
                             </button>
                             <button
                                 type="submit"
-                                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-[#01B0E9] hover:bg-[#0095c7] rounded-md transition-colors"
+                                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-[var(--primary-color)] hover:bg-[#0095c7] rounded-md transition-colors"
                             >
                                 Add Task
                             </button>
