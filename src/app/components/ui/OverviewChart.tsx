@@ -66,7 +66,7 @@ const LeadCard = ({
           </div>
         </div>
         <div className="absolute right-0 bottom-0 pointer-events-none object-contain">
-          <Image src={'/Diagram.svg'} alt='diagram' width={200} height={100} className='w-[140px] md:w-[110px] h-[50px] md:h-[20px] opacity-90 object-contain object-right-bottom' />
+          <Image src={'/Diagram.svg'} alt='diagram' width={200} height={100} className='w-[160px] md:w-[180px] h-[70px] md:h-[80px] opacity-90 object-contain object-right-bottom' />
         </div>
       </div>
     );
@@ -136,7 +136,7 @@ const LeadCard = ({
       </div>
 
       <div className="absolute right-0 bottom-0 pointer-events-none">
-        <Image src={diagramSrc} alt="diagram" width={200} height={100} className=" mr-3 w-[140px] xl:w-[110px] h-[50px] xl:h-[20px] opacity-90 object-contain object-right-bottom" />
+        <Image src={diagramSrc} alt="diagram" width={200} height={100} className="w-[160px] xl:w-[180px] h-[70px] xl:h-[80px] opacity-90 object-contain object-right-bottom" />
       </div>
     </div>
   );
